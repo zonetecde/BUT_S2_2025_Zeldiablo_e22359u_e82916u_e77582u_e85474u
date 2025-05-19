@@ -42,9 +42,15 @@ public class LabyDessin implements DessinJeu {
 
                 // affichage du joueur
                 if (laby.pj.x == x && laby.pj.y == y) {
-                    // Couleur du joueur - rouge
+                    // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
-                    gc.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                }
+                // affichage du monstre
+                if (laby.monstre.x == x && laby.monstre.y == y) {
+                    // Couleur du monstre - bleu (cercle)
+                    gc.setFill(Color.BLUE);
+                    gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
         }
