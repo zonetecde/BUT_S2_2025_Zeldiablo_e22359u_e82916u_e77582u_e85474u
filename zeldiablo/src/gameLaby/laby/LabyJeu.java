@@ -30,6 +30,27 @@ public class LabyJeu implements Jeu {
         else if (clavier.bas) {
             this.l.deplacerPerso(Labyrinthe.BAS,this.l.pj);
         }
+
+        if(clavier.droite || clavier.gauche || clavier.haut || clavier.bas){
+            // deplace le monstre aléatoirement
+            int i = (int) (Math.random() * 4);
+            String action = "";
+            switch (i) {
+                case 0:
+                    action = Labyrinthe.HAUT;
+                    break;
+                case 1:
+                    action = Labyrinthe.BAS;
+                    break;
+                case 2:
+                    action = Labyrinthe.GAUCHE;
+                    break;
+                case 3:
+                    action = Labyrinthe.DROITE;
+                    break;
+            }
+            this.l.deplacerPerso(action,this.l.monstre);
+        }
     }
 
 

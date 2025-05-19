@@ -49,7 +49,7 @@ public class LabyDessin implements DessinJeu {
                 // affichage du monstre
                 if (laby.monstre.x == x && laby.monstre.y == y) {
                     // Couleur du monstre - bleu (cercle)
-                    gc.setFill(Color.BLUE);
+                    gc.setFill(Color.PURPLE);
                     gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
