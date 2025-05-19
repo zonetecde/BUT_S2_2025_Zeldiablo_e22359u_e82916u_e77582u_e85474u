@@ -153,7 +153,7 @@ public class Labyrinthe {
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
         // si c'est pas un mur, on effectue le deplacement
-        if (!this.murs[suivante[0]][suivante[1]]) {
+        if (!this.murs[suivante[0]][suivante[1]] && !(suivante[0]==this.monstre.x & suivante[1]==this.monstre.y)) {
             // on met a jour personnage
             p.x = suivante[0];
             p.y = suivante[1];
@@ -202,4 +202,5 @@ public class Labyrinthe {
         // utilise le tableau de boolean
         return this.murs[x][y];
     }
+
 }
