@@ -19,15 +19,15 @@ public class LabyJeu implements Jeu {
             this.l.deplacerPerso(Labyrinthe.DROITE);
         }
 
-        if (clavier.gauche) {
+        else if (clavier.gauche) {
             this.l.deplacerPerso(Labyrinthe.GAUCHE);
         }
 
-        if (clavier.haut) {
+        else if (clavier.haut) {
             this.l.deplacerPerso(Labyrinthe.HAUT);
         }
 
-        if (clavier.bas) {
+        else if (clavier.bas) {
             this.l.deplacerPerso(Labyrinthe.BAS);
         }
     }
