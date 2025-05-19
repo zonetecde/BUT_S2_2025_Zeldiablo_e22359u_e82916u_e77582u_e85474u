@@ -21,16 +21,12 @@ public class LabyDessin implements DessinJeu {
         // dessin fond
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-
-
-//         canvas.setWidth(laby.getLength() * CELL_SIZE);
-//         canvas.setHeight(laby.getLengthY() * CELL_SIZE);
-
-
+         
         if(laby == null){
             System.out.println("Erreur dessinerJeu");
-        }        //affiche le labyrinthe charge
+        }
+
+        //affiche le labyrinthe charge
         for (int y = 0; y < laby.getLengthY(); y++) {
             // affiche la ligne
             for (int x = 0; x < laby.getLength(); x++) {
