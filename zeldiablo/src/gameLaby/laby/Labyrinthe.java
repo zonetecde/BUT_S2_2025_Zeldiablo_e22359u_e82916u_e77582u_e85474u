@@ -17,7 +17,7 @@ public class Labyrinthe {
     public static final char MUR = 'X';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
-    public static final char MONSTRE = 'm';
+    public static final char MONSTRE = 'M';
 
     /**
      * constantes actions possibles
