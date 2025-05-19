@@ -14,20 +14,20 @@ public class LabyJeu implements Jeu {
     @Override
     public void update(double secondes, Clavier clavier) {
 
-        // deplace la raquette en fonction des touches
-        if (clavier.droite) {
-            this.raquette.allerDroite(WIDTH, secondes);
-        }
-
-        if (clavier.gauche) {
-            this.raquette.allerGauche(WIDTH, secondes);
-        }
-
-        // fait evoluer la balle
-        this.balle.evoluer(secondes);
-
-        // teste si la raquette retourne la balle
-        this.balle.collision(raquette);
+//        // deplace la raquette en fonction des touches
+//        if (clavier.droite) {
+//            this.raquette.allerDroite(WIDTH, secondes);
+//        }
+//
+//        if (clavier.gauche) {
+//            this.raquette.allerGauche(WIDTH, secondes);
+//        }
+//
+//        // fait evoluer la balle
+//        this.balle.evoluer(secondes);
+//
+//        // teste si la raquette retourne la balle
+//        this.balle.collision(raquette);
     }
 
 
@@ -35,6 +35,7 @@ public class LabyJeu implements Jeu {
     public void init() {
         try {
             this.l = new Labyrinthe("labySimple/laby1.txt");
+
         }
         catch (Exception e){
             estFini=true;
