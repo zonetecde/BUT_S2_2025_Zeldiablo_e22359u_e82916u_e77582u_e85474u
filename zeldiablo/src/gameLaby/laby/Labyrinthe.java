@@ -17,6 +17,7 @@ public class Labyrinthe {
     public static final char MUR = 'X';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
+    public static final char MONSTRE = 'm';
 
     /**
      * constantes actions possibles
@@ -30,6 +31,7 @@ public class Labyrinthe {
      * attribut du personnage
      */
     public Perso pj;
+    public Perso monstre;
 
     /**
      * les murs du labyrinthe
@@ -116,7 +118,12 @@ public class Labyrinthe {
                         // ajoute PJ
                         this.pj = new Perso(colonne, numeroLigne);
                         break;
-
+                    case MONSTRE:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        this.monstre = new Perso(colonne, numeroLigne);
+                        break;
                     default:
                         throw new Error("caractere inconnu " + c);
                 }
@@ -138,9 +145,9 @@ public class Labyrinthe {
      *
      * @param action une des actions possibles
      */
-    public void deplacerPerso(String action) {
+    public void deplacerPerso(String action,Perso p) {
         // case courante
-        int[] courante = {this.pj.x, this.pj.y};
+        int[] courante = {p.x, p.y};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
@@ -148,8 +155,8 @@ public class Labyrinthe {
         // si c'est pas un mur, on effectue le deplacement
         if (!this.murs[suivante[0]][suivante[1]]) {
             // on met a jour personnage
-            this.pj.x = suivante[0];
-            this.pj.y = suivante[1];
+            p.x = suivante[0];
+            p.y = suivante[1];
         }
     }
 
