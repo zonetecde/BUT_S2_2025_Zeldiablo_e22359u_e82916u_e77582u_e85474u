@@ -9,8 +9,8 @@ import moteurJeu.Jeu;
 
 public class ZeldiabloDessin implements DessinJeu {
     @Override
-            public void dessinerJeu(Jeu jeu, Canvas canvas) {
-        Labyrinthe laby = ((ZeldiabloJeu) jeu).getLaby();
+    public void dessinerJeu(Jeu jeu, Canvas canvas) {
+        Labyrinthe laby = ((ZeldiabloJeu)jeu).getLaby();
 
         // recupere un pinceau pour dessiner
         final GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -43,7 +43,7 @@ public class ZeldiabloDessin implements DessinJeu {
 
         //Dessin de l'UI
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
-                gc.drawImage(new Image("PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
+                gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
             gc.setFill(Color.RED);
             gc.fillRect(baseXPlayer+5,75,90,20);
 
