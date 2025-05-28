@@ -8,6 +8,11 @@ import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
 public class ZeldiabloDessin implements DessinJeu {
+
+    /**
+     * Constructeur de la classe ZeldiabloDessin.
+     * Il initialise les ressources nécessaires pour le dessin du jeu.
+     */
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) {
         Labyrinthe laby = ((ZeldiabloJeu)jeu).getLaby();
