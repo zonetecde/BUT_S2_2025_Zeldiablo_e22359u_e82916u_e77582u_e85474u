@@ -47,6 +47,10 @@ public abstract class Entite {
     // GETTER
     // ############################################
 
+    /**
+     * Methode prenant en compte des dégats et les appliquant au personnage
+     * @param d nombre de dégats
+     */
     public void prendreDegat(int d){
         if (this.hp>d) {
             this.hp -= d;
@@ -73,15 +77,37 @@ public abstract class Entite {
         return this.y;
     }
 
+    /**
+     *
+     * @return l'etat de vie du perso
+     */
+    public boolean estMort(){
+        return this.enVie;
+    }
+
+    /**
+     *
+     * @return les pv du perso
+     */
     public int getHp(){
         return this.hp;
     }
 
+    /**
+     *
+     * @param y position y du perso
+     */
     public void setY(int y){
         this.y=y;
     }
 
+    /**
+     *
+     * @param x position x du perso
+     */
     public void setX(int x){
         this.x=x;
     }
+
+
 }

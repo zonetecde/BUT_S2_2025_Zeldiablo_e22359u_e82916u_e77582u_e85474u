@@ -52,7 +52,7 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer+5,75,90,20);
         gc.setFill(Color.RED);
-        int tmp= laby.getPlayer().getHp()/laby.getPlayer().getMaxHp()*90;
+        double tmp= ((double)laby.getPlayer().getHp()/(double)laby.getPlayer().getMaxHp())*90;
         gc.fillRect(baseXPlayer+5,75,tmp,20);
     }
 }
