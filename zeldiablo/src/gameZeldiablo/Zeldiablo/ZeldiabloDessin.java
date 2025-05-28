@@ -32,7 +32,7 @@ public class ZeldiabloDessin implements DessinJeu {
                     gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
-                if (laby.joueur.x == x && laby.joueur.y == y) {
+                if (laby.joueur.getX() == x && laby.joueur.getY() == y) {
                     // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
@@ -42,10 +42,11 @@ public class ZeldiabloDessin implements DessinJeu {
         }
 
         //Dessin de l'UI
+        /*
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
                 gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
             gc.setFill(Color.RED);
             gc.fillRect(baseXPlayer+5,75,90,20);
-
+        */
     }
 }

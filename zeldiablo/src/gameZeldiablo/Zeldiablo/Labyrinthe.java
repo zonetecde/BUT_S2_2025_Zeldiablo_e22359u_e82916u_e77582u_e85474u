@@ -128,7 +128,7 @@ public class Labyrinthe {
      * @param action une des actions possibles
      */    public void deplacerPerso(Direction action, Entite p) {
         // case courante
-        int[] courante = {p.y, p.x};
+        int[] courante = {p.getY(), p.getX()};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
@@ -137,8 +137,8 @@ public class Labyrinthe {
         if (estDansLimites(suivante[0], suivante[1]) && 
             !(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
             // on met a jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
-            p.y = suivante[0];
-            p.x = suivante[1];
+            p.setY(suivante[0]);
+            p.setX(suivante[1]);
         }
     }
 
