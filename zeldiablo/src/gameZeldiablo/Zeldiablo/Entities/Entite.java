@@ -79,6 +79,14 @@ public abstract class Entite {
 
     /**
      *
+     * @return l'etat de vie du perso
+     */
+    public boolean estMort(){
+        return this.enVie;
+    }
+
+    /**
+     *
      * @return les pv du perso
      */
     public int getHp(){
@@ -100,4 +108,6 @@ public abstract class Entite {
     public void setX(int x){
         this.x=x;
     }
+
+
 }

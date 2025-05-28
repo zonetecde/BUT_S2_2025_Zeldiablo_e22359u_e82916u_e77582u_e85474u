@@ -63,7 +63,6 @@ public class ZeldiabloJeu implements Jeu {
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void deplacerPersonnage(Clavier clavier) {
-        VariablesGlobales.joueur.prendreDegat(1);
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().joueur);
         } else if (clavier.gauche) {
