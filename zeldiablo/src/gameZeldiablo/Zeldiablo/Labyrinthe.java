@@ -34,7 +34,7 @@ public class Labyrinthe {
      * @param action action effectuee
      * @return case suivante
      */
-    static int[] getSuivant(int y, int x, Direction action) {
+    public static int[] getSuivant(int y, int x, Direction action) {
         switch (action) {
             case HAUT:
                 // on monte une ligne
