@@ -132,7 +132,8 @@ public class Labyrinthe {
      * gere la collision avec les murs
      *
      * @param action une des actions possibles
-     */    public void deplacerPerso(Direction action, Entite p) {
+     */
+    public void deplacerPerso(Direction action, Entite p) {
         // case courante
         int[] courante = {p.getY(), p.getX()};
 
@@ -206,7 +207,7 @@ public class Labyrinthe {
     }
 
     public Player getPlayer(){
-        return this.joueur;
+        return VariablesGlobales.joueur;
     }
 
 }
