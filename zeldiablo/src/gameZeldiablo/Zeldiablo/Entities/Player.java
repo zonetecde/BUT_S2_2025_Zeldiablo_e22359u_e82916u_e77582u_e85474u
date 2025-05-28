@@ -14,6 +14,10 @@ public class Player extends Entite {
         maxHp= VariablesGlobales.PVBASE;
     }
 
+    /**
+     *
+     * @return les Hp max du personnage
+     */
     public int getMaxHp(){
         return maxHp;
     }
