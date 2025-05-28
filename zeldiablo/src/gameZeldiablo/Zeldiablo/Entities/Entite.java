@@ -1,5 +1,7 @@
-package gameZeldiablo.Zeldiablo;
+package gameZeldiablo.Zeldiablo.Entities;
 
+
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
  * gere un personnage situe en x,y
@@ -9,7 +11,7 @@ public abstract class Entite {
     /**
      * position du personnage
      */
-    int x, y, hp;
+    private int x, y, hp;
 
     /**
      * constructeur
