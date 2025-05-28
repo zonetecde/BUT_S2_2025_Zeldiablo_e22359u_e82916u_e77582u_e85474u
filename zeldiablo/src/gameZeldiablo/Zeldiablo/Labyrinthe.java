@@ -14,14 +14,12 @@ import java.io.IOException;
  * classe labyrinthe. represente un labyrinthe avec
  */
 public class Labyrinthe {
-
     /**
      * Constantes char
      */
     public static final char MUR = 'X';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
-    public static final char MONSTRE = 'M';
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
