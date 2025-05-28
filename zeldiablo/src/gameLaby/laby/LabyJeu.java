@@ -63,11 +63,12 @@ public class LabyJeu implements Jeu {
             File[] folder = new File("labySimple").listFiles();
             assert folder != null;
             for (File file : folder) {
-                niveaux.add(new Labyrinthe(file.getName()));
+                niveaux.add(new Labyrinthe(file.getAbsolutePath()));
             }
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
+            System.err.println(e);
             estFini=true;
             System.exit(1);
         }

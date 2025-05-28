@@ -26,4 +26,16 @@ public abstract class Case {
 
         return rect;
     }
+
+    /**
+     * Getter de la variable couleur
+     * @return couleur Couleur de la case
+     */
+    public Color getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(Color c){
+        couleur=c;
+    }
 }
