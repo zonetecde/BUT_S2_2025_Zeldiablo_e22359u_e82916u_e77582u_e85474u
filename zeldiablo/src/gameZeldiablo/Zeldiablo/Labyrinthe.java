@@ -24,7 +24,7 @@ public class Labyrinthe {
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
-    public Entite joueur;
+    public Player joueur;
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -195,6 +195,10 @@ public class Labyrinthe {
      */
     public Case getCase(int y, int x) {
         return gameBoard[y][x];
+    }
+
+    public Player getPlayer(){
+        return this.joueur;
     }
 
 }

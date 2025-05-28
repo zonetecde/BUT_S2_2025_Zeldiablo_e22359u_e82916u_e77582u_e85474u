@@ -47,11 +47,12 @@ public class ZeldiabloDessin implements DessinJeu {
         }
 
         //Dessin de l'UI
-        /*
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
-                gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
-            gc.setFill(Color.RED);
-            gc.fillRect(baseXPlayer+5,75,90,20);
-        */
+        gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
+        gc.setFill(Color.GREY);
+        gc.fillRect(baseXPlayer+5,75,90,20);
+        gc.setFill(Color.RED);
+        int tmp= laby.getPlayer().getHp()/laby.getPlayer().getMaxHp()*90;
+        gc.fillRect(baseXPlayer+5,75,tmp,20);
     }
 }
