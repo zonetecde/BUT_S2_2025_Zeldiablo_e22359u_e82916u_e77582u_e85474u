@@ -14,24 +14,34 @@ public class LabyJeu implements Jeu {
     @Override
     public void update(double secondes, Clavier clavier) {
 
-        // deplace la raquette en fonction des touches
+        // Déplace le personnage
+        deplacerPersonnage(clavier);
+
+        // Dépalce le monstre
+        deplacerMonstre(clavier);
+    }
+
+    
+    /*
+     * Déplace le personnage en fonction des touches pressées.
+     */
+    private void deplacerPersonnage(Clavier clavier) {
         if (clavier.droite) {
-            this.l.deplacerPerso(Labyrinthe.DROITE,this.l.pj);
+            l.deplacerPerso(Labyrinthe.DROITE, this.l.pj);
+        } else if (clavier.gauche) {
+            l.deplacerPerso(Labyrinthe.GAUCHE, this.l.pj);
+        } else if (clavier.haut) {
+            l.deplacerPerso(Labyrinthe.HAUT, this.l.pj);
+        } else if (clavier.bas) {
+            l.deplacerPerso(Labyrinthe.BAS, this.l.pj);
         }
+    }
 
-        else if (clavier.gauche) {
-            this.l.deplacerPerso(Labyrinthe.GAUCHE,this.l.pj);
-        }
-
-        else if (clavier.haut) {
-            this.l.deplacerPerso(Labyrinthe.HAUT,this.l.pj);
-        }
-
-        else if (clavier.bas) {
-            this.l.deplacerPerso(Labyrinthe.BAS,this.l.pj);
-        }
-
-        if(clavier.droite || clavier.gauche || clavier.haut || clavier.bas){
+    /*
+     * Déplace le monstre en fonction des touches pressées.
+     */
+    private void deplacerMonstre(Clavier clavier) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas) {
             // deplace le monstre aléatoirement
             int i = (int) (Math.random() * 4);
             String action = "";
@@ -49,7 +59,7 @@ public class LabyJeu implements Jeu {
                     action = Labyrinthe.DROITE;
                     break;
             }
-            this.l.deplacerPerso(action,this.l.monstre);
+            this.l.deplacerPerso(action, this.l.monstre);
         }
     }
 
