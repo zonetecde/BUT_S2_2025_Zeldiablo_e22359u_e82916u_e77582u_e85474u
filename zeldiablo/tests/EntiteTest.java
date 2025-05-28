@@ -13,7 +13,7 @@ class EntiteTest {
 
     @BeforeEach
     void setUp() {
-        joueur = new Player(5, 5, 10);
+        joueur = new Player(5, 5, 10, 10);
     }
 
     /**
@@ -21,7 +21,7 @@ class EntiteTest {
      * Vérifie que les PV diminuent correctement sans tuer le joueur.
      */
     @Test
-    void testPrendreDegatsNonLetaux() {
+    void testPrendreDegatsNonMortel() {
         int pvInitiaux = joueur.getHp();
         
         // Le joueur prend 3 dégâts
@@ -29,7 +29,7 @@ class EntiteTest {
         
         assertEquals(pvInitiaux - 3, joueur.getHp(), 
             "Les PV devraient diminuer de 3 après avoir pris 3 dégâts");
-        assertTrue(joueur.estMort(), 
+        assertFalse(joueur.estMort(),
             "Le joueur devrait encore être en vie après avoir pris des dégâts non-létaux");
     }
 
@@ -40,7 +40,7 @@ class EntiteTest {
         
         assertEquals(0, joueur.getHp(), 
             "Les PV devraient être à 0 après avoir pris des dégâts > vie");
-        assertFalse(joueur.estMort(), 
+        assertTrue(joueur.estMort(),
             "Le joueur devrait être mort après avoir pris des dégâts > vie");
     }
 
@@ -51,12 +51,12 @@ class EntiteTest {
     @Test
     void testEstMort() {
         // Au début, le joueur est vivant
-        assertTrue(joueur.estMort(), 
+        assertFalse(joueur.estMort(),
             "Le joueur devrait être en vie au début");
         
         // Après avoir pris des dégâts >= vie, il devrait être mort
         joueur.prendreDegat(joueur.getHp() + 1);
-        assertFalse(joueur.estMort(), 
+        assertTrue(joueur.estMort(),
             "Le joueur devrait être mort après avoir pris des dégâts >= vie");
     }
 }
