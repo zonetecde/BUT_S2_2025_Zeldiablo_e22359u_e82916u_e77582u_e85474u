@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class LabyTest {
 
     private Labyrinthe labyrinthe;
-    private static final String CHEMIN_LABY0 = "labySimple/laby0.txt";
-    private static final String CHEMIN_LABY1 = "labySimple/laby1.txt";
-    private static final String CHEMIN_LABY2 = "labySimple/laby2.txt";
+    private static final String CHEMIN_LABY0 = "labyTests/laby0.txt";
+    private static final String CHEMIN_LABY1 = "labyTests/laby1.txt";
+    private static final String CHEMIN_LABY2 = "labyTests/laby2.txt";
 
     @Test
     void testConstructionLabyrintheSimple() throws IOException {

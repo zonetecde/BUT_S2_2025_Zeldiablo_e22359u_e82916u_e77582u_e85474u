@@ -111,7 +111,6 @@ public class Labyrinthe {
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
-                        
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);

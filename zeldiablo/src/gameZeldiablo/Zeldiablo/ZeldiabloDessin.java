@@ -47,7 +47,7 @@ public class ZeldiabloDessin implements DessinJeu {
         }
 
         //Dessin de l'UI
-            int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+        int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
         gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer+5,75,90,20);

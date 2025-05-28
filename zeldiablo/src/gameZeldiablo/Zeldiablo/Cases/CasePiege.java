@@ -29,7 +29,7 @@ public class CasePiege extends Case {
 
     @Override
     public void onStepOn() {
-        VariablesGlobales.joueur.prendreDegat(getDegats());
+        VariablesGlobales.joueur.prendreDegat(degats);
     }
 }
 

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CasePiegeTest {
 
     private Labyrinthe labyrinthe;
-    private static final String CHEMIN_LABY_PIEGE = "labySimple/laby0.txt";
+    private static final String CHEMIN_LABY_PIEGE = "labyTests/laby0.txt";
 
     @BeforeEach
     void setUp() throws IOException {
