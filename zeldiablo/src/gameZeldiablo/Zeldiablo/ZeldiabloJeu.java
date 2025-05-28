@@ -11,6 +11,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class ZeldiabloJeu implements Jeu {
+
+    /**
+     * Classe principale du jeu Zeldiablo.
+     * Elle gère le chargement des niveaux, les déplacements du personnage,
+     * et l'état du jeu.
+     */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
     private ArrayList<Labyrinthe> niveaux;
     
