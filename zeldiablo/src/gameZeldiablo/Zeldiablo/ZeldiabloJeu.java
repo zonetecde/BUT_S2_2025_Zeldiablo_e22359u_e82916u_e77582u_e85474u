@@ -15,7 +15,7 @@ public class ZeldiabloJeu implements Jeu {
     private ArrayList<Labyrinthe> niveaux;
     
     // Indice du niveau actuel
-    private int currentLevel=0; // Le niveau actuel
+    private int currentLevel = 0; // Le niveau actuel
 
     // Indique si le jeu est fini
     private boolean estFini = false;
@@ -53,13 +53,13 @@ public class ZeldiabloJeu implements Jeu {
      */
     private void deplacerPersonnage(Clavier clavier) {
         if (clavier.droite) {
-            getCurrentLevel().deplacerPerso(Direction.DROITE, this.getCurrentLevel().joueur);
+            getLaby().deplacerPerso(Direction.DROITE, this.getLaby().joueur);
         } else if (clavier.gauche) {
-            getCurrentLevel().deplacerPerso(Direction.GAUCHE, this.getCurrentLevel().joueur);
+            getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().joueur);
         } else if (clavier.haut) {
-            getCurrentLevel().deplacerPerso(Direction.HAUT, this.getCurrentLevel().joueur);
+            getLaby().deplacerPerso(Direction.HAUT, this.getLaby().joueur);
         } else if (clavier.bas) {
-            getCurrentLevel().deplacerPerso(Direction.BAS, this.getCurrentLevel().joueur);
+            getLaby().deplacerPerso(Direction.BAS, this.getLaby().joueur);
         }
     }
 
@@ -88,7 +88,7 @@ public class ZeldiabloJeu implements Jeu {
      * @return renvoie le laby actuel
      */
     public Labyrinthe getLaby(){
-        return getCurrentLevel();
+        return niveaux.get(currentLevel);
     }
 
     /**
@@ -106,9 +106,5 @@ public class ZeldiabloJeu implements Jeu {
     @Override
     public boolean etreFini() {
         return estFini;
-    }
-
-    private Labyrinthe getCurrentLevel() {
-        return niveaux.get(currentLevel);
     }
 }

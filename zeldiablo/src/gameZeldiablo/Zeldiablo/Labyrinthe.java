@@ -96,7 +96,8 @@ public class Labyrinthe {
             // parcours de la ligne
             for (int colonne = 0; colonne < ligne.length(); colonne++) {
                 char c = ligne.charAt(colonne);
-                switch (c) {                    case MUR:
+                switch (c) {
+                    case MUR:
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
