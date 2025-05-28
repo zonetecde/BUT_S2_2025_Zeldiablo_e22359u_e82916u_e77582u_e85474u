@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Cases.CaseMur;
+import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Player;
@@ -19,6 +20,7 @@ public class Labyrinthe {
      */
     public static final char MUR = 'X';
     public static final char PJ = 'P';
+    public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -106,6 +108,10 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Player(colonne, numeroLigne);
                         VariablesGlobales.joueur = this.joueur;
+                        break;
+                    case CASE_PIEGE:
+                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
+                        
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
