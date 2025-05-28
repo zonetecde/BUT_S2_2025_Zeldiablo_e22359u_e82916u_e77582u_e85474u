@@ -1,7 +1,5 @@
 package gameLaby.laby;
 
-import gameArkanoid.Balle;
-import gameArkanoid.Raquette;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -27,9 +25,9 @@ public class LabyDessin implements DessinJeu {
         }
 
         //affiche le labyrinthe charge
-        for (int y = 0; y < laby.getLengthY(); y++) {
+        for (int y = 0; y < laby.getLongueur(); y++) {
             // affiche la ligne
-            for (int x = 0; x < laby.getLength(); x++) {
+            for (int x = 0; x < laby.getHauteur(); x++) {
                 if (laby.getMur(x, y)) {
                     // Couleur des murs - noir
                     gc.setFill(Color.BLACK);
@@ -41,7 +39,7 @@ public class LabyDessin implements DessinJeu {
                 }
 
                 // affichage du joueur
-                if (laby.pj.x == x && laby.pj.y == y) {
+                if (laby.joueur.x == x && laby.joueur.y == y) {
                     // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
                     gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);

@@ -3,6 +3,7 @@ package gameLaby.laby;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
@@ -19,34 +20,22 @@ public class Labyrinthe {
     public static final char VIDE = '.';
     public static final char MONSTRE = 'M';
 
-    /**
-     * constantes actions possibles
-     */
-    public static final String HAUT = "Haut";
-    public static final String BAS = "Bas";
-    public static final String GAUCHE = "Gauche";
-    public static final String DROITE = "Droite";
+    private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
+    private int longueur = 25; // longueur du labyrinthe
+    private int hauteur = 20; // hauteur du labyrinthe
+
+    // Entité joueur
+    public Perso joueur;
 
     /**
-     * attribut du personnage
-     */
-    public Perso pj;
-    public Perso monstre;
-
-    /**
-     * les murs du labyrinthe
-     */
-    public boolean[][] murs;
-
-    /**
-     * retourne la case suivante selon une actions
+     * Retourne la case suivante en fonction de l'action
      *
      * @param x      case depart
      * @param y      case depart
      * @param action action effectuee
      * @return case suivante
      */
-    static int[] getSuivant(int x, int y, String action) {
+    static int[] getSuivant(int y, int x, Direction action) {
         switch (action) {
             case HAUT:
                 // on monte une ligne
@@ -67,12 +56,12 @@ public class Labyrinthe {
             default:
                 throw new Error("action inconnue");
         }
-        int[] res = {x, y};
+        int[] res = {y, x};
         return res;
     }
 
     /**
-     * charge le labyrinthe
+     * Charge le labyrinthe depuis un fichier.
      *
      * @param nom nom du fichier de labyrinthe
      * @return labyrinthe cree
@@ -90,8 +79,9 @@ public class Labyrinthe {
         nbColonnes = Integer.parseInt(bfRead.readLine());
 
         // creation labyrinthe vide
-        this.murs = new boolean[nbColonnes][nbLignes];
-        this.pj = null;
+        gameBoard = new Case[nbLignes][nbColonnes];
+
+        this.joueur = null;
 
         // lecture des cases
         String ligne = bfRead.readLine();
@@ -107,22 +97,14 @@ public class Labyrinthe {
                 char c = ligne.charAt(colonne);
                 switch (c) {
                     case MUR:
-                        this.murs[colonne][numeroLigne] = true;
+                        gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
-                        this.murs[colonne][numeroLigne] = false;
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         break;
                     case PJ:
-                        // pas de mur
-                        this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.pj = new Perso(colonne, numeroLigne);
-                        break;
-                    case MONSTRE:
-                        // pas de mur
-                        this.murs[colonne][numeroLigne] = false;
-                        // ajoute PJ
-                        this.monstre = new Perso(colonne, numeroLigne);
+                        this.joueur = new Perso(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -145,15 +127,15 @@ public class Labyrinthe {
      *
      * @param action une des actions possibles
      */
-    public void deplacerPerso(String action,Perso p) {
+    public void deplacerPerso(Direction action,Perso p) {
         // case courante
-        int[] courante = {p.x, p.y};
+        int[] courante = {p.y, p.x};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
         // si c'est pas un mur, on effectue le deplacement
-        if (!this.murs[suivante[0]][suivante[1]] && !(suivante[0]==this.monstre.x & suivante[1]==this.monstre.y)) {
+        if (!(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
             // on met a jour personnage
             p.x = suivante[0];
             p.y = suivante[1];
@@ -178,8 +160,8 @@ public class Labyrinthe {
      *
      * @return
      */
-    public int getLengthY() {
-        return murs[0].length;
+    public int getLongueur() {
+        return gameBoard[0].length;
     }
 
     /**
@@ -187,19 +169,18 @@ public class Labyrinthe {
      *
      * @return
      */
-    public int getLength() {
-        return murs.length;
+    public int getHauteur() {
+        return gameBoard.length;
     }
 
     /**
-     * return mur en (i,j)
-     * @param x
+     * Retourne la case en y;x
      * @param y
-     * @return
+     * @param x
+     * @return La case en y;x
      */
-    public boolean getMur(int x, int y) {
-        // utilise le tableau de boolean
-        return this.murs[x][y];
+    public Case getCase(int y, int x) {
+        return gameBoard[y][x];
     }
 
 }

@@ -3,78 +3,96 @@ package gameLaby.laby;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class LabyJeu implements Jeu {
-    private Labyrinthe l;
-    private boolean estFini=false;
+    private ArrayList<Labyrinthe> niveaux;
+    private int currentLevel=0; // Le niveau actuel
+    private boolean estFini = false;
+    private boolean currentlyMoving = false; // Est true si le personnage est actuellement en train de se déplacer
 
-    public Labyrinthe getLaby(){
-        return l;
-    }
-
+    /**
+     * Action à chaque frame
+     * @param secondes temps ecoule depuis la derniere mise a jour
+     * @param clavier objet contenant l'état du clavier'
+     */
     @Override
     public void update(double secondes, Clavier clavier) {
+        if (!currentlyMoving) {
+            currentlyMoving =true;
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); // 1 is the size of the thread pool being created
+            scheduler.schedule(() -> {
+                currentlyMoving =false; // Task to be executed after the delay
+            }, 100, TimeUnit.MILLISECONDS); // Adding the 3-second delay
 
-        // Déplace le personnage
-        deplacerPersonnage(clavier);
+            // Déplace le personnage
+            deplacerPersonnage(clavier);
 
-        // Dépalce le monstre
-        deplacerMonstre(clavier);
+            scheduler.shutdown();
+        }
     }
 
     
-    /*
+    /**
      * Déplace le personnage en fonction des touches pressées.
+     * @param clavier Objet Clavier pour recuperer des input
      */
     private void deplacerPersonnage(Clavier clavier) {
         if (clavier.droite) {
-            l.deplacerPerso(Labyrinthe.DROITE, this.l.pj);
+            niveaux.get(currentLevel).deplacerPerso(Direction.DROITE, this.niveaux.get(currentLevel).joueur);
         } else if (clavier.gauche) {
-            l.deplacerPerso(Labyrinthe.GAUCHE, this.l.pj);
+            niveaux.get(currentLevel).deplacerPerso(Direction.GAUCHE, this.niveaux.get(currentLevel).joueur);
         } else if (clavier.haut) {
-            l.deplacerPerso(Labyrinthe.HAUT, this.l.pj);
+            niveaux.get(currentLevel).deplacerPerso(Direction.HAUT, this.niveaux.get(currentLevel).joueur);
         } else if (clavier.bas) {
-            l.deplacerPerso(Labyrinthe.BAS, this.l.pj);
+            niveaux.get(currentLevel).deplacerPerso(Direction.BAS, this.niveaux.get(currentLevel).joueur);
         }
     }
 
-    /*
-     * Déplace le monstre en fonction des touches pressées.
+    /**
+     * Methode pour charger les niveaux du jeu
      */
-    private void deplacerMonstre(Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas) {
-            // deplace le monstre aléatoirement
-            int i = (int) (Math.random() * 4);
-            String action = "";
-            switch (i) {
-                case 0:
-                    action = Labyrinthe.HAUT;
-                    break;
-                case 1:
-                    action = Labyrinthe.BAS;
-                    break;
-                case 2:
-                    action = Labyrinthe.GAUCHE;
-                    break;
-                case 3:
-                    action = Labyrinthe.DROITE;
-                    break;
+    private void chargementNiveau(){
+        try {
+            niveaux =new ArrayList<>();
+            File[] folder = new File("labySimple").listFiles();
+            assert folder != null;
+            for (File file : folder) {
+                niveaux.add(new Labyrinthe(file.getName()));
             }
-            this.l.deplacerPerso(action, this.l.monstre);
+        }
+        catch (IOException e){
+            System.out.println("Données de laby corrompues");
+            estFini=true;
+            System.exit(1);
         }
     }
 
+    /**
+     * Getter de laby
+     * @return renvoie le laby actuel
+     */
+    public Labyrinthe getLaby(){
+        return niveaux.get(currentLevel);
+    }
 
+    /**
+     * Action lancée avant le jeu
+     */
     @Override
     public void init() {
-        try {
-            this.l = new Labyrinthe("labySimple/laby1.txt");
-
-        }
-        catch (Exception e){
-            estFini=true;
-        }
+        chargementNiveau();
     }
 
+    /**
+     * spécifie si le jeu est fini
+     * @return boolean fini
+     */
     @Override
     public boolean etreFini() {
         return estFini;

@@ -12,9 +12,9 @@ public class Main {
         Labyrinthe laby = new Labyrinthe("labySimple/laby0.txt");
 
         //affiche le labyrinthe charge
-        for (int y = 0; y < laby.getLengthY(); y++) {
+        for (int y = 0; y < laby.getLongueur(); y++) {
             // affiche la ligne
-            for (int x = 0; x < laby.getLength(); x++) {
+            for (int x = 0; x < laby.getHauteur(); x++) {
                 if (laby.getMur(x, y))
                     System.out.print('X');
                 else
