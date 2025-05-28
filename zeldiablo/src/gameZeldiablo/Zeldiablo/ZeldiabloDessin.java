@@ -16,16 +16,27 @@ public class ZeldiabloDessin implements DessinJeu {
      */
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) {
-        Labyrinthe laby = ((ZeldiabloJeu)jeu).getLaby();
+        Labyrinthe laby = ((ZeldiabloJeu) jeu).getLaby();
 
         // recupere un pinceau pour dessiner
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        // Dessine le laby
+        labyUI(laby, gc, canvas);
+
+        // Dessin les infos sur le joueur
+        heroUI(laby, gc);
+    }
+
+    /*
+     * Affiche le labyrinthe
+     */
+    private void labyUI(Labyrinthe laby, GraphicsContext gc, Canvas canvas) {
         // dessin fond
         gc.setFill(Color.LIGHTGRAY);
-                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-         
-        if(laby == null){
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        if (laby == null) {
             System.out.println("Erreur dessinerJeu");
         }
 
@@ -34,8 +45,8 @@ public class ZeldiabloDessin implements DessinJeu {
             // affiche la ligne
             for (int x = 0; x < laby.getLongueur(); x++) {
                 // Couleur des murs - noir
-                    gc.setFill(laby.getCase(y,x).getCouleur());
-                    gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                gc.setFill(laby.getCase(y, x).getCouleur());
+                gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
                 if (laby.joueur.getX() == x && laby.joueur.getY() == y) {
@@ -46,19 +57,26 @@ public class ZeldiabloDessin implements DessinJeu {
 
             }
         }
-
-        heroUI(laby,gc);
-
     }
 
-    //Dessin de l'UI
-    private void heroUI(Labyrinthe laby,GraphicsContext gc) {
+    /*
+     * Affiche l'interface utilisateur du joueur
+     */
+    private void heroUI(Labyrinthe laby, GraphicsContext gc) {
         int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
         gc.drawImage(new Image("player/PlayerFaceDown.png"), baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
         gc.setFill(Color.RED);
-        double tmp = ((double) laby.getPlayer().getHp() / (double) laby.getPlayer().getMaxHp()) * 90;
-        gc.fillRect(baseXPlayer + 5, 75, tmp, 20);
+        gc.fillRect(baseXPlayer + 5, 75, getLifeBarWidth(laby.getPlayer().getHp(), laby.getPlayer().getMaxHp()), 20);
+    }
+
+    /*
+     * Calcul la largeur de la barre de vie du joueur
+     * @param actualHp les points de vie actuels du joueur
+     * @param maxHp les points de vie maximum du joueur
+     */
+    private double getLifeBarWidth(int actualHp, int maxHp) {
+        return ((double) actualHp / (double) maxHp) * 90;
     }
 }
