@@ -1,0 +1,90 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Case {
+  + Case(int, int, Color): 
+  - couleur: Color
+   couleur: Color
+}
+class CaseMur {
+  + CaseMur(int, int): 
+}
+class CaseVide {
+  + CaseVide(int, int): 
+}
+enum Direction << enumeration >> {
+  + Direction(): 
+  + values(): Direction[]
+  + valueOf(String): Direction
+}
+class Entite {
+  + Entite(int, int): 
+  + Entite(int, int, int): 
+  ~ x: int
+  ~ y: int
+  ~ hp: int
+  + etrePresent(int, int): boolean
+   x: int
+   y: int
+   hp: int
+}
+class Labyrinthe {
+  + Labyrinthe(String): 
+  ~ getSuivant(int, int, Direction): int[]
+  + getCase(int, int): Case
+  + deplacerPerso(Direction, Entite): void
+  + etreFini(): boolean
+  - estDansLimites(int, int): boolean
+   hauteur: int
+   longueur: int
+}
+class MainZeldiablo {
+  + MainZeldiablo(): 
+  + main(String[]): void
+}
+class Player {
+  + Player(int, int, int): 
+  + Player(int, int): 
+}
+class Utilities {
+  + Utilities(): 
+  + areTwoCoordinatesEqual(int[], int[]): boolean
+  + getRandomNumber(int, int): int
+  + isThisCoordinateInArrayOfCoordinates(ArrayList<int[]>, int[]): boolean
+}
+class VariablesGlobales {
+  + VariablesGlobales(): 
+}
+class ZeldiabloDessin {
+  + ZeldiabloDessin(): 
+  + dessinerJeu(Jeu, Canvas): void
+}
+class ZeldiabloJeu {
+  + ZeldiabloJeu(): 
+  - currentLevel: int
+  + update(double, Clavier): void
+  + etreFini(): boolean
+  - deplacerPersonnage(Clavier): void
+  - chargementNiveau(): void
+  + init(): void
+   currentLevel: Labyrinthe
+   laby: Labyrinthe
+}
+
+CaseMur            -[#000082,plain]-^  Case              
+CaseVide           -[#000082,plain]-^  Case              
+Labyrinthe         -[#595959,dashed]->  Case              : "«create»"
+Labyrinthe        "1" *-[#595959,plain]-> "gameBoard\n*" Case              
+Labyrinthe         -[#595959,dashed]->  CaseMur           : "«create»"
+Labyrinthe         -[#595959,dashed]->  CaseVide          : "«create»"
+Labyrinthe        "1" *-[#595959,plain]-> "joueur\n1" Entite            
+Labyrinthe         -[#595959,dashed]->  Player            : "«create»"
+MainZeldiablo      -[#595959,dashed]->  ZeldiabloDessin   : "«create»"
+MainZeldiablo      -[#595959,dashed]->  ZeldiabloJeu      : "«create»"
+Player             -[#000082,plain]-^  Entite            
+ZeldiabloJeu      "1" *-[#595959,plain]-> "niveaux\n*" Labyrinthe        
+ZeldiabloJeu       -[#595959,dashed]->  Labyrinthe        : "«create»"
+@enduml

@@ -1,0 +1,6 @@
+(
+{"type":"METHOD","_classDescription":{"_className":"gameZeldiablo.Zeldiablo.Cases.CasePiege","separator":".","_attributes":["public"],"supers":["gameZeldiablo.Zeldiablo.Cases.Case","gameZeldiablo.Zeldiablo.Cases.Action"],"@type":"classDescription"},"language":"JAVA","_methodName":"onStepOn","_attributes":["public"],"_argNames":[],"_argTypes":[],"_returnType":"void","offset":685,"@type":"methodDescription"}
+(
+{"type":"METHOD","_classDescription":{"_className":"gameZeldiablo.Zeldiablo.Entities.Entite","separator":".","_attributes":["public","abstract"],"supers":[],"@type":"classDescription"},"language":"JAVA","_methodName":"prendreDegat","_attributes":["public"],"_argNames":["d"],"_argTypes":["int"],"_returnType":"void","offset":731,"@type":"methodDescription"}
+)
+)

@@ -233,6 +233,7 @@ class LabyTest {
         assertEquals(3, labyrinthe.joueur.getY());
     }
 
+
     @Test
     void testCreationJoueur() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
