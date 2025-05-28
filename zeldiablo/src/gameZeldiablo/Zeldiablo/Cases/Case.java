@@ -1,7 +1,6 @@
-package gameZeldiablo.Zeldiablo;
+package gameZeldiablo.Zeldiablo.Cases;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public abstract class Case {
     private int x;
