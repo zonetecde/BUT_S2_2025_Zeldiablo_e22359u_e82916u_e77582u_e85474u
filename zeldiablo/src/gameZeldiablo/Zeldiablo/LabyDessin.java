@@ -1,4 +1,4 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

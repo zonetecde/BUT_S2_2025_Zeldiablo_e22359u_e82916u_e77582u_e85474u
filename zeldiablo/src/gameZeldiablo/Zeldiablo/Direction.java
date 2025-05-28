@@ -1,4 +1,4 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
 
 public enum Direction {
     HAUT,

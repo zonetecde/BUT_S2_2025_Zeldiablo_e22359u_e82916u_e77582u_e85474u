@@ -1,4 +1,4 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
 
 public class CaseMur extends Case {
     public CaseMur(int x, int y){

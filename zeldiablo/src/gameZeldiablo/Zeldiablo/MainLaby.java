@@ -1,6 +1,5 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
 
-import moteurJeu.DessinJeu;
 import moteurJeu.MoteurJeu;
 
 public class MainLaby {
