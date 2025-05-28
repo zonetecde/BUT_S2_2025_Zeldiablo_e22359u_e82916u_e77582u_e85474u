@@ -1,7 +1,5 @@
 package gameLaby.laby;
 
-import gameArkanoid.Balle;
-import gameArkanoid.Raquette;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -9,8 +7,6 @@ import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
 public class LabyDessin implements DessinJeu {
-    private final static int CELL_SIZE = 50;
-
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) {
         Labyrinthe laby = ((LabyJeu) jeu).getLaby();
@@ -27,31 +23,20 @@ public class LabyDessin implements DessinJeu {
         }
 
         //affiche le labyrinthe charge
-        for (int y = 0; y < laby.getLengthY(); y++) {
+        for (int y = 0; y < laby.getHauteur(); y++) {
             // affiche la ligne
-            for (int x = 0; x < laby.getLength(); x++) {
-                if (laby.getMur(x, y)) {
-                    // Couleur des murs - noir
-                    gc.setFill(Color.BLACK);
-                    gc.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                } else {
-                    // Couleur des chemins - blanc
-                    gc.setFill(Color.WHITE);
-                    gc.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                }
+            for (int x = 0; x < laby.getLongueur(); x++) {
+                // Couleur des murs - noir
+                gc.setFill(laby.getCase(y,x).getCouleur());
+                gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
-                if (laby.pj.x == x && laby.pj.y == y) {
+                if (laby.joueur.x == x && laby.joueur.y == y) {
                     // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
-                    gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
-                // affichage du monstre
-                if (laby.monstre.x == x && laby.monstre.y == y) {
-                    // Couleur du monstre - bleu (cercle)
-                    gc.setFill(Color.PURPLE);
-                    gc.fillOval(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                }
+
             }
         }
     }
