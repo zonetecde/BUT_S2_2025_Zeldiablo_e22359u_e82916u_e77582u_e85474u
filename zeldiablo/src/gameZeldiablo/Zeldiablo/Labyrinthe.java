@@ -20,7 +20,7 @@ public class Labyrinthe {
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
-    public Perso joueur;
+    public Entite joueur;
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -99,7 +99,7 @@ public class Labyrinthe {
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        this.joueur = new Perso(colonne, numeroLigne);
+                        this.joueur = new Player(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -121,7 +121,7 @@ public class Labyrinthe {
      * gere la collision avec les murs
      *
      * @param action une des actions possibles
-     */    public void deplacerPerso(Direction action,Perso p) {
+     */    public void deplacerPerso(Direction action, Entite p) {
         // case courante
         int[] courante = {p.y, p.x};
 

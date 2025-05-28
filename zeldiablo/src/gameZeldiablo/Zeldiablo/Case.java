@@ -26,4 +26,6 @@ public abstract class Case {
     public void setCouleur(Color c){
         couleur=c;
     }
+
+    //abstract public void steppedOn();
 }

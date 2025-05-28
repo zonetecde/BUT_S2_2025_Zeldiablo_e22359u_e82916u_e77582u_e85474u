@@ -10,11 +10,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class LabyJeu implements Jeu {
+public class ZeldiabloJeu implements Jeu {
+    // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
     private ArrayList<Labyrinthe> niveaux;
+    
+    // Indice du niveau actuel
     private int currentLevel=0; // Le niveau actuel
+
+    // Indique si le jeu est fini
     private boolean estFini = false;
-    private boolean currentlyMoving = false; // Est true si le personnage est actuellement en train de se déplacer
+
+    // Indique si le personnage est en train de se déplacer
+    private boolean currentlyMoving = false;
 
     /**
      * Action à chaque frame
@@ -24,13 +31,13 @@ public class LabyJeu implements Jeu {
     @Override
     public void update(double secondes, Clavier clavier) {
         // Pour empêcher de spam les déplacements du personnage
-        // on met un scheduler 
+        // on met un scheduler
         if (!currentlyMoving) {
             currentlyMoving =true;
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); // 1 is the size of the thread pool being created
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             scheduler.schedule(() -> {
-                currentlyMoving =false; // Task to be executed after the delay
-            }, 100, TimeUnit.MILLISECONDS); 
+                currentlyMoving = false;
+            }, 100, TimeUnit.MILLISECONDS);
 
             // Déplace le personnage
             deplacerPersonnage(clavier);
@@ -46,13 +53,13 @@ public class LabyJeu implements Jeu {
      */
     private void deplacerPersonnage(Clavier clavier) {
         if (clavier.droite) {
-            niveaux.get(currentLevel).deplacerPerso(Direction.DROITE, this.niveaux.get(currentLevel).joueur);
+            getCurrentLevel().deplacerPerso(Direction.DROITE, this.getCurrentLevel().joueur);
         } else if (clavier.gauche) {
-            niveaux.get(currentLevel).deplacerPerso(Direction.GAUCHE, this.niveaux.get(currentLevel).joueur);
+            getCurrentLevel().deplacerPerso(Direction.GAUCHE, this.getCurrentLevel().joueur);
         } else if (clavier.haut) {
-            niveaux.get(currentLevel).deplacerPerso(Direction.HAUT, this.niveaux.get(currentLevel).joueur);
+            getCurrentLevel().deplacerPerso(Direction.HAUT, this.getCurrentLevel().joueur);
         } else if (clavier.bas) {
-            niveaux.get(currentLevel).deplacerPerso(Direction.BAS, this.niveaux.get(currentLevel).joueur);
+            getCurrentLevel().deplacerPerso(Direction.BAS, this.getCurrentLevel().joueur);
         }
     }
 
@@ -81,7 +88,7 @@ public class LabyJeu implements Jeu {
      * @return renvoie le laby actuel
      */
     public Labyrinthe getLaby(){
-        return niveaux.get(currentLevel);
+        return getCurrentLevel();
     }
 
     /**
@@ -101,5 +108,7 @@ public class LabyJeu implements Jeu {
         return estFini;
     }
 
-
+    private Labyrinthe getCurrentLevel() {
+        return niveaux.get(currentLevel);
+    }
 }
