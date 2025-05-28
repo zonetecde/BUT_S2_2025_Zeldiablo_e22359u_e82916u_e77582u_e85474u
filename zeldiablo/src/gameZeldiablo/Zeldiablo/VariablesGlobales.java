@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import javafx.scene.paint.Color;
 
 public class VariablesGlobales {
@@ -10,4 +11,6 @@ public class VariablesGlobales {
     public static final Color COULEUR_MUR = Color.BLACK;
     public static final int TAILLE_CASE = 40;
     public static final int PVBASE = 10;
+
+    public static Player joueur;
 }

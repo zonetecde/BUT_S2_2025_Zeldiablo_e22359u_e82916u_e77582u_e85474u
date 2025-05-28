@@ -105,6 +105,7 @@ public class Labyrinthe {
                         // ajoute PJ et crée une case vide à cet endroit
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Player(colonne, numeroLigne);
+                        VariablesGlobales.joueur = this.joueur;
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
