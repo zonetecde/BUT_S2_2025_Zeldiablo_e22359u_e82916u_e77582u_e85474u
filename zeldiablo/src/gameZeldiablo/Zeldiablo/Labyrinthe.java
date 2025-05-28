@@ -135,7 +135,7 @@ public class Labyrinthe {
 
         // vérification des limites du plateau et si c'est pas un mur
         if (estDansLimites(suivante[0], suivante[1]) && 
-            !(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
+            (getCase(suivante[0], suivante[1]).getIsWalkable())) {
             // on met a jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
             p.setY(suivante[0]);
             p.setX(suivante[1]);

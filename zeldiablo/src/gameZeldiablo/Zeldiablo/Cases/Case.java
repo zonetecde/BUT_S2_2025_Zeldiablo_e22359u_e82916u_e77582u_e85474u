@@ -19,16 +19,22 @@ public abstract class Case {
      */
     private Color couleur;
 
+    /*
+    Permet de dire si on peut marcher sur cette case
+     */
+    private boolean isWalkable;
+
     /**
      * Constructeur de Case
      * @param x
      * @param y
      * @param couleur
      */
-    public Case(int x, int y, Color couleur) {
+    public Case(int x, int y, Color couleur, boolean isWalkable) {
         this.x = x;
         this.y = y;
         this.couleur = couleur;
+        this.isWalkable = isWalkable;
     }
 
     /**
@@ -37,6 +43,10 @@ public abstract class Case {
      */
     public Color getCouleur() {
         return couleur;
+    }
+
+    public boolean getIsWalkable(){
+        return this.isWalkable;
     }
 
     /**
