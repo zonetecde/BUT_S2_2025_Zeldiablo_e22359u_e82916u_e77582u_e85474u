@@ -147,7 +147,7 @@ public class Labyrinthe {
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
-            caseSuivante.onStepOn();
+            caseSuivante.onStepOn(this.joueur);
         }
     }
 

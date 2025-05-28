@@ -82,7 +82,7 @@ public abstract class Entite {
      * @return l'etat de vie du perso
      */
     public boolean estMort(){
-        return this.enVie;
+        return !this.enVie;
     }
 
     /**

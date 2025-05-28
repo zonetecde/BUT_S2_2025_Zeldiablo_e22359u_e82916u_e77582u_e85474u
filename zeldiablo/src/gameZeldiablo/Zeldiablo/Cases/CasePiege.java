@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.paint.Color;
 
@@ -28,8 +29,8 @@ public class CasePiege extends Case {
     }
 
     @Override
-    public void onStepOn() {
-        VariablesGlobales.joueur.prendreDegat(degats);
+    public void onStepOn(Entite e) {
+        e.prendreDegat(degats);
     }
 }
 

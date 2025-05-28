@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import gameZeldiablo.Zeldiablo.Entities.Entite;
 import javafx.scene.paint.Color;
 
 /**
@@ -57,7 +58,7 @@ public abstract class Case implements Action {
         couleur=c;
     }
 
-    public void onStepOn() {
+    public void onStepOn(Entite entite) {
         // Action par défaut
     }
 }

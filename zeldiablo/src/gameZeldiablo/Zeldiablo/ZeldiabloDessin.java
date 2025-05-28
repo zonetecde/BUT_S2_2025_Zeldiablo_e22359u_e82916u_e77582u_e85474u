@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
@@ -54,5 +55,12 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.setFill(Color.RED);
         double tmp= ((double)laby.getPlayer().getHp()/(double)laby.getPlayer().getMaxHp())*90;
         gc.fillRect(baseXPlayer+5,75,tmp,20);
+
+        if (VariablesGlobales.joueur.estMort()){
+
+            gc.clearRect(0,0,canvas.getWidth(),canvas.getHeight());
+            gc.setFont(Font.font(20));
+            gc.fillText("Game Over",canvas.getWidth()/3,canvas.getHeight()/3);
+        }
     }
 }
