@@ -9,10 +9,10 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 public abstract class Entite {
 
     /**
-     * position du personnage
+     * position du personnage et vie
      */
-    private int x, y, hp;
-    boolean enVie=true;
+    private int x, y, hp, maxHp;
+    boolean enVie = true;
 
     /**
      * constructeur
@@ -20,16 +20,18 @@ public abstract class Entite {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(int dx, int dy, int hp) {
+    public Entite(int dx, int dy, int hp, int maxHp) {
         this.x = dx;
         this.y = dy;
         this.hp = hp;
+        this.maxHp = maxHp;
     }
 
     public Entite(int dx, int dy) {
         this.x = dx;
         this.y = dy;
-        this.hp = VariablesGlobales.PVBASE;
+        this.hp = VariablesGlobales.PV_BASE;
+        this.maxHp = VariablesGlobales.PV_BASE;
     }
 
     /**
@@ -42,10 +44,6 @@ public abstract class Entite {
     public boolean etrePresent(int dx, int dy) {
         return (this.x == dx && this.y == dy);
     }
-
-    // ############################################
-    // GETTER
-    // ############################################
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage
@@ -86,11 +84,17 @@ public abstract class Entite {
     }
 
     /**
-     *
      * @return les pv du perso
      */
     public int getHp(){
         return this.hp;
+    }
+
+    /**
+     * @return les pv max du perso
+     */
+    public int getMaxHp(){
+        return this.maxHp;
     }
 
     /**
