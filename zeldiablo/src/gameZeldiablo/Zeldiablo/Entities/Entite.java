@@ -1,15 +1,17 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo.Entities;
 
+
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
  * gere un personnage situe en x,y
  */
-public class Perso {
+public abstract class Entite {
 
     /**
      * position du personnage
      */
-    int x, y;
+    private int x, y, hp;
 
     /**
      * constructeur
@@ -17,9 +19,16 @@ public class Perso {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Perso(int dx, int dy) {
+    public Entite(int dx, int dy, int hp) {
         this.x = dx;
         this.y = dy;
+        this.hp = hp;
+    }
+
+    public Entite(int dx, int dy) {
+        this.x = dx;
+        this.y = dy;
+        this.hp = VariablesGlobales.PVBASE;
     }
 
     /**
@@ -30,7 +39,6 @@ public class Perso {
      * @return true si le personnage est bien en (dx,dy)
      */
     public boolean etrePresent(int dx, int dy) {
-
         return (this.x == dx && this.y == dy);
     }
 
@@ -52,5 +60,17 @@ public class Perso {
     public int getY() {
         //getter
         return this.y;
+    }
+
+    public int getHp(){
+        return this.hp;
+    }
+
+    public void setY(int y){
+        this.y=y;
+    }
+
+    public void setX(int x){
+        this.x=x;
     }
 }

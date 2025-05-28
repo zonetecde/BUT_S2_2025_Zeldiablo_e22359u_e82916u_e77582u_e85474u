@@ -1,4 +1,10 @@
-package gameLaby.laby;
+package gameZeldiablo.Zeldiablo;
+
+import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Cases.CaseMur;
+import gameZeldiablo.Zeldiablo.Cases.CaseVide;
+import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,19 +14,17 @@ import java.io.IOException;
  * classe labyrinthe. represente un labyrinthe avec
  */
 public class Labyrinthe {
-
     /**
      * Constantes char
      */
     public static final char MUR = 'X';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
-    public static final char MONSTRE = 'M';
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
-    public Perso joueur;
+    public Entite joueur;
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -30,7 +34,7 @@ public class Labyrinthe {
      * @param action action effectuee
      * @return case suivante
      */
-    static int[] getSuivant(int y, int x, Direction action) {
+    public static int[] getSuivant(int y, int x, Direction action) {
         switch (action) {
             case HAUT:
                 // on monte une ligne
@@ -90,7 +94,8 @@ public class Labyrinthe {
             // parcours de la ligne
             for (int colonne = 0; colonne < ligne.length(); colonne++) {
                 char c = ligne.charAt(colonne);
-                switch (c) {                    case MUR:
+                switch (c) {
+                    case MUR:
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
@@ -99,7 +104,7 @@ public class Labyrinthe {
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        this.joueur = new Perso(colonne, numeroLigne);
+                        this.joueur = new Player(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -121,9 +126,9 @@ public class Labyrinthe {
      * gere la collision avec les murs
      *
      * @param action une des actions possibles
-     */    public void deplacerPerso(Direction action,Perso p) {
+     */    public void deplacerPerso(Direction action, Entite p) {
         // case courante
-        int[] courante = {p.y, p.x};
+        int[] courante = {p.getY(), p.getX()};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
@@ -132,8 +137,8 @@ public class Labyrinthe {
         if (estDansLimites(suivante[0], suivante[1]) && 
             !(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
             // on met a jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
-            p.y = suivante[0];
-            p.x = suivante[1];
+            p.setY(suivante[0]);
+            p.setX(suivante[1]);
         }
     }
 
