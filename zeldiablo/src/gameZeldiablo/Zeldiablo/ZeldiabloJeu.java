@@ -34,19 +34,21 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        // Pour empêcher de spam les déplacements du personnage
-        // on met un scheduler
-        if (!currentlyMoving) {
-            currentlyMoving =true;
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(() -> {
-                currentlyMoving = false;
-            }, 100, TimeUnit.MILLISECONDS);
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas) {
+            // Pour empêcher de spam les déplacements du personnage
+            // on met un scheduler
+            if (!currentlyMoving) {
+                currentlyMoving =true;
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    currentlyMoving = false;
+                }, 100, TimeUnit.MILLISECONDS);
 
-            // Déplace le personnage
-            deplacerPersonnage(clavier);
+                // Déplace le personnage
+                deplacerPersonnage(clavier);
 
-            scheduler.shutdown();
+                scheduler.shutdown();
+            }
         }
     }
     
