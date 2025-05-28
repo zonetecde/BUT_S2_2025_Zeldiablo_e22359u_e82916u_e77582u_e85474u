@@ -23,6 +23,10 @@ public class ZeldiabloJeu implements Jeu {
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
 
+    public ZeldiabloJeu(int level){
+        currentLevel = level;
+    }
+
     /**
      * Action à chaque frame
      * @param secondes temps ecoule depuis la derniere mise a jour
@@ -45,7 +49,6 @@ public class ZeldiabloJeu implements Jeu {
             scheduler.shutdown();
         }
     }
-
     
     /**
      * Déplace le personnage en fonction des touches pressées.
