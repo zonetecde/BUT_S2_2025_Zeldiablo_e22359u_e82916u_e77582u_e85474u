@@ -1,6 +1,6 @@
-package gameZeldiablo.Zeldiablo;
+package gameZeldiablo.Zeldiablo.Entities;
 
-public class Player extends Entite{
+public class Player extends Entite {
     public Player(int dx, int dy, int hp) {
         super(dx, dy, hp);
     }

@@ -1,5 +1,11 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Cases.CaseMur;
+import gameZeldiablo.Zeldiablo.Cases.CaseVide;
+import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Player;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
