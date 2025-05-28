@@ -47,20 +47,18 @@ public class ZeldiabloDessin implements DessinJeu {
             }
         }
 
-        //Dessin de l'UI
+        heroUI(laby,gc);
+
+    }
+
+    //Dessin de l'UI
+    private void heroUI(Labyrinthe laby,GraphicsContext gc) {
         int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
-        gc.drawImage(new Image("player/PlayerFaceDown.png"),baseXPlayer+25,0, 50, 75);
+        gc.drawImage(new Image("player/PlayerFaceDown.png"), baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
-        gc.fillRect(baseXPlayer+5,75,90,20);
+        gc.fillRect(baseXPlayer + 5, 75, 90, 20);
         gc.setFill(Color.RED);
-        double tmp= ((double)laby.getPlayer().getHp()/(double)laby.getPlayer().getMaxHp())*90;
-        gc.fillRect(baseXPlayer+5,75,tmp,20);
-
-        if (VariablesGlobales.joueur.estMort()){
-
-            gc.clearRect(0,0,canvas.getWidth(),canvas.getHeight());
-            gc.setFont(Font.font(20));
-            gc.fillText("Game Over",canvas.getWidth()/3,canvas.getHeight()/3);
-        }
+        double tmp = ((double) laby.getPlayer().getHp() / (double) laby.getPlayer().getMaxHp()) * 90;
+        gc.fillRect(baseXPlayer + 5, 75, tmp, 20);
     }
 }
