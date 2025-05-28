@@ -12,6 +12,7 @@ public abstract class Entite {
      * position du personnage
      */
     private int x, y, hp;
+    boolean enVie=true;
 
     /**
      * constructeur
@@ -45,6 +46,16 @@ public abstract class Entite {
     // ############################################
     // GETTER
     // ############################################
+
+    public void prendreDegat(int d){
+        if (this.hp>d) {
+            this.hp -= d;
+        }
+        else{
+            this.enVie=false;
+            this.hp=0;
+        }
+    }
 
     /**
      * @return position x du personnage
