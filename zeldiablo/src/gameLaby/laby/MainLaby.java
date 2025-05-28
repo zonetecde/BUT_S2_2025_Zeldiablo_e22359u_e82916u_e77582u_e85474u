@@ -14,7 +14,7 @@ public class MainLaby {
         labyJeu.init();
 
         // parametrage du moteur de jeu
-        MoteurJeu.setTaille(width,height);
+        MoteurJeu.setTaille(labyJeu.getLaby().getLongueur() * VariablesGlobales.TAILLE_CASE, labyJeu.getLaby().getHauteur() * VariablesGlobales.TAILLE_CASE + 20);
         MoteurJeu.setFPS(pFPS);
 
         // lancement du jeu

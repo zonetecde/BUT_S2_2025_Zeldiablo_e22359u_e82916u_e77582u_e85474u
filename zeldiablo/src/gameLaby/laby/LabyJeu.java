@@ -23,12 +23,14 @@ public class LabyJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
+        // Pour empêcher de spam les déplacements du personnage
+        // on met un scheduler 
         if (!currentlyMoving) {
             currentlyMoving =true;
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); // 1 is the size of the thread pool being created
             scheduler.schedule(() -> {
                 currentlyMoving =false; // Task to be executed after the delay
-            }, 100, TimeUnit.MILLISECONDS); // Adding the 3-second delay
+            }, 100, TimeUnit.MILLISECONDS); 
 
             // Déplace le personnage
             deplacerPersonnage(clavier);

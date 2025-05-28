@@ -3,12 +3,9 @@ package gameLaby.laby;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
- * <ul> des murs </ul>
- * <ul> un personnage (x,y) </ul>
  */
 public class Labyrinthe {
 
@@ -21,8 +18,6 @@ public class Labyrinthe {
     public static final char MONSTRE = 'M';
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private int longueur = 25; // longueur du labyrinthe
-    private int hauteur = 20; // hauteur du labyrinthe
 
     // Entité joueur
     public Perso joueur;
@@ -95,15 +90,15 @@ public class Labyrinthe {
             // parcours de la ligne
             for (int colonne = 0; colonne < ligne.length(); colonne++) {
                 char c = ligne.charAt(colonne);
-                switch (c) {
-                    case MUR:
+                switch (c) {                    case MUR:
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         break;
                     case PJ:
-                        // ajoute PJ
+                        // ajoute PJ et crée une case vide à cet endroit
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Perso(colonne, numeroLigne);
                         break;
                     default:
@@ -126,19 +121,19 @@ public class Labyrinthe {
      * gere la collision avec les murs
      *
      * @param action une des actions possibles
-     */
-    public void deplacerPerso(Direction action,Perso p) {
+     */    public void deplacerPerso(Direction action,Perso p) {
         // case courante
         int[] courante = {p.y, p.x};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
-        // si c'est pas un mur, on effectue le deplacement
-        if (!(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
-            // on met a jour personnage
-            p.x = suivante[0];
-            p.y = suivante[1];
+        // vérification des limites du plateau et si c'est pas un mur
+        if (estDansLimites(suivante[0], suivante[1]) && 
+            !(getCase(suivante[0], suivante[1]) instanceof CaseMur)) {
+            // on met a jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
+            p.y = suivante[0];
+            p.x = suivante[1];
         }
     }
 
@@ -149,6 +144,20 @@ public class Labyrinthe {
      */
     public boolean etreFini() {
         return false;
+    }
+
+    // ##################################
+    // METHODES UTILITAIRES
+    // ##################################
+
+    /**
+     * Vérifie si les coordonnées sont dans les limites du plateau
+     * @param y coordonnée verticale
+     * @param x coordonnée horizontale
+     * @return true si les coordonnées sont valides
+     */
+    private boolean estDansLimites(int y, int x) {
+        return y >= 0 && y < getHauteur() && x >= 0 && x < getLongueur();
     }
 
     // ##################################
