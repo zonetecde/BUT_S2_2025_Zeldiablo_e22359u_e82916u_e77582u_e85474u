@@ -107,7 +107,6 @@ public class Labyrinthe {
                         // ajoute PJ et crée une case vide à cet endroit
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Player(colonne, numeroLigne);
-                        VariablesGlobales.joueur = this.joueur;
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
@@ -207,7 +206,7 @@ public class Labyrinthe {
     }
 
     public Player getPlayer(){
-        return VariablesGlobales.joueur;
+        return this.joueur;
     }
 
 }

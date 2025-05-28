@@ -12,6 +12,4 @@ public class VariablesGlobales {
     public static final Color COULEUR_PIEGE = Color.PURPLE;
     public static final int TAILLE_CASE = 40;
     public static final int PVBASE = 10;
-
-    public static Player joueur;
 }
