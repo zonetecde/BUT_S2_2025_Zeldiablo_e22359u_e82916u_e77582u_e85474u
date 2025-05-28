@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case {
+public abstract class Case implements Action {
     /**
      * Emplacement x de la case
      */
@@ -57,5 +57,7 @@ public abstract class Case {
         couleur=c;
     }
 
-    //abstract public void steppedOn();
+    public void onStepOn() {
+        // Action par défaut
+    }
 }

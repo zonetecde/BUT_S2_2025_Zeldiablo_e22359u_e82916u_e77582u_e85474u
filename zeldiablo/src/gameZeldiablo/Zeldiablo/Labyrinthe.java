@@ -140,6 +140,8 @@ public class Labyrinthe {
             // on met a jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
             p.setY(suivante[0]);
             p.setX(suivante[1]);
+            Case caseSuivante = getCase(suivante[0], suivante[1]);
+            caseSuivante.onStepOn();
         }
     }
 
