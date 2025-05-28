@@ -3,7 +3,8 @@ package gameZeldiablo.Zeldiablo.Entities;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 public class Player extends Entite {
-    int maxHp;
+    private int maxHp;
+
     public Player(int dx, int dy, int hp) {
         super(dx, dy, hp);
         maxHp=hp;
