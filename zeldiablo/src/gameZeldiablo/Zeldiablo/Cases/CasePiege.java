@@ -17,7 +17,7 @@ public class CasePiege extends Case {
         */
 
      public CasePiege (int x, int y, int degats) {
-         super(x, y, Color.RED, false);
+         super(x, y, Color.RED, true);
          this.degats = 1;
      }
     public int getDegats() {
