@@ -1,0 +1,28 @@
+@startuml
+participant "zd: ZeldiabloDessin" as ZD
+participant "laby: Labyrinthe" as Laby
+participant "gc: GraphicsContext" as GC
+
+-> ZD : labyUI(laby: Labyrinthe, gc: GraphicsContext, canvas: Canvas)
+activate ZD
+
+loop [pour chaque position x, y]
+    ZD -> Laby : monstreSurCase(y: int, x: int)
+    activate Laby
+    Laby --> ZD : boolean
+    deactivate Laby
+    
+    alt [si monstreSurCase == true]
+        ZD -> GC : setFill(Color.RED)
+        activate GC
+        deactivate GC
+        
+        ZD -> GC : fillOval(x: int, y: int, width: int, height: int)
+        activate GC
+        deactivate GC
+    end
+end
+
+ZD --> : void
+deactivate ZD
+@enduml

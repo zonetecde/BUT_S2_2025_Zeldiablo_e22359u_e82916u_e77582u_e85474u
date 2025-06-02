@@ -1,0 +1,45 @@
+@startuml
+participant "laby: Labyrinthe" as Laby
+participant "p: Entite" as Entite
+
+-> Laby : deplacerPerso(action: Direction, p: Entite)
+activate Laby
+
+Laby -> Entite : getY()
+activate Entite
+Entite --> Laby : int
+deactivate Entite
+
+Laby -> Entite : getX()
+activate Entite
+Entite --> Laby : int
+deactivate Entite
+
+Laby -> Laby : getSuivant(y: int, x: int, action: Direction)
+activate Laby
+Laby --> Laby : int[]
+deactivate Laby
+
+Laby -> Laby : getCase(y: int, x: int)
+activate Laby
+Laby --> Laby : Case
+deactivate Laby
+
+Laby -> Laby : monstreSurCase(y: int, x: int)
+activate Laby
+Laby --> Laby : boolean
+deactivate Laby
+
+alt [si toutes conditions OK ET !monstreSurCase]
+    note right : Déplacement autorisé
+    Laby -> Entite : setY(y: int)
+    activate Entite
+    deactivate Entite
+    
+    Laby -> Entite : setX(x: int)
+    activate Entite
+    deactivate Entite
+else
+    note right : Déplacement bloqué par monstre
+end
+@enduml

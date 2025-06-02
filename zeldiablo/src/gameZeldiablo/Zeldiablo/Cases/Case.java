@@ -59,17 +59,44 @@ public abstract class Case implements Action {
         couleur=c;
     }
 
+    /**
+     * Méthode appelée lorsqu'une entité marche sur la case
+     * @param entite L'entité qui marche sur la case
+     */
     public void onStepOn(Entite entite) {
         // Action par défaut
     }
 
+    /**
+     * Méthode pour ajouter un item à la case
+     * @param item L'item à ajouter
+     */
     public void addItem(Item item) {
-        return;
+        // Action par défaut
     }
-    public boolean isObjet() {
+
+    /**
+     * Vérifie si la case contient un objet
+     * @return true si la case contient un objet, false sinon
+     */
+    public boolean hasItem() {
+        // Action par défaut
         return false;
     }
+
+    /**
+     * Méthode pour retirer un item de la case
+     */
+    public void removeItem() {
+        // Action par défaut
+    }
+
+    /**
+     * Méthode pour obtenir l'objet de la case
+     * @return L'objet de la case, ou null si aucun objet n'est présent
+     */
     public Item getObjet() {
+        // Action par défaut
         return null;
     }
 }
