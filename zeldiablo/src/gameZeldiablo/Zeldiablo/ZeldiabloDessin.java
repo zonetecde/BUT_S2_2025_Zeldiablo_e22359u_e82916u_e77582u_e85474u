@@ -76,7 +76,7 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param actualHp les points de vie actuels du joueur
      * @param maxHp les points de vie maximum du joueur
      */
-    private double getLifeBarWidth(int actualHp, int maxHp) {
+    private double getLifeBarWidth(double actualHp, double maxHp) {
         return ((double) actualHp / (double) maxHp) * 90;
     }
 }

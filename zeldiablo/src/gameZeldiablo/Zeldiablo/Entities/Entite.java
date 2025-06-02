@@ -12,7 +12,6 @@ public abstract class Entite {
      * position du personnage et vie
      */
     private int x, y, hp, maxHp;
-    private double degats;
     boolean enVie = true;
 
     /**
@@ -58,17 +57,6 @@ public abstract class Entite {
             this.enVie=false;
             this.hp=0;
         }
-    }
-
-    /**
-     * Methode permettant d'attaquer une entité cible
-     * @param cible l'entité cible à attaquer
-     */
-    public void mettreDegat(Entite cible) {
-        if (cible != null && cible.enVie) {
-            cible.prendreDegat((int) this.degats);
-        }
-
     }
 
     /**
