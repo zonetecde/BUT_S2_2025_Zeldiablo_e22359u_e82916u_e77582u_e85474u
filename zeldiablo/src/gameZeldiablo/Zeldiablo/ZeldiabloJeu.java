@@ -28,10 +28,7 @@ public class ZeldiabloJeu implements Jeu {
 
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
-
-    // Indique si le personnage est en train de ramasser un objet
-    private boolean currentlyPicking = false;
-
+    
     public ZeldiabloJeu(int level){
         currentLevel = level;
     }
