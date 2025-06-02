@@ -65,7 +65,11 @@ public class ZeldiabloDessin implements DessinJeu {
                         gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                     }
                 }
-
+                // Affichage des objets
+                if (laby.getCase(y, x).getObjet()) {
+                    gc.setFill(Color.BLACK);
+                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                }
             }
         }
     }

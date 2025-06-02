@@ -7,6 +7,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
+import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -126,7 +127,8 @@ public class Labyrinthe {
                         break;
                     case OBJECT:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-
+                        gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
+                        break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
                         break;
@@ -232,6 +234,13 @@ public class Labyrinthe {
         return monstres;
     }
     public void ramasserObjet(Entite joueur) {
-
+        int x = joueur.getX();
+        int y = joueur.getY();
+        Case caseCourante = getCase(y, x);
+        // Vérifie si la case contient un objet
+        if (caseCourante.getObjet()) {
+            player.getInventory.add(caseVide.item);
+            caseVide.item = null;
+        }
     }
 }
