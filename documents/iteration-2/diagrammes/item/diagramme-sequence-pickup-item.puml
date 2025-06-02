@@ -1,0 +1,76 @@
+@startuml
+participant "zj: ZeldiabloJeu" as ZJ
+participant "laby: Labyrinthe" as Laby
+participant "player: Player" as Player
+participant "case: Case" as Case
+participant "inventory: ArrayList<Item>" as Inventory
+
+-> ZJ : update(secondes: double, clavier: Clavier)
+activate ZJ
+
+alt [si clavier.pickItem ET !currentlyMoving]
+    ZJ -> ZJ : inputLaby(clavier: Clavier)
+    activate ZJ
+    
+    alt [si clavier.pickItem]
+        ZJ -> Laby : getLaby()
+        activate Laby
+        Laby --> ZJ : Labyrinthe
+        deactivate Laby
+        
+        ZJ -> Laby : getPlayer()
+        activate Laby
+        Laby --> ZJ : Player
+        deactivate Laby
+        
+        ZJ -> Laby : ramasserItem(joueur: Player)
+        activate Laby
+        
+        Laby -> Player : getX()
+        activate Player
+        Player --> Laby : int
+        deactivate Player
+        
+        Laby -> Player : getY()
+        activate Player
+        Player --> Laby : int
+        deactivate Player
+        
+        Laby -> Laby : getCase(y: int, x: int)
+        activate Laby
+        Laby --> Laby : Case
+        deactivate Laby
+        
+        Laby -> Case : hasItem()
+        activate Case
+        Case --> Laby : boolean
+        deactivate Case
+        
+        alt [si hasItem() == true]
+            Laby -> Player : getInventory()
+            activate Player
+            Player --> Laby : ArrayList<Item>
+            deactivate Player
+            
+            Laby -> Case : getItem()
+            activate Case
+            Case --> Laby : Item
+            deactivate Case
+            
+            Laby -> Inventory : add(item: Item)
+            activate Inventory
+            Inventory --> Laby : boolean
+            deactivate Inventory
+            
+            Laby -> Case : removeItem()
+        
+        end
+        
+        deactivate Laby
+    end
+    
+    deactivate ZJ
+end
+
+deactivate ZJ
+@enduml

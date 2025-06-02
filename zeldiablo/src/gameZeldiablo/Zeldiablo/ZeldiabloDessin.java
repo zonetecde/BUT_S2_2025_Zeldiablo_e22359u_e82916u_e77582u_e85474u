@@ -6,6 +6,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
@@ -70,7 +73,7 @@ public class ZeldiabloDessin implements DessinJeu {
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
-                // Affichage des objets
+                // Affichage des items
                 if (laby.getCase(y, x).hasItem()) {
                     gc.setFill(Color.BLACK);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
@@ -101,14 +104,14 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param gc Ou print
      * @param c Canvas utilisé
      */
-    private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+    /*private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
         ArrayList<Item> inv =laby.getPlayer().getInventory();
         // dessin fond
         int x=0;
         int y=1;
         gc.strokeRect(c.getWidth()/4,c.getHeight()/4,c.getWidth()/2,c.getHeight()/2);
-        int caseWidth= (int)(c.getWidth()/2.5/VariablesGlobales.COL_NUM_MENU);
-        int caseHeight = (int)(c.getHeight()/2.5/6);
+        int caseWidth= (int)(c.getWidth()/VariablesGlobales.COL_NUM_MENU);
+        int caseHeight = (int)(c.getHeight()/6);
         boolean couleurcases=true;
         for (int i=0;i<inv.size();i++) {
             if (i==VariablesGlobales.curseur){
@@ -120,7 +123,7 @@ public class ZeldiabloDessin implements DessinJeu {
             else{
                 gc.setFill(Color.rgb(80,80,80,0.8));
             }
-
+            System.out.println(x);
             couleurcases=!couleurcases;
             gc.fillRect(c.getWidth()/4 + caseWidth * x, c.getHeight()/4 + caseHeight * y, caseWidth, caseHeight);
             gc.setFill(Color.BLACK);
@@ -128,6 +131,67 @@ public class ZeldiabloDessin implements DessinJeu {
 
             x += 1;
             if (x > VariablesGlobales.COL_NUM_MENU-1) {
+                x = 0;
+                y += 1;
+            }
+        }
+    }*/
+
+    private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+        ArrayList<Item> inv = laby.getPlayer().getInventory();
+
+        // Paramètres de base
+        double menuX = c.getWidth() / 4;
+        double menuY = c.getHeight() / 4;
+        double menuWidth = c.getWidth() / 2;
+        double menuHeight = c.getHeight() / 2;
+        int caseWidth = (int)(menuWidth / VariablesGlobales.COL_NUM_MENU);
+        int caseHeight = (int)(menuHeight / 6);
+
+        // Dessin du fond du menu
+        gc.setFill(Color.rgb(20, 20, 20, 0.85)); // Fond sombre semi-transparent
+        gc.fillRoundRect(menuX - 10, menuY - 10, menuWidth + 20, menuHeight + 20, 20, 20); // Ajoute un fond arrondi
+
+        gc.setStroke(Color.LIGHTGRAY);
+        gc.setLineWidth(3);
+        gc.strokeRoundRect(menuX - 10, menuY - 10, menuWidth + 20, menuHeight + 20, 20, 20); // Bordure claire
+
+        // Dessin des cases d'inventaire
+        int x = 0;
+        int y = 0;
+        boolean couleurcases = true;
+
+        for (int i = 0; i < inv.size(); i++) {
+            double caseX = menuX + caseWidth * x;
+            double caseY = menuY + caseHeight * y;
+
+            // Couleur de fond de case
+            if (i == VariablesGlobales.curseur) {
+                gc.setFill(Color.rgb(255, 80, 80, 0.9)); // Case sélectionnée
+            } else if (couleurcases) {
+                gc.setFill(Color.rgb(60, 60, 60, 0.9));
+            } else {
+                gc.setFill(Color.rgb(90, 90, 90, 0.9));
+            }
+            couleurcases = !couleurcases;
+
+            // Dessin de la case
+            gc.fillRoundRect(caseX, caseY, caseWidth - 5, caseHeight - 5, 10, 10);
+
+            // Texte de l'item centré
+            gc.setFill(Color.WHITE);
+            gc.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            String itemText = inv.get(i).toString();
+            Text text = new Text(itemText);
+            text.setFont(gc.getFont());
+            double textWidth = text.getLayoutBounds().getWidth();
+            double textX = caseX + (caseWidth - textWidth) / 2;
+            double textY = caseY + caseHeight / 2 + 5;
+
+            gc.fillText(itemText, textX, textY);
+
+            x += 1;
+            if (x >= VariablesGlobales.COL_NUM_MENU) {
                 x = 0;
                 y += 1;
             }
