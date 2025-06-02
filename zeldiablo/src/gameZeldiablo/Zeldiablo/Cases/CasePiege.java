@@ -28,6 +28,12 @@ public class CasePiege extends Case {
         return degats;
     }
 
+    /**
+     * Méthode appelée lorsqu'une entité marche sur la case piège.
+     * Cette méthode inflige des dégâts à l'entité.
+     * @param e L'entité qui marche sur la case piège
+     * @see Entite#prendreDegat(double)
+     */
     @Override
     public void onStepOn(Entite e) {
         e.prendreDegat(degats);

@@ -2,12 +2,10 @@ package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
-import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
@@ -74,7 +72,7 @@ public class ZeldiabloDessin implements DessinJeu {
                     }
                 }
                 // Affichage des objets
-                if (laby.getCase(y, x).isObjet()) {
+                if (laby.getCase(y, x).hasItem()) {
                     gc.setFill(Color.BLACK);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }

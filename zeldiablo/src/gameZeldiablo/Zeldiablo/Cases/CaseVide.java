@@ -7,27 +7,46 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 
 public class CaseVide extends Case {
+    private Item item;
+
     public CaseVide(int x, int y){
         super(x, y, VariablesGlobales.COULEUR_VIDE, true);
     }
-    Item item;
     @Override
     public void onStepOn(Entite entite) {
         return;
     }
 
+    /**
+     * Méthode pour ajouter un item à la case
+     * @param item L'item à ajouter
+     */
     @Override
     public void addItem(Item item) {
         this.item = item;
     }
-    public boolean isObjet() {
-        if (item != null) {;
-            return true;
-        } else {
-            return false;
-        }
+
+    /**
+     * Vérifie si la case contient un objet
+     * @return true si la case contient un objet, false sinon
+     */
+    @Override
+    public boolean hasItem() {
+        return item != null;
     }
 
+    /**
+     * Méthode pour retirer un item de la case
+     */
+    @Override
+    public void removeItem(){
+        this.item = null;
+    }
+
+    /**
+     * Retourne l'objet contenu dans la case
+     * @return L'objet de la case
+     */
     public Item getObjet() {
         return item;
     }
