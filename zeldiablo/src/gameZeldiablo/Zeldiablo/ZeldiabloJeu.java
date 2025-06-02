@@ -29,6 +29,9 @@ public class ZeldiabloJeu implements Jeu {
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
 
+    // Indique si le personnage est en train de ramasser un objet
+    private boolean currentlyPicking = false;
+
     public ZeldiabloJeu(int level){
         currentLevel = level;
     }
@@ -52,6 +55,20 @@ public class ZeldiabloJeu implements Jeu {
 
                 // Déplace le personnage
                 deplacerPersonnage(clavier);
+
+                scheduler.shutdown();
+            }
+        }
+        if (clavier.PickItem) {
+            if (!currentlyPicking) {
+                currentlyPicking = true;
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    currentlyPicking = false;
+                }, 100, TimeUnit.MILLISECONDS);
+
+                // Ramasse l'objet si possible
+                getLaby().ramasserObjet(getLaby().joueur);
 
                 scheduler.shutdown();
             }

@@ -22,6 +22,7 @@ public class Labyrinthe {
     public static final char PJ = 'P';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
+    public static final char OBJECT = 'O';
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
@@ -108,6 +109,9 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Player(colonne, numeroLigne);
                         break;
+                    case OBJECT:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
                         break;
@@ -209,4 +213,7 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
+    public void ramasserObjet(Entite joueur) {
+
+    }
 }
