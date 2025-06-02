@@ -30,7 +30,7 @@ public class ItemTest {
 
                     assertEquals(0, joueur.getInventory().size());
 
-                    laby.ramasserObjet(joueur);
+                    laby.ramasserItem(joueur);
 
                     assertEquals(1, joueur.getInventory().size());
 
