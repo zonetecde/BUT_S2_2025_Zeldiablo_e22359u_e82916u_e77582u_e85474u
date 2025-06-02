@@ -117,10 +117,7 @@ public class Labyrinthe {
                             // ajoute un monstre statique
                             MonstreStatique monstre = new MonstreStatique(colonne, numeroLigne);
                             monstres.add(monstre);
-
-
                         }
-
                         break;
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
@@ -257,6 +254,7 @@ public class Labyrinthe {
      * Vérifie si un monstre est présent sur la case spécifiée
      * @param y Coordonnée verticale de la case
      * @param x Coordonnée horizontale de la case
+     * @return true si un monstre est sur la case, false sinon
      */
     public boolean monstreSurCase(int y, int x) {
         for (Entite monstre : monstres) {
@@ -265,5 +263,15 @@ public class Labyrinthe {
             }
         }
         return false;
+    }
+
+    /**
+     * Vérifie si un joueur est présent sur la case spécifiée
+     * @param y Coordonnée verticale de la case
+     * @param x Coordonnée horizontale de la case
+     * @return true si le joueur est sur la case, false sinon
+     */
+    public boolean joueurSurCase(int y, int x) {
+        return this.joueur.getY() == y && this.joueur.getX() == x;
     }
 }
