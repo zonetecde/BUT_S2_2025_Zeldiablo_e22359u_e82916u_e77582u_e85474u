@@ -1,4 +1,4 @@
 package gameZeldiablo.Zeldiablo.Items;
 
-public interface item {
+public interface Item {
 }
