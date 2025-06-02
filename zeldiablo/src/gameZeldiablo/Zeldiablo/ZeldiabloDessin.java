@@ -1,6 +1,8 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,8 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
-
-import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
 
@@ -57,16 +57,16 @@ public class ZeldiabloDessin implements DessinJeu {
 
                 // affichage du joueur
                 if (laby.getPlayer().getX() == x && laby.getPlayer().getY() == y) {
-                    // Couleur du joueur - rouge (cercle)
-                    gc.setFill(Color.RED);
+                    // Couleur du joueur - bleu (cercle)
+                    gc.setFill(Color.BLUE);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
                 // Affichage des monstres
-                for (MonstreStatique monstre : laby.getMonstres()) {
+                for (Entite monstre : laby.getMonstres()) {
                     if (monstre.getX() == x && monstre.getY() == y) {
                         // Couleur des monstres - cercle rouge
-                        gc.setFill(Color.BLUE);
+                        gc.setFill(Color.RED);
                         gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                     }
                 }
