@@ -40,7 +40,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -63,6 +63,7 @@ public class ZeldiabloJeu implements Jeu {
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void deplacerPersonnage(Clavier clavier) {
+        System.out.println(VariablesGlobales.MenuOuvert);
         if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
         else if (VariablesGlobales.MenuOuvert){
             inputInv(clavier);

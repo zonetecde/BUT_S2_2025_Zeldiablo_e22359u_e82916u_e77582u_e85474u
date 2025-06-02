@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
+import java.util.ArrayList;
+
 public class ZeldiabloDessin implements DessinJeu {
 
     /**
