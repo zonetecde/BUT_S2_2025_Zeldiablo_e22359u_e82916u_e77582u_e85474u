@@ -1,0 +1,61 @@
+@startuml
+participant "zd: ZeldiabloDessin" as ZD
+participant "laby: Labyrinthe" as Laby
+participant "player: Player" as Player
+participant "inv: ArrayList<Item>" as Inventory
+participant "item: Item" as Item
+participant "gc: GraphicsContext" as GC
+participant "canvas: Canvas" as Canvas
+
+-> ZD : dessinerJeu(jeu: Jeu, canvas: Canvas)
+activate ZD
+
+ZD -> Canvas : getGraphicsContext2D()
+activate Canvas
+Canvas --> ZD : GraphicsContext
+deactivate Canvas
+
+alt [si VariablesGlobales.MenuOuvert == true]
+    ZD -> ZD : invUI(laby: Labyrinthe, gc: GraphicsContext, c: Canvas)
+    activate ZD
+    
+  
+    
+    loop [pour chaque item dans l'inventaire]
+        ZD -> Inventory : get(i: int)
+        activate Inventory
+        Inventory --> ZD : Item
+        deactivate Inventory
+        
+        alt [si i == curseur]
+            ZD -> GC : setFill(Color.RED)
+            activate GC
+            deactivate GC
+        else
+            ZD -> GC : setFill(Color.GRAY)
+            activate GC
+            deactivate GC
+        end
+        
+        ZD -> GC : fillRoundRect(...)
+        activate GC
+        deactivate GC
+        
+        ZD -> Item : toString()
+        activate Item
+        Item --> ZD : String
+        deactivate Item
+        
+        ZD -> GC : setFill(Color.WHITE)
+        activate GC
+        deactivate GC
+        
+        ZD -> GC : fillText(itemText: String, x: double, y: double)
+        activate GC
+        deactivate GC
+    end
+    
+    deactivate ZD
+end
+deactivate ZD
+@enduml

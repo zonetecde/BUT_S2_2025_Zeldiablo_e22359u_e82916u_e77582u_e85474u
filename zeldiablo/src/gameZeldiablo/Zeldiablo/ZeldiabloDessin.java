@@ -79,7 +79,9 @@ public class ZeldiabloDessin implements DessinJeu {
                 // Affichage des items
                 if (laby.getCase(y, x).hasItem()) {
                     gc.setFill(Color.BLACK);
-                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    double reducedSize = VariablesGlobales.TAILLE_CASE * 0.75;
+                    double offset = (VariablesGlobales.TAILLE_CASE - reducedSize) / 2;
+                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE + offset, y * VariablesGlobales.TAILLE_CASE + offset, reducedSize, reducedSize);
                 }
             }
         }
