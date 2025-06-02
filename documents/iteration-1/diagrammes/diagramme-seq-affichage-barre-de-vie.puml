@@ -1,0 +1,59 @@
+@startuml
+actor "Moteur de Jeu" as Moteur
+participant "zd: ZeldiabloDessin" as ZD
+participant "c: Canvas" as Canvas
+participant "gc: GraphicsContext" as GC
+participant "zj: ZeldiabloJeu" as ZJ
+participant "laby: Labyrinthe" as Laby
+participant "p: Player" as Player
+
+Moteur -> ZD : dessinerJeu(jeu: Jeu, canvas: Canvas)
+activate ZD
+
+ZD -> ZJ : getLaby()
+activate ZJ
+ZJ --> ZD : Labyrinthe
+deactivate ZJ
+
+ZD -> Canvas : getGraphicsContext2D()
+activate Canvas
+Canvas --> ZD : GraphicsContext
+deactivate Canvas
+
+ZD -> ZD : heroUI(laby, gc)
+activate ZD
+
+ZD -> GC : drawImage(imageJoueur, x, y, w, h)
+
+ZD -> GC : fillRect(x, y, w, h) // fond gris
+
+
+ZD -> Laby : getPlayer()
+activate Laby
+Laby --> ZD : Player
+deactivate Laby
+
+ZD -> Player : getHp()
+activate Player
+Player --> ZD : int
+deactivate Player
+
+ZD -> Player : getMaxHp()
+activate Player
+Player --> ZD : int
+deactivate Player
+
+ZD -> ZD : getLifeBarWidth(hp, maxHp)
+activate ZD
+ZD --> ZD : double
+deactivate ZD
+
+ZD -> GC : fillRect(x, y, width, h) // barre rouge
+activate GC
+deactivate GC
+
+deactivate ZD
+
+ZD --> Moteur : (fin dessinerJeu)
+deactivate ZD
+@enduml
