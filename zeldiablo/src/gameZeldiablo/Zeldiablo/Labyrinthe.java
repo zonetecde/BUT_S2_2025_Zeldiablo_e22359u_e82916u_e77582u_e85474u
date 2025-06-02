@@ -238,14 +238,14 @@ public class Labyrinthe {
      * Ramasse un objet si le joueur est sur une case contenant un objet
      * @param joueur Le joueur qui tente de ramasser l'objet
      */
-    public void ramasserObjet(Player joueur) {
+    public void ramasserItem(Player joueur) {
         int x = joueur.getX();
         int y = joueur.getY();
         Case caseCourante = getCase(y, x);
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getObjet());
+            joueur.getInventory().add(caseCourante.getItem());
             caseCourante.removeItem();
         }
     }

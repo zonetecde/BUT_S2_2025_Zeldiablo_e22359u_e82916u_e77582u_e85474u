@@ -47,7 +47,7 @@ public class CaseVide extends Case {
      * Retourne l'objet contenu dans la case
      * @return L'objet de la case
      */
-    public Item getObjet() {
+    public Item getItem() {
         return item;
     }
 }

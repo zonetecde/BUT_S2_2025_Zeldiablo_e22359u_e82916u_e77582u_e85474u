@@ -1,0 +1,83 @@
+@startuml
+participant "zj: ZeldiabloJeu" as ZJ
+participant "clavier: Clavier" as Clavier
+participant "scheduler: ScheduledExecutorService" as Scheduler
+participant "VariablesGlobales" as VG
+participant "player: Player" as Player
+participant "inventory: Inventory" as Inventory
+
+-> ZJ : update(secondes: double, clavier: Clavier)
+activate ZJ
+
+alt [si une touche est pressée ET !currentlyMoving]
+
+    
+    alt [si clavier.tab]
+        ZJ -> VG : MenuOuvert = !MenuOuvert
+        activate VG
+        deactivate VG
+    end
+    
+    alt [si MenuOuvert == true]
+        ZJ -> ZJ : inputInv(clavier: Clavier)
+        activate ZJ
+        
+        alt [si clavier.droite]
+            ZJ -> Player : getInventory()
+            activate Player
+            Player --> ZJ : Inventory
+            deactivate Player
+            
+            ZJ -> Inventory : size()
+            activate Inventory
+            Inventory --> ZJ : int
+            deactivate Inventory
+            
+            alt [si curseur < size-1]
+                ZJ -> VG : curseur += 1
+                activate VG
+                deactivate VG
+            end
+            
+        else [si clavier.gauche]
+            alt [si curseur > 0]
+                ZJ -> VG : curseur -= 1
+                activate VG
+                deactivate VG
+            end
+            
+        else [si clavier.haut]
+            alt [si curseur > 3]
+                ZJ -> VG : curseur -= 4
+                activate VG
+                deactivate VG
+            end
+            
+        else [si clavier.bas]
+            ZJ -> Player : getInventory()
+            activate Player
+            Player --> ZJ : Inventory
+            deactivate Player
+            
+            ZJ -> Inventory : size()
+            activate Inventory
+            Inventory --> ZJ : int
+            deactivate Inventory
+            
+            alt [si curseur < size-3]
+                ZJ -> VG : curseur += 4
+                activate VG
+                deactivate VG
+            end
+        end
+        
+        deactivate ZJ
+    else
+        note right : inputLaby(clavier) appelé
+    end
+    
+end
+
+ZJ --> : void
+deactivate ZJ
+@enduml

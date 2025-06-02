@@ -29,9 +29,6 @@ public class ZeldiabloJeu implements Jeu {
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
 
-    // Indique si le personnage est en train de ramasser un objet
-    private boolean currentlyPicking = false;
-
     public ZeldiabloJeu(int level){
         currentLevel = level;
     }
@@ -43,7 +40,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -53,40 +50,25 @@ public class ZeldiabloJeu implements Jeu {
                     currentlyMoving = false;
                 }, 100, TimeUnit.MILLISECONDS);
 
-                // Déplace le personnage
-                deplacerPersonnage(clavier);
+                // Toggle l'affichage du menu si la touche tab est pressée
+                if (clavier.tab) {
+                    VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
+                }
+
+                // Si le menu est ouvert, on gère les entrées du menu
+                if (VariablesGlobales.MenuOuvert) {
+                    inputInv(clavier);
+                }
+                else {
+                    // Si le menu n'est pas ouvert, on gère les entrées du labyrinthe
+                    inputLaby(clavier);
+                }
+               
 
                 scheduler.shutdown();
             }
         }
-        if (clavier.PickItem) {
-            if (!currentlyPicking) {
-                currentlyPicking = true;
-                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-                scheduler.schedule(() -> {
-                    currentlyPicking = false;
-                }, 100, TimeUnit.MILLISECONDS);
-
-                // Ramasse l'objet si possible
-                getLaby().ramasserObjet(getLaby().getPlayer());
-
-                scheduler.shutdown();
-            }
-        }
-    }
-    
-    /**
-     * Déplace le personnage en fonction des touches pressées.
-     * @param clavier Objet Clavier pour recuperer des input
-     */
-    private void deplacerPersonnage(Clavier clavier) {
-        if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
-        else if (VariablesGlobales.MenuOuvert){
-            inputInv(clavier);
-        }
-        else {
-            inputLaby(clavier);
-        }
+        
     }
 
     private void inputInv(Clavier clavier){
@@ -107,10 +89,14 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         }
-
     }
 
     private void inputLaby(Clavier clavier){
+        if (clavier.pickItem) {
+            // Ramasse l'objet si possible
+            getLaby().ramasserItem(getLaby().getPlayer());
+        }
+
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
         } else if (clavier.gauche) {

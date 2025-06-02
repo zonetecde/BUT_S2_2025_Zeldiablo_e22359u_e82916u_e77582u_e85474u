@@ -19,5 +19,7 @@ public class Player extends Entite {
         this.inventory= new ArrayList<>();
     }
 
-    public ArrayList<Item> getInventory(){return inventory;}
+    public ArrayList<Item> getInventory(){
+        return inventory;
+    }
 }
