@@ -55,6 +55,15 @@ public class ZeldiabloDessin implements DessinJeu {
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
+                // Affichage des monstres
+                for (MonstreStatique monstre : laby.getMonstres()) {
+                    if (monstre.getX() == x && monstre.getY() == y) {
+                        // Couleur des monstres - cercle rouge
+                        gc.setFill(Color.BLUE);
+                        gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    }
+                }
+
             }
         }
     }
