@@ -11,7 +11,7 @@ ZeldiabloDessin -> ZeldiabloDessin: HeroUi(laby, c)
 alt ManuOuvert true
 ZeldiabloDessin -> ZeldiabloDessin: (laby, c)
 end
-Dectivate ZeldiabloDessin
+Deactivate ZeldiabloDessin
 ZeldiabloDessin --> MainZeldiablo
 Deactivate MainZeldiablo
 @enduml
