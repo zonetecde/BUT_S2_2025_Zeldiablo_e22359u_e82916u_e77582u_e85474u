@@ -32,7 +32,7 @@ public class ZeldiabloDessin implements DessinJeu {
         heroUI(laby, gc);
 
         if (VariablesGlobales.MenuOuvert){
-            menuUI(laby,gc,canvas);
+            invUI(laby,gc,canvas);
         }
     }
 
@@ -101,31 +101,30 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param gc Ou print
      * @param c Canvas utilisé
      */
-    private void menuUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+    private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
         ArrayList<Item> inv =laby.getPlayer().getInventory();
         // dessin fond
         int x=0;
         int y=1;
-        int caseWidth= (int)c.getWidth()/VariablesGlobales.COL_NUM_MENU;
-        int caseHeight = (int)(c.getHeight()/6);
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,c.getWidth(),caseHeight);
+        gc.strokeRect(c.getWidth()/4,c.getHeight()/4,c.getWidth()/2,c.getHeight()/2);
+        int caseWidth= (int)(c.getWidth()/2.5/VariablesGlobales.COL_NUM_MENU);
+        int caseHeight = (int)(c.getHeight()/2.5/6);
         boolean couleurcases=true;
         for (int i=0;i<inv.size();i++) {
             if (i==VariablesGlobales.curseur){
-                gc.setFill(Color.RED);
+                gc.setFill(Color.rgb(255,0,0,0.8));
             }
             else if (couleurcases) {
-                gc.setFill(Color.LIGHTGRAY);
+                gc.setFill(Color.rgb(50,50,50,0.8));
             }
             else{
-                gc.setFill(Color.GREY);
+                gc.setFill(Color.rgb(80,80,80,0.8));
             }
 
             couleurcases=!couleurcases;
-            gc.fillRect(caseWidth * x, caseHeight * y, caseWidth, caseHeight);
+            gc.fillRect(c.getWidth()/4 + caseWidth * x, c.getHeight()/4 + caseHeight * y, caseWidth, caseHeight);
             gc.setFill(Color.BLACK);
-            gc.fillText(inv.get(i).toString(), caseWidth * x + (double) caseWidth / 3, caseHeight * y + (double) caseHeight /2);
+            gc.fillText(inv.get(i).toString(), c.getWidth()/4 + caseWidth * x + (double) caseWidth / 3, c.getHeight()/4 + caseHeight * y + (double) caseHeight /2);
 
             x += 1;
             if (x > VariablesGlobales.COL_NUM_MENU-1) {
