@@ -21,6 +21,10 @@ class Monstre1Test {
 
     //Vu que l'apparition n'est pas garantie, on ne peut pas le tester donc je test simplement la colision
 
+    /**
+     * Test de la collision avec un monstre.
+     * Vérifie que le joueur ne peut pas se déplacer sur une case occupée par un monstre.
+     */
     @Test
     void testCollisionMonstre() {
         Player joueur = labyrinthe.getPlayer();
