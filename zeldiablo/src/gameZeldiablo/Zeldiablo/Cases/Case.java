@@ -92,10 +92,10 @@ public abstract class Case implements Action {
     }
 
     /**
-     * Méthode pour obtenir l'objet de la case
-     * @return L'objet de la case, ou null si aucun objet n'est présent
+     * Méthode pour obtenir l'item de la case
+     * @return L'item de la case, ou null si aucun item n'est présent
      */
-    public Item getObjet() {
+    public Item getItem() {
         // Action par défaut
         return null;
     }

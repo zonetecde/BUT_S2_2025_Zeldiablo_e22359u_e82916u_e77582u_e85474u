@@ -245,7 +245,7 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getObjet());
+            joueur.getInventory().add(caseCourante.getItem());
             caseCourante.removeItem();
         }
     }
