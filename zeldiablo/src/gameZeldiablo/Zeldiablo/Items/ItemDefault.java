@@ -16,8 +16,6 @@ public class ItemDefault implements Item {
 
     @Override
     public String toString() {
-        return "ItemDefault{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Item {" + name + "}";
     }
 }
