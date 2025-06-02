@@ -1,0 +1,11 @@
+1. Inventaire du joueur 
+
+Réalisé par Tom et Julien
+
+2. Objet et gestion des objets 
+
+Réalisé par Julien et Tom
+
+3. Monstre statique 
+
+Réalisé par Elias et Rayane 
