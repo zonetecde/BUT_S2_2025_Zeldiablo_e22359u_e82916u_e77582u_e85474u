@@ -81,12 +81,12 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur -= 1;
             }
         } else if (clavier.haut){
-            if (VariablesGlobales.curseur>3) {
-                VariablesGlobales.curseur -= 4;
+            if (VariablesGlobales.curseur>VariablesGlobales.COL_NUM_MENU-1) {
+                VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.bas){
             if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
-                VariablesGlobales.curseur += 4;
+                VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         }
     }

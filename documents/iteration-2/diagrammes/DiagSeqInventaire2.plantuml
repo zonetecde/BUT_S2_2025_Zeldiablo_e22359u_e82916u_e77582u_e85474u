@@ -1,0 +1,17 @@
+@startuml
+Activate MainZeldiablo
+MainZeldiablo -> ZeldiabloDessin: dessinerJeu(Jeu jeu,Canvas c)
+Activate ZeldiabloDessin
+Activate Labyrinthelaby
+Labyrinthelaby <- ZeldiabloDessin: Create
+Labyrinthelaby -> ZeldiabloDessin
+Deactivate Labyrinthelaby
+ZeldiabloDessin -> ZeldiabloDessin: LabyUI(laby, c)
+ZeldiabloDessin -> ZeldiabloDessin: HeroUi(laby, c)
+alt ManuOuvert true
+ZeldiabloDessin -> ZeldiabloDessin: (laby, c)
+end
+Deactivate ZeldiabloDessin
+ZeldiabloDessin --> MainZeldiablo
+Deactivate MainZeldiablo
+@enduml
