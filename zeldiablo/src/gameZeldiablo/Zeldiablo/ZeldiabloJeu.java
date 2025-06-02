@@ -79,7 +79,6 @@ public class ZeldiabloJeu implements Jeu {
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void deplacerPersonnage(Clavier clavier) {
-        System.out.println(VariablesGlobales.MenuOuvert);
         if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
         else if (VariablesGlobales.MenuOuvert){
             inputInv(clavier);

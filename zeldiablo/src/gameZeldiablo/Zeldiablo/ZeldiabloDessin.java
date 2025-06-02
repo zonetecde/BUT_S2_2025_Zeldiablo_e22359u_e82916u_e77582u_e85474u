@@ -14,7 +14,7 @@ import moteurJeu.Jeu;
 import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
-    private Image imageJoueur = new Image("player/PlayerFaceDown.png");
+    private Image imageJoueur;
 
     /**
      * Constructeur de la classe ZeldiabloDessin.
@@ -86,6 +86,10 @@ public class ZeldiabloDessin implements DessinJeu {
      * Affiche l'interface utilisateur du joueur
      */
     private void heroUI(Labyrinthe laby, GraphicsContext gc) {
+        if(imageJoueur == null){
+            imageJoueur = new Image("player/PlayerFaceDown.png");
+        }
+
         int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
         gc.drawImage(imageJoueur, baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
