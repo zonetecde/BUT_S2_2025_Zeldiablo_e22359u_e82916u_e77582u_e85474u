@@ -4,15 +4,13 @@ public class ItemDefault implements Item {
     private String name;
 
     public ItemDefault() {
-        this.name = name;
+        this.name = "Item de test";
     }
 
     @Override
     public String getName() {
         return this.name;
     }
-
-
 
     @Override
     public String toString() {
