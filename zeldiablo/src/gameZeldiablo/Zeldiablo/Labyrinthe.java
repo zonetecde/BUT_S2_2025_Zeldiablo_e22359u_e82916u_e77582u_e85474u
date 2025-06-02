@@ -109,14 +109,16 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         //ajoute un potentiel monstre statique avec 1 chance sur 20
-                        if (random.nextInt(20) == 0) {
-                            Entite monstre = new MonstreStatique(colonne, numeroLigne);
+                        if (random.nextInt(VariablesGlobales.PROBA_MONSTRE) == 0) {
+                            // ajoute un monstre statique
+                            MonstreStatique monstre = new MonstreStatique(colonne, numeroLigne);
                             monstres.add(monstre);
-                            gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne); // ou une case spéciale si besoin
-                        } else {
-                            gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+
+
                         }
+
                         break;
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
