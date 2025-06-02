@@ -2,18 +2,17 @@ package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
-import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
 import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
+    private Image imageJoueur;
 
     /**
      * Constructeur de la classe ZeldiabloDessin.
@@ -58,22 +57,21 @@ public class ZeldiabloDessin implements DessinJeu {
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
-                if (laby.getPlayer().getX() == x && laby.getPlayer().getY() == y) {
+                if (laby.joueurSurCase(y, x)){
                     // Couleur du joueur - bleu (cercle)
                     gc.setFill(Color.BLUE);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
                 // Affichage des monstres
-                for (Entite monstre : laby.getMonstres()) {
-                    if (monstre.getX() == x && monstre.getY() == y) {
-                        // Couleur des monstres - cercle rouge
-                        gc.setFill(Color.RED);
-                        gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                    }
+                if (laby.monstreSurCase(y, x)) {
+                    // Couleur des monstres - cercle rouge
+                    gc.setFill(Color.RED);
+                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
+
                 // Affichage des objets
-                if (laby.getCase(y, x).isObjet()) {
+                if (laby.getCase(y, x).hasItem()) {
                     gc.setFill(Color.BLACK);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
@@ -85,8 +83,12 @@ public class ZeldiabloDessin implements DessinJeu {
      * Affiche l'interface utilisateur du joueur
      */
     private void heroUI(Labyrinthe laby, GraphicsContext gc) {
+        if(imageJoueur == null){
+            imageJoueur = new Image("player/PlayerFaceDown.png");
+        }
+
         int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
-        gc.drawImage(new Image("player/PlayerFaceDown.png"), baseXPlayer + 25, 0, 50, 75);
+        gc.drawImage(imageJoueur, baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
         gc.setFill(Color.RED);
