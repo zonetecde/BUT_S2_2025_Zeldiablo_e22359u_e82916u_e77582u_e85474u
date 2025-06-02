@@ -1,0 +1,46 @@
+@startuml
+class Labyrinthe {
+  - longueur: int
+  - hauteur: int
+  + deplacerPerso(Direction, Entite): void
+  + estDansLimites(int, int): boolean
+  + getSuivant(int, int, Direction): int[]
+  + getCase(int, int): Case
+  + etreFini(): boolean
+}
+
+class Case {
+  - couleur: Color
+  - isWalkable: boolean
+  + onStepOn(Entite): void
+}
+
+class CasePiege {
+  - degats: int
+  + onStepOn(Entite): void
+}
+
+class Player {
+  - maxHp: int
+}
+
+class Entite {
+  - x: int
+  - y: int
+  - hp: int
+  + estMort(): boolean
+  + etrePresent(int, int): boolean
+  + prendreDegat(int): void
+}
+
+interface Action {
+  + onStepOn(Entite): void
+}
+
+' Relations
+Labyrinthe --> Player : joueur
+Labyrinthe --> "*" Case : gameBoard
+Player --|> Entite
+CasePiege --|> Case
+Case ..|> Action
+@enduml
