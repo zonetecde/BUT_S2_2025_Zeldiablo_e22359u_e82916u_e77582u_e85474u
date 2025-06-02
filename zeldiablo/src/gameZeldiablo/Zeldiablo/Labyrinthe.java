@@ -162,11 +162,11 @@ public class Labyrinthe {
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
-        // vérification des limites du plateau et si c'est pas un mur
+        // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
         if (estDansLimites(suivante[0], suivante[1]) &&
                 (getCase(suivante[0], suivante[1]).getIsWalkable()) &&
-                !MonstreSurCase(suivante[0], suivante[1])) {
-            // on met à jour personnage - CORRECTION: suivante[0] = y, suivante[1] = x
+                !monstreSurCase(suivante[0], suivante[1])) {
+            // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
@@ -247,7 +247,7 @@ public class Labyrinthe {
         }
     }
 
-    public boolean MonstreSurCase(int y, int x) {
+    public boolean monstreSurCase(int y, int x) {
         for (Entite monstre : monstres) {
             if (monstre.getY() == y && monstre.getX() == x) {
                 return true;
