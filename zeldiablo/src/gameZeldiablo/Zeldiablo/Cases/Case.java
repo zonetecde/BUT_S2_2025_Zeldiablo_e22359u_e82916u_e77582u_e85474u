@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Items.Item;
 import javafx.scene.paint.Color;
 
 /**
@@ -60,5 +61,15 @@ public abstract class Case implements Action {
 
     public void onStepOn(Entite entite) {
         // Action par défaut
+    }
+
+    public void addItem(Item item) {
+        return;
+    }
+    public boolean isObjet() {
+        return false;
+    }
+    public Item getObjet() {
+        return null;
     }
 }
