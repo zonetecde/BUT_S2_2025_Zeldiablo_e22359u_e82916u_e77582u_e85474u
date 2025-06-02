@@ -64,13 +64,13 @@ public class ZeldiabloJeu implements Jeu {
      */
     private void deplacerPersonnage(Clavier clavier) {
         if (clavier.droite) {
-            getLaby().deplacerPerso(Direction.DROITE, this.getLaby().joueur);
+            getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
         } else if (clavier.gauche) {
-            getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().joueur);
+            getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().getPlayer());
         } else if (clavier.haut) {
-            getLaby().deplacerPerso(Direction.HAUT, this.getLaby().joueur);
+            getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
         } else if (clavier.bas) {
-            getLaby().deplacerPerso(Direction.BAS, this.getLaby().joueur);
+            getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
         }
     }
 

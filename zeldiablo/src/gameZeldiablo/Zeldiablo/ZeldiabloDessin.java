@@ -49,7 +49,7 @@ public class ZeldiabloDessin implements DessinJeu {
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
-                if (laby.joueur.getX() == x && laby.joueur.getY() == y) {
+                if (laby.getPlayer().getX() == x && laby.getPlayer().getY() == y) {
                     // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);

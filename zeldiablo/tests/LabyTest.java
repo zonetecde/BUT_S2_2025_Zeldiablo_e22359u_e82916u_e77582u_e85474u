@@ -25,9 +25,9 @@ class LabyTest {
         assertEquals(5, labyrinthe.getHauteur(), "La hauteur devrait être 5");
         assertEquals(7, labyrinthe.getLongueur(), "La longueur devrait être 7");
 
-        assertNotNull(labyrinthe.joueur, "Le joueur devrait être créé");
-        assertEquals(3, labyrinthe.joueur.getX(), "Position X du joueur devrait être 3");
-        assertEquals(2, labyrinthe.joueur.getY(), "Position Y du joueur devrait être 2");
+        assertNotNull(labyrinthe.getPlayer(), "Le joueur devrait être créé");
+        assertEquals(3, labyrinthe.getPlayer().getX(), "Position X du joueur devrait être 3");
+        assertEquals(2, labyrinthe.getPlayer().getY(), "Position Y du joueur devrait être 2");
     }
 
     @Test
@@ -37,9 +37,9 @@ class LabyTest {
         assertEquals(7, labyrinthe.getHauteur(), "La hauteur devrait être 7");
         assertEquals(10, labyrinthe.getLongueur(), "La longueur devrait être 10");
 
-        assertNotNull(labyrinthe.joueur, "Le joueur devrait être créé");
-        assertEquals(5, labyrinthe.joueur.getX(), "Position X du joueur devrait être 5");
-        assertEquals(5, labyrinthe.joueur.getY(), "Position Y du joueur devrait être 5");
+        assertNotNull(labyrinthe.getPlayer(), "Le joueur devrait être créé");
+        assertEquals(5, labyrinthe.getPlayer().getX(), "Position X du joueur devrait être 5");
+        assertEquals(5, labyrinthe.getPlayer().getY(), "Position Y du joueur devrait être 5");
     }
 
     @Test
@@ -49,9 +49,9 @@ class LabyTest {
         assertEquals(14, labyrinthe.getHauteur(), "La hauteur devrait être 14");
         assertEquals(20, labyrinthe.getLongueur(), "La longueur devrait être 20");
 
-        assertNotNull(labyrinthe.joueur, "Le joueur devrait être créé");
-        assertEquals(17, labyrinthe.joueur.getX(), "Position X du joueur devrait être 17");
-        assertEquals(12, labyrinthe.joueur.getY(), "Position Y du joueur devrait être 12");
+        assertNotNull(labyrinthe.getPlayer(), "Le joueur devrait être créé");
+        assertEquals(17, labyrinthe.getPlayer().getX(), "Position X du joueur devrait être 17");
+        assertEquals(12, labyrinthe.getPlayer().getY(), "Position Y du joueur devrait être 12");
     }
 
     @Test
@@ -72,52 +72,52 @@ class LabyTest {
     void testDeplacementHaut() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        int xInitial = labyrinthe.joueur.getX();
-        int yInitial = labyrinthe.joueur.getY();
+        int xInitial = labyrinthe.getPlayer().getX();
+        int yInitial = labyrinthe.getPlayer().getY();
 
-        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.getPlayer());
 
-        assertEquals(xInitial, labyrinthe.joueur.getX(), "X ne devrait pas changer");
-        assertEquals(yInitial - 1, labyrinthe.joueur.getY(), "Y devrait diminuer de 1");
+        assertEquals(xInitial, labyrinthe.getPlayer().getX(), "X ne devrait pas changer");
+        assertEquals(yInitial - 1, labyrinthe.getPlayer().getY(), "Y devrait diminuer de 1");
     }
 
     @Test
     void testDeplacementBas() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        int xInitial = labyrinthe.joueur.getX();
-        int yInitial = labyrinthe.joueur.getY();
+        int xInitial = labyrinthe.getPlayer().getX();
+        int yInitial = labyrinthe.getPlayer().getY();
 
-        labyrinthe.deplacerPerso(Direction.BAS, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.BAS, labyrinthe.getPlayer());
 
-        assertEquals(xInitial, labyrinthe.joueur.getX(), "X ne devrait pas changer");
-        assertEquals(yInitial + 1, labyrinthe.joueur.getY(), "Y devrait augmenter de 1");
+        assertEquals(xInitial, labyrinthe.getPlayer().getX(), "X ne devrait pas changer");
+        assertEquals(yInitial + 1, labyrinthe.getPlayer().getY(), "Y devrait augmenter de 1");
     }
 
     @Test
     void testDeplacementDroite() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        int xInitial = labyrinthe.joueur.getX();
-        int yInitial = labyrinthe.joueur.getY();
+        int xInitial = labyrinthe.getPlayer().getX();
+        int yInitial = labyrinthe.getPlayer().getY();
 
-        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.getPlayer());
 
-        assertEquals(xInitial + 1, labyrinthe.joueur.getX(), "X devrait augmenter de 1");
-        assertEquals(yInitial, labyrinthe.joueur.getY(), "Y ne devrait pas changer");
+        assertEquals(xInitial + 1, labyrinthe.getPlayer().getX(), "X devrait augmenter de 1");
+        assertEquals(yInitial, labyrinthe.getPlayer().getY(), "Y ne devrait pas changer");
     }
 
     @Test
     void testDeplacementGauche() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        int xInitial = labyrinthe.joueur.getX();
-        int yInitial = labyrinthe.joueur.getY();
+        int xInitial = labyrinthe.getPlayer().getX();
+        int yInitial = labyrinthe.getPlayer().getY();
 
-        labyrinthe.deplacerPerso(Direction.GAUCHE, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.GAUCHE, labyrinthe.getPlayer());
 
-        assertEquals(xInitial - 1, labyrinthe.joueur.getX(), "X devrait diminuer de 1");
-        assertEquals(yInitial, labyrinthe.joueur.getY(), "Y ne devrait pas changer");
+        assertEquals(xInitial - 1, labyrinthe.getPlayer().getX(), "X devrait diminuer de 1");
+        assertEquals(yInitial, labyrinthe.getPlayer().getY(), "Y ne devrait pas changer");
     }
 
     @Test
@@ -125,33 +125,33 @@ class LabyTest {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
         // Déplacer le joueur contre le mur du haut (position initiale: x=3, y=2)
-        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.joueur); // y=1
+        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.getPlayer()); // y=1
 
-        int xAvantCollision = labyrinthe.joueur.getX();
-        int yAvantCollision = labyrinthe.joueur.getY();
+        int xAvantCollision = labyrinthe.getPlayer().getX();
+        int yAvantCollision = labyrinthe.getPlayer().getY();
 
         // Tentative de déplacement vers le mur du haut
-        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.getPlayer());
 
         // Le joueur ne devrait pas avoir bougé
-        assertEquals(xAvantCollision, labyrinthe.joueur.getX(), "X ne devrait pas changer lors d'une collision");
-        assertEquals(yAvantCollision, labyrinthe.joueur.getY(), "Y ne devrait pas changer lors d'une collision");
+        assertEquals(xAvantCollision, labyrinthe.getPlayer().getX(), "X ne devrait pas changer lors d'une collision");
+        assertEquals(yAvantCollision, labyrinthe.getPlayer().getY(), "Y ne devrait pas changer lors d'une collision");
     }
 
     @Test
     void testCollisionLimites() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        labyrinthe.joueur.setX(6);
-        labyrinthe.joueur.setY(2);
+        labyrinthe.getPlayer().setX(6);
+        labyrinthe.getPlayer().setY(2);
 
-        int xAvantCollision = labyrinthe.joueur.getX();
-        int yAvantCollision = labyrinthe.joueur.getY();
+        int xAvantCollision = labyrinthe.getPlayer().getX();
+        int yAvantCollision = labyrinthe.getPlayer().getY();
 
-        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.joueur);
+        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.getPlayer());
 
-        assertEquals(xAvantCollision, labyrinthe.joueur.getX(), "X ne devrait pas changer lors d'une collision avec les limites");
-        assertEquals(yAvantCollision, labyrinthe.joueur.getY(), "Y ne devrait pas changer lors d'une collision avec les limites");
+        assertEquals(xAvantCollision, labyrinthe.getPlayer().getX(), "X ne devrait pas changer lors d'une collision avec les limites");
+        assertEquals(yAvantCollision, labyrinthe.getPlayer().getY(), "Y ne devrait pas changer lors d'une collision avec les limites");
     }
 
     @Test
@@ -217,20 +217,20 @@ class LabyTest {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
         // Position initiale du joueur dans laby0: x=3, y=2
-        assertEquals(3, labyrinthe.joueur.getX());
-        assertEquals(2, labyrinthe.joueur.getY());
+        assertEquals(3, labyrinthe.getPlayer().getX());
+        assertEquals(2, labyrinthe.getPlayer().getY());
 
-        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.joueur);
-        assertEquals(4, labyrinthe.joueur.getX());
-        assertEquals(2, labyrinthe.joueur.getY());
+        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.getPlayer());
+        assertEquals(4, labyrinthe.getPlayer().getX());
+        assertEquals(2, labyrinthe.getPlayer().getY());
 
-        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.joueur);
-        assertEquals(5, labyrinthe.joueur.getX());
-        assertEquals(2, labyrinthe.joueur.getY());
+        labyrinthe.deplacerPerso(Direction.DROITE, labyrinthe.getPlayer());
+        assertEquals(5, labyrinthe.getPlayer().getX());
+        assertEquals(2, labyrinthe.getPlayer().getY());
 
-        labyrinthe.deplacerPerso(Direction.BAS, labyrinthe.joueur);
-        assertEquals(5, labyrinthe.joueur.getX());
-        assertEquals(3, labyrinthe.joueur.getY());
+        labyrinthe.deplacerPerso(Direction.BAS, labyrinthe.getPlayer());
+        assertEquals(5, labyrinthe.getPlayer().getX());
+        assertEquals(3, labyrinthe.getPlayer().getY());
     }
 
 
@@ -238,7 +238,7 @@ class LabyTest {
     void testCreationJoueur() throws IOException {
         labyrinthe = new Labyrinthe(CHEMIN_LABY0);
 
-        assertNotNull(labyrinthe.joueur, "Le joueur devrait être créé");
-        assertTrue(labyrinthe.joueur instanceof Player, "Le joueur devrait être une instance de Player");
+        assertNotNull(labyrinthe.getPlayer(), "Le joueur devrait être créé");
+        assertTrue(labyrinthe.getPlayer() instanceof Player, "Le joueur devrait être une instance de Player");
     }
 }
