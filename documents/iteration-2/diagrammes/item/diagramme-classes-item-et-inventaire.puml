@@ -1,0 +1,53 @@
+@startuml
+abstract class Case {
+  + addItem(item: Item): void
+  + hasItem(): boolean
+  + removeItem(): void
+  + getItem(): Item
+}
+
+class CaseVide {
+  + addItem(item: Item): void
+  + hasItem(): boolean
+  + removeItem(): void
+  + getItem(): Item
+}
+
+interface Item {
+  + getName(): String
+}
+
+class ItemDefault {
+  - name: String
+  + ItemDefault()
+  + getName(): String
+  + toString(): String
+}
+
+class Player {
+  + Player(dx: int, dy: int, hp: double, degat: double)
+  + Player(dx: int, dy: int)
+  + getInventory(): ArrayList<Item>
+}
+
+' Relations
+Case <|-- CaseVide
+CaseVide o-- Item
+ItemDefault ..|> Item
+Player --> "*" Item : inventory
+
+' Note
+note right of ItemDefault : Item de test dans le jeu
+
+' Hide non-item related attributes
+hide Case::x
+hide Case::y
+hide Case::couleur
+hide Case::isWalkable
+hide Player::x
+hide Player::y
+hide Player::hp
+hide Player::maxHp
+hide Player::degat
+hide Player::enVie
+@enduml
