@@ -53,8 +53,20 @@ public class ZeldiabloJeu implements Jeu {
                     currentlyMoving = false;
                 }, 100, TimeUnit.MILLISECONDS);
 
-                // Déplace le personnage
-                deplacerPersonnage(clavier);
+                // Toggle l'affichage du menu si la touche tab est pressée
+                if (clavier.tab) {
+                    VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
+                }
+
+                // Si le menu est ouvert, on gère les entrées du menu
+                if (VariablesGlobales.MenuOuvert) {
+                    inputInv(clavier);
+                }
+                else {
+                    // Si le menu n'est pas ouvert, on gère les entrées du labyrinthe
+                    inputLaby(clavier);
+                }
+               
 
                 scheduler.shutdown();
             }
@@ -72,20 +84,6 @@ public class ZeldiabloJeu implements Jeu {
 
                 scheduler.shutdown();
             }
-        }
-    }
-    
-    /**
-     * Déplace le personnage en fonction des touches pressées.
-     * @param clavier Objet Clavier pour recuperer des input
-     */
-    private void deplacerPersonnage(Clavier clavier) {
-        if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
-        else if (VariablesGlobales.MenuOuvert){
-            inputInv(clavier);
-        }
-        else {
-            inputLaby(clavier);
         }
     }
 
@@ -107,7 +105,6 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur += 4;
             }
         }
-
     }
 
     private void inputLaby(Clavier clavier){
