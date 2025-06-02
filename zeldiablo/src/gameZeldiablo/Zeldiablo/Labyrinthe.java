@@ -30,7 +30,7 @@ public class Labyrinthe {
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
-    public Entite joueur;
+    private Entite joueur;
 
     //Monstre
     private ArrayList<Entite> monstres = new ArrayList<>();
@@ -224,4 +224,7 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
+    public ArrayList<Entite> getMonstres() {
+        return monstres;
+    }
 }

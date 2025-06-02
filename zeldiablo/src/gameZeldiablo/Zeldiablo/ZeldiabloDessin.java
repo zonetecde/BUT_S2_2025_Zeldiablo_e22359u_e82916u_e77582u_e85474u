@@ -56,10 +56,19 @@ public class ZeldiabloDessin implements DessinJeu {
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                 // affichage du joueur
-                if (laby.joueur.getX() == x && laby.joueur.getY() == y) {
+                if (laby.getPlayer().getX() == x && laby.getPlayer().getY() == y) {
                     // Couleur du joueur - rouge (cercle)
                     gc.setFill(Color.RED);
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                }
+
+                // Affichage des monstres
+                for (MonstreStatique monstre : laby.getMonstres()) {
+                    if (monstre.getX() == x && monstre.getY() == y) {
+                        // Couleur des monstres - cercle rouge
+                        gc.setFill(Color.BLUE);
+                        gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    }
                 }
 
             }
