@@ -28,7 +28,7 @@ public class ZeldiabloJeu implements Jeu {
 
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
-    
+
     public ZeldiabloJeu(int level){
         currentLevel = level;
     }
