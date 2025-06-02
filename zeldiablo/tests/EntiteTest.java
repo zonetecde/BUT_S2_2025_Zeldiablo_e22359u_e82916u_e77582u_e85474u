@@ -13,7 +13,7 @@ class EntiteTest {
 
     @BeforeEach
     void setUp() {
-        joueur = new Player(5, 5, 10, 10);
+        joueur = new Player(5, 5, 10, 3);
     }
 
     /**
@@ -22,7 +22,7 @@ class EntiteTest {
      */
     @Test
     void testPrendreDegatsNonMortel() {
-        int pvInitiaux = joueur.getHp();
+        double pvInitiaux = joueur.getHp();
         
         // Le joueur prend 3 dégâts
         joueur.prendreDegat(3);
