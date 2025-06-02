@@ -43,7 +43,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -71,20 +71,7 @@ public class ZeldiabloJeu implements Jeu {
                 scheduler.shutdown();
             }
         }
-        if (clavier.PickItem) {
-            if (!currentlyPicking) {
-                currentlyPicking = true;
-                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-                scheduler.schedule(() -> {
-                    currentlyPicking = false;
-                }, 100, TimeUnit.MILLISECONDS);
-
-                // Ramasse l'objet si possible
-                getLaby().ramasserObjet(getLaby().getPlayer());
-
-                scheduler.shutdown();
-            }
-        }
+        
     }
 
     private void inputInv(Clavier clavier){
@@ -108,6 +95,12 @@ public class ZeldiabloJeu implements Jeu {
     }
 
     private void inputLaby(Clavier clavier){
+        if (clavier.pickItem) {
+            // Ramasse l'objet si possible
+            getLaby().ramasserObjet(getLaby().getPlayer());
+
+        }
+
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
         } else if (clavier.gauche) {
