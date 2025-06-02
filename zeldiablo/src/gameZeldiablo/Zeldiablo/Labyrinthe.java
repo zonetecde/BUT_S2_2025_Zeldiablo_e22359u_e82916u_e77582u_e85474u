@@ -242,6 +242,7 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.isObjet()) {
             joueur.getInventory().add(caseCourante.getObjet());
+            caseCourante.addItem(null);
         }
     }
 }
