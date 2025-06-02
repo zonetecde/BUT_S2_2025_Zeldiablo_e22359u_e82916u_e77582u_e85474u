@@ -18,4 +18,6 @@ public class Player extends Entite {
         this(dx,dy, VariablesGlobales.PV_BASE,VariablesGlobales.PV_BASE);
         this.inventory= new ArrayList<>();
     }
+
+    public ArrayList<Item> getInventory(){return inventory;}
 }

@@ -63,6 +63,37 @@ public class ZeldiabloJeu implements Jeu {
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void deplacerPersonnage(Clavier clavier) {
+        if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
+        else if (VariablesGlobales.MenuOuvert){
+            inputInv(clavier);
+        }
+        else {
+            inputLaby(clavier);
+        }
+    }
+
+    private void inputInv(Clavier clavier){
+        if (clavier.droite){
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-1) {
+                VariablesGlobales.curseur += 1;
+            }
+        } else if (clavier.gauche){
+            if (VariablesGlobales.curseur>0) {
+                VariablesGlobales.curseur -= 1;
+            }
+        } else if (clavier.haut){
+            if (VariablesGlobales.curseur>3) {
+                VariablesGlobales.curseur -= 4;
+            }
+        } else if (clavier.bas){
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
+                VariablesGlobales.curseur += 4;
+            }
+        }
+
+    }
+
+    private void inputLaby(Clavier clavier){
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().joueur);
         } else if (clavier.gauche) {
