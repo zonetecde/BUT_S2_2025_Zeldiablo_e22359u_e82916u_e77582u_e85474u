@@ -30,7 +30,7 @@ public class Labyrinthe {
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
-    private Entite joueur;
+    private Player joueur;
 
     //Monstre
     private ArrayList<Entite> monstres = new ArrayList<>();
