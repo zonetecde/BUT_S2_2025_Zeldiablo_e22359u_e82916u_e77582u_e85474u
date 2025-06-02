@@ -6,10 +6,13 @@ import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
@@ -23,10 +26,15 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
 
+
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     // Entité joueur
     public Entite joueur;
+
+    //Monstre
+    private ArrayList<Entite> monstres = new ArrayList<>();
+    private Random random = new Random();
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -101,7 +109,14 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
                         break;
                     case VIDE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        //ajoute un potentiel monstre statique avec 1 chance sur 20
+                        if (random.nextInt(20) == 0) {
+                            Entite monstre = new MonstreStatique(colonne, numeroLigne);
+                            monstres.add(monstre);
+                            gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne); // ou une case spéciale si besoin
+                        } else {
+                            gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        }
                         break;
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit

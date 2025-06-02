@@ -45,7 +45,7 @@ class CasePiegeTest {
     void testDegatsInfliges() throws IOException {
         // On récupère le joueur
         Player joueur = labyrinthe.getPlayer();
-        int pvInitiaux = joueur.getHp();
+        double pvInitiaux = joueur.getHp();
 
         // On déplace le joueur sur la case piège
         labyrinthe.deplacerPerso(Direction.DROITE, joueur);

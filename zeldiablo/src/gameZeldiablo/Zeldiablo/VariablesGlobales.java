@@ -13,7 +13,8 @@ public class VariablesGlobales {
 
     //Constantes
     public static final int TAILLE_CASE = 40;
-    public static final int PV_BASE = 10;
+    public static final double PV_BASE = 10;
+    public static final double DEGAT_BASE = 3;
 
     //VariablesMenu
     public static final int COL_NUM_MENU = 6;
