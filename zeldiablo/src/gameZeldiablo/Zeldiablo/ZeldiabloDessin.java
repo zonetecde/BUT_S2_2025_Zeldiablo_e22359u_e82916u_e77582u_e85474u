@@ -39,8 +39,11 @@ public class ZeldiabloDessin implements DessinJeu {
         }
     }
 
-    /*
-     * Affiche le labyrinthe
+    /**
+     * Affiche du labyrinthe dans le canvas (chaque case, les entités, etc.)
+     * @param laby Le labyrinthe actuel à dessiner.
+     * @param gc Le contexte graphique pour dessiner sur le canvas.
+     * @param canvas Le canvas sur lequel dessiner le labyrinthe.
      */
     private void labyUI(Labyrinthe laby, GraphicsContext gc, Canvas canvas) {
         // dessin fond
@@ -82,8 +85,10 @@ public class ZeldiabloDessin implements DessinJeu {
         }
     }
 
-    /*
+    /**
      * Affiche l'interface utilisateur du joueur
+     * @param laby Le labyrinthe actuel contenant le joueur.
+     * @param gc Le contexte graphique pour dessiner sur le canvas.
      */
     private void heroUI(Labyrinthe laby, GraphicsContext gc) {
         if(imageJoueur == null){
@@ -99,44 +104,11 @@ public class ZeldiabloDessin implements DessinJeu {
     }
 
     /**
-     * Affiche le menu
-     * @param laby Laby actuel
-     * @param gc Ou print
-     * @param c Canvas utilisé
-     */
-    /*private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
-        ArrayList<Item> inv =laby.getPlayer().getInventory();
-        // dessin fond
-        int x=0;
-        int y=1;
-        gc.strokeRect(c.getWidth()/4,c.getHeight()/4,c.getWidth()/2,c.getHeight()/2);
-        int caseWidth= (int)(c.getWidth()/VariablesGlobales.COL_NUM_MENU);
-        int caseHeight = (int)(c.getHeight()/6);
-        boolean couleurcases=true;
-        for (int i=0;i<inv.size();i++) {
-            if (i==VariablesGlobales.curseur){
-                gc.setFill(Color.rgb(255,0,0,0.8));
-            }
-            else if (couleurcases) {
-                gc.setFill(Color.rgb(50,50,50,0.8));
-            }
-            else{
-                gc.setFill(Color.rgb(80,80,80,0.8));
-            }
-            System.out.println(x);
-            couleurcases=!couleurcases;
-            gc.fillRect(c.getWidth()/4 + caseWidth * x, c.getHeight()/4 + caseHeight * y, caseWidth, caseHeight);
-            gc.setFill(Color.BLACK);
-            gc.fillText(inv.get(i).toString(), c.getWidth()/4 + caseWidth * x + (double) caseWidth / 3, c.getHeight()/4 + caseHeight * y + (double) caseHeight /2);
-
-            x += 1;
-            if (x > VariablesGlobales.COL_NUM_MENU-1) {
-                x = 0;
-                y += 1;
-            }
-        }
-    }*/
-
+     * Affiche l'interface utilisateur de l'inventaire du joueur.
+     * @param laby Le labyrinthe actuel contenant le joueur et son inventaire.
+     * @param gc Le contexte graphique pour dessiner sur le canvas.
+     * @param c Le canvas sur lequel dessiner l'inventaire.
+     */    
     private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
         ArrayList<Item> inv = laby.getPlayer().getInventory();
 
