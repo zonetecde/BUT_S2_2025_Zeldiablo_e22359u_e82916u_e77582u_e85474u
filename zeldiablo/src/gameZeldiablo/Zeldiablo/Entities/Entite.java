@@ -63,6 +63,12 @@ public abstract class Entite {
         }
     }
 
+    public void mettreDegat(Entite cible) {
+        if (cible != null && cible.enVie) {
+            cible.prendreDegat(this.degat);
+        }
+    }
+
     /**
      * @return position x du personnage
      */
