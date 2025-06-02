@@ -235,14 +235,13 @@ public class Labyrinthe {
     public ArrayList<Entite> getMonstres() {
         return monstres;
     }
-    public void ramasserObjet(Entite joueur) {
+    public void ramasserObjet(Player joueur) {
         int x = joueur.getX();
         int y = joueur.getY();
         Case caseCourante = getCase(y, x);
         // Vérifie si la case contient un objet
-        if (caseCourante.getObjet()) {
-            player.getInventory.add(caseVide.item);
-            caseVide.item = null;
+        if (caseCourante.isObjet()) {
+            joueur.getInventory().add(caseCourante.getObjet());
         }
     }
 }

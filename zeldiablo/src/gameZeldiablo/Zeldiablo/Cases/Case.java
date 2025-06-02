@@ -66,7 +66,10 @@ public abstract class Case implements Action {
     public void addItem(Item item) {
         return;
     }
-    public boolean getObjet() {
+    public boolean isObjet() {
         return false;
+    }
+    public Item getObjet() {
+        return null;
     }
 }

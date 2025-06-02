@@ -20,12 +20,16 @@ public class CaseVide extends Case {
     public void addItem(Item item) {
         this.item = item;
     }
-    public boolean getObjet() {
+    public boolean isObjet() {
         if (item != null) {;
             return true;
         } else {
             return false;
         }
+    }
+
+    public Item getObjet() {
+        return item;
     }
 }
 
