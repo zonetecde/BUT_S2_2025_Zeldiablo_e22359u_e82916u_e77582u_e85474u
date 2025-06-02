@@ -7,6 +7,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
+import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,6 +26,7 @@ public class Labyrinthe {
     public static final char PJ = 'P';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
+    public static final char OBJECT = 'O';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -124,6 +126,10 @@ public class Labyrinthe {
                         // ajoute PJ et crée une case vide à cet endroit
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         this.joueur = new Player(colonne, numeroLigne);
+                        break;
+                    case OBJECT:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
@@ -228,5 +234,15 @@ public class Labyrinthe {
 
     public ArrayList<Entite> getMonstres() {
         return monstres;
+    }
+    public void ramasserObjet(Entite joueur) {
+        int x = joueur.getX();
+        int y = joueur.getY();
+        Case caseCourante = getCase(y, x);
+        // Vérifie si la case contient un objet
+        if (caseCourante.getObjet()) {
+            player.getInventory.add(caseVide.item);
+            caseVide.item = null;
+        }
     }
 }
