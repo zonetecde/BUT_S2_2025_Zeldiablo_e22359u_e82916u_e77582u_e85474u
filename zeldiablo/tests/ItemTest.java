@@ -10,6 +10,11 @@ import java.io.IOException;
 
 public class ItemTest {
 
+    /**
+     * Test de la méthode ramasserObjet du labyrinthe.
+     * Vérifie que le joueur peut ramasser un item et que l'item n'est plus présent dans la case.
+     */
+
     @Test
     public void testRamasserItem() throws IOException {
         Labyrinthe laby = new Labyrinthe(new File("labySimple/laby0.txt").getAbsolutePath());
