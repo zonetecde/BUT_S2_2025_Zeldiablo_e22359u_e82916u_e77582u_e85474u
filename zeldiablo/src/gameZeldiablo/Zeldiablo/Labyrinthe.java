@@ -117,10 +117,7 @@ public class Labyrinthe {
                             // ajoute un monstre statique
                             MonstreStatique monstre = new MonstreStatique(colonne, numeroLigne);
                             monstres.add(monstre);
-
-
                         }
-
                         break;
                     case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
@@ -236,17 +233,29 @@ public class Labyrinthe {
     public ArrayList<Entite> getMonstres() {
         return monstres;
     }
+
+    /**
+     * Ramasse un objet si le joueur est sur une case contenant un objet
+     * @param joueur Le joueur qui tente de ramasser l'objet
+     */
     public void ramasserObjet(Player joueur) {
         int x = joueur.getX();
         int y = joueur.getY();
         Case caseCourante = getCase(y, x);
         // Vérifie si la case contient un objet
-        if (caseCourante.isObjet()) {
+        if (caseCourante.hasItem()) {
+            // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
             joueur.getInventory().add(caseCourante.getObjet());
-            caseCourante.addItem(null);
+            caseCourante.removeItem();
         }
     }
 
+    /**
+     * Vérifie si un monstre est présent sur la case spécifiée
+     * @param y Coordonnée verticale de la case
+     * @param x Coordonnée horizontale de la case
+     * @return true si un monstre est sur la case, false sinon
+     */
     public boolean monstreSurCase(int y, int x) {
         for (Entite monstre : monstres) {
             if (monstre.getY() == y && monstre.getX() == x) {
@@ -254,5 +263,15 @@ public class Labyrinthe {
             }
         }
         return false;
+    }
+
+    /**
+     * Vérifie si un joueur est présent sur la case spécifiée
+     * @param y Coordonnée verticale de la case
+     * @param x Coordonnée horizontale de la case
+     * @return true si le joueur est sur la case, false sinon
+     */
+    public boolean joueurSurCase(int y, int x) {
+        return this.joueur.getY() == y && this.joueur.getX() == x;
     }
 }

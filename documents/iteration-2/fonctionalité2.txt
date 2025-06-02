@@ -6,6 +6,6 @@ Réalisé par Tom et Julien
 
 Réalisé par Julien et Tom
 
-3. Monstre statique 
+3. Monstre statique + Collision impossible sur un monstre
 
 Réalisé par Elias et Rayane 

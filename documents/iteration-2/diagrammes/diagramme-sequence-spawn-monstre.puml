@@ -1,0 +1,31 @@
+@startuml
+participant "laby: Labyrinthe" as Laby
+participant "random: Random" as Random
+participant "monstre: MonstreStatique" as Monstre
+participant "monstres: ArrayList<Entite>" as Liste
+
+-> Laby : Labyrinthe(nom: String)
+activate Laby
+
+loop [pour chaque case VIDE]
+    Laby -> Random : nextInt(PROBA_MONSTRE: int)
+    activate Random
+    Random --> Laby : int
+    deactivate Random
+    
+    alt [si résultat == 0]
+        Laby -> Monstre : new MonstreStatique(colonne: int, numeroLigne: int)
+        activate Monstre
+        Monstre --> Laby : MonstreStatique
+        deactivate Monstre
+        
+        Laby -> Liste : add(monstre: MonstreStatique)
+        activate Liste
+        Liste --> Laby : boolean
+        deactivate Liste
+    end
+end
+
+Laby --> : Labyrinthe
+deactivate Laby
+@enduml

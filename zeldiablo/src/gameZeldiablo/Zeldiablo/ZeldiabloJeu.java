@@ -68,6 +68,7 @@ public class ZeldiabloJeu implements Jeu {
                 }, 100, TimeUnit.MILLISECONDS);
 
                 // Ramasse l'objet si possible
+                getLaby().ramasserObjet(getLaby().getPlayer());
 
                 scheduler.shutdown();
             }
