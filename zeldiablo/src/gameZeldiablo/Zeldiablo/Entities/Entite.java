@@ -11,7 +11,9 @@ public abstract class Entite {
     /**
      * position du personnage et vie
      */
-    private int x, y, hp, maxHp;
+    private int x, y;
+    private double hp, maxHp; // Les points de vie de l'entité
+    private double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
 
     /**
@@ -20,11 +22,12 @@ public abstract class Entite {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(int dx, int dy, int hp, int maxHp) {
+    public Entite(int dx, int dy, double maxHp, double degat) {
         this.x = dx;
         this.y = dy;
-        this.hp = hp;
+        this.hp = maxHp;
         this.maxHp = maxHp;
+        this.degat = degat;
     }
 
     public Entite(int dx, int dy) {
@@ -32,6 +35,7 @@ public abstract class Entite {
         this.y = dy;
         this.hp = VariablesGlobales.PV_BASE;
         this.maxHp = VariablesGlobales.PV_BASE;
+        this.degat = VariablesGlobales.DEGAT_BASE;
     }
 
     /**
@@ -49,7 +53,7 @@ public abstract class Entite {
      * Methode prenant en compte des dégats et les appliquant au personnage
      * @param d nombre de dégats
      */
-    public void prendreDegat(int d){
+    public void prendreDegat(double d){
         if (this.hp>d) {
             this.hp -= d;
         }
@@ -86,14 +90,14 @@ public abstract class Entite {
     /**
      * @return les pv du perso
      */
-    public int getHp(){
+    public double getHp(){
         return this.hp;
     }
 
     /**
      * @return les pv max du perso
      */
-    public int getMaxHp(){
+    public double getMaxHp(){
         return this.maxHp;
     }
 
