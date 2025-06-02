@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
+
+import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
 
@@ -28,6 +31,10 @@ public class ZeldiabloDessin implements DessinJeu {
 
         // Dessin les infos sur le joueur
         heroUI(laby, gc);
+
+        if (VariablesGlobales.MenuOuvert){
+            menuUI(laby,gc,canvas);
+        }
     }
 
     /*
@@ -84,6 +91,46 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
         gc.setFill(Color.RED);
         gc.fillRect(baseXPlayer + 5, 75, getLifeBarWidth(laby.getPlayer().getHp(), laby.getPlayer().getMaxHp()), 20);
+    }
+
+    /**
+     * Affiche le menu
+     * @param laby Laby actuel
+     * @param gc Ou print
+     * @param c Canvas utilisé
+     */
+    private void menuUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+        ArrayList<Item> inv =laby.getPlayer().getInventory();
+        // dessin fond
+        int x=0;
+        int y=1;
+        int caseWidth= (int)c.getWidth()/VariablesGlobales.COL_NUM_MENU;
+        int caseHeight = (int)(c.getHeight()/6);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0,0,c.getWidth(),caseHeight);
+        boolean couleurcases=true;
+        for (int i=0;i<inv.size();i++) {
+            if (i==VariablesGlobales.curseur){
+                gc.setFill(Color.RED);
+            }
+            else if (couleurcases) {
+                gc.setFill(Color.LIGHTGRAY);
+            }
+            else{
+                gc.setFill(Color.GREY);
+            }
+
+            couleurcases=!couleurcases;
+            gc.fillRect(caseWidth * x, caseHeight * y, caseWidth, caseHeight);
+            gc.setFill(Color.BLACK);
+            gc.fillText(inv.get(i).toString(), caseWidth * x + (double) caseWidth / 3, caseHeight * y + (double) caseHeight /2);
+
+            x += 1;
+            if (x > VariablesGlobales.COL_NUM_MENU-1) {
+                x = 0;
+                y += 1;
+            }
+        }
     }
 
     /*

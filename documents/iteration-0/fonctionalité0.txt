@@ -1,0 +1,16 @@
+Étape 1. Transformer notre labyrinthe en un plateau de jeu 
+représenté par un tableau 2D 
+
+Réalisé par Rayane STASZEWSKI et Elias AMACH
+
+Etape 2. Faire fonctionner le déplacement case par case 
+
+Réalisé par AUBERT Tom
+
+Etape 3: Utilisation de variable globales pour un code plus 
+propre 
+
+Réalisé par VINCENT Julien
+
+
+Bilan : Les 3 fonctionalités fonctionnent et nous a permis de poser de bonne base pour le jeu
