@@ -238,7 +238,7 @@ public class Labyrinthe {
      * Ramasse un objet si le joueur est sur une case contenant un objet
      * @param joueur Le joueur qui tente de ramasser l'objet
      */
-    public void ramasserObjet(Player joueur) {
+    public void ramasserItem(Player joueur) {
         int x = joueur.getX();
         int y = joueur.getY();
         Case caseCourante = getCase(y, x);
