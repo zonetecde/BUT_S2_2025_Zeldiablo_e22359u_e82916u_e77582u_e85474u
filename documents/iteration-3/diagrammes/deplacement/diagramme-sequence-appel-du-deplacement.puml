@@ -1,4 +1,6 @@
 @startuml
+title Diagramme montrant comment est appelé la méthode déplacement des monstres
+
 participant "labyrinthe: Labyrinthe" as Laby
 participant "monstre: Monstre" as Monstre
 participant "deplacementStrategie: DeplacementStrategie" as Strategie

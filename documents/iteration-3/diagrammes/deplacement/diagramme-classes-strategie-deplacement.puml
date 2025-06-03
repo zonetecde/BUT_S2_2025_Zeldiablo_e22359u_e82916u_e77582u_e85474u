@@ -1,4 +1,6 @@
 @startuml
+title Diagramme des relations de classes pour la stratégie de déplacement des monstres
+
 interface DeplacementStrategie {
     + deplacement(laby: Labyrinthe, monstre: Monstre): void
 }
