@@ -12,6 +12,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
+import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 import java.util.ArrayList;
 
@@ -64,13 +67,12 @@ public class ZeldiabloDessin implements DessinJeu {
             System.out.println("Erreur dessinerJeu");
         }
 
-        //affiche le labyrinthe charge
         for (int y = 0; y < laby.getHauteur(); y++) {
-            // affiche la ligne
             for (int x = 0; x < laby.getLongueur(); x++) {
                 // Couleur des murs - noir
                 gc.setFill(laby.getCase(y, x).getCouleur());
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+
 
                 ArrayList<Monstre> entites = laby.getMonstres();
                 for (Monstre m : entites){
