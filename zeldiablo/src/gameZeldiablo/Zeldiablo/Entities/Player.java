@@ -75,7 +75,6 @@ public class Player extends Entite {
      * @param b true si le joueur a gagné, false sinon
      */
     public void setaGagne(boolean b) { this.aGagne = b; }
-}
 
     public double setVie(double vie) {
         this.setHp(vie);
