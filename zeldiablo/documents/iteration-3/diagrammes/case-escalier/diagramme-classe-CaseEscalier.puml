@@ -3,7 +3,7 @@
 title Diagramme de classe de case escalier
 
 interface Action {
-  + onStepOn(Entite)
+  + onAction(Entite, ZeldiabloJeu)
 }
 
 abstract Case {
@@ -11,14 +11,13 @@ abstract Case {
   - y : int
   - couleur : Color
   - isWalkable : boolean
-  + ChangeLevel()
-  + onStepOn(Entite)
+  + onAction(Entite, ZeldiabloJeu)
 }
 
 class CaseEscalier {
-  - jeu : ZeldiabloJeu
-  + ChangeLevel()
-  + onStepOn(Entite)
+  - monte : boolean
+  + CaseEscalier(int, int, boolean)
+  + onAction(Entite, ZeldiabloJeu)
 }
 
 class ZeldiabloJeu {
@@ -26,7 +25,7 @@ class ZeldiabloJeu {
   - currentLevel : int
   - estFini : boolean
   - currentlyMoving : boolean
-  + nextLevel()
+  + changeLevel(boolean)
   + getLaby() : Labyrinthe
   + chargementNiveau()
 }
