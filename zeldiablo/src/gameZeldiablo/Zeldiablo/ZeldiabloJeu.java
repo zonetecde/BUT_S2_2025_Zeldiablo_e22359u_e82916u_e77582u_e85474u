@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Amulette;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.ZeldiabloDessin;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -120,12 +121,16 @@ public class ZeldiabloJeu implements Jeu {
 
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(3);
         } else if (clavier.gauche) {
             getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(2);
         } else if (clavier.haut) {
             getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(0);
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(1);
         }
         else if (clavier.x) {
             System.out.println("Attaque du joueur");
@@ -197,24 +202,25 @@ public class ZeldiabloJeu implements Jeu {
      */
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
-        
         if (newLevel >= 0 && newLevel < niveaux.size()) {
-            // Sauvegarder l'état du joueur
-            Player playerClonned = getLaby().getPlayer().clone();
-        
             // Changement de niveau
             currentLevel = newLevel;
             
-            // remet le joueur 
-            getLaby().setPlayer(playerClonned);
-            
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
-                playerClonned.setY(getLaby().getPositionEscalierSortant()[0]);
-                playerClonned.setX(getLaby().getPositionEscalierSortant()[1]);
+                if (currentLevel == 0) {
+                    for (Item item : getLaby().getPlayer().getInventory()) {
+                        if ("Amulette".equals(item.getName())) {
+                            getLaby().getPlayer().setaGagne(true);
+                            break;
+                        }
+                    }
+                }
+                getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
+                getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
             } else {
-                playerClonned.setY(getLaby().getPositionEscalierEntrant()[0]);
-                playerClonned.setX(getLaby().getPositionEscalierEntrant()[1]);
+                getLaby().getPlayer().setY(getLaby().getPositionEscalierEntrant()[0]);
+                getLaby().getPlayer().setX(getLaby().getPositionEscalierEntrant()[1]);
             }
         }
     }

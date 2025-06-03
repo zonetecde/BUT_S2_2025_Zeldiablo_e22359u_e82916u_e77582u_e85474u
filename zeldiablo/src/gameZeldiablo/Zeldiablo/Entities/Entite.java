@@ -2,16 +2,19 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite {
+public abstract class Entite extends Sprite {
+
     /**
-     * Position du personnage et vie
+     * position du personnage et vie
      */
     private int x, y;
     private double hp, maxHp; // Les points de vie de l'entité
@@ -19,26 +22,20 @@ public abstract class Entite {
     boolean enVie = true;
     private EtatVisuelle etatVisuelle;
 
+
     /**
      * constructeur
      *
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(int dx, int dy, double maxHp, double degat) {
+    public Entite(int dx, int dy, double maxHp, double degat, String img) {
+        super(img);
         this.x = dx;
         this.y = dy;
         this.hp = maxHp;
         this.maxHp = maxHp;
         this.degat = degat;
-    }
-
-    public Entite(int dx, int dy) {
-        this.x = dx;
-        this.y = dy;
-        this.hp = VariablesGlobales.PV_BASE;
-        this.maxHp = VariablesGlobales.PV_BASE;
-        this.degat = VariablesGlobales.DEGAT_BASE;
     }
 
     /**
@@ -145,6 +142,8 @@ public abstract class Entite {
     public void setEnVie(boolean b) {
         this.enVie = b;
     }
+
+
 
     /**
      * Set les hp de l'entité

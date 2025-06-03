@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class ZeldiabloDessin implements DessinJeu {
     private Image imageJoueur;
 
+
     /**
      * Constructeur de la classe ZeldiabloDessin.
      * Il initialise les ressources nécessaires pour le dessin du jeu.
@@ -32,6 +34,9 @@ public class ZeldiabloDessin implements DessinJeu {
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         if (laby.getPlayer().estMort()){
+            startUI(laby,gc,canvas);
+        }
+        else if (laby.getPlayer().aGagne()){
             startUI(laby,gc,canvas);
         }
         else {
@@ -68,34 +73,20 @@ public class ZeldiabloDessin implements DessinJeu {
                 gc.setFill(laby.getCase(y, x).getCouleur());
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
-                // Affichage du joueur
-                if (laby.joueurSurCase(y, x)) {
-                    gc.setFill(
-                            laby.getPlayer().getEtatVisuelle() != null
-                                    ? laby.getPlayer().getEtatVisuelle().getCouleur()
-                                    : Color.BLUE
-                    );
-                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+
+                ArrayList<Monstre> entites = laby.getMonstres();
+                for (Monstre m : entites){
+                    if (m.getX()==x && m.getY()==y){
+                        gc.drawImage(m.getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    }
                 }
 
-                // Affichage des monstres
-                if (laby.monstreSurCase(y, x)) {
-                    Monstre monstre = null;
-                    for (Monstre m : laby.getMonstres()) {
-                        if (m.getY() == y && m.getX() == x) {
-                            monstre = m;
-                            break;
-                        }
-                    }
-                    if (monstre != null) {
-                        gc.setFill(
-                                monstre.getEtatVisuelle() != null
-                                        ? monstre.getEtatVisuelle().getCouleur()
-                                        : Color.RED
-                        );
-                        gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                    }
+                // affichage du joueur
+                if (laby.joueurSurCase(y, x)){
+                    // Couleur du joueur - bleu (cercle)
+                    gc.drawImage(laby.getPlayer().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
+
 
                 // Affichage des items
                 if (laby.getCase(y, x).hasItem()) {
