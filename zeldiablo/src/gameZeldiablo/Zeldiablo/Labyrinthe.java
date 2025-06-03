@@ -116,7 +116,7 @@ public class Labyrinthe {
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         //ajoute un potentiel monstre statique avec 1 chance sur 20
-                        if (random.nextInt(VariablesGlobales.PROBA_MONSTRE) == 0) {
+                        if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
                             // ajoute un monstre statique\
                             Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
 

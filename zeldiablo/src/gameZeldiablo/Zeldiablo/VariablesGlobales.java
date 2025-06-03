@@ -16,7 +16,7 @@ public class VariablesGlobales {
         public static final int TAILLE_CASE = 40;
         public static final double PV_BASE = 5;
         public static final double DEGAT_BASE = 1;
-        public static final int PROBA_MONSTRE = 40; // 1/40 de chance de générer un monstre
+        public static final double PROBA_MONSTRE = 0.02; // 2% de chance de générer un monstre dans une case vide
 
         //VariablesMenu
         public static boolean curseurStart = true;
