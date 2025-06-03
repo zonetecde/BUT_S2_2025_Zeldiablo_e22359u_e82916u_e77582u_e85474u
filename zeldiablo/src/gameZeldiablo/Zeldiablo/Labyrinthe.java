@@ -11,6 +11,8 @@ import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
+import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -201,7 +203,11 @@ public class Labyrinthe {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
             if (monstre.aCote(this.joueur)) {
+                //etat visuelle
+                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
                 monstre.mettreDegat(this.joueur);
+                } else {
+                monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
             }
         }
     }
@@ -353,12 +359,25 @@ public class Labyrinthe {
     }
 
     public void attaqueJoueur() {
-        ArrayList<Monstre> monstresVerif = new ArrayList<>(monstres);
-        for (Monstre monstre : monstresVerif) {
+        // Change l'état visuel du joueur
+        joueur.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
+
+        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
+        ArrayList<Monstre> monstresACheck = new ArrayList<>(monstres);
+
+        // Pour chaque monstre
+        for (Monstre monstre : monstresACheck) {
+            // Si le monstre est à côté du joueur
             if (joueur.aCote(monstre)) {
+                System.out.println("Monstre touché!"); // Debug
                 joueur.mettreDegat(monstre);
+                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
+
+                // Si le monstre est mort
                 if (monstre.estMort()) {
+                    monstre.setEtatVisuelle(EtatVisuelle.MORT);
                     monstres.remove(monstre);
+                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
                 }
             }
         }

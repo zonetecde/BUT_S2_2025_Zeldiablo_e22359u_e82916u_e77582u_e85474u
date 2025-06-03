@@ -47,7 +47,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -128,6 +128,7 @@ public class ZeldiabloJeu implements Jeu {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
         }
         else if (clavier.x) {
+            System.out.println("Attaque du joueur");
             getLaby().attaqueJoueur();
         }
     }

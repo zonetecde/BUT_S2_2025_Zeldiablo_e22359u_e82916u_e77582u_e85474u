@@ -17,6 +17,7 @@ public abstract class Entite {
     private double hp, maxHp; // Les points de vie de l'entité
     private double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
+    private EtatVisuelle etatVisuelle;
 
     /**
      * constructeur
@@ -155,5 +156,13 @@ public abstract class Entite {
 
     public boolean aCote(Entite e) {
         return (Math.abs(this.x - e.getX()) <= 1 && Math.abs(this.y - e.getY()) <= 1);
+    }
+
+    public EtatVisuelle getEtatVisuelle() {
+        return etatVisuelle;
+    }
+
+    public void setEtatVisuelle(EtatVisuelle etatVisuelle) {
+        this.etatVisuelle = etatVisuelle;
     }
 }
