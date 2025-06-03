@@ -27,7 +27,7 @@ else
 
      alt menuOuvert True
        jeu -> jeu: invIU()
-       activate jeu
+       activate jeu1
         jeu <-- jeu
         deactivate jeu
      end
