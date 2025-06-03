@@ -203,6 +203,7 @@ public class ZeldiabloJeu implements Jeu {
             
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
+
                 for (Item item : getLaby().getPlayer().getInventory()) {
                     if ("Amulette".equals(item.getName())) {
                         getLaby().getPlayer().setaGagne(true);

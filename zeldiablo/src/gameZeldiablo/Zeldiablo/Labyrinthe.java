@@ -154,6 +154,7 @@ public class Labyrinthe {
                         if(c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
                         if(this.joueur == null) this.joueur = new Player(colonne, numeroLigne,  VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
+
                         break;
                     case PORTE:
                         casePorte =  new CasePorte(colonne, numeroLigne);
