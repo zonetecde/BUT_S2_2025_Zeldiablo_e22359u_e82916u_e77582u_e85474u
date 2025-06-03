@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 import javafx.scene.paint.Color;
 
 /**
@@ -64,6 +65,14 @@ public abstract class Case implements Action {
      * @param entite L'entité qui marche sur la case
      */
     public void onStepOn(Entite entite) {
+        // Action par défaut
+    }
+
+    /**
+     * Méthode appelée lorsqu'une entité interagit avec la case
+     * @param entite L'entité qui interagit avec la case
+     */
+    public void onAction(Entite entite, ZeldiabloJeu zeldiabloJeu) {
         // Action par défaut
     }
 

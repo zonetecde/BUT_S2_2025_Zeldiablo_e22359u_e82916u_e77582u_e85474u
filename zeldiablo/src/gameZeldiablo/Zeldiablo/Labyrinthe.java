@@ -9,7 +9,6 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 
 import java.io.BufferedReader;
@@ -30,10 +29,14 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
-    public static final char STAIRS = 'S';
+    public static final char STAIR_SORTIE = 'S';
+    public static final char STAIRS_DEPART = 'D';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
+
+    private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
+    private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
 
     // Entité joueur
     private Player joueur;
@@ -125,11 +128,7 @@ public class Labyrinthe {
                             monstres.add(monstre);
                         }
                         break;
-                    case PJ:
-                        // ajoute PJ et crée une case vide à cet endroit
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        this.joueur = new Player(colonne, numeroLigne);
-                        break;
+
                     case OBJECT:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
@@ -137,8 +136,23 @@ public class Labyrinthe {
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
                         break;
-                    case STAIRS:
-                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, jeu);
+                    case STAIR_SORTIE:
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, true);
+                        // Enregistre la position de l'escalier sortant
+                        positionEscalierSortant[0] = numeroLigne;
+                        positionEscalierSortant[1] = colonne;
+                        break;
+                    case STAIRS_DEPART:
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, false);
+                        // Enregistre la position de l'escalier entrant
+                        positionEscalierEntrant[0] = numeroLigne;
+                        positionEscalierEntrant[1] = colonne;
+
+                        // je ne met pas de break pour que ça créer le joueur à la position de l'escalier de retour
+                    case PJ:
+                        // ajoute PJ et crée une case vide à cet endroit
+                        if(c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        this.joueur = new Player(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -257,9 +271,24 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
-    public Player setPlayer(Player joueur) {
+    /**
+     * Retourne la position de l'escalier sortant
+     * @return Un tableau contenant les coordonnées de l'escalier sortant [y, x]
+     */
+    public int[] getPositionEscalierSortant() {
+        return positionEscalierSortant;
+    }
 
-        return this.joueur;
+    /**
+     * Retourne la position de l'escalier entrant
+     * @return Un tableau contenant les coordonnées de l'escalier entrant [y, x]
+     */
+    public int[] getPositionEscalierEntrant() {
+        return positionEscalierEntrant;
+    }
+
+    public void setPlayer(Player joueur) {
+        this.joueur = joueur;
     }
 
     public ArrayList<Monstre> getMonstres() {

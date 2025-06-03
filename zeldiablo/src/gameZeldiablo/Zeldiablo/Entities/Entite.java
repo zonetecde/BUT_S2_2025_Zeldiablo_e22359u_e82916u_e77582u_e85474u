@@ -131,13 +131,26 @@ public abstract class Entite {
         this.x=x;
     }
 
+    /**
+     * @return les degats du perso
+     */
+    public double getDegat() {
+        return this.degat;
+    }
 
+    /**
+     * Set si l'entité est en vie ou non
+     * @param b true si l'entité est en vie, false sinon
+     */
     public void setEnVie(boolean b) {
+        this.enVie = b;
     }
 
-    public void setInventory(ArrayList<Item> tmpinv) {
-    }
-
-    public void setHp(double tmphp) {
+    /**
+     * Set les hp de l'entité
+     * @param hp Les points de vie à attribuer
+     */
+    public void setHp(double hp) {
+        this.hp = hp;
     }
 }

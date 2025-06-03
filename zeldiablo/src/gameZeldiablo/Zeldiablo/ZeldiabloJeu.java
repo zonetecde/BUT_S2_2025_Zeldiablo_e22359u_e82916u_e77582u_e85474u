@@ -1,5 +1,7 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
@@ -43,7 +45,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem || clavier.space) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -104,10 +106,14 @@ public class ZeldiabloJeu implements Jeu {
     }
 
     private void inputLaby(Clavier clavier){
-        if (clavier.pickItem) {
+        if (clavier.interactionKey) {
             // Ramasse l'objet si possible
             getLaby().ramasserItem(getLaby().getPlayer());
-            getLaby().getCase(getLaby().getPlayer().getY(),getLaby().getPlayer().getX()).ChangeLevel();
+            // Intéragit avec la case
+            Labyrinthe currentLaby = getLaby();
+            Player player = currentLaby.getPlayer();
+            Case playerCase = currentLaby.getCase(player.getY(), player.getX());
+            playerCase.onAction(player, this);
         }
 
         if (clavier.droite) {
@@ -161,17 +167,34 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
-    public void nextLevel() {
-        if (currentLevel < niveaux.size() - 1) {
-            double tmphp = getLaby().getPlayer().getHp();
-            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
-            currentLevel += 1;
-
-            getLaby().getPlayer().setEnVie(true);
-            getLaby().getPlayer().setInventory(tmpinv);
-            getLaby().getPlayer().setHp(tmphp);
+    /**
+     * Change le niveau du jeu.
+     * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
+     */
+    public void changeLevel(boolean next) {
+        int newLevel = next ? currentLevel + 1 : currentLevel - 1;
+        
+        if (newLevel >= 0 && newLevel < niveaux.size()) {
+            // Sauvegarder l'état du joueur
+            Player playerClonned = getLaby().getPlayer().clone();
+        
+            // Changement de niveau
+            currentLevel = newLevel;
+            
+            // remet le joueur 
+            getLaby().setPlayer(playerClonned);
+            
+            // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
+            if (!next) {
+                playerClonned.setY(getLaby().getPositionEscalierSortant()[0]);
+                playerClonned.setX(getLaby().getPositionEscalierSortant()[1]);
+            } else {
+                playerClonned.setY(getLaby().getPositionEscalierEntrant()[0]);
+                playerClonned.setX(getLaby().getPositionEscalierEntrant()[1]);
+            }
         }
     }
+
     /**
      * Getter de laby
      * @return renvoie le laby actuel
