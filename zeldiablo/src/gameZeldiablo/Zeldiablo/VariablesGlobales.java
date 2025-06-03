@@ -13,9 +13,9 @@ public class VariablesGlobales {
 
         //Constantes
         public static final int TAILLE_CASE = 40;
-        public static final double PV_BASE = 10;
-        public static final double DEGAT_BASE = 3;
-    public static final int PROBA_MONSTRE = 40; // 1/40 de chance de générer un monstre
+        public static final double PV_BASE = 5;
+        public static final double DEGAT_BASE = 1;
+        public static final int PROBA_MONSTRE = 40; // 1/40 de chance de générer un monstre
 
         //VariablesMenu
         public static final int COL_NUM_MENU = 3;
