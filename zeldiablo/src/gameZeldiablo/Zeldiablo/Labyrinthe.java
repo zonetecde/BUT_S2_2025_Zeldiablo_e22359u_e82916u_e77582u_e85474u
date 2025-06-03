@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
@@ -40,11 +42,12 @@ public class Labyrinthe {
                                  // et celle-ci est ouverte par une seule case d'ouverture.
 
     // Entité joueur
-    private Player joueur;
-
-    //Monstre
+    private Player joueur;    //Monstre
     private ArrayList<Monstre> monstres = new ArrayList<>();
     private Random random = new Random();
+    
+    // Timer pour le déplacement automatique des monstres
+    private Timer timerMonstres;
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -181,10 +184,11 @@ public class Labyrinthe {
             // lecture
             ligne = bfRead.readLine();
             numeroLigne++;
-        }
-
-        // ferme fichier
+        }        // ferme fichier
         bfRead.close();
+        
+        // Initialise le timer pour le déplacement automatique des monstres
+        initTimerMonstres();
     }
 
 
@@ -199,29 +203,13 @@ public class Labyrinthe {
         int[] courante = {p.getY(), p.getX()};
 
         // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action);
-
-        // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
+        int[] suivante = getSuivant(courante[0], courante[1], action);        // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
         if (canEntityMoveTo(suivante[0], suivante[1])) {
             // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
             caseSuivante.onStepOn(this.joueur);
-        }
-
-        // Lorsque le joueur se déplace, peut importe si le déplacement a réussi ou pas, tout les monstres effectuent
-        // leur stratégie de déplacement
-        for (Monstre monstre : monstres) {
-            // On effectue le déplacement du monstre
-            monstre.deplacer(this);
-            if (monstre.aCote(this.joueur)) {
-                //etat visuelle
-                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
-                monstre.mettreDegat(this.joueur);
-                } else {
-                monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
-            }
         }
     }
 
@@ -401,9 +389,48 @@ public class Labyrinthe {
                 if (monstre.estMort()) {
                     monstre.setEtatVisuelle(EtatVisuelle.MORT);
                     monstres.remove(monstre);
-                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
-                }
+                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));                }
             }
+        }
+    }
+
+    /**
+     * Initialise le timer pour le déplacement automatique des monstres
+     */
+    private void initTimerMonstres() {
+        timerMonstres = new Timer();
+        timerMonstres.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                deplacerMonstres();
+            }
+        }, 0, VariablesGlobales.DEPLACEMENT_MONSTRE);
+    }
+
+    /**
+     * Effectue le déplacement et les actions de tous les monstres
+     */
+    private void deplacerMonstres() {
+        for (Monstre monstre : monstres) {
+            // On effectue le déplacement du monstre
+            monstre.deplacer(this);
+            if (monstre.aCote(this.joueur)) {
+                //etat visuelle
+                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
+                monstre.mettreDegat(this.joueur);
+            } else {
+                monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
+            }
+        }
+    }
+
+    /**
+     * Arrête le timer des monstres (utile lors de la destruction du labyrinthe)
+     */
+    public void arreterTimerMonstres() {
+        if (timerMonstres != null) {
+            timerMonstres.cancel();
+            timerMonstres = null;
         }
     }
 }
