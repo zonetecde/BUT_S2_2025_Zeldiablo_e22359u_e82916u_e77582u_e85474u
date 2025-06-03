@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Items.Item;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -29,6 +30,9 @@ public class ZeldiabloJeu implements Jeu {
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
 
+    // Indique si le personnage est en train de ramasser un objet
+    private boolean action = false;
+
     public ZeldiabloJeu(int level){
         currentLevel = level;
     }
@@ -54,6 +58,22 @@ public class ZeldiabloJeu implements Jeu {
                 if (clavier.tab) {
                     VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
                 }
+                // Déplace le personnage
+                deplacerPersonnage(clavier);
+
+                scheduler.shutdown();
+            }
+        }
+        if (clavier.PickItem) {
+            if (!action) {
+                action = true;
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                scheduler.schedule(() -> {
+                    action = false;
+                }, 100, TimeUnit.MILLISECONDS);
+
+                // Ramasse l'objet si possible
+                getLaby().ramasserObjet(getLaby().getPlayer());
 
                 // Si le menu est ouvert, on gère les entrées du menu
                 if (this.niveaux.get(currentLevel).getPlayer().estMort()){
@@ -65,12 +85,34 @@ public class ZeldiabloJeu implements Jeu {
                     // Si le menu n'est pas ouvert, on gère les entrées du labyrinthe
                     inputLaby(clavier);
                 }
-               
+
+
+                scheduler.shutdown();
+            }
+                // Change de niveau si le joueur est sur une case escalier
+                int x = getLaby().getPlayer().getX();
+                int y = getLaby().getPlayer().getY();
+                var caseCourante = getLaby().getCase(y, x);
+                caseCourante.ChangeLevel();
 
                 scheduler.shutdown();
             }
         }
-        
+    }
+
+    /**
+     * Déplace le personnage en fonction des touches pressées.
+     * @param clavier Objet Clavier pour recuperer des input
+     */
+    private void deplacerPersonnage(Clavier clavier) {
+        if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
+        else if (VariablesGlobales.MenuOuvert){
+            inputInv(clavier);
+        }
+        else {
+            inputLaby(clavier);
+        }
+
     }
 
     private void inputInv(Clavier clavier){
@@ -134,7 +176,7 @@ public class ZeldiabloJeu implements Jeu {
             File[] folder = new File("labySimple").listFiles();
             assert folder != null;
             for (File file : folder) {
-                niveaux.add(new Labyrinthe(file.getAbsolutePath()));
+                niveaux.add(new Labyrinthe(file.getAbsolutePath(),this));
             }
         }
         catch (IOException e){
@@ -145,6 +187,18 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
+    public void nextLevel() {
+        if (currentLevel < niveaux.size() - 1) {
+            VariablesGlobales.tickables = new ArrayList<>();
+            double tmphp = getLaby().getPlayer().getHp();
+            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
+            currentLevel += 1;
+            chargementNiveau();
+            getLaby().getPlayer().setEnVie(true);
+            getLaby().getPlayer().setInventory(tmpinv);
+            getLaby().getPlayer().setHp(tmphp);
+        }
+    }
     /**
      * Getter de laby
      * @return renvoie le laby actuel

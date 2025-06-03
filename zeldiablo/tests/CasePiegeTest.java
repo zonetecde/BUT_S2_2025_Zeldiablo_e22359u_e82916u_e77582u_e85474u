@@ -23,7 +23,7 @@ class CasePiegeTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE, null);
     }
 
     /**

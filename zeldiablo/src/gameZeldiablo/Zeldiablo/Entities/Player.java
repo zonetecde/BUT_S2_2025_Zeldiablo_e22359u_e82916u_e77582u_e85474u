@@ -19,6 +19,18 @@ public class Player extends Entite {
         this.inventory= new ArrayList<>();
     }
 
+    public ArrayList<Item> getInventory(){return inventory;}
+
+    public void setEnVie(boolean b) {
+        if (!b) {
+            inventory.clear();
+            enVie = false;
+        }
+    }
+
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
+    }
     public ArrayList<Item> getInventory(){
         return inventory;
     }

@@ -1,7 +1,10 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
 
+import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+
+import java.util.ArrayList;
 
 /**
  * gere un personnage situe en x,y
@@ -129,4 +132,12 @@ public abstract class Entite {
     }
 
 
+    public void setEnVie(boolean b) {
+    }
+
+    public void setInventory(ArrayList<Item> tmpinv) {
+    }
+
+    public void setHp(double tmphp) {
+    }
 }
