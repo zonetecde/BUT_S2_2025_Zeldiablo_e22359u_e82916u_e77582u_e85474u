@@ -133,7 +133,6 @@ public class ZeldiabloJeu implements Jeu {
             getLaby().getPlayer().setSpriteJoueur(1);
         }
         else if (clavier.x) {
-            System.out.println("Attaque du joueur");
             getLaby().attaqueJoueur();
         }
     }
@@ -218,8 +217,10 @@ public class ZeldiabloJeu implements Jeu {
                         getLaby().getPlayer().setaGagne(true);
                     }
                 }
-                getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
-                getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
+                else {
+                    getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
+                    getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
+                }
             } else {
                 getLaby().getPlayer().setY(getLaby().getPositionEscalierEntrant()[0]);
                 getLaby().getPlayer().setX(getLaby().getPositionEscalierEntrant()[1]);
