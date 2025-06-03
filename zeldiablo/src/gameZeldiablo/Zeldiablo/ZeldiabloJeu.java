@@ -64,7 +64,7 @@ public class ZeldiabloJeu implements Jeu {
                 scheduler.shutdown();
             }
         }
-        if (clavier.PickItem) {
+        if (clavier.pickItem) {
             if (!action) {
                 action = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -73,7 +73,7 @@ public class ZeldiabloJeu implements Jeu {
                 }, 100, TimeUnit.MILLISECONDS);
 
                 // Ramasse l'objet si possible
-                getLaby().ramasserObjet(getLaby().getPlayer());
+                getLaby().ramasserItem(getLaby().getPlayer());
 
                 // Si le menu est ouvert, on gère les entrées du menu
                 if (this.niveaux.get(currentLevel).getPlayer().estMort()){
