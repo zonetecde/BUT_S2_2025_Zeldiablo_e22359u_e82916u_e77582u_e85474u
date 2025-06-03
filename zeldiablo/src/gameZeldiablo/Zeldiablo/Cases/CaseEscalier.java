@@ -9,44 +9,26 @@ import javafx.scene.paint.Color;
  * Case d'escalier pour changer de niveau
  */
 public class CaseEscalier extends Case{
-    /**
-     * jeu dans lequel est contenu la case
-     */
-    ZeldiabloJeu jeu;
     boolean monte = true;
 
-    /**
-     * Constructeur de Case
-     *
-     * @param x position
-     * @param y position
-     */
-    public CaseEscalier(int x, int y, boolean monte, ZeldiabloJeu jeu) {
-        super(x, y, Color.BLUE, true);
-        this.jeu=jeu;
+    public CaseEscalier(int x, int y, boolean monte) {
+        super(x, y, Color.DARKBLUE, true);
         this.monte = monte;
         if (!monte) {
             this.setCouleur(Color.LIGHTBLUE);
         }
     }
 
-    @Override
-    public boolean hasItem() {
-        return true;
-    }
-
     /**
-     * Methode executée quand une entité marche sur la case
+     * Methode executée quand une entité interagit avec la case d'escalier.
      * Changement de niveau
      */
     @Override
-    public Item getItem() {
+    public void onAction(Entite entite, ZeldiabloJeu jeu) {
         if (monte) {
             jeu.nextLevel();
         } else {
             jeu.previousLevel();
         }
-        return null;
     }
-
 }
