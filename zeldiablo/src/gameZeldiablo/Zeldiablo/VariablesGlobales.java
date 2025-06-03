@@ -18,6 +18,7 @@ public class VariablesGlobales {
         public static final int PROBA_MONSTRE = 40; // 1/40 de chance de générer un monstre
 
         //VariablesMenu
+        public static boolean curseurStart = true;
         public static final int COL_NUM_MENU = 3;
         public static boolean MenuOuvert=false;
         public static int curseur=0;

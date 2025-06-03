@@ -56,7 +56,9 @@ public class ZeldiabloJeu implements Jeu {
                 }
 
                 // Si le menu est ouvert, on gère les entrées du menu
-                if (VariablesGlobales.MenuOuvert) {
+                if (this.niveaux.get(currentLevel).getPlayer().estMort()){
+                    inputsStart(clavier);
+                } else if (VariablesGlobales.MenuOuvert) {
                     inputInv(clavier);
                 }
                 else {
@@ -105,6 +107,21 @@ public class ZeldiabloJeu implements Jeu {
             getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
+        }
+    }
+
+    private void inputsStart(Clavier clavier){
+        if (clavier.haut || clavier.bas){VariablesGlobales.curseurStart=!VariablesGlobales.curseurStart;}
+
+        else if (clavier.space){
+            if (VariablesGlobales.curseurStart) {
+                //currentLevel=-1;
+                //TODO
+                //nextLevel();
+            }
+            else{
+                System.exit(0);
+            }
         }
     }
 
