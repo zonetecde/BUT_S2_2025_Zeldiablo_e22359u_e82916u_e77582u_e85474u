@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Player extends Entite {
     private ArrayList<Item> inventory;
 
-    public Player(int dx, int dy, double hp, double degat) {
-        super(dx, dy, hp, degat);
+    public Player(int dx, int dy, double maxHp, double degat) {
+        super(dx, dy, maxHp, degat);
         this.inventory= new ArrayList<>();
     }
 
@@ -19,18 +19,40 @@ public class Player extends Entite {
         this.inventory= new ArrayList<>();
     }
 
-
+    /**
+     * Dit si le joueur est en vie ou non
+     * Si le joueur meurt, son inventaire est vidé
+     * @param b true si le joueur est en vie, false sinon
+     */
     public void setEnVie(boolean b) {
         if (!b) {
             inventory.clear();
-            enVie = false;
         }
+
+        this.enVie = b;
     }
 
+    /**
+     * Setter de l'inventaire du joueur (entre les niveaux par exemple)
+     * @param inventory L'inventaire du joueur, une liste d'objets
+     */
     public void setInventory(ArrayList<Item> inventory) {
         this.inventory = inventory;
     }
+
+    /**
+     * Retourne l'inventaire du joueur
+     * @return L'inventaire du joueur, une liste d'items
+     */
     public ArrayList<Item> getInventory(){
         return inventory;
+    }
+
+    public Player clone() {
+        Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
+        clone.setEnVie(this.enVie);
+        clone.setHp(this.getHp());
+        clone.setInventory(new ArrayList<>(this.inventory));
+        return clone;
     }
 }
