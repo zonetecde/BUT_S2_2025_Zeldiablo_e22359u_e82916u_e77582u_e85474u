@@ -5,6 +5,8 @@ import gameZeldiablo.Zeldiablo.Cases.CaseMur;
 import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Intelligence;
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
@@ -27,7 +29,6 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
-    public static final char STAIRS = 'S';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -36,7 +37,7 @@ public class Labyrinthe {
     private Player joueur;
 
     //Monstre
-    private ArrayList<Entite> monstres = new ArrayList<>();
+    private ArrayList<Monstre> monstres = new ArrayList<>();
     private Random random = new Random();
 
     /**
@@ -115,8 +116,10 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         //ajoute un potentiel monstre statique avec 1 chance sur 20
                         if (random.nextInt(VariablesGlobales.PROBA_MONSTRE) == 0) {
-                            // ajoute un monstre statique
-                            MonstreStatique monstre = new MonstreStatique(colonne, numeroLigne);
+                            // ajoute un monstre statique\
+                            Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
+
+                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
                             monstres.add(monstre);
                         }
                         break;
@@ -164,15 +167,32 @@ public class Labyrinthe {
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
         // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
-        if (estDansLimites(suivante[0], suivante[1]) &&
-                (getCase(suivante[0], suivante[1]).getIsWalkable()) &&
-                !monstreSurCase(suivante[0], suivante[1])) {
+        if (canEntityMoveTo(suivante[0], suivante[1])) {
             // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
             caseSuivante.onStepOn(this.joueur);
         }
+
+        // Lorsque le joueur se déplace, peut importe si le déplacement a réussi ou pas, tout les monstres effectuent
+        // leur stratégie de déplacement
+        for (Monstre monstre : monstres) {
+            // On effectue le déplacement du monstre
+            monstre.deplacer(this);
+        }
+    }
+
+    /**
+     * Vérifie si une entité peut se déplacer vers une case donnée.
+     * @param i coordonnée verticale de la case
+     * @param j coordonnée horizontale de la case
+     * @return true si l'entité peut se déplacer vers cette case, false sinon
+     */
+    public boolean canEntityMoveTo(int i, int j) {
+        return estDansLimites(i, j) &&
+                        (getCase(i, j).getIsWalkable()) &&
+                        !monstreSurCase(i, j);
     }
 
     /**
@@ -234,7 +254,7 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
-    public ArrayList<Entite> getMonstres() {
+    public ArrayList<Monstre> getMonstres() {
         return monstres;
     }
 
@@ -242,7 +262,7 @@ public class Labyrinthe {
      * Ramasse un objet si le joueur est sur une case contenant un objet
      * @param joueur Le joueur qui tente de ramasser l'objet
      */
-    public void ramasserObjet(Player joueur) {
+    public void ramasserItem(Player joueur) {
         int x = joueur.getX();
         int y = joueur.getY();
         Case caseCourante = getCase(y, x);
@@ -278,6 +298,8 @@ public class Labyrinthe {
     public boolean joueurSurCase(int y, int x) {
         return this.joueur.getY() == y && this.joueur.getX() == x;
     }
+
+
 
     public void setJoueur(Player joueur) {
         this.joueur = joueur;

@@ -31,4 +31,7 @@ public class Player extends Entite {
     public void setInventory(ArrayList<Item> inventory) {
         this.inventory = inventory;
     }
+    public ArrayList<Item> getInventory(){
+        return inventory;
+    }
 }

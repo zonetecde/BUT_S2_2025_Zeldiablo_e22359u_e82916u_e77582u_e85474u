@@ -88,6 +88,11 @@ public abstract class Entite {
         return this.y;
     }
 
+    public void setPosition(int y, int x){
+        this.y = y;
+        this.x = x;
+    }
+
     /**
      *
      * @return l'etat de vie du perso

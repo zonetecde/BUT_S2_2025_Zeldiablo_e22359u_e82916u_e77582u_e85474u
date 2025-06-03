@@ -44,7 +44,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -54,6 +54,10 @@ public class ZeldiabloJeu implements Jeu {
                     currentlyMoving = false;
                 }, 100, TimeUnit.MILLISECONDS);
 
+                // Toggle l'affichage du menu si la touche tab est pressée
+                if (clavier.tab) {
+                    VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
+                }
                 // Déplace le personnage
                 deplacerPersonnage(clavier);
 
@@ -71,6 +75,20 @@ public class ZeldiabloJeu implements Jeu {
                 // Ramasse l'objet si possible
                 getLaby().ramasserObjet(getLaby().getPlayer());
 
+                // Si le menu est ouvert, on gère les entrées du menu
+                if (this.niveaux.get(currentLevel).getPlayer().estMort()){
+                    inputsStart(clavier);
+                } else if (VariablesGlobales.MenuOuvert) {
+                    inputInv(clavier);
+                }
+                else {
+                    // Si le menu n'est pas ouvert, on gère les entrées du labyrinthe
+                    inputLaby(clavier);
+                }
+
+
+                scheduler.shutdown();
+            }
                 // Change de niveau si le joueur est sur une case escalier
                 int x = getLaby().getPlayer().getX();
                 int y = getLaby().getPlayer().getY();
@@ -81,7 +99,7 @@ public class ZeldiabloJeu implements Jeu {
             }
         }
     }
-    
+
     /**
      * Déplace le personnage en fonction des touches pressées.
      * @param clavier Objet Clavier pour recuperer des input
@@ -94,6 +112,7 @@ public class ZeldiabloJeu implements Jeu {
         else {
             inputLaby(clavier);
         }
+
     }
 
     private void inputInv(Clavier clavier){
@@ -106,18 +125,22 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur -= 1;
             }
         } else if (clavier.haut){
-            if (VariablesGlobales.curseur>3) {
-                VariablesGlobales.curseur -= 4;
+            if (VariablesGlobales.curseur>VariablesGlobales.COL_NUM_MENU-1) {
+                VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.bas){
             if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
-                VariablesGlobales.curseur += 4;
+                VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         }
-
     }
 
     private void inputLaby(Clavier clavier){
+        if (clavier.pickItem) {
+            // Ramasse l'objet si possible
+            getLaby().ramasserItem(getLaby().getPlayer());
+        }
+
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
         } else if (clavier.gauche) {
@@ -126,6 +149,21 @@ public class ZeldiabloJeu implements Jeu {
             getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
+        }
+    }
+
+    private void inputsStart(Clavier clavier){
+        if (clavier.haut || clavier.bas){VariablesGlobales.curseurStart=!VariablesGlobales.curseurStart;}
+
+        else if (clavier.space){
+            if (VariablesGlobales.curseurStart) {
+                //currentLevel=-1;
+                //TODO
+                //nextLevel();
+            }
+            else{
+                System.exit(0);
+            }
         }
     }
 
