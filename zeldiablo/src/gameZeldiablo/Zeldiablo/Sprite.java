@@ -4,7 +4,7 @@ package gameZeldiablo.Zeldiablo;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 
-public abstract class Sprite {
+public abstract class Sprite extends ZeldiabloDessin {
     private String imgFile = null;
     private Image img;
 
