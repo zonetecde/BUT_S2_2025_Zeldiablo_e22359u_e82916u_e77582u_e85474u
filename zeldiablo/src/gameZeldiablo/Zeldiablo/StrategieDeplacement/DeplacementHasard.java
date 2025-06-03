@@ -8,7 +8,6 @@ public class DeplacementHasard implements DeplacementStrategie {
 
     @Override
     public void deplacement(Labyrinthe laby, Monstre monstre) {
-
         Direction[] directions = Direction.values();
         Direction directionChoisie = directions[(int)(Math.random() * directions.length)];
 
