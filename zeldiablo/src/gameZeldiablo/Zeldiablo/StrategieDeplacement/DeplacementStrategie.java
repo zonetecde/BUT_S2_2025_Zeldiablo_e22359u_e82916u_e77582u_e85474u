@@ -1,12 +1,10 @@
-package gameZeldiablo.Zeldiablo.Strategy_Deplacement;
+package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
-public interface DeplacementStrategy {
+public interface DeplacementStrategie {
     /**
      * Déplace l'entité selon la stratégie de déplacement définie.
      **/
-
     public void deplacement();
-
-     }
+ }
 
 
