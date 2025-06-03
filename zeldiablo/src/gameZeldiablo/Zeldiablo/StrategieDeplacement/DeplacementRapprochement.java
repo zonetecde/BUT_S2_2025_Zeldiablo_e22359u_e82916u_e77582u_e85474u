@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
 import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
 public class DeplacementRapprochement implements DeplacementStrategie {
     @Override
