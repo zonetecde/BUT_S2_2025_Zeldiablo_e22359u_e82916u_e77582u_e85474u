@@ -23,7 +23,7 @@ class CasePiegeTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE, null);
     }
 
     /**
@@ -32,8 +32,8 @@ class CasePiegeTest {
      */
     @Test
     void testConstructionCasePiege() {
-        CasePiege casePiege = new CasePiege(1, 1, 3);
-        assertEquals(3, casePiege.getDegats(), "Les dégâts du piège devraient être de 3");
+        CasePiege casePiege = new CasePiege(1, 1, 1);
+        assertEquals(1, casePiege.getDegats(), "Les dégâts du piège devraient être de 1");
         assertTrue(casePiege.getIsWalkable(), "La case piège devrait être marchable");
     }
 
@@ -53,7 +53,7 @@ class CasePiegeTest {
         labyrinthe.deplacerPerso(Direction.BAS, joueur);
 
         // Vérification que les dégâts ont été infligés
-        assertEquals(pvInitiaux - 3, joueur.getHp(),
+        assertEquals(pvInitiaux - 1, joueur.getHp(),
                 "Le joueur devrait avoir perdu 1 PV en marchant sur le piège");
     }
 

@@ -80,7 +80,7 @@ public class Labyrinthe {
      * @return labyrinthe cree
      * @throws IOException probleme a la lecture / ouverture
      */
-    public Labyrinthe(String nom) throws IOException {
+    public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
@@ -133,7 +133,10 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
                         break;
                     case CASE_PIEGE:
-                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
+                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
+                        break;
+                    case STAIRS:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -267,7 +270,7 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getItem());
+            joueur.getInventory().add(caseCourante.getObjet());
             caseCourante.removeItem();
         }
     }
@@ -298,4 +301,11 @@ public class Labyrinthe {
     }
 
 
+
+    public void setJoueur(Player joueur) {
+        this.joueur = joueur;
+    }
+    public Player getJoueur() {
+        return this.joueur;
+    }
 }
