@@ -274,4 +274,6 @@ public class Labyrinthe {
     public boolean joueurSurCase(int y, int x) {
         return this.joueur.getY() == y && this.joueur.getX() == x;
     }
+
+
 }
