@@ -28,14 +28,19 @@ public class ZeldiabloDessin implements DessinJeu {
         // recupere un pinceau pour dessiner
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Dessine le laby
-        labyUI(laby, gc, canvas);
+        if (laby.getPlayer().estMort()){
+            startUI(laby,gc,canvas);
+        }
+        else {
+            // Dessine le laby
+            labyUI(laby, gc, canvas);
 
-        // Dessin les infos sur le joueur
-        heroUI(laby, gc);
+            // Dessin les infos sur le joueur
+            heroUI(laby, gc);
 
-        if (VariablesGlobales.MenuOuvert){
-            invUI(laby,gc,canvas);
+            if (VariablesGlobales.MenuOuvert) {
+                invUI(laby, gc, canvas);
+            }
         }
     }
 
@@ -170,6 +175,40 @@ public class ZeldiabloDessin implements DessinJeu {
                 y += 1;
             }
         }
+    }
+
+    public void startUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+        //Fond
+        gc.setFill(Color.SLATEGREY);
+        gc.fillRect(0,0,c.getWidth(),c.getHeight());
+        gc.setFill(Color.GREY);
+        gc.setFont(Font.font("Caladea" ,44));
+
+        //Premiere Case
+        gc.rect(c.getWidth()/3,c.getHeight()/3,c.getWidth()/3,c.getHeight()/7);
+        gc.stroke();
+        gc.fill();
+
+        //Deuxieme case
+        gc.rect(c.getWidth()/3,c.getHeight()/2,c.getWidth()/3,c.getHeight()/7);
+        gc.stroke();
+        gc.fill();
+
+        //Texte
+        gc.setFill(Color.BLACK);
+        gc.fillText("Start",(c.getWidth()/2.5),(c.getHeight()/2.5+10));
+        gc.fillText("Leave" , c.getWidth()/2.5,c.getHeight()/1.75+10);
+
+        //Curseur
+        double emCursor;
+        if (VariablesGlobales.curseurStart){
+            emCursor=c.getHeight()/2.5-5;
+        }
+        else{
+            emCursor=c.getHeight()/1.75-5;
+        }
+
+        gc.fillOval(c.getWidth()/3-10,emCursor,20,20);
     }
 
     /*
