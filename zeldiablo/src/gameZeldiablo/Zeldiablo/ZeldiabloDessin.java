@@ -70,13 +70,15 @@ public class ZeldiabloDessin implements DessinJeu {
         for (int y = 0; y < laby.getHauteur(); y++) {
             for (int x = 0; x < laby.getLongueur(); x++) {
                 // Couleur des murs - noir
-                gc.drawImage(laby.getCase(y,x).getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-
-
+                gc.drawImage(laby.getCase(y,x).getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);                
+                
+                
                 ArrayList<Monstre> entites = laby.getMonstres();
                 for (Monstre m : entites){
                     if (m.getX()==x && m.getY()==y){
                         gc.drawImage(m.getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                        // Dessiner la barre de vie au-dessus du monstre
+                        dessinerBarreVieMonstre(gc, m, x, y);
                     }
                 }
 
@@ -224,5 +226,43 @@ public class ZeldiabloDessin implements DessinJeu {
      */
     private double getLifeBarWidth(double actualHp, double maxHp) {
         return ((double) actualHp / (double) maxHp) * 90;
+    }
+
+    /**
+     * Dessine la barre de vie d'un monstre au-dessus de sa position
+     * @param gc Le contexte graphique pour dessiner
+     * @param monstre Le monstre dont on veut afficher la barre de vie
+     * @param x Position x du monstre sur le plateau
+     * @param y Position y du monstre sur le plateau
+     */
+    private void dessinerBarreVieMonstre(GraphicsContext gc, Monstre monstre, int x, int y) {
+        double barreWidth = VariablesGlobales.TAILLE_CASE * 0.8;
+        double barreHeight = 4;
+        double barreX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - barreWidth) / 2;
+        double barreY = y * VariablesGlobales.TAILLE_CASE - 8; // 8px au dessus du monstre
+
+        // Fond de la barre (gris)
+        gc.setFill(Color.DARKGRAY);
+        gc.fillRect(barreX, barreY, barreWidth, barreHeight);
+
+        // Barre de vie (rouge à vert selon les HP)
+        double pourcentageVie = monstre.getHp() / monstre.getMaxHp();
+        double largeurVie = barreWidth * pourcentageVie;
+        
+        // Change la couleur en fonction de la vie restante
+        if (pourcentageVie > 0.6) {
+            gc.setFill(Color.GREEN);
+        } else if (pourcentageVie > 0.3) {
+            gc.setFill(Color.ORANGE);
+        } else {
+            gc.setFill(Color.RED);
+        }
+        
+        gc.fillRect(barreX, barreY, largeurVie, barreHeight);
+
+        // Bordure
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
+        gc.strokeRect(barreX, barreY, barreWidth, barreHeight);
     }
 }

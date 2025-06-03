@@ -179,10 +179,12 @@ public class ZeldiabloJeu implements Jeu {
     /**
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
-     */
-    public void changeLevel(boolean next) {
+     */    public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
         if (newLevel < niveaux.size()) {
+            // Arrête le timer de l'ancien niveau
+            getLaby().arreterTimerMonstres();
+            
             Player playerCloned = getLaby().getPlayer().clone();
 
             // Changement de niveau
