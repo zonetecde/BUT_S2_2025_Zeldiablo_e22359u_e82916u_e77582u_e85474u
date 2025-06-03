@@ -10,7 +10,8 @@ public class VariablesGlobales {
         public static final Color COULEUR_VIDE = Color.WHITE;
         public static final Color COULEUR_MUR = Color.BLACK;
         public static final Color COULEUR_PIEGE = Color.PURPLE;
-        public static final Color COULEUR_ESCALIER = Color.BLUE;
+        public static final Color COULEUR_ESCALIER1 = Color.BLUE;
+        public static final Color COULEUR_ESCALIER2 = Color.LIGHTBLUE;
 
         //Constantes
         public static final int TAILLE_CASE = 40;

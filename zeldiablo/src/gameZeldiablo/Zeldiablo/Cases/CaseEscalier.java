@@ -20,9 +20,12 @@ public class CaseEscalier extends Case{
      * @param x position
      * @param y position
      */
-    public CaseEscalier(int x, int y, ZeldiabloJeu jeu) {
+    public CaseEscalier(int x, int y, boolean monte, ZeldiabloJeu jeu) {
         super(x, y, Color.BLUE, true);
         this.jeu=jeu;
+        if (!monte) {
+            this.setCouleur(Color.LIGHTBLUE);
+        }
     }
 
     @Override

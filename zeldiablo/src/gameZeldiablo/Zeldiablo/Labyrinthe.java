@@ -30,7 +30,8 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
-    public static final char STAIRS = 'S';
+    public static final char STAIRSU = 'S';
+    public static final char STAIRSD = 'D';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -137,8 +138,11 @@ public class Labyrinthe {
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
                         break;
-                    case STAIRS:
-                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, jeu);
+                    case STAIRSU:
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, true, jeu);
+                        break;
+                    case STAIRSD:
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, false, jeu);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
