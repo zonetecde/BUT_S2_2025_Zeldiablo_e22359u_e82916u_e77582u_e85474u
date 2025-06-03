@@ -184,7 +184,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
-        if (newLevel >= 0 && newLevel < niveaux.size()) {
+        if (newLevel < niveaux.size()) {
             Player playerCloned = getLaby().getPlayer().clone();
 
             // Changement de niveau
@@ -195,7 +195,7 @@ public class ZeldiabloJeu implements Jeu {
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
                 // Si on essaie d'aller au niveau -1, et que on a l'amulette, on gagne
-                if (currentLevel == 0) {
+                if (currentLevel == -1) {
                     if(getLaby().getPlayer().possedeItem("Amulette")) {
                         getLaby().getPlayer().setaGagne(true);
                     }
