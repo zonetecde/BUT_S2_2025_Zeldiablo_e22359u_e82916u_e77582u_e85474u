@@ -107,6 +107,7 @@ public class ZeldiabloJeu implements Jeu {
         if (clavier.pickItem) {
             // Ramasse l'objet si possible
             getLaby().ramasserItem(getLaby().getPlayer());
+            getLaby().getCase(getLaby().getPlayer().getY(),getLaby().getPlayer().getX()).ChangeLevel();
         }
 
         if (clavier.droite) {

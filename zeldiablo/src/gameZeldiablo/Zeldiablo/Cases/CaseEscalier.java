@@ -26,18 +26,8 @@ public class CaseEscalier extends Case{
     }
 
     @Override
-    public boolean hasItem() {
-        return true;
-    }
-
-    /**
-     * Methode executée quand une entité marche sur la case
-     * Changement de niveau
-     */
-    @Override
-    public Item getItem() {
+   public void ChangeLevel(){
         jeu.nextLevel();
-        return null;
     }
 
 }
