@@ -1,7 +1,9 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Items.Amulette;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
@@ -160,6 +162,24 @@ public class ZeldiabloJeu implements Jeu {
 
             for (String f : fichiers) {
                 niveaux.add(new Labyrinthe(f,this));
+            }
+
+            if (!niveaux.isEmpty()) {
+                int niveauAmulette = Utilities.getRandomNumber(0, niveaux.size());
+                Labyrinthe laby = niveaux.get(niveauAmulette);
+
+                ArrayList<Case> casesVides = new ArrayList<>();
+                for (int y = 0; y < laby.getHauteur(); y++) {
+                    for (int x = 0; x < laby.getLongueur(); x++) {
+                        if (laby.getCase(y, x).getIsWalkable() && !laby.getCase(y, x).hasItem()) {
+                            casesVides.add((laby.getCase(y, x)));
+                        }
+                    }
+                }
+                if (!casesVides.isEmpty()) {
+                    int idx = Utilities.getRandomNumber(0, casesVides.size());
+                    casesVides.get(idx).addItem(new Amulette());
+                }
             }
         }
         catch (IOException e){
