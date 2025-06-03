@@ -6,6 +6,13 @@ import gameZeldiablo.Zeldiablo.Labyrinthe;
 
 public class DeplacementIntelligent implements DeplacementStrategie {
     @Override
+    /**
+     * Déplace l'entité selon la stratégie de déplacement intelligente.
+     * Le monstre se déplace vers le joueur en minimisant la distance.
+     *
+     * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
+     * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
+     */
     public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
         Player joueur = labyrinthe.getPlayer();
         if (joueur == null) return;

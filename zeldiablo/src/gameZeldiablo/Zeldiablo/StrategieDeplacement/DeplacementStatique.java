@@ -5,6 +5,13 @@ import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
 public class DeplacementStatique implements DeplacementStrategie {
     @Override
+    /**
+     * Déplace l'entité selon la stratégie de déplacement statique.
+     * Dans ce cas, le monstre ne bouge pas.
+     *
+     * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
+     * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
+     */
     public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
         // Déplacement statique (ne bouge pas)
     }
