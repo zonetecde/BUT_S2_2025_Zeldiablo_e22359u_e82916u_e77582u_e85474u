@@ -7,6 +7,10 @@ public class ItemDefault implements Item {
         this.name = "Item de test";
     }
 
+    public ItemDefault(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getName() {
         return this.name;
