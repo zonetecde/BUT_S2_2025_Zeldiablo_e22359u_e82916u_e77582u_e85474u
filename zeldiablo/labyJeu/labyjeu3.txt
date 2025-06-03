@@ -1,8 +1,8 @@
 9
 14
 XXXXXXXXXXXXXX
-X....C...C...X
-XPXXXXX.XXX.XX
+XD...C...C...X
+X.XXXXX.XXX.XX
 X.....C.....CX
 XXXXX.XXXXX.XX
 X...C.....C..X
