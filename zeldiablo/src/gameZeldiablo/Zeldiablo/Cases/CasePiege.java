@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
  * Classe représentant une case piège dans le jeu Zeldiablo
  */
 public class CasePiege extends Case {
-    private int degats;
+    private double degats;
 
     /**
      * Constructeur de CasePiege
@@ -19,12 +19,12 @@ public class CasePiege extends Case {
      * @param degats Dégâts infligés par le piège
      */
 
-    public CasePiege(int x, int y, int degats) {
+    public CasePiege(int x, int y, double degats) {
         super(x, y, VariablesGlobales.COULEUR_PIEGE, true,VariablesGlobales.SPRITE_PIEGE);
         this.degats = degats;
     }
 
-    public int getDegats() {
+    public double getDegats() {
         return degats;
     }
 

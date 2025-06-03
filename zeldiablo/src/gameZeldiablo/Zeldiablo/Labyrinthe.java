@@ -151,7 +151,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
                         break;
                     case CASE_PIEGE:
-                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
+                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 0.5);
                         break;
                     case STAIR_SORTIE:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, true);
