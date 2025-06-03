@@ -1,5 +1,3 @@
-package gameZeldiablo.Zeldiablo.Strategy_Deplacement;
-
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
 
