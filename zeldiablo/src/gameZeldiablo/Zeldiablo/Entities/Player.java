@@ -76,9 +76,3 @@ public class Player extends Entite {
      */
     public void setaGagne(boolean b) { this.aGagne = b; }
 }
-
-    public double setVie(double vie) {
-        this.setHp(vie);
-        return this.getHp();
-    }
-}
