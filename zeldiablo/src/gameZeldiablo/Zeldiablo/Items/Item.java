@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
 public abstract class Item extends Sprite {
@@ -17,6 +18,8 @@ public abstract class Item extends Sprite {
         this.name = name;
         this.type = type;
     }
+
+    public void use(Labyrinthe laby){};
 
     public String getName() {
         return name;
