@@ -66,4 +66,12 @@ public class Monstre extends Entite {
     public void deplacer(Labyrinthe laby){
         deplacementStrategie.deplacement(laby, this);
     }
+
+    public DeplacementStrategie getDeplacementStrategie() {
+        return deplacementStrategie;
+    }
+
+    public void setDeplacementStrategie(DeplacementStrategie deplacementStrategie) {
+        this.deplacementStrategie = deplacementStrategie;
+    }
 }
