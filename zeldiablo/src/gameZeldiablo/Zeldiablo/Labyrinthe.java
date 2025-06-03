@@ -160,15 +160,25 @@ public class Labyrinthe {
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
         // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
-        if (estDansLimites(suivante[0], suivante[1]) &&
-                (getCase(suivante[0], suivante[1]).getIsWalkable()) &&
-                !monstreSurCase(suivante[0], suivante[1])) {
+        if (canEntityMoveTo(suivante[0], suivante[1])) {
             // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
             caseSuivante.onStepOn(this.joueur);
         }
+    }
+
+    /**
+     * Vérifie si une entité peut se déplacer vers une case donnée.
+     * @param i coordonnée verticale de la case
+     * @param j coordonnée horizontale de la case
+     * @return true si l'entité peut se déplacer vers cette case, false sinon
+     */
+    public boolean canEntityMoveTo(int i, int j) {
+        return estDansLimites(i, j) &&
+                        (getCase(i, j).getIsWalkable()) &&
+                        !monstreSurCase(i, j);
     }
 
     /**
