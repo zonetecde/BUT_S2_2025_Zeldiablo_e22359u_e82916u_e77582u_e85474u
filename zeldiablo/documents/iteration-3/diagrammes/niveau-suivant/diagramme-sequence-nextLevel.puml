@@ -32,11 +32,9 @@ alt [currentLevel < niveaux.size() - 1]
     Player --> Jeu : inventory
     deactivate Player
     
-    note over Jeu : Passage au niveau suivant
     Jeu -> Jeu : currentLevel += 1
-      ref over Jeu : chargementNiveau()
-    note right : Voir diagramme-sequence-chargementNiveau.puml
-    
+  
+
     note over Jeu : Restauration des données du joueur
     
     Jeu -> Jeu : getLaby()
