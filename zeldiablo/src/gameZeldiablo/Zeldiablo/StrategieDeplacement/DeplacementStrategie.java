@@ -4,7 +4,6 @@ public interface DeplacementStrategie {
     /**
      * Déplace l'entité selon la stratégie de déplacement définie.
      **/
-    public void deplacement();
+    public void deplacement(Labyrinthe laby);
  }
-
 
