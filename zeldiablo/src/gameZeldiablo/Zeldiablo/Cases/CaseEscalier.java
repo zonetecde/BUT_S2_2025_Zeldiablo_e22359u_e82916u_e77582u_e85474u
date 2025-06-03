@@ -12,7 +12,7 @@ public class CaseEscalier extends Case{
     boolean monte = true;
 
     public CaseEscalier(int x, int y, boolean monte) {
-        super(x, y, Color.BLUE, true);
+        super(x, y, Color.DARKBLUE, true);
         this.monte = monte;
         if (!monte) {
             this.setCouleur(Color.LIGHTBLUE);
