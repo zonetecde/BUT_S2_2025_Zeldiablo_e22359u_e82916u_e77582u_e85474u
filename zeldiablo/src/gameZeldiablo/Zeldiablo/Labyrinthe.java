@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseMur;
 import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
@@ -35,7 +36,7 @@ public class Labyrinthe {
     private Player joueur;
 
     //Monstre
-    private ArrayList<Entite> monstres = new ArrayList<>();
+    private ArrayList<Monstre> monstres = new ArrayList<>();
     private Random random = new Random();
 
     /**
@@ -166,6 +167,13 @@ public class Labyrinthe {
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
             caseSuivante.onStepOn(this.joueur);
+        }
+
+        // Lorsque le joueur se déplace, peut importe si le déplacement a réussi ou pas, tout les monstres effectuent
+        // leur stratégie de déplacement
+        for (Monstre monstre : monstres) {
+            // On effectue le déplacement du monstre
+            monstre.deplacer(this);
         }
     }
 

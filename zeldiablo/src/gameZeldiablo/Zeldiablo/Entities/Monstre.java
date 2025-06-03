@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
+import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 public class Monstre extends Entite {
@@ -60,5 +61,9 @@ public class Monstre extends Entite {
     public Monstre(int x, int y) {
         super(x, y, 3, VariablesGlobales.DEGAT_BASE);
         setIntelligence(Intelligence.MOYENNE);
+    }
+
+    public void deplacer(Labyrinthe laby){
+        deplacementStrategie.deplacement(laby, this);
     }
 }
