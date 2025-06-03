@@ -1,75 +1,33 @@
 @startuml
+
 participant "zj: ZeldiabloJeu" as ZJ
 participant "clavier: Clavier" as Clavier
-participant "scheduler: ScheduledExecutorService" as Scheduler
 participant "VariablesGlobales" as VG
 participant "player: Player" as Player
 participant "inventory: Inventory" as Inventory
 
--> ZJ : update(secondes: double, clavier: Clavier)
+-> ZJ : update(secondes, clavier)
 activate ZJ
 
-alt [si une touche est pressée ET !currentlyMoving]
-
+alt [. touche pressée]
     
-    alt [si clavier.tab]
+    alt [clavier.tab]
         ZJ -> VG : MenuOuvert = !MenuOuvert
-        activate VG
-        deactivate VG
     end
     
-    alt [si MenuOuvert == true]
-        ZJ -> ZJ : inputInv(clavier: Clavier)
+    alt [MenuOuvert == true]
+        ZJ -> ZJ : inputInv(clavier)
         activate ZJ
         
-        alt [si clavier.droite]
-            ZJ -> Player : getInventory()
-            activate Player
-            Player --> ZJ : Inventory
-            deactivate Player
-            
-            ZJ -> Inventory : size()
-            activate Inventory
-            Inventory --> ZJ : int
-            deactivate Inventory
-            
-            alt [si curseur < size-1]
-                ZJ -> VG : curseur += 1
-                activate VG
-                deactivate VG
-            end
-            
-        else [si clavier.gauche]
-            alt [si curseur > 0]
-                ZJ -> VG : curseur -= 1
-                activate VG
-                deactivate VG
-            end
-            
-        else [si clavier.haut]
-            alt [si curseur > 3]
-                ZJ -> VG : curseur -= 4
-                activate VG
-                deactivate VG
-            end
-            
-        else [si clavier.bas]
-            ZJ -> Player : getInventory()
-            activate Player
-            Player --> ZJ : Inventory
-            deactivate Player
-            
-            ZJ -> Inventory : size()
-            activate Inventory
-            Inventory --> ZJ : int
-            deactivate Inventory
-            
-            alt [si curseur < size-3]
-                ZJ -> VG : curseur += 4
-                activate VG
-                deactivate VG
-            end
-        end
+        note over ZJ, Inventory : Navigation inventaire :\n- droite/gauche : curseur + ou - 1\n- haut/bas : curseur + ou - 4\n(avec vérifications limites via player.getInventory().size())
+        
+        ZJ -> Player : getInventory()
+        Player --> ZJ : Inventory
+        
+        ZJ -> Inventory : size()
+        Inventory --> ZJ : int
+        
+        ZJ -> VG : curseur = nouvelle_position
         
         deactivate ZJ
     else
@@ -78,6 +36,6 @@ alt [si une touche est pressée ET !currentlyMoving]
     
 end
 
-ZJ --> : void
 deactivate ZJ
+
 @enduml

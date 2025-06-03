@@ -70,8 +70,6 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
-
-
     /**
      * Déplace le personnage en fonction des touches pressées.
      * @param clavier Objet Clavier pour recuperer des input
