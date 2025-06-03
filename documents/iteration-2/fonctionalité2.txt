@@ -9,3 +9,22 @@ Réalisé par Julien et Tom
 3. Monstre statique + Collision impossible sur un monstre
 
 Réalisé par Elias et Rayane 
+
+Bilan :
+
+Nous avons réussi à implémenter les trois fonctionnalités prévues.
+
+Système d'objets et inventaire :
+- Les objets sont désormais récupérables sur le plateau de jeu via la touche `E`
+- L'inventaire s'ouvre avec la touche `Tab` et la navigation se fait avec les touches ZQSD
+- Interface utilisateur intuitive pour la gestion des objets
+
+Système de monstres :
+- Ajout de monstres statiques représentés par des cercles rouges
+- Génération aléatoire des monstres (probabilité : 1/PROBA_MONSTRE)
+- Collision avec les monstres empêche le déplacement du joueur
+- Les monstres sont actuellement passifs (pas d'attaque)
+
+Perspectives d'amélioration :
+- Implémentation d'une interface Monstre pour gérer les types de monstre
+- Ajout d'attaque et de mouvement pour les monstres
