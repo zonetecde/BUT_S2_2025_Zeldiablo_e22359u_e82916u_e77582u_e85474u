@@ -1,4 +1,6 @@
 @startuml
+title Diagramme de séquence pour le déplacement aléatoire d'un monstre
+
 participant "dh: DeplacementHasard" as DH
 participant "Direction" as Dir
 participant "monstre: Monstre" as Monstre
