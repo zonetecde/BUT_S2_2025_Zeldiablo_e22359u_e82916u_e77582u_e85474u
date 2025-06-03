@@ -1,4 +1,6 @@
 @startuml
+title Diagramme de séquence pour le déplacement qui se rapproche du joueur
+
 participant "dr: DeplacementRapprochement" as DR
 participant "labyrinthe: Labyrinthe" as Laby
 participant "player: Player" as Player
