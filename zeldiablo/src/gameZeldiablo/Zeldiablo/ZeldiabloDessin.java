@@ -46,6 +46,9 @@ public class ZeldiabloDessin implements DessinJeu {
             // Dessin les infos sur le joueur
             heroUI(laby, gc);
 
+            // Affiche les instructions
+            instructionUI(laby, gc, canvas);
+
             if (VariablesGlobales.MenuOuvert) {
                 invUI(laby, gc, canvas);
             }
@@ -114,6 +117,23 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
         gc.setFill(Color.RED);
         gc.fillRect(baseXPlayer + 5, 75, getLifeBarWidth(laby.getPlayer().getHp(), laby.getPlayer().getMaxHp()), 20);
+    }
+
+    /**
+     * Affiche les instructions de jeu sur l'UI
+     * @param gc  Le contexte graphique pour dessiner sur le canvas.
+     * @param c Le canvas sur lequel dessiner les instructions.
+     */
+    private void instructionUI(Labyrinthe laby, GraphicsContext gc, Canvas c) {
+        int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+        
+        gc.setFill(Color.BLACK);
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        gc.fillText("ZQSD pour se déplacer", baseXPlayer + 5, 115);
+        gc.fillText("ou pour naviguer dans l'inventaire", baseXPlayer + 5, 130);
+        gc.fillText("E pour prendre un item", baseXPlayer + 5, 145);
+        gc.fillText("Tab pour ouvrir l'inventaire", baseXPlayer + 5, 160);
+        gc.fillText("X pour attaquer un monstre", baseXPlayer + 5, 175);
     }
 
     /**
