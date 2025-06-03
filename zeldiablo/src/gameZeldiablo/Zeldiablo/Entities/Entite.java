@@ -10,9 +10,8 @@ import java.util.ArrayList;
  * gere un personnage situe en x,y
  */
 public abstract class Entite {
-
     /**
-     * position du personnage et vie
+     * Position du personnage et vie
      */
     private int x, y;
     private double hp, maxHp; // Les points de vie de l'entité
