@@ -5,7 +5,11 @@ import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 
 public class DeplacementHasard implements DeplacementStrategie {
-
+    /**
+     * Déplace l'entité selon la stratégie de déplacement aléatoire.
+     * @param laby
+     * @param monstre
+     */
     @Override
     public void deplacement(Labyrinthe laby, Monstre monstre) {
         Direction[] directions = Direction.values();

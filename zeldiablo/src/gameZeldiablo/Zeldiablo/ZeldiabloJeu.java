@@ -167,7 +167,7 @@ public class ZeldiabloJeu implements Jeu {
             int x = getLaby().getPlayer().getX();
             int y = getLaby().getPlayer().getY();
             currentLevel += 1;
-            chargementNiveau();
+
             getLaby().getPlayer().setEnVie(true);
             getLaby().getPlayer().setInventory(tmpinv);
             getLaby().getPlayer().setHp(tmphp);
