@@ -1,0 +1,23 @@
+@startuml
+title Diagramme montrant comment est appelé la méthode déplacement des monstres
+
+participant "labyrinthe: Labyrinthe" as Laby
+participant "monstre: Monstre" as Monstre
+participant "deplacementStrategie: DeplacementStrategie" as Strategie
+
+-> Laby : deplacerPerso(action, p)
+activate Laby
+
+note over Laby : Déplacement du personnage juste avant
+
+loop [pour chaque monstre]
+    Laby -> Monstre : deplacer(this)
+    activate Monstre
+    
+    Monstre -> Strategie : deplacement(laby, this)
+    
+    deactivate Monstre
+end
+
+deactivate Laby
+@enduml
