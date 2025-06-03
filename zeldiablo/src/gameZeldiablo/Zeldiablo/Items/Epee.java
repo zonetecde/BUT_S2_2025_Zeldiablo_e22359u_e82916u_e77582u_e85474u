@@ -3,8 +3,8 @@ package gameZeldiablo.Zeldiablo.Items;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
-public class Amulette extends Item{
-    public Amulette() {
-        super("Amulette", VariablesGlobales.SPRITE_AMULETTE, TypeItem.OBJET);
+public class Epee extends Item{
+    public Epee() {
+        super( "Épée", VariablesGlobales.SPRITE_EPEE, TypeItem.ARME);
     }
 }

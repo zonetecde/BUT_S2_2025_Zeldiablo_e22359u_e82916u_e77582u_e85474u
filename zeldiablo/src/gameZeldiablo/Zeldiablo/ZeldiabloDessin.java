@@ -49,6 +49,9 @@ public class ZeldiabloDessin implements DessinJeu {
             // Affiche les instructions
             instructionUI(laby, gc, canvas);
 
+            // Affiche l'item actuellement sélectionné dans l'inventaire
+            itemActuellementSelectionneUI(laby, gc, canvas);
+
             if (VariablesGlobales.MenuOuvert) {
                 invUI(laby, gc, canvas);
             }
@@ -129,11 +132,23 @@ public class ZeldiabloDessin implements DessinJeu {
         
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-        gc.fillText("ZQSD pour se déplacer", baseXPlayer + 5, 115);
-        gc.fillText("ou pour naviguer dans l'inventaire", baseXPlayer + 5, 130);
-        gc.fillText("E pour prendre un item", baseXPlayer + 5, 145);
-        gc.fillText("Tab pour ouvrir l'inventaire", baseXPlayer + 5, 160);
-        gc.fillText("X pour attaquer un monstre", baseXPlayer + 5, 175);
+        gc.fillText("ZQSD pour se déplacer", baseXPlayer + 5, 115 + 125);
+        gc.fillText("ou pour naviguer dans l'inventaire", baseXPlayer + 5, 130 + 125);
+        gc.fillText("E pour prendre un item", baseXPlayer + 5, 145 + 125);
+        gc.fillText("Tab pour ouvrir l'inventaire", baseXPlayer + 5, 160 + 125);
+        gc.fillText("X pour attaquer un monstre", baseXPlayer + 5, 175 + 125);
+    }   
+    
+    private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc, Canvas c) {
+        ArrayList<Item> inv = laby.getPlayer().getInventory();
+        if (inv.size() > 0) {
+            Item item = inv.get(VariablesGlobales.curseur);
+            int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+            gc.setFill(Color.BLACK);
+            gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+            String itemText = "Item sélectionné : " + item.toString();
+            gc.fillText(itemText, baseXPlayer + 5, 125);
+        }
     }
 
     /**
