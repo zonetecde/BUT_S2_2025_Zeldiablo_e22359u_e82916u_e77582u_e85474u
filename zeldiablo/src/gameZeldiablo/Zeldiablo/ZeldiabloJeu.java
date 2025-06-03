@@ -203,8 +203,12 @@ public class ZeldiabloJeu implements Jeu {
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
         if (newLevel >= 0 && newLevel < niveaux.size()) {
+            Player playerCloned = getLaby().getPlayer().clone();
+
             // Changement de niveau
             currentLevel = newLevel;
+
+            getLaby().setPlayer(playerCloned);
             
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {

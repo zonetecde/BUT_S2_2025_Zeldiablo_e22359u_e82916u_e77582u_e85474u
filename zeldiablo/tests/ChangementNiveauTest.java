@@ -15,7 +15,7 @@ public class ChangementNiveauTest {
         jeu.getLaby().getPlayer().getInventory().add(itemTest);
         double hpAvant = jeu.getLaby().getPlayer().getHp();
 
-        jeu.nextLevel();
+        jeu.changeLevel(true);
 
         assertEquals(1, jeu.getCurrentLevel());
         assertTrue(jeu.getLaby().getPlayer().getInventory().stream()
@@ -27,14 +27,14 @@ public class ChangementNiveauTest {
         ZeldiabloJeu jeu = new ZeldiabloJeu(0);
         jeu.init();
 
-        jeu.nextLevel();
+        jeu.changeLevel(true);
         assertEquals(1, jeu.getCurrentLevel());
 
         Item itemTest = new ItemDefault("Clé");
         jeu.getLaby().getPlayer().getInventory().add(itemTest);
         double hpAvant = jeu.getLaby().getPlayer().getHp();
 
-        jeu.previousLevel();
+        jeu.changeLevel(false);
 
         assertEquals(0, jeu.getCurrentLevel());
         assertTrue(jeu.getLaby().getPlayer().getInventory().stream()

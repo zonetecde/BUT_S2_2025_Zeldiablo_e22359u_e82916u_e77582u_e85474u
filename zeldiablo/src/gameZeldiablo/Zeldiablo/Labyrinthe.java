@@ -92,11 +92,22 @@ public class Labyrinthe {
         BufferedReader bfRead = new BufferedReader(fichier);
 
         int nbLignes, nbColonnes;
-        // lecture nblignes
-        nbLignes = Integer.parseInt(bfRead.readLine());
-        // lecture nbcolonnes
-        nbColonnes = Integer.parseInt(bfRead.readLine());
 
+        // récupère le nbre de lignes et de colonnes
+        String premiereLigne = bfRead.readLine();
+        nbColonnes = premiereLigne.length();
+        // compte le nombre de lignes
+        nbLignes = 0;
+        while (premiereLigne != null) {
+            nbLignes++;
+            premiereLigne = bfRead.readLine();
+        }
+        
+        // remet le curseur au début du fichier
+        fichier.close();
+        fichier = new FileReader(nom);
+        bfRead = new BufferedReader(fichier);
+ 
         // creation labyrinthe vide
         gameBoard = new Case[nbLignes][nbColonnes];
 

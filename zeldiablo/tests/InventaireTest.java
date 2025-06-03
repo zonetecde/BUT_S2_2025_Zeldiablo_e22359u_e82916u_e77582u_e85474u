@@ -12,7 +12,7 @@ class InventaireTest {
 
     @Test
     public void testGetInventory(){
-        Player p = new Player(1,2);
+        Player p = new Player(1,2, 5, 1);
         p.getInventory().add(new ItemDefault());
         assertEquals(1,p.getInventory().size());
     }

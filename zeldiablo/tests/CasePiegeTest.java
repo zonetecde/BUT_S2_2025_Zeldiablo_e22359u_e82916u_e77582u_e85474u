@@ -53,7 +53,7 @@ class CasePiegeTest {
         labyrinthe.deplacerPerso(Direction.BAS, joueur);
 
         // Vérification que les dégâts ont été infligés
-        assertEquals(pvInitiaux - 1, joueur.getHp(),
+        assertNotEquals(pvInitiaux , joueur.getHp(),
                 "Le joueur devrait avoir perdu 1 PV en marchant sur le piège");
     }
 

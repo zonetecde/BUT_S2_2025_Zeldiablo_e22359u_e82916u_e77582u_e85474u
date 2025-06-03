@@ -1,9 +1,7 @@
-15
-25
 XXXXXXXXXXXXXXXXXXXXXXXXX
-X....O..S..OOOOO..C.....X
+X....I..S..OOOOO..C.....X
 X..X..XXXXXX.X..X....C..X
-X..P....C.......XXXXXX..X
+X..D....C.......XXXXXX..X
 X..XXXXX..X..X......X...X
 X......X..X..XXXXXX.X.C.X
 X.C....X..X........X...CX

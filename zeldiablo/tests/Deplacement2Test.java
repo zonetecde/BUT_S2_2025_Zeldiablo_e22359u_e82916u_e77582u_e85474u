@@ -17,7 +17,7 @@ public class Deplacement2Test {
         Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_SANS_MUR, null);
 
         // place le joueur en bas à droite
-        Player joueur = new Player(8, 8);
+        Player joueur = new Player(8, 8, 5, 1);
         labyrinthe.setPlayer(joueur);
         labyrinthe.getMonstres().clear(); // vide la liste des monstres existants
 
@@ -45,7 +45,7 @@ public class Deplacement2Test {
         Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_AVEC_MUR, null);
 
         // place le joueur de l'autre côté du mur
-        Player joueur = new Player(8, 4);
+        Player joueur = new Player(8, 4, 5, 1);
         labyrinthe.setPlayer(joueur);
         labyrinthe.getMonstres().clear(); // Vide la liste des monstres existants
 

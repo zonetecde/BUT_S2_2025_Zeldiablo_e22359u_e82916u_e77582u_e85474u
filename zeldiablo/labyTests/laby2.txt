@@ -1,5 +1,3 @@
-14
-20
 XXXXXXXXXXXXXXXXXXXX
 XX.......X........XX
 X........X.........X
@@ -12,5 +10,5 @@ X.....X..X.........X
 XX.......XX........X
 X........X.........X
 X........X.........X
-XX...............PXX
+XX...............DXX
 XXXXXXXXXXXXXXXXXXXX

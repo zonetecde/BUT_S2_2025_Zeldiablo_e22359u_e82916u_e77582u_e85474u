@@ -1,7 +1,5 @@
-10
-10
 XXXXXXXXXX
-XP.......X
+XD.......X
 X..XXXX..X
 X........X
 X..XXXX..X
