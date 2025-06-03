@@ -197,4 +197,8 @@ public class ZeldiabloJeu implements Jeu {
     public boolean etreFini() {
         return estFini;
     }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
 }
