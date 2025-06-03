@@ -14,6 +14,11 @@ public abstract class Sprite {
 
     public void setImg(String img){
         this.imgFile=img;
+        try{
+            this.img = new Image(imgFile);
+        } catch (Exception e){
+            // JavaFX n'a toujours pas été initialisé
+        }
     }
 
     public Image getImg(){
