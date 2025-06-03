@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Items.Item;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -30,7 +31,7 @@ public class ZeldiabloJeu implements Jeu {
     private boolean currentlyMoving = false;
 
     // Indique si le personnage est en train de ramasser un objet
-    private boolean currentlyPicking = false;
+    private boolean action = false;
 
     public ZeldiabloJeu(int level){
         currentLevel = level;
@@ -60,15 +61,21 @@ public class ZeldiabloJeu implements Jeu {
             }
         }
         if (clavier.PickItem) {
-            if (!currentlyPicking) {
-                currentlyPicking = true;
+            if (!action) {
+                action = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
                 scheduler.schedule(() -> {
-                    currentlyPicking = false;
+                    action = false;
                 }, 100, TimeUnit.MILLISECONDS);
 
                 // Ramasse l'objet si possible
                 getLaby().ramasserObjet(getLaby().getPlayer());
+
+                // Change de niveau si le joueur est sur une case escalier
+                int x = getLaby().getPlayer().getX();
+                int y = getLaby().getPlayer().getY();
+                var caseCourante = getLaby().getCase(y, x);
+                caseCourante.ChangeLevel();
 
                 scheduler.shutdown();
             }
@@ -131,7 +138,7 @@ public class ZeldiabloJeu implements Jeu {
             File[] folder = new File("labySimple").listFiles();
             assert folder != null;
             for (File file : folder) {
-                niveaux.add(new Labyrinthe(file.getAbsolutePath()));
+                niveaux.add(new Labyrinthe(file.getAbsolutePath(),this));
             }
         }
         catch (IOException e){
@@ -142,6 +149,18 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
+    public void nextLevel() {
+        if (currentLevel < niveaux.size() - 1) {
+            VariablesGlobales.tickables = new ArrayList<>();
+            double tmphp = getLaby().getPlayer().getHp();
+            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
+            currentLevel += 1;
+            chargementNiveau();
+            getLaby().getPlayer().setEnVie(true);
+            getLaby().getPlayer().setInventory(tmpinv);
+            getLaby().getPlayer().setHp(tmphp);
+        }
+    }
     /**
      * Getter de laby
      * @return renvoie le laby actuel

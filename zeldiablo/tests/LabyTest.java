@@ -20,7 +20,7 @@ class LabyTest {
 
     @Test
     void testConstructionLabyrintheSimple() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         assertEquals(5, labyrinthe.getHauteur(), "La hauteur devrait être 5");
         assertEquals(7, labyrinthe.getLongueur(), "La longueur devrait être 7");
@@ -32,7 +32,7 @@ class LabyTest {
 
     @Test
     void testConstructionLabyrintheComplexe() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY1);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY1, null);
 
         assertEquals(7, labyrinthe.getHauteur(), "La hauteur devrait être 7");
         assertEquals(10, labyrinthe.getLongueur(), "La longueur devrait être 10");
@@ -44,7 +44,7 @@ class LabyTest {
 
     @Test
     void testConstructionLabyrintheGrand() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY2);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY2, null);
 
         assertEquals(14, labyrinthe.getHauteur(), "La hauteur devrait être 14");
         assertEquals(20, labyrinthe.getLongueur(), "La longueur devrait être 20");
@@ -56,7 +56,7 @@ class LabyTest {
 
     @Test
     void testTypesCases() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         Case caseMur = labyrinthe.getCase(0, 0);
         assertTrue(caseMur instanceof CaseMur, "La case (0,0) devrait être un mur");
@@ -70,7 +70,7 @@ class LabyTest {
 
     @Test
     void testDeplacementHaut() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         int xInitial = labyrinthe.getPlayer().getX();
         int yInitial = labyrinthe.getPlayer().getY();
@@ -83,7 +83,7 @@ class LabyTest {
 
     @Test
     void testDeplacementBas() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         int xInitial = labyrinthe.getPlayer().getX();
         int yInitial = labyrinthe.getPlayer().getY();
@@ -96,7 +96,7 @@ class LabyTest {
 
     @Test
     void testDeplacementDroite() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         int xInitial = labyrinthe.getPlayer().getX();
         int yInitial = labyrinthe.getPlayer().getY();
@@ -109,7 +109,7 @@ class LabyTest {
 
     @Test
     void testDeplacementGauche() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         int xInitial = labyrinthe.getPlayer().getX();
         int yInitial = labyrinthe.getPlayer().getY();
@@ -122,7 +122,7 @@ class LabyTest {
 
     @Test
     void testCollisionMur() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         // Déplacer le joueur contre le mur du haut (position initiale: x=3, y=2)
         labyrinthe.deplacerPerso(Direction.HAUT, labyrinthe.getPlayer()); // y=1
@@ -140,7 +140,7 @@ class LabyTest {
 
     @Test
     void testCollisionLimites() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         labyrinthe.getPlayer().setX(6);
         labyrinthe.getPlayer().setY(2);
@@ -171,14 +171,14 @@ class LabyTest {
 
     @Test
     void testEtreFini() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         assertFalse(labyrinthe.etreFini(), "Le jeu ne devrait jamais être fini");
     }
 
     @Test
     void testGetCaseValides() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         Case case00 = labyrinthe.getCase(0, 0);
         assertNotNull(case00, "La case (0,0) ne devrait pas être null");
@@ -190,17 +190,17 @@ class LabyTest {
     @Test
     void testDimensions() throws IOException {
         // Test avec laby0
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
         assertEquals(5, labyrinthe.getHauteur(), "Hauteur laby0 incorrecte");
         assertEquals(7, labyrinthe.getLongueur(), "Longueur laby0 incorrecte");
 
         // Test avec laby1
-        labyrinthe = new Labyrinthe(CHEMIN_LABY1);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY1, null);
         assertEquals(7, labyrinthe.getHauteur(), "Hauteur laby1 incorrecte");
         assertEquals(10, labyrinthe.getLongueur(), "Longueur laby1 incorrecte");
 
         // Test avec laby2
-        labyrinthe = new Labyrinthe(CHEMIN_LABY2);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY2, null);
         assertEquals(14, labyrinthe.getHauteur(), "Hauteur laby2 incorrecte");
         assertEquals(20, labyrinthe.getLongueur(), "Longueur laby2 incorrecte");
     }
@@ -208,13 +208,13 @@ class LabyTest {
     @Test
     void testFichierInexistant() {
         assertThrows(IOException.class, () -> {
-            new Labyrinthe("fichier_inexistant.txt");
+            new Labyrinthe("fichier_inexistant.txt", null);
         }, "Une IOException devrait être levée pour un fichier inexistant");
     }
 
     @Test
     void testSequenceDeplacements() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         // Position initiale du joueur dans laby0: x=3, y=2
         assertEquals(3, labyrinthe.getPlayer().getX());
@@ -236,7 +236,7 @@ class LabyTest {
 
     @Test
     void testCreationJoueur() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY0);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY0, null);
 
         assertNotNull(labyrinthe.getPlayer(), "Le joueur devrait être créé");
         assertTrue(labyrinthe.getPlayer() instanceof Player, "Le joueur devrait être une instance de Player");

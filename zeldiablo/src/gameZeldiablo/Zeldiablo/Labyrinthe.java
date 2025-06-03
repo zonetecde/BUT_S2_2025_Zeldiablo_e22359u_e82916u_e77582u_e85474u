@@ -27,6 +27,7 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
+    public static final char STAIRS = 'S';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -78,7 +79,7 @@ public class Labyrinthe {
      * @return labyrinthe cree
      * @throws IOException probleme a la lecture / ouverture
      */
-    public Labyrinthe(String nom) throws IOException {
+    public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
@@ -130,6 +131,9 @@ public class Labyrinthe {
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
+                        break;
+                    case STAIRS:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -273,5 +277,12 @@ public class Labyrinthe {
      */
     public boolean joueurSurCase(int y, int x) {
         return this.joueur.getY() == y && this.joueur.getX() == x;
+    }
+
+    public void setJoueur(Player joueur) {
+        this.joueur = joueur;
+    }
+    public Player getJoueur() {
+        return this.joueur;
     }
 }
