@@ -88,14 +88,17 @@ public class ZeldiabloDessin implements DessinJeu {
                     gc.drawImage(laby.getPlayer().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
-
-                // Affichage des items
-                if (laby.getCase(y, x).hasItem()) {
+                try {
+                    gc.drawImage(laby.getCase(y, x).getItem().getImg(), x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                } catch (Exception none) {}
+                // Affichge deas items
+                /*if (laby.getCase(y, x).hasItem()) {
+                    laby.getCase(y,x).ge
                     gc.setFill(Color.BLACK);
                     double reducedSize = VariablesGlobales.TAILLE_CASE * 0.75;
                     double offset = (VariablesGlobales.TAILLE_CASE - reducedSize) / 2;
                     gc.fillOval(x * VariablesGlobales.TAILLE_CASE + offset, y * VariablesGlobales.TAILLE_CASE + offset, reducedSize, reducedSize);
-                }
+                }*/
             }
         }
     }
