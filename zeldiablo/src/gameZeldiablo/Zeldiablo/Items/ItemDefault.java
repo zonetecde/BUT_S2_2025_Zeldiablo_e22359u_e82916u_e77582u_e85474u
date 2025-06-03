@@ -1,13 +1,15 @@
 package gameZeldiablo.Zeldiablo.Items;
 
-public class ItemDefault implements Item {
+public class ItemDefault extends Item {
     private String name;
 
     public ItemDefault() {
+        super(null);
         this.name = "Item de test";
     }
 
     public ItemDefault(String name) {
+        super(null);
         this.name = name;
     }
 
