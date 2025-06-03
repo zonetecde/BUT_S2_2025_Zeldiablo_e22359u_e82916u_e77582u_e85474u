@@ -1,23 +1,24 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
+import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
-import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
 
 public class DeplacementHasard implements DeplacementStrategie {
 
-
+    @Override
     public void deplacement(Labyrinthe laby, Monstre monstre) {
-        int dx = (int) (Math.random() * 3) - 1; // -1, 0, ou 1
-        int dy = (int) (Math.random() * 3) - 1; // -1, 0, ou 1
 
-        if (dx == 0 && dy == 0) {
-            dx = 1;
+        Direction[] directions = Direction.values();
+        Direction directionChoisie = directions[(int)(Math.random() * directions.length)];
+
+        // calcule des coordonnées de la case suivante
+        int[] prochainePosition = Labyrinthe.getSuivant(monstre.getY(), monstre.getX(), directionChoisie);
+
+        // vérifie si le déplacement est possible
+        if (laby.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+            // déplacement
+            monstre.setPosition(prochainePosition[0], prochainePosition[1]);
         }
-
-        monstre.setX(dx);
-        monstre.setY(dy);
-
     }
 }
-
