@@ -1,4 +1,7 @@
 @startuml
+
+title Diagramme de classe de la classe CaseEscalier
+
 abstract Case {
   + ChangeLevel()
 }
