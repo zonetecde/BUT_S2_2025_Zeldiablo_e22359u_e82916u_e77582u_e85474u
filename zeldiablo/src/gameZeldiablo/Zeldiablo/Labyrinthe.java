@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Items.Epee;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
@@ -26,6 +27,7 @@ public class Labyrinthe {
      */
     public static final char MUR = 'X';
     public static final char PORTE = 'P';
+    public static final char ITEM_EPEE = 'E';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char ITEM = 'I';
@@ -146,6 +148,10 @@ public class Labyrinthe {
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
+                        break;
+                    case ITEM_EPEE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne].addItem(new Epee());
                         break;
                     case CASE_OUVERTURE:
                         gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
