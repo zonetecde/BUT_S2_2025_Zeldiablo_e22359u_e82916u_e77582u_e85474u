@@ -1,0 +1,19 @@
+@startuml
+participant Joueur
+participant "ZJ: ZeldiabloJeu" as Jeu
+participant "L1: Labyrinthe" as Laby
+participant "P1: Player" as Player
+
+Joueur -> Jeu : nextLevel()
+activate Jeu
+Jeu -> Jeu : getLaby()
+Jeu -> Player : getHp()
+Jeu -> Player : getInventory()
+Jeu -> Jeu : currentLevel += 1
+Jeu -> Jeu : chargementNiveau()
+Jeu -> Jeu : getLaby()
+Jeu -> Player : setEnVie(true)
+Jeu -> Player : setInventory(tmpinv)
+Jeu -> Player : setHp(tmphp)
+deactivate Jeu
+@enduml
