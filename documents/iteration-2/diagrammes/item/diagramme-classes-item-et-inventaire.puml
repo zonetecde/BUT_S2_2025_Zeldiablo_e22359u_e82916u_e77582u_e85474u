@@ -30,16 +30,13 @@ class Player {
   + getInventory(): ArrayList<Item>
 }
 
-' Relations
 Case <|-- CaseVide
 CaseVide o-- Item
 ItemDefault ..|> Item
 Player --> "*" Item : inventory
 
-' Note
 note right of ItemDefault : Item de test dans le jeu
 
-' Hide non-item related attributes
 hide Case::x
 hide Case::y
 hide Case::couleur

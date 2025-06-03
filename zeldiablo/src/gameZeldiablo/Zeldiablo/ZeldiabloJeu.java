@@ -140,7 +140,7 @@ public class ZeldiabloJeu implements Jeu {
     private void chargementNiveau(){
         try {
             niveaux =new ArrayList<>();
-            File[] folder = new File("labySimple").listFiles();
+            File[] folder = new File("labyJeu").listFiles();
             assert folder != null;
             String[] fichiers = new String[folder.length];
             for (int i=0;i<folder.length;i++){

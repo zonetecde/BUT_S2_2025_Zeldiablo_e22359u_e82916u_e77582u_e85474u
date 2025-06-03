@@ -1,8 +1,9 @@
-
+7
+10
 XXXXXXXXXX
-XP...T...X
-X.XXX.XTXX
-X.....T..X
-X.XXXX.T.X
-X....T...S
+XP...C...X
+X.XXX.XCXX
+X.....C..X
+X.XXXX.C.X
+X....C...S
 XXXXXXXXXX
