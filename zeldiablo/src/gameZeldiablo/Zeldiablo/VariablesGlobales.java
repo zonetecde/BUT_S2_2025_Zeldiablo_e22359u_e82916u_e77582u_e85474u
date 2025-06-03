@@ -23,7 +23,8 @@ public class VariablesGlobales {
         public static final String SPRITE_MUR = "Tiles/Mur.png";
         public static final String SPRITE_P_P = "Tiles/PressurePlate.png";
         public static final String SPRITE_PIEGE = "Tiles/Piege.png";
-        public static final String SPRITE_PORTE = "Tiles/Door.png";
+        public static final String SPRITE_PORTE_FERMEE = "Tiles/DoorClosed.png";
+        public static final String SPRITE_PORTE_OUVERTE = "Tiles/DoorOpened.png";
 
         //Constantes
         public static final int TAILLE_CASE = 40;

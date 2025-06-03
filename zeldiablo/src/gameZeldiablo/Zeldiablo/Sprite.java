@@ -12,8 +12,8 @@ public abstract class Sprite {
         this.imgFile = s;
     }
 
-    public void setImg(Image img){
-        this.img = img;
+    public void setImg(String img){
+        this.imgFile=img;
     }
 
     public Image getImg(){

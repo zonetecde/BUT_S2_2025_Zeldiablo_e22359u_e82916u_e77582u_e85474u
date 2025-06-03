@@ -17,7 +17,7 @@ public class Player extends Entite {
     }
 
     public void setSpriteJoueur(int i) {
-        this.setImg(new Image(VariablesGlobales.SPRITE_JOUEUR[i]));
+        this.setImg(VariablesGlobales.SPRITE_JOUEUR[i]);
     }
 
     /**
