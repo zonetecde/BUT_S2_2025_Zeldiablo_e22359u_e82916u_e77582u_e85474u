@@ -1,11 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
-import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseMur;
-import gameZeldiablo.Zeldiablo.Cases.CasePiege;
-import gameZeldiablo.Zeldiablo.Cases.CasePorte;
-import gameZeldiablo.Zeldiablo.Cases.CaseVide;
-import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
+import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
@@ -29,7 +24,8 @@ public class Labyrinthe {
     public static final char PORTE = 'P';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
-    public static final char OBJECT = 'O';
+    public static final char ITEM = 'I';
+    public static final char CASE_OUVERTURE = 'O';
     public static final char STAIR_SORTIE = 'S';
     public static final char STAIRS_DEPART = 'D';
 
@@ -38,6 +34,8 @@ public class Labyrinthe {
 
     private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
+    private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
+                                 // et celle-ci est ouverte par une seule case d'ouverture.
 
     // Entité joueur
     private Player joueur;
@@ -129,10 +127,12 @@ public class Labyrinthe {
                             monstres.add(monstre);
                         }
                         break;
-
-                    case OBJECT:
+                    case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
+                        break;
+                    case CASE_OUVERTURE:
+                        gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
@@ -156,7 +156,8 @@ public class Labyrinthe {
                         this.joueur = new Player(colonne, numeroLigne);
                         break;
                     case PORTE:
-                        gameBoard[numeroLigne][colonne] = new CasePorte(colonne, numeroLigne);
+                        casePorte =  new CasePorte(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = casePorte;
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -239,9 +240,12 @@ public class Labyrinthe {
         return y >= 0 && y < getHauteur() && x >= 0 && x < getLongueur();
     }
 
-    // ##################################
-    // GETTER
-    // ##################################
+    private Runnable ouvrirPorte = () -> {
+        // Ouvre la porte du niveau
+        if (casePorte != null) {
+            casePorte.ouvrir();
+        }
+    };
 
     /**
      * return taille selon Y
