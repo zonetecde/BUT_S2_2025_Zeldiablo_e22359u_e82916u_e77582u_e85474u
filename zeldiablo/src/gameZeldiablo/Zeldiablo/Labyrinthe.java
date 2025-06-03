@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseMur;
 import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Entities.MonstreStatique;
@@ -115,8 +116,10 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         //ajoute un potentiel monstre statique avec 1 chance sur 20
                         if (random.nextInt(VariablesGlobales.PROBA_MONSTRE) == 0) {
-                            // ajoute un monstre statique
-                            MonstreStatique monstre = new MonstreStatique(colonne, numeroLigne);
+                            // ajoute un monstre statique\
+                            Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
+
+                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
                             monstres.add(monstre);
                         }
                         break;
@@ -248,7 +251,7 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
-    public ArrayList<Entite> getMonstres() {
+    public ArrayList<Monstre> getMonstres() {
         return monstres;
     }
 
