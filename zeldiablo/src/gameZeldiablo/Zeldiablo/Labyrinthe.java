@@ -374,6 +374,11 @@ public class Labyrinthe {
         return this.joueur;
     }
 
+    /**
+     * Effectue l'attaque du joueur sur les monstres à proximité.
+     * Cette méthode change l'état visuel du joueur et des monstres touchés,
+     */
+
     public void attaqueJoueur() {
         // Change l'état visuel du joueur
         joueur.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
