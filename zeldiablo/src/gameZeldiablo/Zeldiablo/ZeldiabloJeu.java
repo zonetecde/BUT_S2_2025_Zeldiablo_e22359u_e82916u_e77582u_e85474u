@@ -43,7 +43,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem || clavier.space) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -125,8 +125,8 @@ public class ZeldiabloJeu implements Jeu {
 
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
+                this.chargementNiveau();
                 currentLevel=0;
-                nextLevel();
             }
             else{
                 System.exit(0);
@@ -149,7 +149,6 @@ public class ZeldiabloJeu implements Jeu {
             Arrays.sort(fichiers);
 
             for (String f : fichiers) {
-                System.out.println(f);
                 niveaux.add(new Labyrinthe(f,this));
             }
         }
@@ -187,6 +186,7 @@ public class ZeldiabloJeu implements Jeu {
     public void init() {
         this.currentLevel=0;
         chargementNiveau();
+        getLaby().getPlayer().setEnVie(false);
     }
 
     /**
