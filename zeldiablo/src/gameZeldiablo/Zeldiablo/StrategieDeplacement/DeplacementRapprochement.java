@@ -5,6 +5,15 @@ import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
 public class DeplacementRapprochement implements DeplacementStrategie {
+
+    /**
+     * Déplace le monstre vers le joueur en utilisant une stratégie de rapprochement.
+     * Le monstre se déplace dans la direction où il y a le plus de différence
+     * entre sa position et celle du joueur.
+     *
+     * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
+     * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
+     */
     @Override
     public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
         // Récupère la position du joueur

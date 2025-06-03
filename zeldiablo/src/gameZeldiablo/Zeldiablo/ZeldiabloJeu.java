@@ -171,11 +171,31 @@ public class ZeldiabloJeu implements Jeu {
         if (currentLevel < niveaux.size() - 1) {
             double tmphp = getLaby().getPlayer().getHp();
             ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
+            int x = getLaby().getPlayer().getX();
+            int y = getLaby().getPlayer().getY();
             currentLevel += 1;
-
+            chargementNiveau();
             getLaby().getPlayer().setEnVie(true);
             getLaby().getPlayer().setInventory(tmpinv);
             getLaby().getPlayer().setHp(tmphp);
+            getLaby().getPlayer().setX(x);
+            getLaby().getPlayer().setY(y);
+        }
+    }
+
+    public void previousLevel() {
+        if (currentLevel > 0) {
+            double tmphp = getLaby().getPlayer().getHp();
+            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
+            int x = getLaby().getPlayer().getX();
+            int y = getLaby().getPlayer().getY();
+            currentLevel -= 1;
+            chargementNiveau();
+            getLaby().getPlayer().setEnVie(true);
+            getLaby().getPlayer().setInventory(tmpinv);
+            getLaby().getPlayer().setHp(tmphp);
+            getLaby().getPlayer().setX(x);
+            getLaby().getPlayer().setY(y);
         }
     }
     /**
