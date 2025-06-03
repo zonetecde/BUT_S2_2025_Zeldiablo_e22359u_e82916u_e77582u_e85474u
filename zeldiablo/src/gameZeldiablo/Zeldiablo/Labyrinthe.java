@@ -385,7 +385,6 @@ public class Labyrinthe {
         for (Monstre monstre : monstresACheck) {
             // Si le monstre est à côté du joueur
             if (joueur.aCote(monstre)) {
-                System.out.println("Monstre touché!"); // Debug
                 joueur.mettreDegat(monstre);
                 monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
 

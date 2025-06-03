@@ -133,7 +133,6 @@ public class ZeldiabloJeu implements Jeu {
             getLaby().getPlayer().setSpriteJoueur(1);
         }
         else if (clavier.x) {
-            System.out.println("Attaque du joueur");
             getLaby().attaqueJoueur();
         }
     }
