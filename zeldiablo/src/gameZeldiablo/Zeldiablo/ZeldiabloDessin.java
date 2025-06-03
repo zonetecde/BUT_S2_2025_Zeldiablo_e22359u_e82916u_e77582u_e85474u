@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import javafx.scene.canvas.Canvas;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
     private Image imageJoueur;
+
 
     /**
      * Constructeur de la classe ZeldiabloDessin.
@@ -67,19 +69,19 @@ public class ZeldiabloDessin implements DessinJeu {
                 gc.setFill(laby.getCase(y, x).getCouleur());
                 gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
+                ArrayList<Monstre> entites = laby.getMonstres();
+                for (Monstre m : entites){
+                    if (m.getX()==x && m.getY()==y){
+                        gc.drawImage(m.getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    }
+                }
+
                 // affichage du joueur
                 if (laby.joueurSurCase(y, x)){
                     // Couleur du joueur - bleu (cercle)
-                    gc.setFill(Color.BLUE);
-                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    gc.drawImage(laby.getPlayer().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                 }
 
-                // Affichage des monstres
-                if (laby.monstreSurCase(y, x)) {
-                    // Couleur des monstres - cercle rouge
-                    gc.setFill(Color.RED);
-                    gc.fillOval(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                }
 
                 // Affichage des items
                 if (laby.getCase(y, x).hasItem()) {

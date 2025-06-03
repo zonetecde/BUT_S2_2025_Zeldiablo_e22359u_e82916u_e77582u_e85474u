@@ -3,6 +3,7 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -10,13 +11,12 @@ public class Player extends Entite {
     private ArrayList<Item> inventory;
 
     public Player(int dx, int dy, double maxHp, double degat) {
-        super(dx, dy, maxHp, degat);
+        super(dx, dy, maxHp, degat,VariablesGlobales.SPRITE_JOUEUR[0]);
         this.inventory= new ArrayList<>();
     }
 
-    public Player(int dx, int dy) {
-        this(dx,dy, VariablesGlobales.PV_BASE,VariablesGlobales.DEGAT_BASE);
-        this.inventory= new ArrayList<>();
+    public void setSpriteJoueur(int i){
+        this.setImg(new Image(VariablesGlobales.SPRITE_JOUEUR[i]));
     }
 
     /**
@@ -44,9 +44,9 @@ public class Player extends Entite {
      * Retourne l'inventaire du joueur
      * @return L'inventaire du joueur, une liste d'items
      */
-    public ArrayList<Item> getInventory(){
-        return inventory;
-    }
+    public ArrayList<Item> getInventory(){return inventory;}
+
+
 
     public Player clone() {
         Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
