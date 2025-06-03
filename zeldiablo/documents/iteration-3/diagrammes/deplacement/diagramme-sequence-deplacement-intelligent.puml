@@ -1,4 +1,6 @@
 @startuml
+title Diagramme de séquence pour le déplacement intelligent d'un monstre
+
 participant "di: DeplacementIntelligent" as DI
 participant "labyrinthe: Labyrinthe" as Laby
 participant "joueur: Player" as Player
