@@ -83,4 +83,13 @@ public class Player extends Entite {
     public void setaGagne(boolean b) {
         this.aGagne = b;
     }
+
+    public boolean possedeItem(String nomItem) {
+        for (Item item : inventory) {
+            if (item.getName().equals(nomItem)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -207,12 +207,10 @@ public class ZeldiabloJeu implements Jeu {
             
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
+                // Si on essaie d'aller au niveau -1, et que on a l'amulette, on gagne
                 if (currentLevel == 0) {
-                    for (Item item : getLaby().getPlayer().getInventory()) {
-                        if ("Amulette".equals(item.getName())) {
-                            getLaby().getPlayer().setaGagne(true);
-                            break;
-                        }
+                    if(getLaby().getPlayer().possedeItem("Amulette")) {
+                        getLaby().getPlayer().setaGagne(true);
                     }
                 }
                 getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
