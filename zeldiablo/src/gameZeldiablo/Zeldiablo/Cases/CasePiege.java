@@ -20,7 +20,7 @@ public class CasePiege extends Case {
      */
 
     public CasePiege(int x, int y, double degats) {
-        super(x, y, VariablesGlobales.COULEUR_PIEGE, true,VariablesGlobales.SPRITE_PIEGE);
+        super(x, y, true,VariablesGlobales.SPRITE_PIEGE);
         this.degats = degats;
     }
 

@@ -16,7 +16,7 @@ public class CasePorte extends Case {
      */
     public CasePorte(int x, int y) {
         // Au chargement du niveau la porte est fermée
-        super(x, y, Color.BLACK, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
+        super(x, y, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
     }
 
     /**
@@ -25,7 +25,6 @@ public class CasePorte extends Case {
     public void ouvrir() {
         if (!ouverte) {
             this.ouverte = true;
-            this.setCouleur(Color.WHITE); // Change la couleur pour indiquer que la porte est ouverte
             this.setIsWalkable(true); // Permet de marcher sur la case
             this.setImg(VariablesGlobales.SPRITE_PORTE_OUVERTE);
         }
