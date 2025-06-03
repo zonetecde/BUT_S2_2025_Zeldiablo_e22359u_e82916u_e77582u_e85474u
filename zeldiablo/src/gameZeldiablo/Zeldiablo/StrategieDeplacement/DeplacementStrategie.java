@@ -1,4 +1,5 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement;
+import gameZeldiablo.Zeldiablo.Labyrinthe;
 
 public interface DeplacementStrategie {
     /**
