@@ -19,6 +19,7 @@ public abstract class Entite {
     private double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
 
+
     /**
      * constructeur
      *
@@ -145,6 +146,8 @@ public abstract class Entite {
     public void setEnVie(boolean b) {
         this.enVie = b;
     }
+
+
 
     /**
      * Set les hp de l'entité

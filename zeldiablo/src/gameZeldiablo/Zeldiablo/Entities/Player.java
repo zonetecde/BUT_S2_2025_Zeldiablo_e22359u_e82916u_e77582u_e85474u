@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Player extends Entite {
     private ArrayList<Item> inventory;
+    boolean aGagne = false;
 
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat);
@@ -55,4 +56,18 @@ public class Player extends Entite {
         clone.setInventory(new ArrayList<>(this.inventory));
         return clone;
     }
+
+    /**
+     * Retourne si le joueur a gagné ou non
+     * @return true si le joueur a gagné, false sinon
+     */
+    public boolean aGagne() {
+        return aGagne;
+    }
+
+    /**
+     * Set si le joueur a gagné ou non
+     * @param b true si le joueur a gagné, false sinon
+     */
+    public void setaGagne(boolean b) { this.aGagne = b; }
 }
