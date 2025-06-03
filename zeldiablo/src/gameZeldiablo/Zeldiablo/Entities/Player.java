@@ -23,6 +23,7 @@ public class Player extends Entite {
     /**
      * Dit si le joueur est en vie ou non
      * Si le joueur meurt, son inventaire est vidé
+     *
      * @param b true si le joueur est en vie, false sinon
      */
     public void setEnVie(boolean b) {
@@ -35,6 +36,7 @@ public class Player extends Entite {
 
     /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
+     *
      * @param inventory L'inventaire du joueur, une liste d'objets
      */
     public void setInventory(ArrayList<Item> inventory) {
@@ -57,6 +59,11 @@ public class Player extends Entite {
         return clone;
     }
 
+    public double getVie() {
+        return this.getHp();
+
+    }
+
     /**
      * Retourne si le joueur a gagné ou non
      * @return true si le joueur a gagné, false sinon
@@ -70,4 +77,10 @@ public class Player extends Entite {
      * @param b true si le joueur a gagné, false sinon
      */
     public void setaGagne(boolean b) { this.aGagne = b; }
+}
+
+    public double setVie(double vie) {
+        this.setHp(vie);
+        return this.getHp();
+    }
 }

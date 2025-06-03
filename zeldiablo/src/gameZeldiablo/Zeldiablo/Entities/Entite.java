@@ -10,9 +10,8 @@ import java.util.ArrayList;
  * gere un personnage situe en x,y
  */
 public abstract class Entite {
-
     /**
-     * position du personnage et vie
+     * Position du personnage et vie
      */
     private int x, y;
     private double hp, maxHp; // Les points de vie de l'entité
@@ -155,5 +154,9 @@ public abstract class Entite {
      */
     public void setHp(double hp) {
         this.hp = hp;
+    }
+
+    public boolean aCote(Entite e) {
+        return (Math.abs(this.x - e.getX()) <= 1 && Math.abs(this.y - e.getY()) <= 1);
     }
 }

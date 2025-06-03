@@ -108,7 +108,8 @@ public abstract class Case implements Action {
         // Action par défaut
         return null;
     }
-    public void ChangeLevel() {
-
+   
+    public void setIsWalkable(boolean isWalkable) {
+        this.isWalkable = isWalkable;
     }
 }
