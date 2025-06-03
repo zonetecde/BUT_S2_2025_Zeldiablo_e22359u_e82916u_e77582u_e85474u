@@ -70,8 +70,7 @@ public class ZeldiabloDessin implements DessinJeu {
         for (int y = 0; y < laby.getHauteur(); y++) {
             for (int x = 0; x < laby.getLongueur(); x++) {
                 // Couleur des murs - noir
-                gc.setFill(laby.getCase(y, x).getCouleur());
-                gc.fillRect(x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                gc.drawImage(laby.getCase(y,x).getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
 
                 ArrayList<Monstre> entites = laby.getMonstres();

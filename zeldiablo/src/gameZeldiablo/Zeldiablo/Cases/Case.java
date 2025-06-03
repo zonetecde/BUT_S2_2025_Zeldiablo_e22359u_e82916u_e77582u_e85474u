@@ -2,13 +2,14 @@ package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 import javafx.scene.paint.Color;
 
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case implements Action {
+public abstract class Case extends Sprite implements Action{
     /**
      * Emplacement x de la case
      */
@@ -33,7 +34,8 @@ public abstract class Case implements Action {
      * @param y
      * @param couleur
      */
-    public Case(int x, int y, Color couleur, boolean isWalkable) {
+    public Case(int x, int y, Color couleur, boolean isWalkable, String img) {
+        super(img);
         this.x = x;
         this.y = y;
         this.couleur = couleur;

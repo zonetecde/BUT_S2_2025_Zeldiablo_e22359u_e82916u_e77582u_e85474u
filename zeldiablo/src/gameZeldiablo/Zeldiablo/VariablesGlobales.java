@@ -18,6 +18,12 @@ public class VariablesGlobales {
         public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png"};
 
         public static final String SPRITE_CASE_VIDE = "Tiles/Sol.png";
+        public static final String SPRITE_ESCALIER_HAUT = "Tiles/StairUp.png";
+        public static final String SPRITE_ESCALIER_BAS = "Tiles/StairDown.png";
+        public static final String SPRITE_MUR = "Tiles/Mur.png";
+        public static final String SPRITE_P_P = "Tiles/PressurePlate.png";
+        public static final String SPRITE_PIEGE = "Tiles/Piege.png";
+        public static final String SPRITE_PORTE = "Tiles/Door.png";
 
         //Constantes
         public static final int TAILLE_CASE = 40;

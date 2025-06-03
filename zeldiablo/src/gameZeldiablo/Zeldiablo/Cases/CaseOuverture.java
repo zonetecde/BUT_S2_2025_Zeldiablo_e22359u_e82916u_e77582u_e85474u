@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.paint.Color;
 
 public class CaseOuverture extends Case {
@@ -15,7 +16,7 @@ public class CaseOuverture extends Case {
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
     public CaseOuverture(int x, int y, Runnable action) {
-        super(x, y, Color.ORANGE, true);
+        super(x, y, Color.ORANGE, true, VariablesGlobales.SPRITE_P_P);
         this.action = action;
     }
 

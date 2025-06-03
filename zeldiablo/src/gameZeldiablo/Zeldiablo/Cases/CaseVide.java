@@ -10,7 +10,7 @@ public class CaseVide extends Case {
     private Item item;
 
     public CaseVide(int x, int y){
-        super(x, y, VariablesGlobales.COULEUR_VIDE, true);
+        super(x, y, VariablesGlobales.COULEUR_VIDE, true, VariablesGlobales.SPRITE_CASE_VIDE);
     }
     @Override
     public void onStepOn(Entite entite) {

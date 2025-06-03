@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.paint.Color;
 
 public class CasePorte extends Case {
@@ -13,7 +14,7 @@ public class CasePorte extends Case {
      */
     public CasePorte(int x, int y) {
         // Au chargement du niveau la porte est fermée
-        super(x, y, Color.BLACK, false);
+        super(x, y, Color.BLACK, false, VariablesGlobales.SPRITE_PORTE);
     }
 
     /**
