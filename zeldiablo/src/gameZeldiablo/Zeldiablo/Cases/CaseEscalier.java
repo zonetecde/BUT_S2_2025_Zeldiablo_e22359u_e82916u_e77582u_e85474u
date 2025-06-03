@@ -14,10 +14,9 @@ public class CaseEscalier extends Case{
     boolean monte = true;
 
     public CaseEscalier(int x, int y, boolean monte) {
-        super(x, y, Color.DARKBLUE, true, VariablesGlobales.SPRITE_ESCALIER_HAUT);
+        super(x, y, true, VariablesGlobales.SPRITE_ESCALIER_HAUT);
         this.monte = monte;
         if (!monte) {
-            this.setCouleur(Color.LIGHTBLUE);
             this.setImg(VariablesGlobales.SPRITE_ESCALIER_BAS);
         }
     }

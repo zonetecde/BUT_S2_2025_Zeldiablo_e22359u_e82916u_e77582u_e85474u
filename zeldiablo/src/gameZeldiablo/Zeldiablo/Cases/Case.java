@@ -18,10 +18,6 @@ public abstract class Case extends Sprite implements Action{
      * Emplacement y de la case
      */
     private int y;
-    /**
-     * Couleur de la case
-     */
-    private Color couleur;
 
     /*
     Permet de dire si on peut marcher sur cette case
@@ -32,34 +28,17 @@ public abstract class Case extends Sprite implements Action{
      * Constructeur de Case
      * @param x
      * @param y
-     * @param couleur
      */
-    public Case(int x, int y, Color couleur, boolean isWalkable, String img) {
+    public Case(int x, int y, boolean isWalkable, String img) {
         super(img);
         this.x = x;
         this.y = y;
-        this.couleur = couleur;
         this.isWalkable = isWalkable;
     }
 
-    /**
-     * Getter de la variable couleur
-     * @return couleur Couleur de la case
-     */
-    public Color getCouleur() {
-        return couleur;
-    }
 
     public boolean getIsWalkable(){
         return this.isWalkable;
-    }
-
-    /**
-     * Setter de couleurs
-     * @param c
-     */
-    public void setCouleur(Color c){
-        couleur=c;
     }
 
     /**
