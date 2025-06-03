@@ -175,7 +175,7 @@ public class ZeldiabloJeu implements Jeu {
     private void chargementNiveau(){
         try {
             niveaux =new ArrayList<>();
-            File[] folder = new File("labySimple").listFiles();
+            File[] folder = new File("labyJeu").listFiles();
             assert folder != null;
             for (File file : folder) {
                 niveaux.add(new Labyrinthe(file.getAbsolutePath(),this));
