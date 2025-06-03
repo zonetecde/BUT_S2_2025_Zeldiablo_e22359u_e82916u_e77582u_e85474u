@@ -192,7 +192,8 @@ public class Labyrinthe {
     public boolean canEntityMoveTo(int i, int j) {
         return estDansLimites(i, j) &&
                         (getCase(i, j).getIsWalkable()) &&
-                        !monstreSurCase(i, j);
+                        !monstreSurCase(i, j) &&
+                        !joueurSurCase(i, j);
     }
 
     /**
