@@ -1,0 +1,21 @@
+@startuml
+participant "jeu<ZeldiabloJeu>" as jeu
+participant "v<VariableGlobales>" as v
+-> jeu: update
+Activate jeu
+alt if player mort
+     jeu -> jeu: inputStart(Clavier clavier)
+     jeu -> v : Changement de curseurStart
+     Activate v
+     v --> jeu
+     Deactivate v
+else
+     alt menuOuvert true
+       jeu -> jeu: inputInv(Clavier clavier)
+     else 
+       jeu -> jeu: inputLaby(Clavier clavier)
+     end
+end
+<--jeu
+Deactivate jeu
+@enduml

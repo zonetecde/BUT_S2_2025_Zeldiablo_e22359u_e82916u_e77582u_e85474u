@@ -7,6 +7,7 @@ import moteurJeu.Jeu;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +31,6 @@ public class ZeldiabloJeu implements Jeu {
     // Indique si le personnage est en train de se déplacer
     private boolean currentlyMoving = false;
 
-    // Indique si le personnage est en train de ramasser un objet
-    private boolean action = false;
 
     public ZeldiabloJeu(int level){
         currentLevel = level;
@@ -44,11 +43,11 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem || clavier.space) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
-                currentlyMoving =true;
+                currentlyMoving = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
                 scheduler.schedule(() -> {
                     currentlyMoving = false;
@@ -59,56 +58,23 @@ public class ZeldiabloJeu implements Jeu {
                     VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
                 }
                 // Déplace le personnage
-                deplacerPersonnage(clavier);
+                Inputs(clavier);
 
                 scheduler.shutdown();
             }
         }
-        if (clavier.pickItem) {
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(() -> {
-                action = false;
-            }, 100, TimeUnit.MILLISECONDS);
-            
-            if (!action) {
-                action = true;
+    }
 
-
-                // Ramasse l'objet si possible
-                getLaby().ramasserItem(getLaby().getPlayer());
-
-                // Si le menu est ouvert, on gère les entrées du menu
-                if (this.niveaux.get(currentLevel).getPlayer().estMort()){
-                    inputsStart(clavier);
-                } else if (VariablesGlobales.MenuOuvert) {
-                    inputInv(clavier);
-                }
-                else {
-                    // Si le menu n'est pas ouvert, on gère les entrées du labyrinthe
-                    inputLaby(clavier);
-                }
-
-
-                scheduler.shutdown();
-            }
-                // Change de niveau si le joueur est sur une case escalier
-                int x = getLaby().getPlayer().getX();
-                int y = getLaby().getPlayer().getY();
-                var caseCourante = getLaby().getCase(y, x);
-                caseCourante.ChangeLevel();
-
-                scheduler.shutdown();
-            }
-        }
 
 
     /**
      * Déplace le personnage en fonction des touches pressées.
      * @param clavier Objet Clavier pour recuperer des input
      */
-    private void deplacerPersonnage(Clavier clavier) {
-        if (clavier.tab){VariablesGlobales.MenuOuvert=!VariablesGlobales.MenuOuvert;}
-        else if (VariablesGlobales.MenuOuvert){
+    private void Inputs(Clavier clavier) {
+        if (getLaby().getPlayer().estMort()){
+            inputsStart(clavier);
+        } else if (VariablesGlobales.MenuOuvert){
             inputInv(clavier);
         }
         else {
@@ -159,9 +125,8 @@ public class ZeldiabloJeu implements Jeu {
 
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
-                //currentLevel=-1;
-                //TODO
-                //nextLevel();
+                this.chargementNiveau();
+                currentLevel=0;
             }
             else{
                 System.exit(0);
@@ -175,10 +140,16 @@ public class ZeldiabloJeu implements Jeu {
     private void chargementNiveau(){
         try {
             niveaux =new ArrayList<>();
-            File[] folder = new File("labySimple").listFiles();
+            File[] folder = new File("labyJeu").listFiles();
             assert folder != null;
-            for (File file : folder) {
-                niveaux.add(new Labyrinthe(file.getAbsolutePath(),this));
+            String[] fichiers = new String[folder.length];
+            for (int i=0;i<folder.length;i++){
+                fichiers[i]=folder[i].getAbsolutePath();
+            }
+            Arrays.sort(fichiers);
+
+            for (String f : fichiers) {
+                niveaux.add(new Labyrinthe(f,this));
             }
         }
         catch (IOException e){
@@ -213,7 +184,9 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
+        this.currentLevel=0;
         chargementNiveau();
+        getLaby().getPlayer().setEnVie(false);
     }
 
     /**

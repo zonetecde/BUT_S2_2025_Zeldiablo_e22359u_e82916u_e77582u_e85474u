@@ -1,0 +1,11 @@
+9
+16
+XXXXXXXXXXXXXXXX
+XP..C....C....CX
+X.XXXX.XX.XXXX.X
+X.XC........C..X
+X.X.XXXXXXXX.X.X
+X.X....C.....X.X
+X.XXXX...XXXX..X
+X......S.......X
+XXXXXXXXXXXXXXXX
