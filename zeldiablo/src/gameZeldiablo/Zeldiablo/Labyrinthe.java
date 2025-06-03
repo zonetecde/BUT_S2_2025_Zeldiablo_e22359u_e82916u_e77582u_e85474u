@@ -201,6 +201,9 @@ public class Labyrinthe {
         for (Monstre monstre : monstres) {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
+            if (monstre.aCote(this.joueur)) {
+                monstre.mettreDegat(this.joueur);
+            }
         }
     }
 
@@ -351,5 +354,17 @@ public class Labyrinthe {
     }
     public Player getJoueur() {
         return this.joueur;
+    }
+
+    public void attaqueJoueur() {
+        ArrayList<Monstre> monstresVerif = new ArrayList<>(monstres);
+        for (Monstre monstre : monstresVerif) {
+            if (joueur.aCote(monstre)) {
+                joueur.mettreDegat(monstre);
+                if (monstre.estMort()) {
+                    monstres.remove(monstre);
+                }
+            }
+        }
     }
 }

@@ -127,6 +127,9 @@ public class ZeldiabloJeu implements Jeu {
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
         }
+        else if (clavier.x) {
+            getLaby().attaqueJoueur();
+        }
     }
 
     private void inputsStart(Clavier clavier){

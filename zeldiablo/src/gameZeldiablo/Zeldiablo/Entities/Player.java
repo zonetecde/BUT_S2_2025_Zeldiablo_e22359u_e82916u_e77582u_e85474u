@@ -11,17 +11,18 @@ public class Player extends Entite {
 
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat);
-        this.inventory= new ArrayList<>();
+        this.inventory = new ArrayList<>();
     }
 
     public Player(int dx, int dy) {
-        this(dx,dy, VariablesGlobales.PV_BASE,VariablesGlobales.DEGAT_BASE);
-        this.inventory= new ArrayList<>();
+        this(dx, dy, VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
+        this.inventory = new ArrayList<>();
     }
 
     /**
      * Dit si le joueur est en vie ou non
      * Si le joueur meurt, son inventaire est vidé
+     *
      * @param b true si le joueur est en vie, false sinon
      */
     public void setEnVie(boolean b) {
@@ -34,6 +35,7 @@ public class Player extends Entite {
 
     /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
+     *
      * @param inventory L'inventaire du joueur, une liste d'objets
      */
     public void setInventory(ArrayList<Item> inventory) {
@@ -42,9 +44,10 @@ public class Player extends Entite {
 
     /**
      * Retourne l'inventaire du joueur
+     *
      * @return L'inventaire du joueur, une liste d'items
      */
-    public ArrayList<Item> getInventory(){
+    public ArrayList<Item> getInventory() {
         return inventory;
     }
 
@@ -54,5 +57,15 @@ public class Player extends Entite {
         clone.setHp(this.getHp());
         clone.setInventory(new ArrayList<>(this.inventory));
         return clone;
+    }
+
+    public double getVie() {
+        return this.getHp();
+
+    }
+
+    public double setVie(double vie) {
+        this.setHp(vie);
+        return this.getHp();
     }
 }
