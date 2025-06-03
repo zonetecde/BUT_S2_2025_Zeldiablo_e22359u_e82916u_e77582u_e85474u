@@ -1,4 +1,7 @@
 @startuml
+
+title Diagramme de séquence pour le changement de niveau
+
 participant Joueur
 participant "ZJ: ZeldiabloJeu" as Jeu
 participant "L1: Labyrinthe" as Laby

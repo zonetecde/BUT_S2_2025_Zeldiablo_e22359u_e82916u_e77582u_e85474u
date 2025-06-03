@@ -1,4 +1,7 @@
 @startuml
+
+title Diagramme de séquence pour l'affichage d'une case escalier
+
 participant "zd: ZeldiabloDessin" as ZD
 participant "laby: Labyrinthe" as Laby
 participant "case: Case" as Case
