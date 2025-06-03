@@ -1,0 +1,83 @@
+@startuml
+title Diagramme de séquence - Affichage de la barre de vie des monstres
+
+actor "Moteur de Jeu" as Moteur
+participant "ZeldiabloDessin" as Dessin
+participant "Labyrinthe" as Laby
+participant "Monstre" as Monstre
+participant "GraphicsContext" as GC
+
+== Affichage du jeu ==
+Moteur -> Dessin : dessinerJeu(jeu, canvas)
+activate Dessin
+
+Dessin -> Dessin : labyUI(laby, gc, canvas)
+activate Dessin
+
+note over Dessin : Boucle pour chaque case du labyrinthe\nfor (y = 0; y < hauteur; y++)\n  for (x = 0; x < longueur; x++)
+
+Dessin -> Laby : getMonstres()
+activate Laby
+Laby --> Dessin : ArrayList<Monstre>
+deactivate Laby
+
+note over Dessin : Boucle pour chaque monstre\nfor (Monstre m : entites)
+
+Dessin -> Monstre : getX(), getY()
+activate Monstre
+Monstre --> Dessin : position x, y
+deactivate Monstre
+
+note over Dessin : if (m.getX() == x && m.getY() == y)
+
+== Dessin du monstre ==
+Dessin -> Monstre : getImg()
+activate Monstre
+Monstre --> Dessin : Image du monstre
+deactivate Monstre
+
+Dessin -> GC : drawImage(img, x, y, taille, taille)
+activate GC
+note over GC : Affiche le sprite du monstre
+deactivate GC
+
+== Dessin de la barre de vie ==
+Dessin -> Dessin : dessinerBarreVieMonstre(gc, m, x, y)
+activate Dessin
+
+Dessin -> Monstre : getHp()
+activate Monstre
+Monstre --> Dessin : hp actuel
+deactivate Monstre
+
+Dessin -> Monstre : getMaxHp()
+activate Monstre
+Monstre --> Dessin : hp maximum
+deactivate Monstre
+
+note over Dessin : Calcul du pourcentage de vie\npourcentageVie = hp / maxHp\nlargeurVie = barreWidth * pourcentageVie
+
+== Met un fond gris ==
+
+== Couleur de la barre ==
+note over Dessin : Met une couleur en fonction de la vie restante
+
+Dessin -> GC : setFill(couleur)
+activate GC
+deactivate GC
+
+Dessin -> GC : fillRect(barreX, barreY, largeurVie, barreHeight)
+activate GC
+note over GC : Dessine la barre de vie colorée
+deactivate GC
+
+
+deactivate Dessin
+
+note over Dessin : Fin de la boucle des monstres
+
+deactivate Dessin
+
+deactivate Dessin
+
+@enduml
