@@ -4,6 +4,7 @@ import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Cases.CaseMur;
 import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
+import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
@@ -137,7 +138,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
                         break;
                     case STAIRS:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, jeu);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
