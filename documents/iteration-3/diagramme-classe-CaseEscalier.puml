@@ -1,0 +1,37 @@
+@startuml
+abstract Case {
+  + ChangeLevel()
+}
+
+class CaseEscalier {
+  + ChangeLevel()
+}
+
+class ZeldiabloJeu {
+  + nextLevel()
+  + getLaby()
+}
+
+class Labyrinthe {
+  + getPlayer()
+}
+
+abstract Entite {
+  + setEnVie()
+  + setInventory()
+  + setHp()
+}
+
+class Player {
+  + setEnVie()
+  + setInventory()
+  + setHp()
+}
+
+Case <|-- CaseEscalier
+CaseEscalier o-- ZeldiabloJeu
+ZeldiabloJeu --> Labyrinthe
+Labyrinthe --> Player
+Entite <|-- Player
+
+@enduml
