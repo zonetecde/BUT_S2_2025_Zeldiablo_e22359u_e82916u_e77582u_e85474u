@@ -4,6 +4,7 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 /**
@@ -17,6 +18,7 @@ public class CaseEscalier extends Case{
         this.monte = monte;
         if (!monte) {
             this.setCouleur(Color.LIGHTBLUE);
+            this.setImg(VariablesGlobales.SPRITE_ESCALIER_BAS);
         }
     }
 
