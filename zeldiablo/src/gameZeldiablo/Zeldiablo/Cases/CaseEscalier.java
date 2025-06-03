@@ -25,10 +25,6 @@ public class CaseEscalier extends Case{
      */
     @Override
     public void onAction(Entite entite, ZeldiabloJeu jeu) {
-        if (monte) {
-            jeu.nextLevel();
-        } else {
-            jeu.previousLevel();
-        }
+        jeu.changeLevel(this.monte);
     }
 }

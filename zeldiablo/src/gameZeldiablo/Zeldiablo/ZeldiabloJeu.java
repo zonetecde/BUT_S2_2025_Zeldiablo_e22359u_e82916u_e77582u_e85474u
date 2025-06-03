@@ -167,37 +167,34 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
-    public void nextLevel() {
-        if (currentLevel < niveaux.size() - 1) {
-            double tmphp = getLaby().getPlayer().getHp();
-            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
-            int x = getLaby().getPlayer().getX();
-            int y = getLaby().getPlayer().getY();
-            currentLevel += 1;
-            chargementNiveau();
-            getLaby().getPlayer().setEnVie(true);
-            getLaby().getPlayer().setInventory(tmpinv);
-            getLaby().getPlayer().setHp(tmphp);
-            getLaby().getPlayer().setX(x);
-            getLaby().getPlayer().setY(y);
+    /**
+     * Change le niveau du jeu.
+     * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
+     */
+    public void changeLevel(boolean next) {
+        int newLevel = next ? currentLevel + 1 : currentLevel - 1;
+        
+        if (newLevel >= 0 && newLevel < niveaux.size()) {
+            // Sauvegarder l'état du joueur
+            Player playerClonned = getLaby().getPlayer().clone();
+        
+            // Changement de niveau
+            currentLevel = newLevel;
+            
+            // remet le joueur 
+            getLaby().setPlayer(playerClonned);
+            
+            // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
+            if (!next) {
+                playerClonned.setY(getLaby().getPositionEscalierSortant()[0]);
+                playerClonned.setX(getLaby().getPositionEscalierSortant()[1]);
+            } else {
+                playerClonned.setY(getLaby().getPositionEscalierEntrant()[0]);
+                playerClonned.setX(getLaby().getPositionEscalierEntrant()[1]);
+            }
         }
     }
 
-    public void previousLevel() {
-        if (currentLevel > 0) {
-            double tmphp = getLaby().getPlayer().getHp();
-            ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
-            int x = getLaby().getPlayer().getX();
-            int y = getLaby().getPlayer().getY();
-            currentLevel -= 1;
-            chargementNiveau();
-            getLaby().getPlayer().setEnVie(true);
-            getLaby().getPlayer().setInventory(tmpinv);
-            getLaby().getPlayer().setHp(tmphp);
-            getLaby().getPlayer().setX(x);
-            getLaby().getPlayer().setY(y);
-        }
-    }
     /**
      * Getter de laby
      * @return renvoie le laby actuel
