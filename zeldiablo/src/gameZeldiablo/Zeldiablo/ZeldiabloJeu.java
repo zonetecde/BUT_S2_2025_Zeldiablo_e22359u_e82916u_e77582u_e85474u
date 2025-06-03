@@ -218,8 +218,10 @@ public class ZeldiabloJeu implements Jeu {
                         getLaby().getPlayer().setaGagne(true);
                     }
                 }
-                getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
-                getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
+                else {
+                    getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
+                    getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
+                }
             } else {
                 getLaby().getPlayer().setY(getLaby().getPositionEscalierEntrant()[0]);
                 getLaby().getPlayer().setX(getLaby().getPositionEscalierEntrant()[1]);

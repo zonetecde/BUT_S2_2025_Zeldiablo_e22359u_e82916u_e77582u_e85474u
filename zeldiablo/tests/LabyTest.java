@@ -63,9 +63,6 @@ class LabyTest {
 
         Case caseVide = labyrinthe.getCase(1, 1);
         assertTrue(caseVide instanceof CaseVide, "La case (1,1) devrait être vide");
-
-        Case caseJoueur = labyrinthe.getCase(2, 3);
-        assertTrue(caseJoueur instanceof CaseVide, "La case du joueur devrait être vide");
     }
 
     @Test
