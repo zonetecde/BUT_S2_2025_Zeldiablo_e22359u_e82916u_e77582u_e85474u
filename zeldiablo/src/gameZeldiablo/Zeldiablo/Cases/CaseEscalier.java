@@ -11,22 +11,12 @@ import javafx.scene.paint.Color;
 public class CaseEscalier extends Case{
     boolean monte = true;
 
-    @Override
-    public void onAction(Entite entite, ZeldiabloJeu jeu) {
-        jeu.nextLevel();
-    }
-
     public CaseEscalier(int x, int y, boolean monte) {
         super(x, y, Color.BLUE, true);
         this.monte = monte;
         if (!monte) {
             this.setCouleur(Color.LIGHTBLUE);
         }
-    }
-
-    @Override
-    public boolean hasItem() {
-        return true;
     }
 
     /**
