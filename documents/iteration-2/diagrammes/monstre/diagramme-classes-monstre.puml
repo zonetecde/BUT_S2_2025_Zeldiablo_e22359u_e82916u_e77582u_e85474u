@@ -30,13 +30,12 @@ class ZeldiabloDessin {
 interface DessinJeu {
 }
 
-' Relations
+
 MonstreStatique --|> Entite
 Labyrinthe --> "*" Entite : monstres
 ZeldiabloDessin ..|> DessinJeu
 ZeldiabloDessin ..> Labyrinthe : uses
 
-' Hide getters and setters for X, Y, hp, maxHp
 hide Entite::getX
 hide Entite::getY
 hide Entite::setX

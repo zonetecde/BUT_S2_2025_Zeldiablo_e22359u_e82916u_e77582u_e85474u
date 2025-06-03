@@ -1,0 +1,48 @@
+@startuml
+participant "dh: DeplacementHasard" as DH
+participant "Direction" as Dir
+participant "monstre: Monstre" as Monstre
+participant "Labyrinthe" as Laby
+participant "Math" as Math
+
+-> DH : deplacement(laby: Labyrinthe, monstre: Monstre)
+activate DH
+
+DH -> Dir : Direction.values()
+activate Dir
+Dir --> DH : Direction[]
+deactivate Dir
+
+DH -> Math : random()
+activate Math
+Math --> DH : double
+deactivate Math
+
+DH -> Monstre : getY()
+activate Monstre
+Monstre --> DH : int
+deactivate Monstre
+
+DH -> Monstre : getX()
+activate Monstre
+Monstre --> DH : int
+deactivate Monstre
+
+DH -> Laby : getSuivant(y: int, x: int, direction: Direction)
+activate Laby
+Laby --> DH : int[]
+deactivate Laby
+
+DH -> Laby : canEntityMoveTo(y: int, x: int)
+activate Laby
+Laby --> DH : boolean
+deactivate Laby
+
+alt [si canEntityMoveTo == true]
+    DH -> Monstre : setPosition(y: int, x: int)
+    activate Monstre
+    deactivate Monstre
+end
+
+deactivate DH
+@enduml
