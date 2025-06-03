@@ -1,0 +1,28 @@
+@startuml diagramme-seq-deplacement-automatique-monstre
+
+title Déplacement automatique des monstres 
+
+participant "labyrinthe:Labyrinthe" as Laby
+participant "timer:Timer" as Timer
+participant "task:TimerTask" as Task
+
+== Initialisation ==
+Laby -> Timer : new Timer()
+activate Timer
+Laby -> Timer : scheduleAtFixedRate(task, 0, 1000ms)
+note right : Démarre le timer toutes les 1000ms
+
+== Déplacement périodique (répété toutes les 1000ms) ==
+Timer -> Task : run()
+activate Task
+Task -> Laby : deplacerMonstres()
+activate Laby
+loop pour chaque monstre dans getMonstres()
+    Laby -> Laby : monstre.deplacer()
+end
+deactivate Laby
+deactivate Task
+
+note over Timer : Se répètera toutes les 1000ms
+
+@enduml
