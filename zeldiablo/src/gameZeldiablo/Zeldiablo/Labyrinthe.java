@@ -261,6 +261,10 @@ public class Labyrinthe {
         return y >= 0 && y < getHauteur() && x >= 0 && x < getLongueur();
     }
 
+    /**
+     * Runnable pour ouvrir la porte du niveau.
+     * Cette action est déclenchée par une case d'ouverture.
+     */
     private Runnable ouvrirPorte = () -> {
         // Ouvre la porte du niveau
         if (casePorte != null) {
