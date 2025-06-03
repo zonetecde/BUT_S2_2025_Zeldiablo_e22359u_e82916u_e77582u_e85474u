@@ -198,29 +198,22 @@ public class ZeldiabloJeu implements Jeu {
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
         if (newLevel >= 0 && newLevel < niveaux.size()) {
-            // Sauvegarder l'état du joueur
-            Player playerClonned = getLaby().getPlayer().clone();
-        
             // Changement de niveau
             currentLevel = newLevel;
             
-            // remet le joueur 
-            getLaby().setPlayer(playerClonned);
-            
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
-
-                for (Item item : playerClonned.getInventory()) {
+                for (Item item : getLaby().getPlayer().getInventory()) {
                     if ("Amulette".equals(item.getName())) {
                         getLaby().getPlayer().setaGagne(true);
                         break;
                     }
                 }
-                playerClonned.setY(getLaby().getPositionEscalierSortant()[0]);
-                playerClonned.setX(getLaby().getPositionEscalierSortant()[1]);
+                getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
+                getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
             } else {
-                playerClonned.setY(getLaby().getPositionEscalierEntrant()[0]);
-                playerClonned.setX(getLaby().getPositionEscalierEntrant()[1]);
+                getLaby().getPlayer().setY(getLaby().getPositionEscalierEntrant()[0]);
+                getLaby().getPlayer().setX(getLaby().getPositionEscalierEntrant()[1]);
             }
         }
     }
