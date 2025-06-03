@@ -1,5 +1,7 @@
 package gameZeldiablo.Zeldiablo;
 
+import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
@@ -43,7 +45,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.pickItem || clavier.space) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space) {
             // Pour empêcher de spam les déplacements du personnage
             // on met un scheduler
             if (!currentlyMoving) {
@@ -104,9 +106,14 @@ public class ZeldiabloJeu implements Jeu {
     }
 
     private void inputLaby(Clavier clavier){
-        if (clavier.pickItem) {
+        if (clavier.interactionKey) {
             // Ramasse l'objet si possible
             getLaby().ramasserItem(getLaby().getPlayer());
+            // Intéragit avec la case
+            Labyrinthe currentLaby = getLaby();
+            Player player = currentLaby.getPlayer();
+            Case playerCase = currentLaby.getCase(player.getY(), player.getX());
+            playerCase.onAction(player, this);
         }
 
         if (clavier.droite) {

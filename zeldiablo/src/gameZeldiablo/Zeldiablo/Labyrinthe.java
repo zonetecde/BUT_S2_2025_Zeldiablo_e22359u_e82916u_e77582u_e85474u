@@ -138,7 +138,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
                         break;
                     case STAIRS:
-                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, jeu);
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);

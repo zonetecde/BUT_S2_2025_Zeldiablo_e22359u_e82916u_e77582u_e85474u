@@ -7,7 +7,7 @@ public class Clavier {
     /**
      * controle appuyes
      */
-    public boolean haut, bas, gauche, droite, pickItem, tab, space;
+    public boolean haut, bas, gauche, droite, interactionKey, tab, space;
 
     /**
      * stocke les commandes
@@ -39,7 +39,7 @@ public class Clavier {
                 break;
 
             case E:
-                this.pickItem = true;
+                this.interactionKey = true;
                 break;
 
             case TAB:
@@ -87,7 +87,7 @@ public class Clavier {
                 break;
 
             case E:
-                this.pickItem = false;
+                this.interactionKey = false;
                 break;
 
             case SPACE:

@@ -10,34 +10,17 @@ import javafx.scene.paint.Color;
  */
 public class CaseEscalier extends Case{
     /**
-     * jeu dans lequel est contenu la case
-     */
-    ZeldiabloJeu jeu;
-
-    /**
      * Constructeur de Case
      *
      * @param x position
      * @param y position
      */
-    public CaseEscalier(int x, int y, ZeldiabloJeu jeu) {
-        super(x, y, Color.BLUE, true);
-        this.jeu=jeu;
+    public CaseEscalier(int x, int y) {
+        super(x, y, Color.LIGHTBLUE, true);
     }
 
     @Override
-    public boolean hasItem() {
-        return true;
-    }
-
-    /**
-     * Methode executée quand une entité marche sur la case
-     * Changement de niveau
-     */
-    @Override
-    public Item getItem() {
+    public void onAction(Entite entite, ZeldiabloJeu jeu) {
         jeu.nextLevel();
-        return null;
     }
-
 }
