@@ -133,7 +133,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
                         break;
                     case CASE_PIEGE:
-                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 3);
+                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 1);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
