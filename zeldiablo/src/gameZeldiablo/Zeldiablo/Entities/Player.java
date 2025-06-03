@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Items.TypeItem;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.image.Image;
 
@@ -66,6 +67,26 @@ public class Player extends Entite {
 
     }
 
+    
+    /**
+     * Inflige des dégâts à une cible en fonction de l'item équipé
+     * @param cible L'entité cible qui subit les dégâts
+     */
+    @Override
+    public void mettreDegat(Entite cible) {
+        if (cible != null && cible.enVie) {
+            // regarde l'item actuellement équipé
+            if(getInventory().size() == 0 || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
+                // Si l'inventaire est vide, on inflige les dégâts de base
+                cible.prendreDegat(this.getDegat());
+                return;
+            }
+
+            // Le premier paramètre des armes est les dégâts
+            cible.prendreDegat((double)getInventory().get(VariablesGlobales.curseur).getParams()[0]);
+        }
+    }
+
     /**
      * Retourne si le joueur a gagné ou non
      *
@@ -84,6 +105,12 @@ public class Player extends Entite {
         this.aGagne = b;
     }
 
+    /**
+     * Regarde si le joueur possède un item dans son inventaire
+     *
+     * @param item L'item à chercher dans l'inventaire
+     * @return true si l'item est trouvé, false sinon
+     */
     public boolean possedeItem(String nomItem) {
         for (Item item : inventory) {
             if (item.getName().equals(nomItem)) {

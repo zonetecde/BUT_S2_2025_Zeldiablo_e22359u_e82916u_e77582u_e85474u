@@ -1,0 +1,53 @@
+@startuml diagramme-sequence-mettre-degat
+
+participant "l:Labyrinthe" as l
+participant "p:Player" as p
+participant "m:Monstre" as m
+participant "i:Item" as i
+
+-> l : attaqueJoueur()
+activate l
+
+l -> p : mettreDegat(m)
+activate p
+
+p -> p : getInventory()
+activate p
+return inventory
+
+alt item équipé n'est pas une arme
+    |||
+
+    p -> m : prendreDegat(p.getDegat())
+    activate m
+    m --> p : 
+    deactivate m
+
+|||
+
+else item équipé est une arme
+    |||
+
+    p -> i : getParams()
+    activate i
+    return params
+    
+    |||
+    
+    p -> m : prendreDegat(params[0])
+
+    note over p, m : params[0] = dégâts de l'arme équipée
+
+    activate m
+    m --> p : 
+    deactivate m
+
+end
+
+p --> l : 
+deactivate p
+
+l --> u : 
+deactivate l
+
+@enduml

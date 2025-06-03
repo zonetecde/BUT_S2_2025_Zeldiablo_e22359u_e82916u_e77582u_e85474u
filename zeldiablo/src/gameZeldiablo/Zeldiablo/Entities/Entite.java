@@ -63,6 +63,10 @@ public abstract class Entite extends Sprite {
         }
     }
 
+    /**
+     * Inflige des dégâts à une cible
+     * @param cible L'entité cible qui subit les dégâts
+     */
     public void mettreDegat(Entite cible) {
         if (cible != null && cible.enVie) {
             cible.prendreDegat(this.degat);
