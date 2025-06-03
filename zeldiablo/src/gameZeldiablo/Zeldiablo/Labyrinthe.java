@@ -248,7 +248,7 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
-    public ArrayList<Entite> getMonstres() {
+    public ArrayList<Monstre> getMonstres() {
         return monstres;
     }
 
