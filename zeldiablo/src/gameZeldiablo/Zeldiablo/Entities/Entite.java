@@ -21,6 +21,7 @@ public abstract class Entite extends Sprite {
     private double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
 
+
     /**
      * constructeur
      *
@@ -140,6 +141,8 @@ public abstract class Entite extends Sprite {
     public void setEnVie(boolean b) {
         this.enVie = b;
     }
+
+
 
     /**
      * Set les hp de l'entité

@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Amulette;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.ZeldiabloDessin;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -196,7 +197,6 @@ public class ZeldiabloJeu implements Jeu {
      */
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
-        
         if (newLevel >= 0 && newLevel < niveaux.size()) {
             // Sauvegarder l'état du joueur
             Player playerClonned = getLaby().getPlayer().clone();
@@ -209,6 +209,13 @@ public class ZeldiabloJeu implements Jeu {
             
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
+
+                for (Item item : playerClonned.getInventory()) {
+                    if ("Amulette".equals(item.getName())) {
+                        getLaby().getPlayer().setaGagne(true);
+                        break;
+                    }
+                }
                 playerClonned.setY(getLaby().getPositionEscalierSortant()[0]);
                 playerClonned.setX(getLaby().getPositionEscalierSortant()[1]);
             } else {
