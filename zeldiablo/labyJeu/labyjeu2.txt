@@ -7,5 +7,5 @@ X....C.X..CX
 X.XXXX.X.XXX
 X.XC....C..X
 X.XXXXXXXX.X
-X..........S
+X...D......S
 XXXXXXXXXXXX

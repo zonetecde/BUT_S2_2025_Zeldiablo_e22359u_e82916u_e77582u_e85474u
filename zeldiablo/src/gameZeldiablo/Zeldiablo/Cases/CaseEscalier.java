@@ -13,6 +13,7 @@ public class CaseEscalier extends Case{
      * jeu dans lequel est contenu la case
      */
     ZeldiabloJeu jeu;
+    boolean monte = true;
 
     /**
      * Constructeur de Case
@@ -23,6 +24,7 @@ public class CaseEscalier extends Case{
     public CaseEscalier(int x, int y, boolean monte, ZeldiabloJeu jeu) {
         super(x, y, Color.BLUE, true);
         this.jeu=jeu;
+        this.monte = monte;
         if (!monte) {
             this.setCouleur(Color.LIGHTBLUE);
         }
@@ -39,7 +41,11 @@ public class CaseEscalier extends Case{
      */
     @Override
     public Item getItem() {
-        jeu.nextLevel();
+        if (monte) {
+            jeu.nextLevel();
+        } else {
+            jeu.previousLevel();
+        }
         return null;
     }
 
