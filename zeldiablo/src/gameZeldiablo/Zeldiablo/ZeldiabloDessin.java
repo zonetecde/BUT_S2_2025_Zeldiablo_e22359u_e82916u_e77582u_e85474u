@@ -33,7 +33,7 @@ public class ZeldiabloDessin implements DessinJeu {
         if (laby.getPlayer().estMort()){
             startUI(laby,gc,canvas);
         }
-        if (laby.getPlayer().aGagne()){
+        else if (laby.getPlayer().aGagne()){
             startUI(laby,gc,canvas);
         }
         else {
