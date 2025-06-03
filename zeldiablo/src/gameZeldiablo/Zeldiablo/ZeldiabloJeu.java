@@ -121,12 +121,16 @@ public class ZeldiabloJeu implements Jeu {
 
         if (clavier.droite) {
             getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(3);
         } else if (clavier.gauche) {
             getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(2);
         } else if (clavier.haut) {
             getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(0);
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
+            getLaby().getPlayer().setSpriteJoueur(1);
         }
         else if (clavier.x) {
             getLaby().attaqueJoueur();
