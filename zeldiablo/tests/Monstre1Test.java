@@ -16,7 +16,7 @@ class Monstre1Test {
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_MONSTRE);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_MONSTRE, null);
     }
 
     //Vu que l'apparition n'est pas garantie, on ne peut pas le tester donc je test simplement la colision
