@@ -12,17 +12,18 @@ public class Player extends Entite {
     boolean aGagne = false;
 
     public Player(int dx, int dy, double maxHp, double degat) {
-        super(dx, dy, maxHp, degat,VariablesGlobales.SPRITE_JOUEUR[0]);
-        this.inventory= new ArrayList<>();
+        super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
+        this.inventory = new ArrayList<>();
     }
 
-    public void setSpriteJoueur(int i){
+    public void setSpriteJoueur(int i) {
         this.setImg(new Image(VariablesGlobales.SPRITE_JOUEUR[i]));
     }
 
     /**
      * Dit si le joueur est en vie ou non
      * Si le joueur meurt, son inventaire est vidé
+     *
      * @param b true si le joueur est en vie, false sinon
      */
     public void setEnVie(boolean b) {
@@ -35,6 +36,7 @@ public class Player extends Entite {
 
     /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
+     *
      * @param inventory L'inventaire du joueur, une liste d'objets
      */
     public void setInventory(ArrayList<Item> inventory) {
@@ -43,10 +45,12 @@ public class Player extends Entite {
 
     /**
      * Retourne l'inventaire du joueur
+     *
      * @return L'inventaire du joueur, une liste d'items
      */
-    public ArrayList<Item> getInventory(){return inventory;}
-
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
 
 
     public Player clone() {
@@ -64,6 +68,7 @@ public class Player extends Entite {
 
     /**
      * Retourne si le joueur a gagné ou non
+     *
      * @return true si le joueur a gagné, false sinon
      */
     public boolean aGagne() {
@@ -72,7 +77,10 @@ public class Player extends Entite {
 
     /**
      * Set si le joueur a gagné ou non
+     *
      * @param b true si le joueur a gagné, false sinon
      */
-    public void setaGagne(boolean b) { this.aGagne = b; }
+    public void setaGagne(boolean b) {
+        this.aGagne = b;
+    }
 }
