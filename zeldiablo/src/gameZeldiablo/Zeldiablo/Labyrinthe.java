@@ -257,6 +257,11 @@ public class Labyrinthe {
         return (Player)this.joueur;
     }
 
+    public Player setPlayer(Player joueur) {
+
+        return this.joueur;
+    }
+
     public ArrayList<Monstre> getMonstres() {
         return monstres;
     }

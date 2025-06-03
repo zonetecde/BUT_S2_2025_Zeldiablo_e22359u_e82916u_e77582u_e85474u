@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 import javafx.scene.paint.Color;
 
@@ -24,13 +25,19 @@ public class CaseEscalier extends Case{
         this.jeu=jeu;
     }
 
+    @Override
+    public boolean hasItem() {
+        return true;
+    }
+
     /**
      * Methode executée quand une entité marche sur la case
      * Changement de niveau
      */
     @Override
-    public void ChangeLevel() {
+    public Item getItem() {
         jeu.nextLevel();
+        return null;
     }
 
 }
