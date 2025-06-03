@@ -65,12 +65,14 @@ public class ZeldiabloJeu implements Jeu {
             }
         }
         if (clavier.pickItem) {
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.schedule(() -> {
+                action = false;
+            }, 100, TimeUnit.MILLISECONDS);
+            
             if (!action) {
                 action = true;
-                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-                scheduler.schedule(() -> {
-                    action = false;
-                }, 100, TimeUnit.MILLISECONDS);
+
 
                 // Ramasse l'objet si possible
                 getLaby().ramasserItem(getLaby().getPlayer());
@@ -98,7 +100,7 @@ public class ZeldiabloJeu implements Jeu {
                 scheduler.shutdown();
             }
         }
-    }
+
 
     /**
      * Déplace le personnage en fonction des touches pressées.
@@ -189,7 +191,6 @@ public class ZeldiabloJeu implements Jeu {
 
     public void nextLevel() {
         if (currentLevel < niveaux.size() - 1) {
-            VariablesGlobales.tickables = new ArrayList<>();
             double tmphp = getLaby().getPlayer().getHp();
             ArrayList<Item> tmpinv = new ArrayList<>(getLaby().getPlayer().getInventory());
             currentLevel += 1;

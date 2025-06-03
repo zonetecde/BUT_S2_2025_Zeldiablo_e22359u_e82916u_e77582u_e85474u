@@ -29,6 +29,7 @@ public class Labyrinthe {
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
+    public static final char STAIRS = 'S';
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
@@ -270,7 +271,7 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getObjet());
+            joueur.getInventory().add(caseCourante.getItem());
             caseCourante.removeItem();
         }
     }
