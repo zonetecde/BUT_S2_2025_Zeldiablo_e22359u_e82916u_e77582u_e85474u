@@ -163,29 +163,12 @@ public class ZeldiabloJeu implements Jeu {
             for (int i=0;i<folder.length;i++){
                 fichiers[i]=folder[i].getAbsolutePath();
             }
-            Arrays.sort(fichiers);
-
-            for (String f : fichiers) {
+            Arrays.sort(fichiers);            for (String f : fichiers) {
                 niveaux.add(new Labyrinthe(f,this));
             }
 
-            if (!niveaux.isEmpty()) {
-                int niveauAmulette = Utilities.getRandomNumber(0, niveaux.size());
-                Labyrinthe laby = niveaux.get(niveauAmulette);
-
-                ArrayList<Case> casesVides = new ArrayList<>();
-                for (int y = 0; y < laby.getHauteur(); y++) {
-                    for (int x = 0; x < laby.getLongueur(); x++) {
-                        if (laby.getCase(y, x).getIsWalkable() && !laby.getCase(y, x).hasItem()) {
-                            casesVides.add((laby.getCase(y, x)));
-                        }
-                    }
-                }
-                if (!casesVides.isEmpty()) {
-                    int idx = Utilities.getRandomNumber(0, casesVides.size());
-                    casesVides.get(idx).addItem(new Amulette());
-                }
-            }
+            // Ajoute une amulette aléatoirement dans le labyrinthe
+            placerAmuletteAleatoire();
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
@@ -257,5 +240,33 @@ public class ZeldiabloJeu implements Jeu {
 
     public int getCurrentLevel() {
         return currentLevel;
+    }
+
+    /**
+     * Place une amulette aléatoirement dans un niveau aléatoire du jeu.
+     * Cherche une case vide et marchable pour y placer l'amulette.
+     */
+    private void placerAmuletteAleatoire() {
+        if (!niveaux.isEmpty()) {
+            // On choisit un niveau aléatoire pour l'amulette
+            int niveauAmulette = Utilities.getRandomNumber(0, niveaux.size());
+            Labyrinthe laby = niveaux.get(niveauAmulette);
+
+            // On cherche toutes les cases vides du labyrinthe
+            ArrayList<Case> casesVides = new ArrayList<>();
+            for (int y = 0; y < laby.getHauteur(); y++) {
+                for (int x = 0; x < laby.getLongueur(); x++) {
+                    if (laby.getCase(y, x).getIsWalkable() && !laby.getCase(y, x).hasItem()) {
+                        casesVides.add((laby.getCase(y, x)));
+                    }
+                }
+            }
+
+            // Si on a trouvé des cases vides, on en choisit une au hasard pour y mettre l'amulette
+            if (!casesVides.isEmpty()) {
+                int idx = Utilities.getRandomNumber(0, casesVides.size());
+                casesVides.get(idx).addItem(new Amulette());
+            }
+        }
     }
 }
