@@ -148,4 +148,8 @@ public abstract class Entite extends Sprite {
     public void setHp(double hp) {
         this.hp = hp;
     }
+
+    public boolean aCote(Entite e) {
+        return (Math.abs(this.x - e.getX()) <= 1 && Math.abs(this.y - e.getY()) <= 1);
+    }
 }

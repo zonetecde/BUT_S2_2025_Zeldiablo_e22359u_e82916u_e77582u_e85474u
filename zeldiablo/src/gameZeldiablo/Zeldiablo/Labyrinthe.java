@@ -3,6 +3,7 @@ package gameZeldiablo.Zeldiablo;
 import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Cases.CaseMur;
 import gameZeldiablo.Zeldiablo.Cases.CasePiege;
+import gameZeldiablo.Zeldiablo.Cases.CasePorte;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
@@ -25,7 +26,7 @@ public class Labyrinthe {
      * Constantes char
      */
     public static final char MUR = 'X';
-    public static final char PJ = 'P';
+    public static final char PORTE = 'P';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char OBJECT = 'O';
@@ -144,15 +145,18 @@ public class Labyrinthe {
                         break;
                     case STAIRS_DEPART:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, false);
+
                         // Enregistre la position de l'escalier entrant
                         positionEscalierEntrant[0] = numeroLigne;
                         positionEscalierEntrant[1] = colonne;
 
-                        // je ne met pas de break pour que ça créer le joueur à la position de l'escalier de retour
-                    case PJ:
                         // ajoute PJ et crée une case vide à cet endroit
                         if(c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        this.joueur = new Player(colonne, numeroLigne,VariablesGlobales.PV_BASE,5);
+
+                        this.joueur = new Player(colonne, numeroLigne);
+                        break;
+                    case PORTE:
+                        gameBoard[numeroLigne][colonne] = new CasePorte(colonne, numeroLigne);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -196,6 +200,9 @@ public class Labyrinthe {
         for (Monstre monstre : monstres) {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
+            if (monstre.aCote(this.joueur)) {
+                monstre.mettreDegat(this.joueur);
+            }
         }
     }
 
@@ -343,5 +350,17 @@ public class Labyrinthe {
     }
     public Player getJoueur() {
         return this.joueur;
+    }
+
+    public void attaqueJoueur() {
+        ArrayList<Monstre> monstresVerif = new ArrayList<>(monstres);
+        for (Monstre monstre : monstresVerif) {
+            if (joueur.aCote(monstre)) {
+                joueur.mettreDegat(monstre);
+                if (monstre.estMort()) {
+                    monstres.remove(monstre);
+                }
+            }
+        }
     }
 }

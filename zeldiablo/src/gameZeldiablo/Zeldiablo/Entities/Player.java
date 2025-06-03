@@ -55,4 +55,14 @@ public class Player extends Entite {
         clone.setInventory(new ArrayList<>(this.inventory));
         return clone;
     }
+
+    public double getVie() {
+        return this.getHp();
+
+    }
+
+    public double setVie(double vie) {
+        this.setHp(vie);
+        return this.getHp();
+    }
 }
