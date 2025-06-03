@@ -1,0 +1,69 @@
+@startuml
+
+title Diagramme de séquence pour le changement de niveau
+
+participant "ZJ: ZeldiabloJeu" as Jeu
+participant "L: Labyrinthe" as Laby
+participant "P: Player" as Player
+
+-> Jeu : nextLevel()
+activate Jeu
+
+alt [currentLevel < niveaux.size() - 1]
+    note over Jeu : Sauvegarde des données du joueur
+    
+    Jeu -> Jeu : getLaby()
+    activate Jeu
+    Jeu --> Jeu : labyrinthe actuel
+    deactivate Jeu
+    
+    Jeu -> Laby : getPlayer()
+    activate Laby
+    Laby --> Jeu : player
+    deactivate Laby
+    
+    Jeu -> Player : getHp()
+    activate Player
+    Player --> Jeu : tmphp
+    deactivate Player
+    
+    Jeu -> Player : getInventory()
+    activate Player
+    Player --> Jeu : inventory
+    deactivate Player
+    
+    note over Jeu : Passage au niveau suivant
+    Jeu -> Jeu : currentLevel += 1
+      ref over Jeu : chargementNiveau()
+    note right : Voir diagramme-sequence-chargementNiveau.puml
+    
+    note over Jeu : Restauration des données du joueur
+    
+    Jeu -> Jeu : getLaby()
+    activate Jeu
+    Jeu --> Jeu : nouveau labyrinthe
+    deactivate Jeu
+    
+    Jeu -> Laby : getPlayer()
+    activate Laby
+    Laby --> Jeu : nouveau player
+    deactivate Laby
+    
+    Jeu -> Player : setEnVie(true)
+    activate Player
+    deactivate Player
+    
+    Jeu -> Player : setInventory(tmpinv)
+    activate Player
+    deactivate Player
+    
+    Jeu -> Player : setHp(tmphp)
+    activate Player
+    deactivate Player
+    
+else [currentLevel >= niveaux.size() - 1]
+    note over Jeu : Si aucun suivant\non fait rien
+end
+
+deactivate Jeu
+@enduml
