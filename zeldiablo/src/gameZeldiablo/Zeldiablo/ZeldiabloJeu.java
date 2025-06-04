@@ -134,6 +134,9 @@ public class ZeldiabloJeu implements Jeu {
         }
         else if (clavier.x) {
             getLaby().attaqueJoueur();
+            if (getLaby().getPlayer().getSpriteJoueur()<VariablesGlobales.SPRITE_JOUEUR.length/2) {
+                getLaby().getPlayer().setSpriteJoueur(getLaby().getPlayer().getSpriteJoueur() + 4);
+            }
         }
     }
 
