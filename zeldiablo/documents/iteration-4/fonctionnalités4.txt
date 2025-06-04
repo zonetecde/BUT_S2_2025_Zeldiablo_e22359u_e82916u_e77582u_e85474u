@@ -8,3 +8,6 @@ Réalisé par Rayane
 - Placement de l'amulette (new version)
 Réalisé par Elias
 
+-Ajout des sprites
+-Ajout d'un item de heal food
+Réalisé par Tom AUBERT
