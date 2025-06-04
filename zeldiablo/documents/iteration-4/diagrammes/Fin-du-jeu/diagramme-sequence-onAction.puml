@@ -1,9 +1,9 @@
 @startuml
 participant Entite
-participant "CaseEscalier" as CaseEscalier
-participant "ZeldiabloJeu" as Jeu
-participant "Labyrinthe" as Laby
-participant "Player" as Joueur
+participant "c1: CaseEscalier" as CaseEscalier
+participant "ZJ: ZeldiabloJeu" as Jeu
+participant "L1: Labyrinthe" as Laby
+participant "P1: Player" as Joueur
 
 Entite -> CaseEscalier : onAction(entite, jeu)
 CaseEscalier -> Jeu : getLaby()
@@ -12,6 +12,7 @@ alt Escalier descendant et nomFichier se termine par "labyjeu1.txt"
     CaseEscalier -> Jeu : getLaby()
     Jeu -> Laby : getPlayer()
     Laby -> Joueur : possedeItem("Amulette")
+    Laby <- Joueur: true
     alt Joueur possède l'amulette
         Joueur -> Joueur : setaGagne(true)
         return
