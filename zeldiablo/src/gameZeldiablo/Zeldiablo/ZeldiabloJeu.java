@@ -46,20 +46,11 @@ public class ZeldiabloJeu implements Jeu {
      * @param secondes temps ecoule depuis la derniere mise a jour
      * @param clavier objet contenant l'état du clavier'
      */
+
+
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (getLaby().getPlayer().aGagne()) {
-            // Si victoire, attendre une touche pour revenir au menu
-            if (clavier.haut || clavier.bas || clavier.space || clavier.droite || clavier.gauche || clavier.interactionKey) {
-                getLaby().getPlayer().setaGagne(false);
-                getLaby().getPlayer().setEnVie(false);
-                inputsStart(clavier);
-            }
-            return;
-        }
-        if (getLaby().getPlayer().estMort() || getLaby().getPlayer().aGagne()) {
-            inputsStart(clavier);
-        } else if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
             if (!currentlyMoving) {
                 currentlyMoving = true;
@@ -203,7 +194,6 @@ public class ZeldiabloJeu implements Jeu {
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
      */
-    // Dans ZeldiabloJeu.java
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
 
@@ -276,7 +266,7 @@ public class ZeldiabloJeu implements Jeu {
 
         if (niveaux.size() >= 5) {
             // On récupère spécifiquement le niveau 5 (index 4)
-            Labyrinthe laby = niveaux.get(4);
+            Labyrinthe laby = niveaux.get(0);
             System.out.println("Niveau 5 trouvé : " + laby.getNomDuLab());
 
             // On cherche toutes les cases vides et marchables du labyrinthe
