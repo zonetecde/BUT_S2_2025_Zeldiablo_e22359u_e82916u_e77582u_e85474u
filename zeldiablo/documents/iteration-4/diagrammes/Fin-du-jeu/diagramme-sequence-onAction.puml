@@ -1,27 +1,25 @@
 @startuml
-participant Joueur
-participant "c1: CaseEscalier" as CaseEscalier
-participant "jeu: ZeldiabloJeu" as ZeldiabloJeu
-participant "Inv: Inventaire (ArrayList<Item>)" as Inventaire
-participant "Amulette: Item" as Item
+participant Entite
+participant "CaseEscalier" as CaseEscalier
+participant "ZeldiabloJeu" as Jeu
+participant "Labyrinthe" as Laby
+participant "Player" as Joueur
 
-Joueur -> CaseEscalier : onAction(entite, jeu)
-CaseEscalier -> ZeldiabloJeu : getLaby()
-ZeldiabloJeu -> ZeldiabloJeu : getNomFichier()
-CaseEscalier -> CaseEscalier : Vérifie si !monte et nomFichier se termine par "labyjeu1.txt"
-alt Si oui
-    CaseEscalier -> ZeldiabloJeu : getLaby()
-    ZeldiabloJeu -> ZeldiabloJeu : getPlayer()
-    ZeldiabloJeu -> Joueur : getInventory()
-    loop Pour chaque item
-        Joueur -> Inventaire : get(i)
-        Inventaire -> Item : getName()
-        alt Si item.getName() == "Amulette"
-            Joueur -> Joueur : setaGagne(true)
-        end
+Entite -> CaseEscalier : onAction(entite, jeu)
+CaseEscalier -> Jeu : getLaby()
+Jeu -> Laby : getNomFichier()
+alt Escalier descendant et nomFichier se termine par "labyjeu1.txt"
+    CaseEscalier -> Jeu : getLaby()
+    Jeu -> Laby : getPlayer()
+    Laby -> Joueur : possedeItem("Amulette")
+    alt Joueur possède l'amulette
+        Joueur -> Joueur : setaGagne(true)
+        return
+    else
+        Entite -> Entite : setMsgToSay("Il me manque quelque chose...")
+        return
     end
-    CaseEscalier -> Joueur : return
-else Sinon
-    CaseEscalier -> ZeldiabloJeu : changeLevel(monte)
+else
+    CaseEscalier -> Jeu : changeLevel(monte)
 end
 @enduml
