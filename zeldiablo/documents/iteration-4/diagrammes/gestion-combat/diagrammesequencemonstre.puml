@@ -1,0 +1,39 @@
+@startuml
+
+title Sequence d'attaque des monstres
+
+actor Joueur
+participant "zeldiabloJeu:ZeldiabloJeu" as Jeu
+participant "labyrinthe:Labyrinthe" as Laby
+participant "joueur:Player" as Player
+participant "monstre:Monstre" as Monstre
+
+Joueur -> Jeu: déplacement (flèches)
+activate Jeu
+
+Jeu -> Laby: deplacerPerso(direction, joueur)
+activate Laby
+
+Laby -> Player: setEtatVisuelle(NORMAL)
+activate Player
+
+loop pour chaque monstre
+  Laby -> Monstre: deplacer(labyrinthe)
+  activate Monstre
+
+  Laby -> Monstre: aCote(joueur)
+
+  alt monstre à côté du joueur
+    Monstre -> Monstre: setEtatVisuelle(ATTAQUE_MONSTRE)
+    Monstre -> Player: prendreDegat(degat)
+
+
+  end
+  deactivate Monstre
+end
+
+deactivate Player
+deactivate Laby
+deactivate Jeu
+
+@enduml
