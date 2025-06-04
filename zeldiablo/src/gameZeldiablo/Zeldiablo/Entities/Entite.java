@@ -15,7 +15,6 @@ public abstract class Entite extends Sprite {
     private final double maxHp; // Les points de vie de l'entité
     private final double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
-    private EtatVisuelle etatVisuelle;
     private String msgToSay;
 
     /**
@@ -164,14 +163,6 @@ public abstract class Entite extends Sprite {
      */
     public boolean aCote(Entite e) {
         return (Math.abs(this.x - e.getX()) <= 1 && Math.abs(this.y - e.getY()) <= 1);
-    }
-
-    /**
-     * ???
-     * @param etatVisuelle etat
-     */
-    public void setEtatVisuelle(EtatVisuelle etatVisuelle) {
-        this.etatVisuelle = etatVisuelle;
     }
 
     /**

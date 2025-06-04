@@ -6,7 +6,6 @@ import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.*;
-import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -472,7 +471,6 @@ public class Labyrinthe {
      *
      * @param y     Coordonnée verticale de la case
      * @param x     Coordonnée horizontale de la case
-     * @param aCote Si le joueur est à côté de la case retourne true quand même
      * @return true si le joueur est sur la case, false sinon
      */
     public boolean joueurSurCase(int y, int x) {
@@ -503,9 +501,6 @@ public class Labyrinthe {
      */
 
     public void attaqueJoueur() {
-        // Change l'état visuel du joueur
-        joueur.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
-
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
         ArrayList<Monstre> monstresACheck = new ArrayList<>(monstres);
 
@@ -514,11 +509,9 @@ public class Labyrinthe {
             // Si le monstre est à côté du joueur
             if (joueur.aCote(monstre)) {
                 joueur.mettreDegat(monstre);
-                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
 
                 // Si le monstre est mort
                 if (monstre.estMort()) {
-                    monstre.setEtatVisuelle(EtatVisuelle.MORT);
                     monstres.remove(monstre);
                     joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
                 }
@@ -557,12 +550,9 @@ public class Labyrinthe {
 
             if (monstre.aCote(this.joueur)) {
                 //etat visuelle
-                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
                 monstre.mettreDegat(this.joueur);
-            } else {
-                monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
             }
-
+            
             // déclanche le onstepon de la case où se trouve le monstre
             Case caseMonstre = getCase(monstre.getY(), monstre.getX());
             caseMonstre.onStepOn(monstre);

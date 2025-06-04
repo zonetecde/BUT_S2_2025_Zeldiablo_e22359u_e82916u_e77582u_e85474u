@@ -7,8 +7,9 @@ interface Action {
 }
 
 enum CaseType {
-    +valueOf(String): CaseType
-    +values(): CaseType[]
+  SOLIDE
+  SOL
+  INTERACTIVE
 }
 
 abstract class Case {
@@ -24,9 +25,8 @@ abstract class Case {
     +hasItem(): boolean
     +removeItem(): void
     +getIsWalkable(): boolean
-    +toString(): String
-    +setIsWalkable(boolean isWalkable)
     +setIsWalkable(boolean walkable)
+    +getCaseType(): CaseType
 }
 
 class CaseEscalier {
