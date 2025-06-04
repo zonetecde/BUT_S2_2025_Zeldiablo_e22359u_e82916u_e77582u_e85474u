@@ -14,7 +14,7 @@ public class CaseVide extends Case {
      * @param y pos y
      */
     public CaseVide(int x, int y){
-        super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_CASE_VIDE);
+        super(x, y, true, VariablesGlobales.SPRITE_CASE_VIDE);
     }
 
     /**

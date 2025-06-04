@@ -14,7 +14,7 @@ public class CasePorte extends Case {
      */
     public CasePorte(int x, int y) {
         // Au chargement du niveau la porte est fermée
-        super(x, y, false, CaseType.INTERACTIVE, VariablesGlobales.SPRITE_PORTE_FERMEE);
+        super(x, y, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
     }
 
     /**

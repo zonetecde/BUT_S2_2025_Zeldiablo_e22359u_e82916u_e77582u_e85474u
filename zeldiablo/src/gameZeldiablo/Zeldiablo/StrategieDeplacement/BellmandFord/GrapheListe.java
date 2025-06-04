@@ -3,7 +3,6 @@ package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 import java.util.List;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseType;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 
 import java.util.ArrayList;
@@ -34,20 +33,20 @@ public class GrapheListe implements Graphe{
                 Case c = lab.getCase(y, x);
 
                 // Ajoute les arcs vers les voisins
-                // pour le haut et si la case du haut est walkable (ou si interactive = porte)
-                if (y > 0 && (lab.getCase(y - 1, x).getIsWalkable() || lab.getCase(y - 1, x).getCaseType() == CaseType.INTERACTIVE)) {
+                // pour le haut et si la case du haut est walkable
+                if (y > 0 && (lab.getCase(y - 1, x).getIsWalkable())) {
                     ajouterArc(c.toString(), lab.getCase(y - 1, x).toString(), 1.0);
                 }
-                // pour le bas et si la case du bas est walkable (ou si interactive = porte)
-                if (y < lab.getHauteur() - 1 && (lab.getCase(y + 1, x).getIsWalkable() || lab.getCase(y + 1, x).getCaseType() == CaseType.INTERACTIVE)) {
+                // pour le bas et si la case du bas est walkable
+                if (y < lab.getHauteur() - 1 && (lab.getCase(y + 1, x).getIsWalkable())) {
                     ajouterArc(c.toString(), lab.getCase(y + 1, x).toString(), 1.0);
                 }
-                // pour la gauche et si la case de gauche est walkable (ou si interactive = porte)
-                if (x > 0 && (lab.getCase(y, x - 1).getIsWalkable() || lab.getCase(y, x - 1).getCaseType() == CaseType.INTERACTIVE)) {
+                // pour la gauche et si la case de gauche est walkable
+                if (x > 0 && (lab.getCase(y, x - 1).getIsWalkable())) {
                     ajouterArc(c.toString(), lab.getCase(y, x - 1).toString(), 1.0);
                 }
-                // pour la droite et si la case de droite est walkable (ou si interactive = porte)
-                if (x < lab.getLongueur() - 1 && (lab.getCase(y, x + 1).getIsWalkable() || lab.getCase(y, x + 1).getCaseType() == CaseType.INTERACTIVE)) {
+                // pour la droite et si la case de droite est walkable
+                if (x < lab.getLongueur() - 1 && (lab.getCase(y, x + 1).getIsWalkable())) {
                     ajouterArc(c.toString(), lab.getCase(y, x + 1).toString(), 1.0);
                 }
 
