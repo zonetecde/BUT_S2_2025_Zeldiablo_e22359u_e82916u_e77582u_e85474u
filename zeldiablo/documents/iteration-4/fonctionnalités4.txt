@@ -11,3 +11,9 @@ Réalisé par Elias
 -Ajout des sprites
 -Ajout d'un item de heal food
 Réalisé par Tom AUBERT
+
+- Création de l'amulette
+- Placement de l'amulette (old version)
+- Gestion de victoire du joueur
+- Ajout d'écran de victoire
+Réalisé par Julien VINCENT
