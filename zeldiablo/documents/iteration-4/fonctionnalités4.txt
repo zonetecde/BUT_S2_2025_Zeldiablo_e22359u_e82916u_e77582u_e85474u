@@ -4,3 +4,7 @@
 - Arme
 Réalisé par Rayane
 
+- Gestion des combats
+- Placement de l'amulette (new version)
+Réalisé par Elias
+
