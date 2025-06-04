@@ -3,11 +3,13 @@ package gameZeldiablo.Zeldiablo.Items;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
-public abstract class Item extends Sprite {
+public abstract class Item {
     private final String name;
     private final TypeItem type;
 
     private final Object[] params; // En fonction des items, on peut avoir besoin de paramètres supplémentaires (arme = dégâts, etc.)
+
+    private Sprite sprite; // L'image de l'item
 
     /**
      * Constructeur de la classe Item
@@ -16,13 +18,21 @@ public abstract class Item extends Sprite {
      * @param type Type de l'item (objet ou arme)
      */
     public Item(String name, String img, TypeItem type, Object... params) {
-        super(img);
         this.name = name;
+        this.sprite = new Sprite(img);
         this.type = type;
         this.params = params;
     }
 
     public boolean use(Labyrinthe laby){return false;}
+
+    /**
+     * Retourne le sprite de l'item
+     * @return Sprite de l'item
+     */
+    public Sprite getSprite() {
+        return this.sprite;
+    }
 
     public String getName() {
         return name;

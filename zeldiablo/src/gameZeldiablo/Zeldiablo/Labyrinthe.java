@@ -444,7 +444,7 @@ public class Labyrinthe {
             String nomItem = item.getName();
 
             // Génère avec l'IA le texte que le joueur va dire
-            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getImgFileName(), joueur::setMsgToSay);
+            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSprite().getImgFileName(), joueur::setMsgToSay);
 
             caseCourante.removeItem();
         }

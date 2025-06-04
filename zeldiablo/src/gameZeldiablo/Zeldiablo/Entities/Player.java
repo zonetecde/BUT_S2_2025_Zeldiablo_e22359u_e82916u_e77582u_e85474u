@@ -30,7 +30,7 @@ public class Player extends Entite {
      */
     public void setSpriteJoueur(int i) {
         this.sprite = i;
-        this.setImg(VariablesGlobales.SPRITE_JOUEUR[this.sprite]);
+        this.getSprite().setImg(VariablesGlobales.SPRITE_JOUEUR[this.sprite]);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Player extends Entite {
             inventory.clear();
         }
 
-        this.enVie = b;
+        super.setEnVie(b);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Player extends Entite {
      */
     @Override
     public void mettreDegat(Entite cible) {
-        if (cible != null && cible.enVie) {
+        if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
             if(getInventory().size() == 0 || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
@@ -137,7 +137,7 @@ public class Player extends Entite {
      */
     public Player clone() {
         Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
-        clone.setEnVie(this.enVie);
+        clone.setEnVie(super.getEnVie());
         clone.setHp(this.getHp());
         clone.setInventory(new ArrayList<>(this.inventory));
         return clone;
