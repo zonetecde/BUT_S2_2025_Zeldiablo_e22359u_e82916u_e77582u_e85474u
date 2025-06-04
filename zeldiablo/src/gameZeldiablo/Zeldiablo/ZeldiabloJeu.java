@@ -256,6 +256,10 @@ public class ZeldiabloJeu implements Jeu {
         return currentLevel;
     }
 
+    public ArrayList<Labyrinthe> getNiveaux() {
+        return niveaux;
+    }
+
     /**
      * Place une amulette aléatoirement dans le niveau 5
      * Cherche une case vide et marchable pour y placer l'amulette.
