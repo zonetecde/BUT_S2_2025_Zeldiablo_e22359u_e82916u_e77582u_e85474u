@@ -36,6 +36,7 @@ public class Labyrinthe {
     public static final char STAIR_SORTIE = 'S';
     public static final char STAIRS_DEPART = 'D';
 
+    private String nomDuLab; // Identifiant du labyrinthe
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
@@ -93,6 +94,8 @@ public class Labyrinthe {
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
+        nomDuLab = nom;
+
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
@@ -322,6 +325,10 @@ public class Labyrinthe {
 
     public ArrayList<Monstre> getMonstres() {
         return monstres;
+    }
+
+    public String getNomDuLab() {
+        return nomDuLab;
     }
 
     /**
