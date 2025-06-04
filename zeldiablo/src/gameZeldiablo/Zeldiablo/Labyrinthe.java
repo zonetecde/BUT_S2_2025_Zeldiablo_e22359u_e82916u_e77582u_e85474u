@@ -5,10 +5,7 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Items.Baton;
-import gameZeldiablo.Zeldiablo.Items.Epee;
-import gameZeldiablo.Zeldiablo.Items.Food;
-import gameZeldiablo.Zeldiablo.Items.Hache;
+import gameZeldiablo.Zeldiablo.Items.*;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
@@ -387,7 +384,14 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getItem());
+            Item item = caseCourante.getItem();
+
+            joueur.getInventory().add(item);
+            String nomItem = item.getName();
+
+            // Génère avec l'IA le texte que le joueur va dire
+            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getImgFileName(), joueur::setMsgToSay);
+
             caseCourante.removeItem();
         }
     }

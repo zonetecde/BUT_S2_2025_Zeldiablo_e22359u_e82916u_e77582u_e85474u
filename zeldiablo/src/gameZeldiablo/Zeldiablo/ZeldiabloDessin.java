@@ -35,6 +35,8 @@ public class ZeldiabloDessin implements DessinJeu {
         }
         else if (laby.getPlayer().aGagne()){
             startUI(gc,canvas);
+            afficherEcranVictoire(gc,canvas);
+            return;
         }
         else {
             // Dessine le laby
@@ -268,6 +270,17 @@ public class ZeldiabloDessin implements DessinJeu {
         }
 
         gc.fillOval(c.getWidth()/3-10,emCursor,20,20);
+    }
+
+    private void afficherEcranVictoire(GraphicsContext gc, Canvas canvas) {
+        gc.setFill(Color.rgb(0, 0, 0, 0.8));
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.GOLD);
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+        gc.fillText("Victoire !", canvas.getWidth() / 2 - 100, canvas.getHeight() / 2);
+        gc.setFont(Font.font("Arial", FontWeight.NORMAL, 24));
+        gc.setFill(Color.WHITE);
+        gc.fillText("Appuyez sur une touche pour revenir au menu", canvas.getWidth() / 2 - 220, canvas.getHeight() / 2 + 50);
     }
 
     /*
