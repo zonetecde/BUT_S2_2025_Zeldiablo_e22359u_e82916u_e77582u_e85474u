@@ -64,6 +64,6 @@ public class Deplacement2Test {
         monstre.getDeplacementStrategie().deplacement(labyrinthe, monstre);
         mouvement = (monstre.getX() != xInitial || monstre.getY() != yInitial);
 
-        assertFalse(mouvement, "Le monstre aurait dû trouver un chemin pour contourner le mur");
+        assertTrue(mouvement, "Le monstre aurait dû trouver un chemin pour contourner le mur");
     }
 }
