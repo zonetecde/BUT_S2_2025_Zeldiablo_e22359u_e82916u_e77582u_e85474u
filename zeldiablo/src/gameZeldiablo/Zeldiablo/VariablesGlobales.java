@@ -31,7 +31,7 @@ public class VariablesGlobales {
         public static final String SPRITE_AMULETTE = "Items/Amulette.png";
         public static final String SPRITE_EPEE = "Items/Epee.png";
         public static final String SPRITE_BATON = "Items/Baton.png";
-        public static final String SPRITE_HACHE = "Items/Hache.png";
+        public static final String SPRITE_HACHE = "Items/hache.png";
 
         //Constantes
         public static final int TAILLE_CASE = 40;
