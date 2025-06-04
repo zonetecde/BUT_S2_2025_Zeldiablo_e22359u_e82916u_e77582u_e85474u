@@ -130,4 +130,16 @@ public class Player extends Entite {
         }
         return false;
     }
+
+    /**
+     * Clone le joueur
+     * @return nouveau joueur
+     */
+    public Player clone() {
+        Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
+        clone.setEnVie(this.enVie);
+        clone.setHp(this.getHp());
+        clone.setInventory(new ArrayList<>(this.inventory));
+        return clone;
+    }
 }
