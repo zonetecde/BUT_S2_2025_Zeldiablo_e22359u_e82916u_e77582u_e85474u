@@ -1,0 +1,19 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface DessinJeu << interface >>
+class Food
+class Item
+class Sprite
+class ZeldiabloDessin
+class ZeldiabloJeu
+
+Food             -[#000082,plain]-^  Item
+Item             -[#000082,plain]-^  Sprite
+Sprite           -[#000082,plain]-^  ZeldiabloDessin
+ZeldiabloDessin  -[#008200,dashed]-^  DessinJeu
+ZeldiabloJeu     ..>                 Item
+@enduml
