@@ -92,6 +92,17 @@ public class Labyrinthe {
         return new int[]{y, x};
     }
 
+    public Labyrinthe(int x,int y,String name){
+        this.gameBoard = new Case[x][y];
+        this.nomFichier = name;
+        this.nomDuLab = name;
+        for (int i=0;i<x;i++){
+            for (int j=0;i<y;j++){
+                this.gameBoard[i][j]= new CaseVide(i,j);
+            }
+        }
+    }
+
     /**
      * Charge le labyrinthe depuis un fichier.
      *
