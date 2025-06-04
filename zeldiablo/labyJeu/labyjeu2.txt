@@ -3,7 +3,7 @@ XD.C....C..X
 XXXXXXXXC.XX
 X....C.X..CX
 X.XXXX.X.XXX
-X.XC....C..X
+X.XC.I..C..X
 X.XXXXXXXX.X
 X..........S
 XXXXXXXXXXXX

@@ -52,7 +52,7 @@ public abstract class Entite extends Sprite {
      * Methode prenant en compte des dégats et les appliquant au personnage
      * @param d nombre de dégats
      */
-    public void prendreDegat(double d){
+    public boolean prendreDegat(double d){
         if (this.hp>d) {
             this.hp -= d;
         }
@@ -60,6 +60,11 @@ public abstract class Entite extends Sprite {
             this.enVie=false;
             this.hp=0;
         }
+        if (this.hp-d>maxHp){
+            this.hp=maxHp;
+            return false;
+        }
+        return true;
     }
 
     /**

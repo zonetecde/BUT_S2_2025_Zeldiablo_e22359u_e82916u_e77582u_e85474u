@@ -11,8 +11,8 @@ public class Food extends Item{
     }
 
     @Override
-    public void use(Labyrinthe laby){
-        laby.getPlayer().prendreDegat(-3);
+    public boolean use(Labyrinthe laby){
+        return laby.getPlayer().prendreDegat(-3);
     }
 
 }
