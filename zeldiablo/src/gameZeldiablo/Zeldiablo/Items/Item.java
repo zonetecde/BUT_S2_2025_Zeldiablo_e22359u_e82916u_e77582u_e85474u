@@ -22,7 +22,7 @@ public abstract class Item extends Sprite {
         this.params = params;
     }
 
-    public void use(Labyrinthe laby){};
+    public boolean use(Labyrinthe laby){return false;};
 
     public String getName() {
         return name;

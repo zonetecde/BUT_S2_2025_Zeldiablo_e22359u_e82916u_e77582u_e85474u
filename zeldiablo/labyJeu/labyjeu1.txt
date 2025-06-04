@@ -1,10 +1,6 @@
-XXXXXXXXXXXXXXXXXXXXX
-XD..S...............X
-X.E.............O...X
-XXXXXPXXXXXXXXXXXXXXX
-X...................X
-X...................X
-X.XXXXXXXXXXXXXXXXX.X
-X.XXXXXXXXXXXXXXXXX.X
-X...................X
-XXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXX
+XD.........M..X
+X.............X
+X....1.2.3....X
+X............SX
+XXXXXXXXXXXXXXX

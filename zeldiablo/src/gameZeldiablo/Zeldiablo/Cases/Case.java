@@ -25,15 +25,21 @@ public abstract class Case extends Sprite implements Action{
     private boolean isWalkable;
 
     /**
+     * Type de la case
+     */
+    private CaseType caseType;
+
+    /**
      * Constructeur de Case
      * @param x
      * @param y
      */
-    public Case(int x, int y, boolean isWalkable, String img) {
+    public Case(int x, int y, boolean isWalkable, CaseType caseType, String img) {
         super(img);
         this.x = x;
         this.y = y;
         this.isWalkable = isWalkable;
+        this.caseType = caseType;
     }
 
 
@@ -98,11 +104,23 @@ public abstract class Case extends Sprite implements Action{
         this.isWalkable = isWalkable;
     }
 
+    /**
+     * ToString format : Case{x=0, y=0, isWalkable=true}
+     * @return String représentant la case
+     */
     public String toString() {
         return "Case{" +
                 "x=" + x +
                 ", y=" + y +
                 ", isWalkable=" + isWalkable +
                 '}';
+    }
+
+    /**
+     * Retourne le type de la case
+     * @return Le type de la case
+     */
+    public CaseType getCaseType() {
+        return caseType;
     }
 }

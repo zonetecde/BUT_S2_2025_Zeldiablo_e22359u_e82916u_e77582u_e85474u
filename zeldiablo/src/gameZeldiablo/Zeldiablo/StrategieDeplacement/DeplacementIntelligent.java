@@ -6,6 +6,9 @@ import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 
 public class DeplacementIntelligent implements DeplacementStrategie {
+    private static String labyActuel;
+    private static GrapheListe graphe;
+
     @Override
     /**
      * Déplace l'entité selon la stratégie de déplacement intelligente.
@@ -26,11 +29,14 @@ public class DeplacementIntelligent implements DeplacementStrategie {
         String caseMonstre = labyrinthe.getCase(posMonstreY, posMonstreX).toString();
 
         // Créer un graphe du labyrinthe
-        GrapheListe graphe = new GrapheListe(labyrinthe);
+        if(graphe == null || !labyActuel.equals(labyrinthe.getNomDuLab())) {
+            labyActuel = labyrinthe.getNomDuLab();
+            graphe = new GrapheListe(labyrinthe);
+        }
 
         // Calculer le chemin le plus court vers le joueur
-        Algorithme dijkstra = new BellmanFord();
-        var resultat = dijkstra.resoudre(graphe, caseMonstre);
+        Algorithme bellmanFord = new BellmanFord();
+        var resultat = bellmanFord.resoudre(graphe, caseMonstre);
         var chemin = resultat.calculerChemin(caseJoueur);
 
         // Si le chemin n'est pas vide, déplacer le monstre vers la prochaine case
@@ -42,7 +48,7 @@ public class DeplacementIntelligent implements DeplacementStrategie {
             int prochaineX = coordonnees[1];
 
             // Vérifier si la case est walkable avant de déplacer le monstre
-            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable()) {
+            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable() && !labyrinthe.monstreSurCase(prochaineY, prochaineX) && !labyrinthe.joueurSurCase(posJoueurY, posJoueurX)) {
                 monstre.setPosition(prochaineY, prochaineX);
             }
         }

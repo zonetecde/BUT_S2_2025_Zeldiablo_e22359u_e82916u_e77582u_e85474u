@@ -4,7 +4,6 @@ package gameZeldiablo.Zeldiablo.Entities;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -61,6 +60,18 @@ public abstract class Entite extends Sprite {
             this.enVie=false;
             this.hp=0;
         }
+    }
+
+    public boolean gagnerVie(double v){
+        if (this.hp==this.maxHp){
+            return false;
+        }
+        if (this.hp+v>this.maxHp){
+            this.hp=this.maxHp;
+            return true;
+        }
+        this.hp+=v;
+        return true;
     }
 
     /**
