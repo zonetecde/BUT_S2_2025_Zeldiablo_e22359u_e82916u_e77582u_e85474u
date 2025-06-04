@@ -7,8 +7,6 @@ public abstract class Item {
     private final String name;
     private final TypeItem type;
 
-    private final Object[] params; // En fonction des items, on peut avoir besoin de paramètres supplémentaires (arme = dégâts, etc.)
-
     private Sprite sprite; // L'image de l'item
 
     /**
@@ -17,11 +15,10 @@ public abstract class Item {
      * @param img Chemin de l'image de l'item
      * @param type Type de l'item (objet ou arme)
      */
-    public Item(String name, String img, TypeItem type, Object... params) {
+    public Item(String name, String img, TypeItem type) {
         this.name = name;
         this.sprite = new Sprite(img);
         this.type = type;
-        this.params = params;
     }
 
     public boolean use(Labyrinthe laby){return false;}
@@ -43,12 +40,12 @@ public abstract class Item {
     }
 
     public String toString() {
-        if(type == TypeItem.ARME){
-            return this.name + " (" + ((double)this.getParams()[0]) + " pdg)";
-        } else return name;
+        return name;
     }
 
-    public Object[] getParams() {
-        return params;
-    }
+    /**
+     * Getter pour les dégâts de l'item
+     * @return Les dégâts de l'item
+     */
+    public abstract double getDegat();
 }

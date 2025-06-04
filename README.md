@@ -13,3 +13,5 @@ mais la conception reste la même.
 Par exemple la classe EtatVisuelle à était supprimé du au ajout de Sprite qui rende cette classe inutile.
 
 Les diagrammes finaux se trouve donc dans le dossier itération-4
+
+Merci de ne pas prêter attention à la branche `Continuite`, celle-ci étant pour des ajouts persos

@@ -51,11 +51,24 @@ enum Intelligence {
   FORTE
 }
 
+class DeplacementStrategieFactory {
+  + {static} creerStrategie(intelligence: Intelligence): DeplacementStrategie
+}
+
+interface DeplacementStrategie {
+  + deplacement(laby: Labyrinthe, monstre: Monstre): void
+}
+
 Monstre --|> Entite
 Player --|> Entite
 
 Monstre --> Intelligence : intelligence
+Monstre --> DeplacementStrategie : deplacementStrategie
 Player --> "*" Item : inventory
+
+DeplacementStrategieFactory ..> Intelligence : utilise
+Monstre ..> DeplacementStrategieFactory : utilise
+DeplacementStrategieFactory ..> DeplacementStrategie : crée
 
 hide Entite::getX
 hide Entite::getY
