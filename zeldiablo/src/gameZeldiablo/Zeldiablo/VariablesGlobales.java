@@ -4,6 +4,7 @@ package gameZeldiablo.Zeldiablo;
  * Constantes du jeu Zeldiablo
  */
 public class VariablesGlobales {
+        public static final String DOSSIER_LABY = "labyIntro"; // labyJeu ou labyIntro
 
         //Images
         public static final String[] SPRITE_MONSTRE = {"Monstre/statique.png","Monstre/faible.png","Monstre/moyen.png","Monstre/intelligent.png"};

@@ -54,7 +54,7 @@ public class ZeldiabloJeu implements Jeu {
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
                 scheduler.schedule(() -> {
                     currentlyMoving = false;
-                }, 100, TimeUnit.MILLISECONDS);
+                }, 160, TimeUnit.MILLISECONDS);
 
                 if (clavier.tab) {
                     VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
@@ -165,7 +165,7 @@ public class ZeldiabloJeu implements Jeu {
     private void chargementNiveau(){
         try {
             niveaux =new ArrayList<>();
-            File[] folder = new File("labyJeu").listFiles();
+            File[] folder = new File(VariablesGlobales.DOSSIER_LABY).listFiles();
             assert folder != null;
             String[] fichiers = new String[folder.length];
             for (int i=0;i<folder.length;i++){

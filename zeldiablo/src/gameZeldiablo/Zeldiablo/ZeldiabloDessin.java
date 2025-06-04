@@ -122,6 +122,11 @@ public class ZeldiabloDessin implements DessinJeu {
                         double textX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - textWidth) / 2;
                         double textY = y * VariablesGlobales.TAILLE_CASE - 10;
 
+                        // Vérifier si le texte sort de la fenêtre à gauche
+                        if (textX < 0) {
+                            textX = 5;
+                        }
+
                         // Dessine le fond blanc
                         gc.setFill(Color.WHITE);
                         gc.fillRoundRect(textX - 5, textY - textHeight, textWidth + 10, textHeight + 5, 5, 5);

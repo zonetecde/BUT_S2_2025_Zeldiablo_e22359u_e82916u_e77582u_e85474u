@@ -88,7 +88,7 @@ public class Player extends Entite {
     public void mettreDegat(Entite cible) {
         if (cible != null && cible.enVie) {
             // regarde l'item actuellement équipé
-            if(getInventory().isEmpty() || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
+            if(getInventory().size() == 0 || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
                 cible.prendreDegat(this.getDegat());
                 return;
@@ -117,6 +117,19 @@ public class Player extends Entite {
         this.aGagne = b;
     }
 
+    /**
+     * Regarde si le joueur possède un item dans son inventaire
+     *
+     * @return true si l'item est trouvé, false sinon
+     */
+    public boolean possedeItem(String nomItem) {
+        for (Item item : inventory) {
+            if (item.getName().equals(nomItem)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Clone le joueur
