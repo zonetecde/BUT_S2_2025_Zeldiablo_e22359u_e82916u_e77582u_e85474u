@@ -208,6 +208,8 @@ public class ZeldiabloJeu implements Jeu {
 
         getLaby().setPlayer(playerCloned);
 
+        getLaby().initTimerMonstres();
+
         if (!next) {
             playerCloned.setY(getLaby().getPositionEscalierSortant()[0]);
             playerCloned.setX(getLaby().getPositionEscalierSortant()[1]);
