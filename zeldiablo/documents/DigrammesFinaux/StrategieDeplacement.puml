@@ -1,50 +1,78 @@
 @startuml
+title Diagramme des relations de classes pour la stratégie de déplacement des monstres
 
-!theme plain
-top to bottom direction
-skinparam linetype ortho
+interface DeplacementStrategie {
+    + deplacement(laby: Labyrinthe, monstre: Monstre): void
+}
 
-interface Algorithme << interface >>
-interface Algorithme << interface >>
-class Arc
-class Arc
-class Arcs
-class Arcs
-class BellmanFord
-class BellmanFord
-class DeplacementFuyard
-class DeplacementHasard
-class DeplacementIntelligent
-class DeplacementRapprochement
-class DeplacementStatique
-interface DeplacementStrategie << interface >>
-interface Graphe << interface >>
-interface Graphe << interface >>
-class GrapheListe
-class GrapheListe
-class Valeurs
-class Valeurs
+class DeplacementStatique {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+}
 
-Arcs                     "1" *-[#595959,plain]-> "arcs\n*" Arc
-Arcs                     "1" *-[#595959,plain]-> "arcs\n*" Arc
-BellmanFord               -[#008200,dashed]-^  Algorithme
-BellmanFord               -[#008200,dashed]-^  Algorithme
-BellmanFord               -[#595959,dashed]->  Valeurs                  : "«create»"
-BellmanFord               -[#595959,dashed]->  Valeurs                  : "«create»"
-DeplacementFuyard         -[#008200,dashed]-^  DeplacementStrategie
-DeplacementHasard         -[#008200,dashed]-^  DeplacementStrategie
-DeplacementIntelligent    -[#595959,dashed]->  BellmanFord              : "«create»"
-DeplacementIntelligent    -[#008200,dashed]-^  DeplacementStrategie
-DeplacementIntelligent   "1" *-[#595959,plain]-> "graphe\n1" GrapheListe
-DeplacementIntelligent    -[#595959,dashed]->  GrapheListe              : "«create»"
-DeplacementRapprochement  -[#008200,dashed]-^  DeplacementStrategie
-DeplacementStatique       -[#008200,dashed]-^  DeplacementStrategie
-GrapheListe               -[#595959,dashed]->  Arc                      : "«create»"
-GrapheListe               -[#595959,dashed]->  Arc                      : "«create»"
-GrapheListe               -[#595959,dashed]->  Arcs                     : "«create»"
-GrapheListe              "1" *-[#595959,plain]-> "adjacence\n*" Arcs
-GrapheListe               -[#595959,dashed]->  Arcs                     : "«create»"
-GrapheListe              "1" *-[#595959,plain]-> "adjacence\n*" Arcs
-GrapheListe               -[#008200,dashed]-^  Graphe
-GrapheListe               -[#008200,dashed]-^  Graphe
+class DeplacementHasard {
+    + deplacement(laby: Labyrinthe, monstre: Monstre): void
+}
+
+class DeplacementRapprochement {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+}
+
+class DeplacementIntelligent {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+    - calculerDistance(x1: int, y1: int, x2: int, y2: int): double
+}
+
+class DeplacementFuyard {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+}
+
+abstract class Entite {
+    - x: int
+    - y: int
+    + getX(): int
+    + getY(): int
+    + setX(): void
+    + setY(): void
+    + setPosition(y: int, x: int): void
+}
+
+class Monstre {
+    + Monstre(x: int, y: int, pv: double, degat: double, intelligence: Intelligence)
+    + Monstre(x: int, y: int, intelligence: Intelligence)
+    + Monstre(x: int, y: int)
+    - setIntelligence(intelligence: Intelligence): void
+    + deplacer(laby: Labyrinthe): void
+}
+
+enum Intelligence {
+    NULLE
+    FAIBLE
+    MOYENNE
+    FORTE
+}
+
+DeplacementStrategie <|.. DeplacementStatique
+DeplacementStrategie <|.. DeplacementHasard
+DeplacementStrategie <|.. DeplacementRapprochement
+DeplacementStrategie <|.. DeplacementIntelligent
+DeplacementStrategie <|.. DeplacementFuyard
+
+Entite <|-- Monstre
+
+Monstre --> DeplacementStrategie : deplacementStrategie
+Monstre ..> Intelligence : utilise
+
+hide Entite::hp
+hide Entite::maxHp
+hide Entite::degat
+hide Entite::enVie
+hide Entite::etrePresent
+hide Entite::prendreDegat
+hide Entite::mettreDegat
+hide Entite::estMort
+hide Entite::getHp
+hide Entite::getMaxHp
+hide Entite::setEnVie
+hide Entite::setInventory
+hide Entite::setHp
 @enduml

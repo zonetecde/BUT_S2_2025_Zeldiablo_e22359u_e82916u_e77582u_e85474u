@@ -33,7 +33,9 @@ public abstract class Item extends Sprite {
     }
 
     public String toString() {
-        return name;
+        if(type == TypeItem.ARME){
+            return this.name + " (" + ((double)this.getParams()[0]) + " pdg)";
+        } else return name;
     }
 
     public Object[] getParams() {

@@ -46,7 +46,7 @@ class Prompt {
 }
 class Sprite {
 }
-class VariablesGlobales
+
 class ZeldiabloDessin {
   - afficherEcranVictoire(GraphicsContext, Canvas): void
   - instructionUI(Labyrinthe, GraphicsContext): void
@@ -72,12 +72,12 @@ class ZeldiabloJeu {
 Case                  -[#000082,plain]-^  Sprite
 Entite                -[#000082,plain]-^  Sprite
 Item                  -[#000082,plain]-^  Sprite
-Labyrinthe            -[#595959,dashed]->  Case                 : "«create»"
+Labyrinthe            -[#595959]-->  Case                 : "«possède»"
 Labyrinthe           "1" *-[#595959,plain]-> "gameBoard\n*" Case
-MainZeldiablo         -[#595959,dashed]->  ZeldiabloDessin      : "«create»"
-MainZeldiablo         -[#595959,dashed]->  ZeldiabloJeu         : "«create»"
+MainZeldiablo         -[#595959]-->  ZeldiabloDessin      : "«possède»"
+MainZeldiablo         -[#595959]-->  ZeldiabloJeu         : "«possède»"
 Sprite                -[#000082,plain]-^  ZeldiabloDessin
-ZeldiabloJeu          -[#595959,dashed]->  Labyrinthe           : "«create»"
+ZeldiabloJeu          -[#595959]-->  Labyrinthe           : "«possède»"
 ZeldiabloJeu         "1" *-[#595959,plain]-> "niveaux\n*" Labyrinthe
 Labyrinthe            ..>                    Prompt
 Labyrinthe            ..>                    Direction
