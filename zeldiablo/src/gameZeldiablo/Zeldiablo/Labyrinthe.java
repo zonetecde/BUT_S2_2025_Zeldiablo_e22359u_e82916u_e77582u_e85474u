@@ -142,7 +142,7 @@ public class Labyrinthe {
                             // ajoute un monstre statique\
                             Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
 
-                            Monstre monstre = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
+                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
                             monstres.add(monstre);
                         }
 
