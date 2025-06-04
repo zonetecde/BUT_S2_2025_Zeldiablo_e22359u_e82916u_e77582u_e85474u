@@ -524,6 +524,7 @@ public class Labyrinthe {
         for (Monstre monstre : monstres) {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
+
             if (monstre.aCote(this.joueur)) {
                 //etat visuelle
                 monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
@@ -531,6 +532,10 @@ public class Labyrinthe {
             } else {
                 monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
             }
+
+            // déclanche le onstepon de la case où se trouve le monstre
+            Case caseMonstre = getCase(monstre.getY(), monstre.getX());
+            caseMonstre.onStepOn(monstre);
         }
     }
 
