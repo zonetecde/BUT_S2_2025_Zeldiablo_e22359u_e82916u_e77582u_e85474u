@@ -46,6 +46,8 @@ public class Labyrinthe {
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
     // et celle-ci est ouverte par une seule case d'ouverture.
 
+    private Random random = new Random();
+
     // Entité joueur
     private Player joueur;
     //Monstres
@@ -101,6 +103,7 @@ public class Labyrinthe {
         BufferedReader bfRead = new BufferedReader(fichier);
         this.nomFichier = nom;
         int nbLignes, nbColonnes;
+        int nbreMonstresSpawned = 0;
 
         // récupère le nbre de lignes et de colonnes
         String premiereLigne = bfRead.readLine();
@@ -123,13 +126,18 @@ public class Labyrinthe {
         this.joueur = null;
 
         // lecture des cases
-        String ligne = bfRead.readLine();
+        String ligneBrute = bfRead.readLine();
 
         // stocke les indices courants
         int numeroLigne = 0;
 
         // parcours le fichier
-        while (ligne != null) {
+        while (ligneBrute != null) {
+            String ligne = ligneBrute.trim();
+            if(ligneBrute.split(";").length > 1) {
+                // Si la ligne contient une pancarte, on ignore le reste de la ligne
+                ligne = ligneBrute.split(";")[0];
+            }
 
             // parcours de la ligne
             for (int colonne = 0; colonne < ligne.length(); colonne++) {
@@ -154,14 +162,16 @@ public class Labyrinthe {
 
                         // Si c'est pas le premier niveau
                         if (!nomDuLab.contains("1")) {
-                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
-                            Random random = new Random();
-                            if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
+                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE                            
+                            if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX) {
+
                                 // ajoute un monstre statique\
                                 Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
 
                                 Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
                                 monstres.add(monstre);
+
+                                nbreMonstresSpawned++;
                             }
                         }
 
@@ -187,10 +197,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
                         break;
                     case PANCARTE:
-                        String textPancarte = "";
-                        if (nomDuLab.contains("1")) {
-                            textPancarte = "Choisissez votre arme, jeune aventurier !";
-                        }
+                        String textPancarte = ligneBrute.split(";")[1];
 
                         gameBoard[numeroLigne][colonne] = new CasePancarte(colonne, numeroLigne, textPancarte);
                         break;
@@ -226,7 +233,7 @@ public class Labyrinthe {
             }
 
             // lecture
-            ligne = bfRead.readLine();
+            ligneBrute = bfRead.readLine();
             numeroLigne++;
         }        // ferme fichier
         bfRead.close();
