@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
+import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategieFactory;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
@@ -20,42 +21,15 @@ public class Monstre extends Entite {
      * */
     public Monstre(int x, int y, double pv, double degat, Intelligence intelligence) {
         super(x, y, pv, degat,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);
-        
-        System.out.println("Intelligence du monstre : " + intelligence + " (" + intelligence.ordinal() + ")");
-
-        setIntelligence(intelligence);
-    }
-
-    /**
-     * Définit la stratégie de déplacement du monstre en fonction de son intelligence.
-     * @param intelligence L'intelligence du monstre, qui détermine sa stratégie de déplacement.
-     */
-    private void setIntelligence(Intelligence intelligence) {
-        switch(intelligence) {
-            case NULLE:
-                this.deplacementStrategie = new gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStatique();
-                break;
-            case FAIBLE:
-                this.deplacementStrategie = new gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementHasard();
-                break;
-            case MOYENNE:
-                this.deplacementStrategie = new gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementRapprochement();
-                break;
-            case FORTE:
-                this.deplacementStrategie = new gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementIntelligent();
-                break;
-            default:
-                throw new IllegalArgumentException("Intelligence non reconnue: " + intelligence);
-        }
+        this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
     }
 
     /**
      *  Constructeur 2
-     * 
      */
     public Monstre(int x, int y, Intelligence intelligence) {
-        super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);
-        setIntelligence(intelligence);
+        super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);        
+        this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
     }
 
     /**
@@ -65,7 +39,7 @@ public class Monstre extends Entite {
      */
     public Monstre(int x, int y) {
         super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[(int)(Math.random()*VariablesGlobales.SPRITE_MONSTRE.length)]);
-        setIntelligence(Intelligence.MOYENNE);
+        this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(Intelligence.MOYENNE);
     }
 
     /**
