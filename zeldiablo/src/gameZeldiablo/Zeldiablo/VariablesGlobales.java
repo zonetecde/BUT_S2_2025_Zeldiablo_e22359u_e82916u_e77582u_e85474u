@@ -34,7 +34,7 @@ public class VariablesGlobales {
         public static final double PV_BASE = 5;
         public static final double DEGAT_BASE = 1;
         public static final double PROBA_MONSTRE = 0.02; // 2% de chance de générer un monstre dans une case vide
-        public static final int DEPLACEMENT_MONSTRE = 1000; // Délai en millisecondes entre les déplacements des monstres
+        public static final int DEPLACEMENT_MONSTRE = 1500; // Délai en millisecondes entre les déplacements des monstres
 
         //VariablesMenu
         public static boolean curseurStart = true;

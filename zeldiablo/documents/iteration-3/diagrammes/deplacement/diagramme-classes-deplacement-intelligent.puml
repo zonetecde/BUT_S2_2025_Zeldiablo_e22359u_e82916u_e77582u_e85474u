@@ -1,0 +1,91 @@
+@startuml Diagramme de Classes - Déplacement Intelligent avec Bellman-Ford
+
+' Configuration du diagramme
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam backgroundColor white
+skinparam class {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+}
+
+interface DeplacementStrategie {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+}
+
+interface Algorithme {
+    + resoudre(g: Graphe, depart: String): Valeurs
+}
+
+interface Graphe {
+    + listeNoeuds(): List<String>
+    + suivants(n: String): List<Arc>
+}
+
+class DeplacementIntelligent {
+    + deplacement(labyrinthe: Labyrinthe, monstre: Monstre): void
+    - getCaseCoordinates(caseString: String): int[]
+}
+
+class BellmanFord {
+    + resoudre(g: Graphe, depart: String): Valeurs
+}
+
+class GrapheListe {
+    - noeuds: ArrayList<String>
+    - adjacence: ArrayList<Arcs>
+    + GrapheListe()
+    + GrapheListe(lab: Labyrinthe)
+    + listeNoeuds(): List<String>
+    + suivants(n: String): List<Arc>
+}
+
+class Arc {
+    - dest: String
+    - cout: double
+    - numLigne: String
+    + Arc(dest: String, cout: double)
+    + Arc(dest: String, cout: double, numligne: String)
+    + getDest(): String
+    + getCout(): double
+    + getNumLigne(): String
+}
+
+class Arcs {
+    + Arcs()
+    + ajouterArc(a: Arc): void
+    + getArcs(): List<Arc>
+}
+
+class Valeurs {
+    - valeur: Map<String, Double>
+    - parent: Map<String, String>
+    + Valeurs()
+    + setValeur(nom: String, valeur: double): void
+    + setParent(nom: String, parent: String): void
+    + getValeur(nom: String): double
+    + getParent(nom: String): String
+    + calculerChemin(destination: String): List<String>
+}
+
+DeplacementIntelligent ..|> DeplacementStrategie
+BellmanFord ..|> Algorithme
+GrapheListe ..|> Graphe
+
+DeplacementIntelligent ..> GrapheListe : "utilise"
+DeplacementIntelligent ..> BellmanFord : "utilise"
+DeplacementIntelligent ..> Valeurs : "utilise"
+
+BellmanFord ..> Valeurs : "retourne"
+BellmanFord ..> Graphe : "utilise"
+
+GrapheListe <-- Arcs : "Possède"
+Arcs "1" --> "*" Arc : "Possède"
+
+Algorithme ..> Valeurs : "retourne"
+Algorithme ..> Graphe : "utilise"
+Graphe ..> Arc : "retourne"
+
+@enduml

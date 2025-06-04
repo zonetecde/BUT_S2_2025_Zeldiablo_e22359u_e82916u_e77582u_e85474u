@@ -1,2 +1,6 @@
 - Case Ouverture et Porte
+- Barre de vie des monstres
+- Déplacement automatique des monstres
+- Arme
 Réalisé par Rayane
+

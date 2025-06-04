@@ -141,7 +141,7 @@ public class Labyrinthe {
                             // ajoute un monstre statique\
                             Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
 
-                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
+                            Monstre monstre = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
                             monstres.add(monstre);
                         }
                         break;
@@ -192,7 +192,7 @@ public class Labyrinthe {
             numeroLigne++;
         }        // ferme fichier
         bfRead.close();
-        
+
         // Initialise le timer pour le déplacement automatique des monstres
         initTimerMonstres();
     }

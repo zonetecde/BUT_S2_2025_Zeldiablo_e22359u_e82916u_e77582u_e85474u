@@ -3,6 +3,7 @@ package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 
 public class DeplacementIntelligent implements DeplacementStrategie {
     @Override
@@ -14,54 +15,44 @@ public class DeplacementIntelligent implements DeplacementStrategie {
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
     public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
-        Player joueur = labyrinthe.getPlayer();
-        if (joueur == null) return;
-        
-        // Récupère toutes les coordonnées nécessaires
-        int monstreX = monstre.getX();
-        int monstreY = monstre.getY();
-        int joueurX = joueur.getX();
-        int joueurY = joueur.getY();
-        
-        // Var pour avoir les meilleures coordonnées
-        int meilleurX = monstreX;
-        int meilleurY = monstreY;
-        double meilleureDistance = calculerDistance(monstreX, monstreY, joueurX, joueurY);
-        
-        // Teste les 4 directions possibles
-        int[] dx = {1, -1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
-        
-        // Essaie pour chaque direction possible
-        for (int i = 0; i < 4; i++) {
-            int nouveauX = monstreX + dx[i];
-            int nouveauY = monstreY + dy[i];
-            
-            // Vérifie si on peut se déplacer vers cette case
-            if (labyrinthe.canEntityMoveTo(nouveauY, nouveauX)) {
-                double distance = calculerDistance(nouveauX, nouveauY, joueurX, joueurY);
-                
-                // Si c'est une meilleur distance par rapport à l'ancienne
-                if (distance < meilleureDistance) {
-                    meilleureDistance = distance;
-                    meilleurX = nouveauX;
-                    meilleurY = nouveauY;
-                }
+        // Récupération de la position du joueur
+        Player joueur = labyrinthe.getJoueur();
+        int posMonstreX = monstre.getX();
+        int posMonstreY = monstre.getY();
+        int posJoueurX = joueur.getX();
+        int posJoueurY = joueur.getY();
+
+        String caseJoueur = labyrinthe.getCase(posJoueurY, posJoueurX).toString();
+        String caseMonstre = labyrinthe.getCase(posMonstreY, posMonstreX).toString();
+
+        // Créer un graphe du labyrinthe
+        GrapheListe graphe = new GrapheListe(labyrinthe);
+
+        // Calculer le chemin le plus court vers le joueur
+        Algorithme dijkstra = new BellmanFord();
+        var resultat = dijkstra.resoudre(graphe, caseMonstre);
+        var chemin = resultat.calculerChemin(caseJoueur);
+
+        // Si le chemin n'est pas vide, déplacer le monstre vers la prochaine case
+        if (chemin.size() > 1) {
+            String prochaineCase = chemin.get(1);
+
+            int[] coordonnees = getCaseCoordinates(prochaineCase);
+            int prochaineY = coordonnees[0];
+            int prochaineX = coordonnees[1];
+
+            // Vérifier si la case est walkable avant de déplacer le monstre
+            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable()) {
+                monstre.setPosition(prochaineY, prochaineX);
             }
         }
-        
-        // Déplace le monstre vers la meilleure position trouvée
-        if (meilleurX != monstreX || meilleurY != monstreY) {
-            monstre.setPosition(meilleurY, meilleurX);
-        }
     }
-    
-    /**
-     * Calcule la distance entre deux points
-     */
-    private double calculerDistance(int x1, int y1, int x2, int y2) {
-        int deltaX = x2 - x1;
-        int deltaY = y2 - y1;
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    private int[] getCaseCoordinates(String caseString) {
+        // Extrait les coordonnées du format "Case{x=1, y=2, isWalkable=true}"
+        String[] parts = caseString.split("x=")[1].split(", y=");
+        int x = Integer.parseInt(parts[0]);
+        int y = Integer.parseInt(parts[1].split(",")[0]);
+        return new int[]{y, x};
     }
 }

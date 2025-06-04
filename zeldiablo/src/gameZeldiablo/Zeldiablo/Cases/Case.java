@@ -90,7 +90,19 @@ public abstract class Case extends Sprite implements Action{
         return null;
     }
    
+    /**
+     * Setter de si la case est marchable
+     * @param isWalkable true si la case est marchable, false sinon
+     */
     public void setIsWalkable(boolean isWalkable) {
         this.isWalkable = isWalkable;
+    }
+
+    public String toString() {
+        return "Case{" +
+                "x=" + x +
+                ", y=" + y +
+                ", isWalkable=" + isWalkable +
+                '}';
     }
 }
