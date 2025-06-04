@@ -48,6 +48,15 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
+        if (getLaby().getPlayer().aGagne()) {
+            // Si victoire, attendre une touche pour revenir au menu
+            if (clavier.haut || clavier.bas || clavier.space || clavier.droite || clavier.gauche || clavier.interactionKey) {
+                getLaby().getPlayer().setaGagne(false);
+                getLaby().getPlayer().setEnVie(false);
+                inputsStart(clavier);
+            }
+            return;
+        }
         if (getLaby().getPlayer().estMort() || getLaby().getPlayer().aGagne()) {
             inputsStart(clavier);
         } else if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
