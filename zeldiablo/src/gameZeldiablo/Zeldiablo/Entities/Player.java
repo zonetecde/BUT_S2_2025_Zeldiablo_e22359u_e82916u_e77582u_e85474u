@@ -4,7 +4,6 @@ package gameZeldiablo.Zeldiablo.Entities;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Items.TypeItem;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -13,16 +12,31 @@ public class Player extends Entite {
     boolean aGagne = false;
     int sprite = 0;
 
+    /**
+     * Constructeur
+     * @param dx posx
+     * @param dy posy
+     * @param maxHp hp Max
+     * @param degat attaque du joueur
+     */
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
         this.inventory = new ArrayList<>();
     }
 
+    /**
+     * Setter du sprite
+     * @param i nombre associé au sprite
+     */
     public void setSpriteJoueur(int i) {
         this.sprite = i;
         this.setImg(VariablesGlobales.SPRITE_JOUEUR[this.sprite]);
     }
 
+    /**
+     * getter du sprite
+     * @return num du sprite
+     */
     public int getSpriteJoueur(){return sprite;}
 
     /**
@@ -57,14 +71,10 @@ public class Player extends Entite {
         return inventory;
     }
 
-    public Player clone() {
-        Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
-        clone.setEnVie(this.enVie);
-        clone.setHp(this.getHp());
-        clone.setInventory(new ArrayList<>(this.inventory));
-        return clone;
-    }
-
+    /**
+     * getter des hp
+     * @return double hp
+     */
     public double getVie() {
         return this.getHp();
 
