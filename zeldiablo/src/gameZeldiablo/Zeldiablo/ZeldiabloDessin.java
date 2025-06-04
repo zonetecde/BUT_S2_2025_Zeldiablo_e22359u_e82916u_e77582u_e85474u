@@ -76,7 +76,7 @@ public class ZeldiabloDessin implements DessinJeu {
      */
     private void labyUI(Labyrinthe laby, GraphicsContext gc, Canvas canvas) {
         // dessin fond
-        gc.setFill(Color.GRAY);
+        gc.setFill(Color.rgb(121, 101, 193));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         if (laby == null) {
@@ -156,6 +156,8 @@ public class ZeldiabloDessin implements DessinJeu {
         }
 
         int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
+        gc.setFill(Color.rgb(72, 58, 160));
+        gc.fillRect(baseXPlayer,0,100,VariablesGlobales.DISTANCE_VUE*VariablesGlobales.TAILLE_CASE);
         gc.drawImage(imageJoueur, baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
@@ -186,8 +188,10 @@ public class ZeldiabloDessin implements DessinJeu {
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
             gc.setFill(Color.BLACK);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-            String itemText = "Item sélectionné : " + item.toString();
+            String itemText = "Selected";
+            String itemText2 = item.toString();
             gc.fillText(itemText, baseXPlayer + 5, 125);
+            gc.fillText(itemText2, baseXPlayer + 5, 140);
         }
     }
 
@@ -209,7 +213,7 @@ public class ZeldiabloDessin implements DessinJeu {
         int caseHeight = (int)(menuHeight / 6);
 
         // Dessin du fond du menu
-        gc.setFill(Color.rgb(20, 20, 20, 0.85)); // Fond sombre semi-transparent
+        gc.setFill(Color.rgb(14, 33, 72,0.85)); // Fond sombre semi-transparent
         gc.fillRoundRect(menuX - 10, menuY - 10, menuWidth + 20, menuHeight + 20, 20, 20); // Ajoute un fond arrondi
 
         gc.setStroke(Color.LIGHTGRAY);
@@ -227,11 +231,11 @@ public class ZeldiabloDessin implements DessinJeu {
 
             // Couleur de fond de case
             if (i == VariablesGlobales.curseur) {
-                gc.setFill(Color.rgb(255, 80, 80, 0.9)); // Case sélectionnée
+                gc.setFill(Color.rgb(227, 208, 149,0.9)); // Case sélectionnée
             } else if (couleurcases) {
-                gc.setFill(Color.rgb(60, 60, 60, 0.9));
+                gc.setFill(Color.rgb(72, 58, 160,0.9));
             } else {
-                gc.setFill(Color.rgb(90, 90, 90, 0.9));
+                gc.setFill(Color.rgb(121, 101, 193,0.9));
             }
             couleurcases = !couleurcases;
 
@@ -261,9 +265,9 @@ public class ZeldiabloDessin implements DessinJeu {
 
     public void startUI(GraphicsContext gc, Canvas c){
         //Fond
-        gc.setFill(Color.SLATEGREY);
+        gc.setFill(Color.rgb(72, 58, 160));
         gc.fillRect(0,0,c.getWidth(),c.getHeight());
-        gc.setFill(Color.GREY);
+        gc.setFill(Color.rgb(121, 101, 193));
         gc.setFont(Font.font("Caladea" ,44));
 
         //Premiere Case
