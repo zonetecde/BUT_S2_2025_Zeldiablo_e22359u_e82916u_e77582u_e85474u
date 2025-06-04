@@ -6,12 +6,6 @@ interface Action {
     +onAction(Entite entite, ZeldiabloJeu jeu)
 }
 
-enum CaseType {
-  SOLIDE
-  SOL
-  INTERACTIVE
-}
-
 abstract class Case {
     -x: int
     -y: int
@@ -19,14 +13,12 @@ abstract class Case {
     -isWalkable: boolean
     +addItem(Item item)
     +getItem(): Item
-    +getCaseType(): CaseType
     +onStepOn(Entite entite)
     +onAction(Entite entite, ZeldiabloJeu jeu)
     +hasItem(): boolean
     +removeItem(): void
     +getIsWalkable(): boolean
     +setIsWalkable(boolean walkable)
-    +getCaseType(): CaseType
 }
 
 class CaseEscalier {
@@ -87,7 +79,6 @@ CasePiege --|> Case
 CasePorte --|> Case
 CaseVide --|> Case
 
-Case --> CaseType : caseType
 Labyrinthe --> CasePorte : Possède une porte
 Labyrinthe --> CaseOuverture : Possède l'action d'ouverture
 Labyrinthe "1" --> "*" Case : gameBoard

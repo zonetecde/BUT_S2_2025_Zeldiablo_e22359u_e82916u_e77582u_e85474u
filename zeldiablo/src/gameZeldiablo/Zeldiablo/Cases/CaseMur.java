@@ -9,6 +9,6 @@ public class CaseMur extends Case {
      * @param y posy
      */
     public CaseMur(int x, int y){
-        super(x, y, false, CaseType.SOLIDE, VariablesGlobales.SPRITE_MUR);
+        super(x, y, false, VariablesGlobales.SPRITE_MUR);
     }
 }
