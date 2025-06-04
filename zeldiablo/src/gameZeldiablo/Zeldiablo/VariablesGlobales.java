@@ -39,6 +39,7 @@ public class VariablesGlobales {
         public static final double DEGAT_BASE = 1;
         public static final double PROBA_MONSTRE = 0.08; // 8% de chance de générer un monstre dans une case vide
         public static final int DEPLACEMENT_MONSTRE = 1500; // Délai en millisecondes entre les déplacements des monstres
+        public static final int NBRE_MONSTRES_MAX = 3; // Nombre maximum de monstres dans le labyrinthe
         public static final double HEAL_FOOD = 3;
 
         //VariablesMenu
