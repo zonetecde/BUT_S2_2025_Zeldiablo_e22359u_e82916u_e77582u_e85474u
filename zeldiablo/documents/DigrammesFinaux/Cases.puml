@@ -1,60 +1,95 @@
 @startuml
+title Diagramme de classes - Cases
 
-!theme plain
-top to bottom direction
-skinparam linetype ortho
+interface Action {
+    +onStepOn(Entite entite)
+    +onAction(Entite entite, ZeldiabloJeu jeu)
+}
 
-interface Action << interface >> {
-  + onStepOn(Entite): void
-  + onAction(Entite, ZeldiabloJeu): void
+enum CaseType {
+    +valueOf(String): CaseType
+    +values(): CaseType[]
 }
-class Case {
-  + addItem(Item): void
-  + getItem(): Item
-  + getCaseType(): CaseType
-  + onStepOn(Entite): void
-  + onAction(Entite, ZeldiabloJeu): void
-  + hasItem(): boolean
-  + removeItem(): void
-  + getIsWalkable(): boolean
-  + toString(): String
-  + setIsWalkable(boolean): void
+
+abstract class Case {
+    -x: int
+    -y: int
+    -couleur: Color 
+    -isWalkable: boolean
+    +addItem(Item item)
+    +getItem(): Item
+    +getCaseType(): CaseType
+    +onStepOn(Entite entite)
+    +onAction(Entite entite, ZeldiabloJeu jeu)
+    +hasItem(): boolean
+    +removeItem(): void
+    +getIsWalkable(): boolean
+    +toString(): String
+    +setIsWalkable(boolean isWalkable)
+    +setIsWalkable(boolean walkable)
 }
+
 class CaseEscalier {
-  + onAction(Entite, ZeldiabloJeu): void
-}
-class CaseMur
-class CaseOuverture {
-  + onStepOn(Entite): void
-}
-class CasePancarte {
-  + onStepOn(Entite): void
-}
-class CasePiege {
-  + onStepOn(Entite): void
-  + getDegats(): double
-}
-class CasePorte {
-  + ouvrir(): void
-}
-enum CaseType << enumeration >> {
-  + valueOf(String): CaseType
-  + values(): CaseType[]
-}
-class CaseVide {
-  + hasItem(): boolean
-  + removeItem(): void
-  + addItem(Item): void
-  + getItem(): Item
+    +onAction(Entite entite, ZeldiabloJeu jeu): void
 }
 
-Case           -[#008200,dashed]-^  Action
-Case          "1" *-[#595959,plain]-> "caseType\n1" CaseType
-CaseEscalier   -[#000082,plain]-^  Case
-CaseMur        -[#000082,plain]-^  Case
-CaseOuverture  -[#000082,plain]-^  Case
-CasePancarte   -[#000082,plain]-^  Case
-CasePiege      -[#000082,plain]-^  Case
-CasePorte      -[#000082,plain]-^  Case
-CaseVide       -[#000082,plain]-^  Case
+class CaseMur {
+}
+
+class CaseOuverture {
+    -action: Runnable
+    +CaseOuverture(int x, int y, Runnable action)
+    +onStepOn(Entite entite): void
+}
+
+class CasePancarte {
+    +onStepOn(Entite entite): void
+}
+
+class CasePiege {
+    -degats: int
+    +onStepOn(Entite entite): void
+    +getDegats(): double
+}
+
+class CasePorte {
+    -ouverte: boolean
+    +ouvrir(): void
+}
+
+class CaseVide {
+    +hasItem(): boolean
+    +removeItem(): void
+    +addItem(Item item): void
+    +getItem(): Item
+}
+
+class Labyrinthe {
+    -longueur: int
+    -hauteur: int
+    -casePorte: CasePorte
+    -ouvrirPorte: Runnable
+    +Labyrinthe(String nom, ZeldiabloJeu jeu)
+    +getCase(int y, int x): Case
+    +canEntityMoveTo(int i, int j): boolean
+    +deplacerPerso(Direction action, Entite p)
+    +estDansLimites(int x, int y): boolean
+    +getSuivant(int x, int y, Direction direction): int[]
+    +etreFini(): boolean
+}
+
+Case ..|> Action
+CaseEscalier --|> Case
+CaseMur --|> Case
+CaseOuverture --|> Case
+CasePancarte --|> Case
+CasePiege --|> Case
+CasePorte --|> Case
+CaseVide --|> Case
+
+Case --> CaseType : caseType
+Labyrinthe --> CasePorte : Possède une porte
+Labyrinthe --> CaseOuverture : Possède l'action d'ouverture
+Labyrinthe "1" --> "*" Case : gameBoard
+
 @enduml

@@ -19,7 +19,7 @@ class CaseEscalier {
   + CaseEscalier(int, int, boolean)
   + onAction(Entite, ZeldiabloJeu)
 }
-
+  
 class ZeldiabloJeu {
   - niveaux : ArrayList<Labyrinthe>
   - currentLevel : int
