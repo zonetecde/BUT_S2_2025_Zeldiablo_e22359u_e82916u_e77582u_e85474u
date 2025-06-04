@@ -20,7 +20,7 @@ public abstract class Entite extends Sprite {
     private double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
     private EtatVisuelle etatVisuelle;
-
+    private String msgToSay;
 
     /**
      * constructeur
@@ -151,8 +151,6 @@ public abstract class Entite extends Sprite {
         this.enVie = b;
     }
 
-
-
     /**
      * Set les hp de l'entité
      * @param hp Les points de vie à attribuer
@@ -171,5 +169,13 @@ public abstract class Entite extends Sprite {
 
     public void setEtatVisuelle(EtatVisuelle etatVisuelle) {
         this.etatVisuelle = etatVisuelle;
+    }
+
+    public String getMsgToSay() {
+        return msgToSay;
+    }
+
+    public void setMsgToSay(String msgToSay) {
+        this.msgToSay = msgToSay;
     }
 }

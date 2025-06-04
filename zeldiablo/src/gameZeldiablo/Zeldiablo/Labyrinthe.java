@@ -242,8 +242,11 @@ public class Labyrinthe {
         int[] courante = {p.getY(), p.getX()};
 
         // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action);        // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
+        int[] suivante = getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
         if (canEntityMoveTo(suivante[0], suivante[1])) {
+            // Dès que l'entité se déplace, il ne dit plus rien
+            p.setMsgToSay("");
+
             // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);

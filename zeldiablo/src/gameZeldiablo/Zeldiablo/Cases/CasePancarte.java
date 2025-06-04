@@ -24,6 +24,6 @@ public class CasePancarte extends Case {
      */
     @Override
     public void onStepOn(Entite entite) {
-        System.out.println(message);
+        entite.setMsgToSay("Je lis : " + message);
     }
 }

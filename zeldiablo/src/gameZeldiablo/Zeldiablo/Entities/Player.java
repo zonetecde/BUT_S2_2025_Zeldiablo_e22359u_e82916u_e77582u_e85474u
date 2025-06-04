@@ -57,7 +57,6 @@ public class Player extends Entite {
         return inventory;
     }
 
-
     public Player clone() {
         Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
         clone.setEnVie(this.enVie);
@@ -70,7 +69,6 @@ public class Player extends Entite {
         return this.getHp();
 
     }
-
     
     /**
      * Inflige des dégâts à une cible en fonction de l'item équipé
