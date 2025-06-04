@@ -1,0 +1,22 @@
+@startuml
+participant "jeu:ZeldiabloJeu" as jeu
+participant "joueur:Player" as joueur
+participant "caseJoueur:CaseVide" as case
+participant "inv:ArrayList<Item>" as inv
+
+Activate jeu
+->jeu:Input x
+jeu->joueur:ramasserItem()
+Activate joueur
+joueur->case: getItem()
+Activate case
+joueur<--case:i:Item
+Deactivate case
+joueur->inv:add(i)
+Activate inv
+joueur<--inv
+Deactivate inv
+jeu<--joueur
+Deactivate joueur
+
+@enduml

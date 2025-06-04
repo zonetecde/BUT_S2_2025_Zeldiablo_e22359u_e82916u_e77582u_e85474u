@@ -6,7 +6,6 @@ import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.*;
-import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,6 +30,10 @@ public class Labyrinthe {
     public static final char ITEM_EPEE = '1';
     public static final char ITEM_BATON = '2';
     public static final char ITEM_HACHE = '3';
+    public static final char MONSTRE_INTELLIGENT = '9';
+    public static final char MONSTRE_NULLE = '7';
+    public static final char MONSTRE_MOYEN = '8';
+    public static final char MONSTRE_FAIBLE = '6';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char ITEM = 'I';
@@ -162,7 +165,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
                         // Si c'est pas le premier niveau, ajouter potentiellement un monstre
-                        if (!nomDuLab.contains("1") && 
+                        if (!VariablesGlobales.DOSSIER_LABY.equals("labyIntro") && !nomDuLab.contains("1") &&
                             joueur != null &&
                             random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && 
                             nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX &&
@@ -182,7 +185,6 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new Amulette());
                         break;
-
                     case ITEM_EPEE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new Epee());
@@ -229,6 +231,26 @@ public class Labyrinthe {
                         casePorte = new CasePorte(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne] = casePorte;
                         break;
+                    case MONSTRE_INTELLIGENT:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        Monstre monstreIntelligent = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
+                        monstres.add(monstreIntelligent);
+                        break;
+                    case MONSTRE_NULLE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        Monstre monstreNulle = new Monstre(colonne, numeroLigne, Intelligence.NULLE);
+                        monstres.add(monstreNulle);
+                        break;
+                    case MONSTRE_MOYEN:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        Monstre monstreMoyen = new Monstre(colonne, numeroLigne, Intelligence.MOYENNE);
+                        monstres.add(monstreMoyen);
+                        break;
+                    case MONSTRE_FAIBLE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        Monstre monstreFaible = new Monstre(colonne, numeroLigne, Intelligence.FAIBLE);
+                        monstres.add(monstreFaible);
+                        break;
                     default:
                         throw new Error("caractere inconnu " + c);
                 }
@@ -243,7 +265,6 @@ public class Labyrinthe {
         // Timer pour que les monstres bougent
         this.initTimerMonstres();
     }
-
 
     private boolean joueurAdjacentACase(int y, int x) {
         // Vérifie si le joueur est adjacent à la case (y, x)
@@ -450,7 +471,6 @@ public class Labyrinthe {
      *
      * @param y     Coordonnée verticale de la case
      * @param x     Coordonnée horizontale de la case
-     * @param aCote Si le joueur est à côté de la case retourne true quand même
      * @return true si le joueur est sur la case, false sinon
      */
     public boolean joueurSurCase(int y, int x) {
@@ -481,9 +501,6 @@ public class Labyrinthe {
      */
 
     public void attaqueJoueur() {
-        // Change l'état visuel du joueur
-        joueur.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
-
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
         ArrayList<Monstre> monstresACheck = new ArrayList<>(monstres);
 
@@ -492,11 +509,9 @@ public class Labyrinthe {
             // Si le monstre est à côté du joueur
             if (joueur.aCote(monstre)) {
                 joueur.mettreDegat(monstre);
-                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_JOUEUR);
 
                 // Si le monstre est mort
                 if (monstre.estMort()) {
-                    monstre.setEtatVisuelle(EtatVisuelle.MORT);
                     monstres.remove(monstre);
                     joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
                 }
@@ -508,6 +523,11 @@ public class Labyrinthe {
      * Initialise le timer pour le déplacement automatique des monstres
      */
     public void initTimerMonstres() {
+        if(timerMonstres != null) {
+            System.out.println("canceled");
+            timerMonstres.cancel();
+        }
+
         timerMonstres = new Timer();
         timerMonstres.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -530,12 +550,9 @@ public class Labyrinthe {
 
             if (monstre.aCote(this.joueur)) {
                 //etat visuelle
-                monstre.setEtatVisuelle(EtatVisuelle.ATTAQUE_MONSTRE);
                 monstre.mettreDegat(this.joueur);
-            } else {
-                monstre.setEtatVisuelle(EtatVisuelle.NORMAL);
             }
-
+            
             // déclanche le onstepon de la case où se trouve le monstre
             Case caseMonstre = getCase(monstre.getY(), monstre.getX());
             caseMonstre.onStepOn(monstre);

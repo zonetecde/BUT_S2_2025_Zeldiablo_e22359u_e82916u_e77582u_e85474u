@@ -2,6 +2,7 @@
 - Barre de vie des monstres
 - Déplacement automatique des monstres
 - Arme
+- Message personnalisée par IA
 Réalisé par Rayane
 
 - Gestion des combats
