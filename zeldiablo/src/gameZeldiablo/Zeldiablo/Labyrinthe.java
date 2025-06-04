@@ -521,6 +521,9 @@ public class Labyrinthe {
      * Effectue le déplacement et les actions de tous les monstres
      */
     private void deplacerMonstres() {
+        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
+        ArrayList<Monstre> monstresASupprimer = new ArrayList<>();
+        
         for (Monstre monstre : monstres) {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
@@ -536,7 +539,14 @@ public class Labyrinthe {
             // déclanche le onstepon de la case où se trouve le monstre
             Case caseMonstre = getCase(monstre.getY(), monstre.getX());
             caseMonstre.onStepOn(monstre);
+
+            if(monstre.getHp() <= 0) {
+                monstresASupprimer.add(monstre);
+            }
         }
+        
+        // Supprime les monstres morts
+        monstres.removeAll(monstresASupprimer);
     }
 
     /**
