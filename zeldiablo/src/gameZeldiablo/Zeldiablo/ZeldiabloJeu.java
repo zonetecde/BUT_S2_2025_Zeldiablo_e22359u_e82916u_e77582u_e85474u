@@ -170,7 +170,8 @@ public class ZeldiabloJeu implements Jeu {
             for (int i=0;i<folder.length;i++){
                 fichiers[i]=folder[i].getAbsolutePath();
             }
-            Arrays.sort(fichiers);            for (String f : fichiers) {
+            Arrays.sort(fichiers);
+            for (String f : fichiers) {
                 niveaux.add(new Labyrinthe(f,this));
             }
 
