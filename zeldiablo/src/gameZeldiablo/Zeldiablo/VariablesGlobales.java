@@ -26,9 +26,12 @@ public class VariablesGlobales {
         public static final String SPRITE_PIEGE = "Tiles/Piege.png";
         public static final String SPRITE_PORTE_FERMEE = "Tiles/DoorClosed.png";
         public static final String SPRITE_PORTE_OUVERTE = "Tiles/DoorOpened.png";
+        public static final String SPRITE_PANCARTE = "Tiles/Pancarte.png";
 
         public static final String SPRITE_AMULETTE = "Items/Amulette.png";
         public static final String SPRITE_EPEE = "Items/Epee.png";
+        public static final String SPRITE_BATON = "Items/Baton.png";
+        public static final String SPRITE_HACHE = "Items/Hache.png";
 
         //Constantes
         public static final int TAILLE_CASE = 40;
@@ -36,6 +39,7 @@ public class VariablesGlobales {
         public static final double DEGAT_BASE = 1;
         public static final double PROBA_MONSTRE = 0.02; // 2% de chance de générer un monstre dans une case vide
         public static final int DEPLACEMENT_MONSTRE = 1500; // Délai en millisecondes entre les déplacements des monstres
+        public static final double HEAL_FOOD = 3;
 
         //VariablesMenu
         public static boolean curseurStart = true;

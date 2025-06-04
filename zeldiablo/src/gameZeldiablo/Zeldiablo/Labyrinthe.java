@@ -5,8 +5,10 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Items.Baton;
 import gameZeldiablo.Zeldiablo.Items.Epee;
 import gameZeldiablo.Zeldiablo.Items.Food;
+import gameZeldiablo.Zeldiablo.Items.Hache;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
@@ -28,7 +30,10 @@ public class Labyrinthe {
      */
     public static final char MUR = 'X';
     public static final char PORTE = 'P';
-    public static final char ITEM_EPEE = 'E';
+    public static final char PANCARTE = 'M';
+    public static final char ITEM_EPEE = '1';
+    public static final char ITEM_BATON = '2';
+    public static final char ITEM_HACHE = '3';
     public static final char CASE_PIEGE = 'C';
     public static final char VIDE = '.';
     public static final char ITEM = 'I';
@@ -43,13 +48,14 @@ public class Labyrinthe {
     private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
-                                 // et celle-ci est ouverte par une seule case d'ouverture.
+    // et celle-ci est ouverte par une seule case d'ouverture.
 
     // Entité joueur
-    private Player joueur;    //Monstre
+    private Player joueur;
+    //Monstres
     private ArrayList<Monstre> monstres = new ArrayList<>();
     private Random random = new Random();
-    
+
     // Timer pour le déplacement automatique des monstres
     private Timer timerMonstres;
 
@@ -111,12 +117,12 @@ public class Labyrinthe {
             nbLignes++;
             premiereLigne = bfRead.readLine();
         }
-        
+
         // remet le curseur au début du fichier
         fichier.close();
         fichier = new FileReader(nom);
         bfRead = new BufferedReader(fichier);
- 
+
         // creation labyrinthe vide
         gameBoard = new Case[nbLignes][nbColonnes];
 
@@ -140,13 +146,17 @@ public class Labyrinthe {
                         break;
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        //ajoute un potentiel monstre statique avec 1 chance sur 20
-                        if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
-                            // ajoute un monstre statique\
-                            Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
 
-                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
-                            monstres.add(monstre);
+                        // Si c'est pas le premier niveau
+                        if (!nom.contains("1")) {
+                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
+                            if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
+                                // ajoute un monstre statique\
+                                Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
+
+                                Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
+                                monstres.add(monstre);
+                            }
                         }
 
                         break;
@@ -159,8 +169,24 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new Epee());
                         break;
+                    case ITEM_BATON:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne].addItem(new Baton());
+                        break;
+                    case ITEM_HACHE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne].addItem(new Hache());
+                        break;
                     case CASE_OUVERTURE:
                         gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
+                        break;
+                    case PANCARTE:
+                        String textPancarte = "";
+                        if (nom.contains("1")) {
+                            textPancarte = "Choisissez votre arme, jeune aventurier !";
+                        }
+
+                        gameBoard[numeroLigne][colonne] = new CasePancarte(colonne, numeroLigne, textPancarte);
                         break;
                     case CASE_PIEGE:
                         gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 0.5);
@@ -179,13 +205,14 @@ public class Labyrinthe {
                         positionEscalierEntrant[1] = colonne;
 
                         // ajoute PJ et crée une case vide à cet endroit
-                        if(c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        if (c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
-                        if(this.joueur == null) this.joueur = new Player(colonne, numeroLigne,  VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
+                        if (this.joueur == null)
+                            this.joueur = new Player(colonne, numeroLigne, VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
 
                         break;
                     case PORTE:
-                        casePorte =  new CasePorte(colonne, numeroLigne);
+                        casePorte = new CasePorte(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne] = casePorte;
                         break;
                     default:
@@ -199,8 +226,8 @@ public class Labyrinthe {
         }        // ferme fichier
         bfRead.close();
 
-        // Initialise le timer pour le déplacement automatique des monstres
-        initTimerMonstres();
+        // Timer pour que les monstres bougent
+        this.initTimerMonstres();
     }
 
 
@@ -227,15 +254,16 @@ public class Labyrinthe {
 
     /**
      * Vérifie si une entité peut se déplacer vers une case donnée.
+     *
      * @param i coordonnée verticale de la case
      * @param j coordonnée horizontale de la case
      * @return true si l'entité peut se déplacer vers cette case, false sinon
      */
     public boolean canEntityMoveTo(int i, int j) {
         return estDansLimites(i, j) &&
-                        (getCase(i, j).getIsWalkable()) &&
-                        !monstreSurCase(i, j) &&
-                        !joueurSurCase(i, j);
+                (getCase(i, j).getIsWalkable()) &&
+                !monstreSurCase(i, j) &&
+                !joueurSurCase(i, j);
     }
 
     /**
@@ -253,6 +281,7 @@ public class Labyrinthe {
 
     /**
      * Vérifie si les coordonnées sont dans les limites du plateau
+     *
      * @param y coordonnée verticale
      * @param x coordonnée horizontale
      * @return true si les coordonnées sont valides
@@ -292,6 +321,7 @@ public class Labyrinthe {
 
     /**
      * Retourne la case en y;x
+     *
      * @param y
      * @param x
      * @return La case en y;x
@@ -300,12 +330,13 @@ public class Labyrinthe {
         return gameBoard[y][x];
     }
 
-    public Player getPlayer(){
-        return (Player)this.joueur;
+    public Player getPlayer() {
+        return (Player) this.joueur;
     }
 
     /**
      * Retourne la position de l'escalier sortant
+     *
      * @return Un tableau contenant les coordonnées de l'escalier sortant [y, x]
      */
     public int[] getPositionEscalierSortant() {
@@ -314,6 +345,7 @@ public class Labyrinthe {
 
     /**
      * Retourne la position de l'escalier entrant
+     *
      * @return Un tableau contenant les coordonnées de l'escalier entrant [y, x]
      */
     public int[] getPositionEscalierEntrant() {
@@ -334,6 +366,7 @@ public class Labyrinthe {
 
     /**
      * Ramasse un objet si le joueur est sur une case contenant un objet
+     *
      * @param joueur Le joueur qui tente de ramasser l'objet
      */
     public void ramasserItem(Player joueur) {
@@ -350,6 +383,7 @@ public class Labyrinthe {
 
     /**
      * Vérifie si un monstre est présent sur la case spécifiée
+     *
      * @param y Coordonnée verticale de la case
      * @param x Coordonnée horizontale de la case
      * @return true si un monstre est sur la case, false sinon
@@ -365,6 +399,7 @@ public class Labyrinthe {
 
     /**
      * Vérifie si un joueur est présent sur la case spécifiée
+     *
      * @param y Coordonnée verticale de la case
      * @param x Coordonnée horizontale de la case
      * @return true si le joueur est sur la case, false sinon
@@ -374,10 +409,10 @@ public class Labyrinthe {
     }
 
 
-
     public void setJoueur(Player joueur) {
         this.joueur = joueur;
     }
+
     public Player getJoueur() {
         return this.joueur;
     }
@@ -405,7 +440,8 @@ public class Labyrinthe {
                 if (monstre.estMort()) {
                     monstre.setEtatVisuelle(EtatVisuelle.MORT);
                     monstres.remove(monstre);
-                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));                }
+                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
+                }
             }
         }
     }
@@ -413,7 +449,7 @@ public class Labyrinthe {
     /**
      * Initialise le timer pour le déplacement automatique des monstres
      */
-    private void initTimerMonstres() {
+    public void initTimerMonstres() {
         timerMonstres = new Timer();
         timerMonstres.scheduleAtFixedRate(new TimerTask() {
             @Override
