@@ -76,66 +76,71 @@ public class ZeldiabloDessin implements DessinJeu {
      */
     private void labyUI(Labyrinthe laby, GraphicsContext gc, Canvas canvas) {
         // dessin fond
-        gc.setFill(Color.LIGHTGRAY);
+        gc.setFill(Color.GRAY);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         if (laby == null) {
             System.out.println("Erreur dessinerJeu");
         }
 
-        for (int y = 0; y < Objects.requireNonNull(laby).getHauteur(); y++) {
-            for (int x = 0; x < laby.getLongueur(); x++) {
-                // Couleur des murs - noir
-                gc.drawImage(laby.getCase(y,x).getSprite().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                
-                
-                ArrayList<Monstre> entites = laby.getMonstres();
-                for (Monstre m : entites){
-                    if (m.getX()==x && m.getY()==y){
-                        gc.drawImage(m.getSprite().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                        // Dessiner la barre de vie au-dessus du monstre
-                        dessinerBarreVieMonstre(gc, m, x, y);
-                    }
-                }
+        int pX = laby.getPlayer().getX()-VariablesGlobales.DISTANCE_VUE/2;
+        int pY = laby.getPlayer().getY()-VariablesGlobales.DISTANCE_VUE/2;
 
-                // Affichage des items
+        for (int y = pY-VariablesGlobales.DISTANCE_VUE; y < pY+VariablesGlobales.DISTANCE_VUE; y++) {
+            for (int x = pX-VariablesGlobales.DISTANCE_VUE; x < pX+VariablesGlobales.DISTANCE_VUE; x++) {
                 try {
-                    gc.drawImage(laby.getCase(y, x).getItem().getSprite().getImg(), x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                } catch (Exception none) {
-                    // L'img n'a pas encore chargé
-                }
+                    // Couleur des murs - noir
+                    gc.drawImage(laby.getCase(y, x).getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
-                // affichage du joueur
-                if (laby.joueurSurCase(y, x)){
-                    // Dessiner le joueur
-                    gc.drawImage(laby.getPlayer().getSprite().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
-                    // Dessine ce qu'il a à dire au-dessus de lui
-                    if(laby.getPlayer().getMsgToSay() != null && !laby.getPlayer().getMsgToSay().isEmpty()) {
-                        String msg = laby.getPlayer().getMsgToSay();
-                        // Calcule la largeur du texte pour le centrer
-                        Text text = new Text(msg);
-                        text.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-                        double textWidth = text.getLayoutBounds().getWidth();
-                        double textHeight = text.getLayoutBounds().getHeight();
-                        double textX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - textWidth) / 2;
-                        double textY = y * VariablesGlobales.TAILLE_CASE - 10;
-
-                        // Vérifier si le texte sort de la fenêtre à gauche
-                        if (textX < 0) {
-                            textX = 5;
+                    ArrayList<Monstre> entites = laby.getMonstres();
+                    for (Monstre m : entites) {
+                        if (m.getX() == x && m.getY() == y) {
+                            gc.drawImage(m.getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                            // Dessiner la barre de vie au-dessus du monstre
+                            dessinerBarreVieMonstre(gc, m, (x-pX), (y-pY));
                         }
-
-                        // Dessine le fond blanc
-                        gc.setFill(Color.WHITE);
-                        gc.fillRoundRect(textX - 5, textY - textHeight, textWidth + 10, textHeight + 5, 5, 5);
-
-                        // Dessine le texte en noir
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-                        gc.fillText(msg, textX, textY);
                     }
-                }
+
+                    // Affichage des items
+                    try {
+                        gc.drawImage(laby.getCase(y, x).getItem().getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    } catch (Exception none) {
+                        // L'img n'a pas encore chargé
+                    }
+
+                    // affichage du joueur
+                    if (laby.joueurSurCase(y, x)) {
+                        // Dessiner le joueur
+                        gc.drawImage(laby.getPlayer().getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+
+                        // Dessine ce qu'il a à dire au-dessus de lui
+                        if (laby.getPlayer().getMsgToSay() != null && !laby.getPlayer().getMsgToSay().isEmpty()) {
+                            String msg = laby.getPlayer().getMsgToSay();
+                            // Calcule la largeur du texte pour le centrer
+                            Text text = new Text(msg);
+                            text.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                            double textWidth = text.getLayoutBounds().getWidth();
+                            double textHeight = text.getLayoutBounds().getHeight();
+                            double textX = (x-pX) * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - textWidth) / 2;
+                            double textY = (y-pY) * VariablesGlobales.TAILLE_CASE - 10;
+
+                            // Vérifier si le texte sort de la fenêtre à gauche
+                            if (textX < 0) {
+                                textX = 5;
+                            }
+
+                            // Dessine le fond blanc
+                            gc.setFill(Color.WHITE);
+                            gc.fillRoundRect(textX - 5, textY - textHeight, textWidth + 10, textHeight + 5, 5, 5);
+
+                            // Dessine le texte en noir
+                            gc.setFill(Color.BLACK);
+                            gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                            gc.fillText(msg, textX, textY);
+                        }
+                    }
+                }catch (Exception e){}
             }
         }
     }
@@ -150,7 +155,7 @@ public class ZeldiabloDessin implements DessinJeu {
             imageJoueur = new Image("player/PlayerFaceDown.png");
         }
 
-        int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+        int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
         gc.drawImage(imageJoueur, baseXPlayer + 25, 0, 50, 75);
         gc.setFill(Color.GREY);
         gc.fillRect(baseXPlayer + 5, 75, 90, 20);
@@ -163,16 +168,15 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param gc  Le contexte graphique pour dessiner sur le canvas.
      */
     private void instructionUI(Labyrinthe laby, GraphicsContext gc) {
-        int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+        int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
         
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-        gc.fillText("ZQSD pour se déplacer", baseXPlayer + 5, 115 + 125);
-        gc.fillText("ou pour naviguer dans l'inventaire", baseXPlayer + 5, 130 + 125);
-        gc.fillText("E pour prendre un item", baseXPlayer + 5, 145 + 125);
-        gc.fillText("Tab pour ouvrir l'inventaire", baseXPlayer + 5, 160 + 125);
-        gc.fillText("X pour attaquer un monstre", baseXPlayer + 5, 175 + 125);
-        gc.fillText("Espace dans l'inventaire pour consommer", baseXPlayer + 5, 190 + 125);
+        gc.fillText("ZQSD : Move", baseXPlayer + 5, 130 + 125);
+        gc.fillText("E : Take", baseXPlayer + 5, 145 + 125);
+        gc.fillText("Tab : Inv", baseXPlayer + 5, 160 + 125);
+        gc.fillText("X : Attack", baseXPlayer + 5, 175 + 125);
+        gc.fillText("Space : Use", baseXPlayer + 5, 190 + 125);
     }   
     
     private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc) {

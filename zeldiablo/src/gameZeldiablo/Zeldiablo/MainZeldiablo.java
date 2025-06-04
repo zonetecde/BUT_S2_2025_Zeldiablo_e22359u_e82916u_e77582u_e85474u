@@ -29,8 +29,8 @@ public class MainZeldiablo {
         zeldiabloJeu.init();
 
         // parametrage du moteur de jeu
-        int hauteurFenetre = zeldiabloJeu.getLaby().getHauteur() * VariablesGlobales.TAILLE_CASE + 100; // +100 pour l'interface
-        int largeurFenetre = zeldiabloJeu.getLaby().getLongueur() * VariablesGlobales.TAILLE_CASE + 300; // +300 pour le menu/inventaire
+        int hauteurFenetre = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE + 100; // +100 pour l'interface
+        int largeurFenetre = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE + 100; // +300 pour le menu/inventaire
 
         MoteurJeu.setTaille(largeurFenetre, hauteurFenetre);
         MoteurJeu.setFPS(pFPS);

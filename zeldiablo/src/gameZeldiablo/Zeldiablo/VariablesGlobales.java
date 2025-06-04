@@ -29,6 +29,7 @@ public class VariablesGlobales {
         public static final String SPRITE_HACHE = "Items/hache.png";
 
         //Constantes
+        public static final int DISTANCE_VUE = 15;//Mettre valeur impaire
         public static final int TAILLE_CASE = 40;
         public static final double PV_BASE = 5;
         public static final double DEGAT_BASE = 1;
