@@ -1,6 +1,5 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
-import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
@@ -9,12 +8,13 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 public class CaseVide extends Case {
     private Item item;
 
+    /**
+     * Constructeur
+     * @param x pos x
+     * @param y pos y
+     */
     public CaseVide(int x, int y){
         super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_CASE_VIDE);
-    }
-    @Override
-    public void onStepOn(Entite entite) {
-        return;
     }
 
     /**

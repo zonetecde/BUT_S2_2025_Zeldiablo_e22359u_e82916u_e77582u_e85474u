@@ -4,15 +4,19 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 /**
  * Case d'escalier pour changer de niveau
  */
 public class CaseEscalier extends Case{
-    boolean monte = true;
+    boolean monte;
 
+    /**
+     * Constructeur escalier
+     * @param x pos x
+     * @param y pos y
+     * @param monte escalier montant ou descendant
+     */
     public CaseEscalier(int x, int y, boolean monte) {
         super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_ESCALIER_HAUT);
         this.monte = monte;
