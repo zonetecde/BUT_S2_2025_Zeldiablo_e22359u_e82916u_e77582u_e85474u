@@ -20,7 +20,4 @@ public class EtatVisuelle {
         return nom;
     }
 
-    public Color getCouleur() {
-        return couleur;
-    }
 }

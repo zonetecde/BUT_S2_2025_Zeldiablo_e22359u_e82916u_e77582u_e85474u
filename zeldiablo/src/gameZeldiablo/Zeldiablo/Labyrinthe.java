@@ -9,8 +9,6 @@ import gameZeldiablo.Zeldiablo.Items.Baton;
 import gameZeldiablo.Zeldiablo.Items.Epee;
 import gameZeldiablo.Zeldiablo.Items.Food;
 import gameZeldiablo.Zeldiablo.Items.Hache;
-import gameZeldiablo.Zeldiablo.Items.ItemDefault;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
@@ -42,20 +40,19 @@ public class Labyrinthe {
     public static final char STAIR_SORTIE = 'S';
     public static final char STAIRS_DEPART = 'D';
 
-    private String nomDuLab; // Identifiant du labyrinthe
+    private final String nomDuLab; // Identifiant du labyrinthe
 
-    private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private String nomFichier;
-    private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
-    private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
+    private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
+    private final String nomFichier;
+    private final int[] positionEscalierSortant = new int[2]; // Position de l'escalier
+    private final int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
     // et celle-ci est ouverte par une seule case d'ouverture.
 
     // Entité joueur
     private Player joueur;
     //Monstres
-    private ArrayList<Monstre> monstres = new ArrayList<>();
-    private Random random = new Random();
+    private final ArrayList<Monstre> monstres = new ArrayList<>();
 
     // Timer pour le déplacement automatique des monstres
     private Timer timerMonstres;
@@ -89,15 +86,13 @@ public class Labyrinthe {
             default:
                 throw new Error("action inconnue");
         }
-        int[] res = {y, x};
-        return res;
+        return new int[]{y, x};
     }
 
     /**
      * Charge le labyrinthe depuis un fichier.
      *
      * @param nom nom du fichier de labyrinthe
-     * @return labyrinthe cree
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
@@ -142,6 +137,17 @@ public class Labyrinthe {
             // parcours de la ligne
             for (int colonne = 0; colonne < ligne.length(); colonne++) {
                 char c = ligne.charAt(colonne);
+                /*
+                 * Runnable pour ouvrir la porte du niveau.
+                 * Cette action est déclenchée par une case d'ouverture.
+                 */
+                // Ouvre la porte du niveau
+                Runnable ouvrirPorte = () -> {
+                    // Ouvre la porte du niveau
+                    if (casePorte != null) {
+                        casePorte.ouvrir();
+                    }
+                };
                 switch (c) {
                     case MUR:
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
@@ -152,6 +158,7 @@ public class Labyrinthe {
                         // Si c'est pas le premier niveau
                         if (!nomDuLab.contains("1")) {
                             //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
+                            Random random = new Random();
                             if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
                                 // ajoute un monstre statique\
                                 Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
@@ -207,7 +214,6 @@ public class Labyrinthe {
                         positionEscalierEntrant[1] = colonne;
 
                         // ajoute PJ et crée une case vide à cet endroit
-                        if (c != STAIRS_DEPART) gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
                         if (this.joueur == null)
                             this.joueur = new Player(colonne, numeroLigne, VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
@@ -267,7 +273,7 @@ public class Labyrinthe {
     public boolean canEntityMoveTo(int i, int j) {
         return estDansLimites(i, j) &&
                 (getCase(i, j).getIsWalkable()) &&
-                !monstreSurCase(i, j) &&
+                monstreSurCase(i, j) &&
                 !joueurSurCase(i, j);
     }
 
@@ -296,20 +302,9 @@ public class Labyrinthe {
     }
 
     /**
-     * Runnable pour ouvrir la porte du niveau.
-     * Cette action est déclenchée par une case d'ouverture.
-     */
-    private Runnable ouvrirPorte = () -> {
-        // Ouvre la porte du niveau
-        if (casePorte != null) {
-            casePorte.ouvrir();
-        }
-    };
-
-    /**
      * return taille selon Y
      *
-     * @return
+     * @return longueur du tableau
      */
     public int getLongueur() {
         return gameBoard[0].length;
@@ -318,7 +313,7 @@ public class Labyrinthe {
     /**
      * return taille selon X
      *
-     * @return
+     * @return hauteur du tableau
      */
     public int getHauteur() {
         return gameBoard.length;
@@ -327,8 +322,8 @@ public class Labyrinthe {
     /**
      * Retourne la case en y;x
      *
-     * @param y
-     * @param x
+     * @param y pos y
+     * @param x pos x
      * @return La case en y;x
      */
     public Case getCase(int y, int x) {
@@ -336,7 +331,7 @@ public class Labyrinthe {
     }
 
     public Player getPlayer() {
-        return (Player) this.joueur;
+        return this.joueur;
     }
 
     /**
@@ -357,14 +352,25 @@ public class Labyrinthe {
         return positionEscalierEntrant;
     }
 
+    /**
+     * Setter du joueur
+     */
     public void setPlayer(Player joueur) {
         this.joueur = joueur;
     }
 
+    /**
+     * getter de la liste de monstres
+     * @return Liste de monstre
+     */
     public ArrayList<Monstre> getMonstres() {
         return monstres;
     }
 
+    /**
+     * getter du nom du laby
+     * @return Nom
+     */
     public String getNomDuLab() {
         return nomDuLab;
     }
@@ -396,10 +402,10 @@ public class Labyrinthe {
     public boolean monstreSurCase(int y, int x) {
         for (Entite monstre : monstres) {
             if (monstre.getY() == y && monstre.getX() == x) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -413,11 +419,18 @@ public class Labyrinthe {
         return this.joueur.getY() == y && this.joueur.getX() == x;
     }
 
-
+    /**
+     * Setter du joueur
+     * @param joueur nouveau joueur
+     */
     public void setJoueur(Player joueur) {
         this.joueur = joueur;
     }
 
+    /**
+     * getter du joueur
+     * @return Joueur actuel
+     */
     public Player getJoueur() {
         return this.joueur;
     }
@@ -491,6 +504,10 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * getter du nom de fichier
+     * @return String nom
+     */
     public String getNomFichier() {
         // Retourne le nom du fichier du labyrinthe
         return nomFichier;

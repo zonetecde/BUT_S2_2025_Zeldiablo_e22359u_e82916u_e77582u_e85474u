@@ -103,7 +103,7 @@ public class Valeurs {
      * @return une liste contenant le chemin jusqu'à la destination
      */
     public List<String> calculerChemin(String destination) {
-        List<String> chemin = new ArrayList<String>(); // contient le chemin
+        List<String> chemin = new ArrayList<>(); // contient le chemin
 
         String actuel = destination;
         // tant qu'on a pas atteint le noeud de départ
