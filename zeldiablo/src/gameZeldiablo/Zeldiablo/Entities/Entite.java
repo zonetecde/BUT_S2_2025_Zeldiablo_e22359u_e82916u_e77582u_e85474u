@@ -4,7 +4,6 @@ package gameZeldiablo.Zeldiablo.Entities;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
