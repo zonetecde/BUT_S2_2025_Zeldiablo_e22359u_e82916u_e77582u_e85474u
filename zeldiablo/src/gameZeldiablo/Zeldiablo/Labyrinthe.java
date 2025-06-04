@@ -38,7 +38,7 @@ public class Labyrinthe {
 
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-
+    private String nomFichier;
     private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
@@ -96,7 +96,7 @@ public class Labyrinthe {
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
-
+        this.nomFichier = nom;
         int nbLignes, nbColonnes;
 
         // récupère le nbre de lignes et de colonnes
@@ -440,5 +440,10 @@ public class Labyrinthe {
             timerMonstres.cancel();
             timerMonstres = null;
         }
+    }
+
+    public String getNomFichier() {
+        // Retourne le nom du fichier du labyrinthe
+        return nomFichier;
     }
 }
