@@ -146,7 +146,6 @@ public class ZeldiabloJeu implements Jeu {
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
                 this.chargementNiveau();
-                this.getLaby().initTimerMonstres();
                 currentLevel=0;
             }
             else{
@@ -167,7 +166,8 @@ public class ZeldiabloJeu implements Jeu {
             for (int i=0;i<folder.length;i++){
                 fichiers[i]=folder[i].getAbsolutePath();
             }
-            Arrays.sort(fichiers);            for (String f : fichiers) {
+            Arrays.sort(fichiers);
+            for (String f : fichiers) {
                 niveaux.add(new Labyrinthe(f,this));
             }
 
