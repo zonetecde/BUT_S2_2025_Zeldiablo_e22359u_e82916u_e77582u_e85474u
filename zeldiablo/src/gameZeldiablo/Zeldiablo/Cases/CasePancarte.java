@@ -2,7 +2,6 @@ package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.paint.Color;
 
 public class CasePancarte extends Case {
     private final String message;

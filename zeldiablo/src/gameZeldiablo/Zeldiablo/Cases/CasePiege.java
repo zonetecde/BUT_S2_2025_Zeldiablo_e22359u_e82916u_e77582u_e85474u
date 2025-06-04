@@ -2,14 +2,13 @@ package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.paint.Color;
 
 
 /**
  * Classe représentant une case piège dans le jeu Zeldiablo
  */
 public class CasePiege extends Case {
-    private double degats;
+    private final double degats;
 
     /**
      * Constructeur de CasePiege

@@ -15,8 +15,8 @@ public abstract class Entite extends Sprite {
     private final double maxHp; // Les points de vie de l'entité
     private final double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
-    private EtatVisuelle etatVisuelle;
     private String msgToSay;
+    private EtatVisuelle etatVisuelle;
 
     /**
      * constructeur

@@ -1,17 +1,26 @@
 package gameZeldiablo.Zeldiablo;
 
-
-import javafx.application.Platform;
 import javafx.scene.image.Image;
 
+/**
+ * Classe abstraite pour les objets ayant un affichage
+ */
 public abstract class Sprite extends ZeldiabloDessin {
-    private String imgFile = null;
+    private String imgFile;
     private Image img;
 
+    /**
+     * Constructeur
+     * @param s chemin vers l'image
+     */
     public Sprite(String s){
         this.imgFile = s;
     }
 
+    /**
+     * Creation de l'image
+     * @param img nom
+     */
     public void setImg(String img){
         this.imgFile=img;
         try{
@@ -21,6 +30,10 @@ public abstract class Sprite extends ZeldiabloDessin {
         }
     }
 
+    /**
+     * getter de l'image
+     * @return image actuelle
+     */
     public Image getImg(){
         if(this.img == null){
             try{

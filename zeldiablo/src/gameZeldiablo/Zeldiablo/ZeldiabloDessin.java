@@ -2,7 +2,6 @@ package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.Item;
-import gameZeldiablo.Zeldiablo.Entities.Entite;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -12,11 +11,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
-import gameZeldiablo.Zeldiablo.Entities.Monstre;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ZeldiabloDessin implements DessinJeu {
     private Image imageJoueur;
@@ -34,9 +31,10 @@ public class ZeldiabloDessin implements DessinJeu {
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         if (laby.getPlayer().estMort()){
-            startUI(laby,gc,canvas);
+            startUI(gc,canvas);
         }
         else if (laby.getPlayer().aGagne()){
+            startUI(gc,canvas);
             afficherEcranVictoire(gc,canvas);
             javafx.animation.Timeline timeline = new javafx.animation.Timeline(
                 new javafx.animation.KeyFrame(
@@ -60,10 +58,10 @@ public class ZeldiabloDessin implements DessinJeu {
             heroUI(laby, gc);
 
             // Affiche les instructions
-            instructionUI(laby, gc, canvas);
+            instructionUI(laby, gc);
 
             // Affiche l'item actuellement sélectionné dans l'inventaire
-            itemActuellementSelectionneUI(laby, gc, canvas);
+            itemActuellementSelectionneUI(laby, gc);
 
             if (VariablesGlobales.MenuOuvert) {
                 invUI(laby, gc, canvas);
@@ -86,7 +84,7 @@ public class ZeldiabloDessin implements DessinJeu {
             System.out.println("Erreur dessinerJeu");
         }
 
-        for (int y = 0; y < laby.getHauteur(); y++) {
+        for (int y = 0; y < Objects.requireNonNull(laby).getHauteur(); y++) {
             for (int x = 0; x < laby.getLongueur(); x++) {
                 // Couleur des murs - noir
                 gc.drawImage(laby.getCase(y,x).getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);                
@@ -159,9 +157,8 @@ public class ZeldiabloDessin implements DessinJeu {
     /**
      * Affiche les instructions de jeu sur l'UI
      * @param gc  Le contexte graphique pour dessiner sur le canvas.
-     * @param c Le canvas sur lequel dessiner les instructions.
      */
-    private void instructionUI(Labyrinthe laby, GraphicsContext gc, Canvas c) {
+    private void instructionUI(Labyrinthe laby, GraphicsContext gc) {
         int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
         
         gc.setFill(Color.BLACK);
@@ -174,9 +171,9 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.fillText("Espace dans l'inventaire pour consommer", baseXPlayer + 5, 190 + 125);
     }   
     
-    private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc, Canvas c) {
+    private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc) {
         ArrayList<Item> inv = laby.getPlayer().getInventory();
-        if (inv.size() > 0) {
+        if (!inv.isEmpty()) {
             Item item = inv.get(VariablesGlobales.curseur);
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
             gc.setFill(Color.BLACK);
@@ -241,7 +238,7 @@ public class ZeldiabloDessin implements DessinJeu {
             text.setFont(gc.getFont());
             double textWidth = text.getLayoutBounds().getWidth();
             double textX = caseX + (caseWidth - textWidth) / 2;
-            double textY = caseY + caseHeight / 2 + 5;
+            double textY = caseY + (double) caseHeight / 2 + 5;
 
             gc.fillText(itemText, textX, textY);
 
@@ -253,7 +250,7 @@ public class ZeldiabloDessin implements DessinJeu {
         }
     }
 
-    public void startUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
+    public void startUI(GraphicsContext gc, Canvas c){
         //Fond
         gc.setFill(Color.SLATEGREY);
         gc.fillRect(0,0,c.getWidth(),c.getHeight());
@@ -301,7 +298,7 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param maxHp les points de vie maximum du joueur
      */
     private double getLifeBarWidth(double actualHp, double maxHp) {
-        return ((double) actualHp / (double) maxHp) * 90;
+        return (actualHp / maxHp) * 90;
     }
 
     /**

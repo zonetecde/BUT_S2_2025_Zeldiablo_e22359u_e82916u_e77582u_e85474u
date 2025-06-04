@@ -4,10 +4,10 @@ import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
 public abstract class Item extends Sprite {
-    private String name;
-    private TypeItem type;
+    private final String name;
+    private final TypeItem type;
 
-    private Object[] params; // En fonction des items, on peut avoir besoin de paramètres supplémentaires (arme = dégâts, etc.)
+    private final Object[] params; // En fonction des items, on peut avoir besoin de paramètres supplémentaires (arme = dégâts, etc.)
 
     /**
      * Constructeur de la classe Item
@@ -22,7 +22,7 @@ public abstract class Item extends Sprite {
         this.params = params;
     }
 
-    public boolean use(Labyrinthe laby){return false;};
+    public boolean use(Labyrinthe laby){return false;}
 
     public String getName() {
         return name;

@@ -1,6 +1,5 @@
 package gameZeldiablo.Zeldiablo.Items;
 
-import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 public class Hache extends Item {

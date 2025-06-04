@@ -48,7 +48,7 @@ public class DeplacementIntelligent implements DeplacementStrategie {
             int prochaineX = coordonnees[1];
 
             // Vérifier si la case est walkable avant de déplacer le monstre
-            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable() && !labyrinthe.monstreSurCase(prochaineY, prochaineX) && !labyrinthe.joueurSurCase(prochaineY, prochaineX)) {
+            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable() && labyrinthe.monstreSurCase(prochaineY, prochaineX) && !labyrinthe.joueurSurCase(prochaineY, prochaineX)) {
                 monstre.setPosition(prochaineY, prochaineX);
             }
         }
