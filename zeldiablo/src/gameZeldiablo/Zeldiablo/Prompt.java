@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class Prompt {
-    private static final String PROMPT = """
+    private static final String PROMPT_RAMASSER_OBJET = """
 [AI-SHORTCUT]Tu es un assistant qui génère des phrases courtes pour un joueur de MMORPG.
 
 Contexte : Le joueur vient de ramasser l'objet "@1" dans un donjon.
@@ -22,12 +22,11 @@ Réponds UNIQUEMENT avec la phrase, sans guillemets ni commentaires.
     """;
     
     /**
-     * Demande à GPT de générer un message pour le joueur lorsqu'il ramasse un objet.
-     * @param itemName Le nom de l'objet ramassé par le joueur.
-     * @param callback La fonction de rappel qui sera appelée avec le message généré.
+     * Méthode utilitaire pour faire une requête HTTP et traiter la réponse.
+     * @param prompt Le prompt à envoyer
+     * @param callback La fonction de rappel qui sera appelée avec le message généré
      */
-    public static void askGptForMsgWhenPickingItem(String itemName, java.util.function.Consumer<String> callback) {
-        String prompt = PROMPT.replace("@1", itemName);
+    private static void makeHttpRequest(String prompt, java.util.function.Consumer<String> callback) {
         String url = "https://rayanestaszewski.fr/gpt?prompt=" + URLEncoder.encode(prompt, StandardCharsets.UTF_8);
         
         // Exécution en arrière-plan
@@ -44,11 +43,26 @@ Réponds UNIQUEMENT avec la phrase, sans guillemets ni commentaires.
 
                 // enlève les guillemets autour de la réponse et les \n
                 rep = rep.replace("\"", "").replace("\\n", "").trim();
+
+                if(rep.contains("null") || rep.isEmpty()) {
+                    return ""; // Erreur : le joueur ne dit rien
+                }
+
                 return rep;
             } catch (Exception e) {
                 e.printStackTrace();
                 return ""; // Erreur : le joueur ne dit rien
             }
         }).thenAccept(callback);
+    }
+
+    /**
+     * Demande à GPT de générer un message pour le joueur lorsqu'il ramasse un objet.
+     * @param itemName Le nom de l'objet ramassé par le joueur.
+     * @param callback La fonction de rappel qui sera appelée avec le message généré.
+     */
+    public static void askGptForMsgWhenPickingItem(String itemName, java.util.function.Consumer<String> callback) {
+        String prompt = PROMPT_RAMASSER_OBJET.replace("@1", itemName);
+        makeHttpRequest(prompt, callback);
     }
 }
