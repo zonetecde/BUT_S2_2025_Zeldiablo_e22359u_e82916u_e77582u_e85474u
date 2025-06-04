@@ -6,9 +6,6 @@ import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 
 public class DeplacementIntelligent implements DeplacementStrategie {
-    private static String labyActuel;
-    private static GrapheListe graphe;
-
     @Override
     /**
      * Déplace l'entité selon la stratégie de déplacement intelligente.
@@ -29,10 +26,7 @@ public class DeplacementIntelligent implements DeplacementStrategie {
         String caseMonstre = labyrinthe.getCase(posMonstreY, posMonstreX).toString();
 
         // Créer un graphe du labyrinthe
-        if(graphe == null || !labyActuel.equals(labyrinthe.getNomDuLab())) {
-            labyActuel = labyrinthe.getNomDuLab();
-            graphe = new GrapheListe(labyrinthe);
-        }
+        GrapheListe graphe = new GrapheListe(labyrinthe);
 
         // Calculer le chemin le plus court vers le joueur
         Algorithme bellmanFord = new BellmanFord();
