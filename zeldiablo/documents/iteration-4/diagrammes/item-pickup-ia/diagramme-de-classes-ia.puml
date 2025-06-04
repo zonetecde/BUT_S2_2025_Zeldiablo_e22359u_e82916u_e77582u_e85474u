@@ -1,0 +1,18 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Labyrinthe {
+  - joueur: Player
+}
+class Prompt {
+  - PROMPT_ITEM_PICKUP: String
+  + askGptForMsgWhenPickingItem(String, Consumer<String>): void
+  - makeHttpRequest(String, Consumer<String>): void
+}
+
+Labyrinthe ..> Prompt : utilise
+
+@enduml
