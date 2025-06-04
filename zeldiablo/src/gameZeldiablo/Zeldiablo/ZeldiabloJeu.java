@@ -270,7 +270,7 @@ public class ZeldiabloJeu implements Jeu {
 
         if (niveaux.size() >= 5) {
             // On récupère spécifiquement le niveau 5 (index 4)
-            Labyrinthe laby = niveaux.get(0);
+            Labyrinthe laby = niveaux.get(4);
             System.out.println("Niveau 5 trouvé : " + laby.getNomDuLab());
 
             // On cherche toutes les cases vides et marchables du labyrinthe
