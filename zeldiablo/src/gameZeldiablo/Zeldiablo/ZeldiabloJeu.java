@@ -26,7 +26,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
     private ArrayList<Labyrinthe> niveaux;
-
+    
     // Indice du niveau actuel
     private int currentLevel = 0; // Le niveau actuel
 
@@ -37,15 +37,14 @@ public class ZeldiabloJeu implements Jeu {
     private boolean currentlyMoving = false;
 
 
-    public ZeldiabloJeu(int level) {
+    public ZeldiabloJeu(int level){
         currentLevel = level;
     }
 
     /**
      * Action à chaque frame
-     *
      * @param secondes temps ecoule depuis la derniere mise a jour
-     * @param clavier  objet contenant l'état du clavier'
+     * @param clavier objet contenant l'état du clavier'
      */
     @Override
     public void update(double secondes, Clavier clavier) {
@@ -73,43 +72,50 @@ public class ZeldiabloJeu implements Jeu {
 
     /**
      * Déplace le personnage en fonction des touches pressées.
-     *
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void Inputs(Clavier clavier) {
-        if (getLaby().getPlayer().estMort()) {
+        if (getLaby().getPlayer().estMort()){
             inputsStart(clavier);
-        } else if (VariablesGlobales.MenuOuvert) {
+        } else if (VariablesGlobales.MenuOuvert){
             inputInv(clavier);
-        } else {
+        }
+        else {
             inputLaby(clavier);
         }
 
     }
 
-    private void inputInv(Clavier clavier) {
-        if (clavier.droite) {
-            if (VariablesGlobales.curseur < this.niveaux.get(currentLevel).getPlayer().getInventory().size() - 1) {
+    private void inputInv(Clavier clavier){
+        if (clavier.droite){
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-1) {
                 VariablesGlobales.curseur += 1;
             }
-        } else if (clavier.gauche) {
-            if (VariablesGlobales.curseur > 0) {
+        } else if (clavier.gauche){
+            if (VariablesGlobales.curseur>0) {
                 VariablesGlobales.curseur -= 1;
             }
-        } else if (clavier.haut) {
-            if (VariablesGlobales.curseur > VariablesGlobales.COL_NUM_MENU - 1) {
+        } else if (clavier.haut){
+            if (VariablesGlobales.curseur>VariablesGlobales.COL_NUM_MENU-1) {
                 VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
-        } else if (clavier.bas) {
-            if (VariablesGlobales.curseur < this.niveaux.get(currentLevel).getPlayer().getInventory().size() - 3) {
+        } else if (clavier.bas){
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.space) {
-            this.niveaux.get(currentLevel).getPlayer().getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel));
+            try {
+                Player tmp = this.niveaux.get(currentLevel).getPlayer();
+                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
+                    tmp.getInventory().remove(VariablesGlobales.curseur);
+                    VariablesGlobales.curseur-=1;
+                }
+            }
+            catch (Exception e){}
         }
     }
 
-    private void inputLaby(Clavier clavier) {
+    private void inputLaby(Clavier clavier){
         if (clavier.interactionKey) {
             // Ramasse l'objet si possible
             getLaby().ramasserItem(getLaby().getPlayer());
@@ -132,22 +138,24 @@ public class ZeldiabloJeu implements Jeu {
         } else if (clavier.bas) {
             getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
             getLaby().getPlayer().setSpriteJoueur(1);
-        } else if (clavier.x) {
+        }
+        else if (clavier.x) {
             getLaby().attaqueJoueur();
-            if (getLaby().getPlayer().getSpriteJoueur() < VariablesGlobales.SPRITE_JOUEUR.length / 2) {
+            if (getLaby().getPlayer().getSpriteJoueur()<VariablesGlobales.SPRITE_JOUEUR.length/2) {
                 getLaby().getPlayer().setSpriteJoueur(getLaby().getPlayer().getSpriteJoueur() + 4);
             }
         }
     }
 
-    private void inputsStart(Clavier clavier) {
-        if (clavier.haut || clavier.bas) {
-            VariablesGlobales.curseurStart = !VariablesGlobales.curseurStart;
-        } else if (clavier.space) {
+    private void inputsStart(Clavier clavier){
+        if (clavier.haut || clavier.bas){VariablesGlobales.curseurStart=!VariablesGlobales.curseurStart;}
+
+        else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
                 this.chargementNiveau();
-                currentLevel = 0;
-            } else {
+                currentLevel=0;
+            }
+            else{
                 System.exit(0);
             }
         }
@@ -156,23 +164,23 @@ public class ZeldiabloJeu implements Jeu {
     /**
      * Methode pour charger les niveaux du jeu
      */
-    private void chargementNiveau() {
+    private void chargementNiveau(){
         try {
-            niveaux = new ArrayList<>();
+            niveaux =new ArrayList<>();
             File[] folder = new File("labyJeu").listFiles();
             assert folder != null;
             String[] fichiers = new String[folder.length];
-            for (int i = 0; i < folder.length; i++) {
-                fichiers[i] = folder[i].getAbsolutePath();
+            for (int i=0;i<folder.length;i++){
+                fichiers[i]=folder[i].getAbsolutePath();
             }
-            Arrays.sort(fichiers);
-            for (String f : fichiers) {
-                niveaux.add(new Labyrinthe(f, this));
+            Arrays.sort(fichiers);            for (String f : fichiers) {
+                niveaux.add(new Labyrinthe(f,this));
             }
 
             // Ajoute une amulette aléatoirement dans le labyrinthe
             placerAmuletteAleatoire();
-        } catch (IOException e) {
+        }
+        catch (IOException e){
             System.out.println("Données de laby corrompues");
             System.err.println(e);
             estFini = true;
@@ -182,30 +190,29 @@ public class ZeldiabloJeu implements Jeu {
 
     /**
      * Change le niveau du jeu.
-     *
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
-     */
-    public void changeLevel(boolean next) {
+     */    public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
         if (newLevel < niveaux.size()) {
             // Arrête le timer de l'ancien niveau
             getLaby().arreterTimerMonstres();
-
+            
             Player playerCloned = getLaby().getPlayer().clone();
 
             // Changement de niveau
             currentLevel = newLevel;
 
             getLaby().setPlayer(playerCloned);
-
+            
             // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
             if (!next) {
                 // Si on essaie d'aller au niveau -1, et que on a l'amulette, on gagne
                 if (currentLevel == -1) {
-                    if (getLaby().getPlayer().possedeItem("Amulette")) {
+                    if(getLaby().getPlayer().possedeItem("Amulette")) {
                         getLaby().getPlayer().setaGagne(true);
                     }
-                } else {
+                }
+                else {
                     getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
                     getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
                 }
@@ -218,10 +225,9 @@ public class ZeldiabloJeu implements Jeu {
 
     /**
      * Getter de laby
-     *
      * @return renvoie le laby actuel
      */
-    public Labyrinthe getLaby() {
+    public Labyrinthe getLaby(){
         return niveaux.get(currentLevel);
     }
 
@@ -230,15 +236,13 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
-        this.currentLevel = 0;
+        this.currentLevel=0;
         chargementNiveau();
-        placerAmuletteAleatoire();
         getLaby().getPlayer().setEnVie(false);
     }
 
     /**
      * spécifie si le jeu est fini
-     *
      * @return boolean fini
      */
     @Override
@@ -251,42 +255,30 @@ public class ZeldiabloJeu implements Jeu {
     }
 
     /**
-     * Place une amulette aléatoirement dans le niveau 5 du jeu.
+     * Place une amulette aléatoirement dans un niveau aléatoire du jeu.
      * Cherche une case vide et marchable pour y placer l'amulette.
      */
     private void placerAmuletteAleatoire() {
-        System.out.println("Tentative de placement de l'amulette...");
-        System.out.println("Nombre de niveaux : " + niveaux.size());
+        if (!niveaux.isEmpty()) {
+            // On choisit un niveau aléatoire pour l'amulette
+            int niveauAmulette = Utilities.getRandomNumber(0, niveaux.size());
+            Labyrinthe laby = niveaux.get(niveauAmulette);
 
-        if (niveaux.size() >= 5) {
-
-            Labyrinthe laby = niveaux.get(4);
-            System.out.println("Niveau 5 trouvé : " + laby.getNomDuLab());
-
-
+            // On cherche toutes les cases vides du labyrinthe
             ArrayList<Case> casesVides = new ArrayList<>();
             for (int y = 0; y < laby.getHauteur(); y++) {
                 for (int x = 0; x < laby.getLongueur(); x++) {
-                    Case caseActuelle = laby.getCase(y, x);
-                    if (caseActuelle.getIsWalkable() && !caseActuelle.hasItem()) {
-                        casesVides.add(caseActuelle);
+                    if (laby.getCase(y, x).getIsWalkable() && !laby.getCase(y, x).hasItem()) {
+                        casesVides.add((laby.getCase(y, x)));
                     }
                 }
             }
 
-            System.out.println("Nombre de cases vides trouvées : " + casesVides.size());
-
             // Si on a trouvé des cases vides, on en choisit une au hasard pour y mettre l'amulette
             if (!casesVides.isEmpty()) {
-                int idx = Utilities.getRandomNumber(0, casesVides.size() - 1);
-                Case caseChoisie = casesVides.get(idx);
-                System.out.println("Placement de l'amulette en position : ");
-                caseChoisie.addItem(new Amulette());
-            } else {
-                System.out.println("ERREUR : Aucune case vide trouvée pour placer l'amulette !");
+                int idx = Utilities.getRandomNumber(0, casesVides.size());
+                casesVides.get(idx).addItem(new Amulette());
             }
-        } else {
-            System.out.println("ERREUR : Le niveau 5 n'existe pas encore !");
         }
     }
 }
