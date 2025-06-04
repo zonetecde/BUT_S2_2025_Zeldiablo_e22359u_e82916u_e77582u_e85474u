@@ -33,4 +33,7 @@ public abstract class Sprite extends ZeldiabloDessin {
         return this.img;
     }
 
+    public String getImgFileName(){
+        return this.imgFile;
+    }
 }
