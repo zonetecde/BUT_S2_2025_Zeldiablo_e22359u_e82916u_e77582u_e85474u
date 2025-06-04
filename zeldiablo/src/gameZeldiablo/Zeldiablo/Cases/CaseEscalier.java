@@ -33,16 +33,11 @@ public class CaseEscalier extends Case{
     public void onAction(Entite entite, ZeldiabloJeu jeu) {
         // Si l'escalier est descendant et que le joueur a l'amulette, il gagne le jeu
         String nomFichier = jeu.getLaby().getNomFichier();
-        boolean amulettePresente = false;
         if (!monte && nomFichier.endsWith("labyjeu1.txt")) {
-            for (Item item : jeu.getLaby().getPlayer().getInventory()) {
-                if ("Amulette".equals(item.getName())) {
-                    jeu.getLaby().getPlayer().setaGagne(true);
-                    amulettePresente = true;
-                }
-            }
-
-            if(!amulettePresente){
+            boolean possedeAmulette = jeu.getLaby().getPlayer().possedeItem("Amulette");
+            if (possedeAmulette) {
+                jeu.getLaby().getPlayer().setaGagne(true);
+            } else {
                 entite.setMsgToSay("Il me manque quelque chose...");
                 return;
             }
