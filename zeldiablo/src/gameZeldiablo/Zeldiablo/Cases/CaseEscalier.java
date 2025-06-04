@@ -18,10 +18,10 @@ public class CaseEscalier extends Case{
      * @param monte escalier montant ou descendant
      */
     public CaseEscalier(int x, int y, boolean monte) {
-        super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_ESCALIER_HAUT);
+        super(x, y, true, VariablesGlobales.SPRITE_ESCALIER_HAUT);
         this.monte = monte;
         if (!monte) {
-            this.setImg(VariablesGlobales.SPRITE_ESCALIER_BAS);
+            this.getSprite().setImg(VariablesGlobales.SPRITE_ESCALIER_BAS);
         }
     }
 

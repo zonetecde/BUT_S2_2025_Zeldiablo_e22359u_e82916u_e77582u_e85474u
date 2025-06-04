@@ -8,7 +8,7 @@ import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case extends Sprite implements Action{
+public abstract class Case implements Action{
     /**
      * Emplacement x de la case
      */
@@ -23,22 +23,18 @@ public abstract class Case extends Sprite implements Action{
      */
     private boolean isWalkable;
 
-    /**
-     * Type de la case
-     */
-    private final CaseType caseType;
+    private Sprite sprite; // L'image de la case
 
     /**
      * Constructeur de Case
      * @param x pos x
      * @param y pos y
      */
-    public Case(int x, int y, boolean isWalkable, CaseType caseType, String img) {
-        super(img);
+    public Case(int x, int y, boolean isWalkable, String img) {
         this.x = x;
         this.y = y;
         this.isWalkable = isWalkable;
-        this.caseType = caseType;
+        this.sprite = new Sprite(img);
     }
 
     /**
@@ -55,6 +51,14 @@ public abstract class Case extends Sprite implements Action{
      */
     public void onStepOn(Entite entite) {
         // Action par défaut
+    }
+
+    /**
+     * Retourne le sprite de la case
+     * @return Sprite de la case
+     */
+    public Sprite getSprite() {
+        return this.sprite;
     }
 
     /**
@@ -116,13 +120,5 @@ public abstract class Case extends Sprite implements Action{
                 ", y=" + y +
                 ", isWalkable=" + isWalkable +
                 '}';
-    }
-
-    /**
-     * Retourne le type de la case
-     * @return Le type de la case
-     */
-    public CaseType getCaseType() {
-        return caseType;
     }
 }

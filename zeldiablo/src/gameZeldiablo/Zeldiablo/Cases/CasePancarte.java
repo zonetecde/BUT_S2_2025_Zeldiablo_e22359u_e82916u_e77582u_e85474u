@@ -14,7 +14,7 @@ public class CasePancarte extends Case {
      * @param message message à afficher lorsque l'entité marche sur la case
      */
     public CasePancarte(int x, int y, String message) {
-        super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_PANCARTE);
+        super(x, y, true, VariablesGlobales.SPRITE_PANCARTE);
         this.message = message;
     }
     

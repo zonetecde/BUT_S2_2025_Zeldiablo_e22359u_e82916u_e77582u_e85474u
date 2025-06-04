@@ -5,7 +5,7 @@ import gameZeldiablo.Zeldiablo.Sprite;
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite extends Sprite {
+public abstract class Entite {
 
     /**
      * position du personnage et vie
@@ -14,8 +14,9 @@ public abstract class Entite extends Sprite {
     private double hp;
     private final double maxHp; // Les points de vie de l'entité
     private final double degat; // Les dégâts que fait l'entité
-    boolean enVie = true;
+    private boolean enVie = true;
     private String msgToSay;
+    private Sprite sprite; // L'image de l'entité
 
     /**
      * constructeur
@@ -24,14 +25,22 @@ public abstract class Entite extends Sprite {
      * @param dy position selon y
      */
     public Entite(int dx, int dy, double maxHp, double degat, String img) {
-        super(img);
         this.x = dx;
         this.y = dy;
         this.hp = maxHp;
         this.maxHp = maxHp;
         this.degat = degat;
+        this.sprite = new Sprite(img);
     }
 
+
+    /**
+     * Retourne le sprite de l'entité
+     * @return Sprite de l'entité
+     */
+    public Sprite getSprite() {
+        return this.sprite;
+    }
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage
@@ -75,6 +84,13 @@ public abstract class Entite extends Sprite {
     public int getX() {
         // getter
         return this.x;
+    }
+
+    /**
+     * Retourne si l'entité est en vie
+     */
+    public boolean getEnVie(){
+        return this.enVie;
     }
 
     /**

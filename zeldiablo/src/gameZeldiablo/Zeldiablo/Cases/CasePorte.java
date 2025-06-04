@@ -14,7 +14,7 @@ public class CasePorte extends Case {
      */
     public CasePorte(int x, int y) {
         // Au chargement du niveau la porte est fermée
-        super(x, y, false, CaseType.INTERACTIVE, VariablesGlobales.SPRITE_PORTE_FERMEE);
+        super(x, y, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
     }
 
     /**
@@ -24,7 +24,7 @@ public class CasePorte extends Case {
         if (!ouverte) {
             this.ouverte = true;
             this.setIsWalkable(true); // Permet de marcher sur la case
-            this.setImg(VariablesGlobales.SPRITE_PORTE_OUVERTE);
+            this.getSprite().setImg(VariablesGlobales.SPRITE_PORTE_OUVERTE);
         }
     }
 }

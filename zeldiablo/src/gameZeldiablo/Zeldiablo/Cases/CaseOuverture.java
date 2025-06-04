@@ -15,7 +15,7 @@ public class CaseOuverture extends Case {
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
     public CaseOuverture(int x, int y, Runnable action) {
-        super(x, y, true, CaseType.SOL, VariablesGlobales.SPRITE_P_P);
+        super(x, y, true, VariablesGlobales.SPRITE_P_P);
         this.action = action;
     }
 
