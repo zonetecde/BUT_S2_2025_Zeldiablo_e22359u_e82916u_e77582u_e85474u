@@ -2,7 +2,6 @@ package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Items.Amulette;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -152,6 +151,7 @@ public class ZeldiabloJeu implements Jeu {
             if (VariablesGlobales.curseurStart) {
                 this.chargementNiveau();
                 currentLevel=0;
+                VariablesGlobales.curseur=0;
             }
             else{
                 System.exit(0);

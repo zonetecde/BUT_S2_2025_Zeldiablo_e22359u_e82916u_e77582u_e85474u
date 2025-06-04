@@ -47,7 +47,6 @@ public class ZeldiabloDessin implements DessinJeu {
             );
             timeline.setCycleCount(1);
             timeline.play();
-            return;
             
         }
         else {
