@@ -10,7 +10,7 @@ public class AttaqueJoueurTest {
     @Test
     void testJoueurAttaqueMonstreQuandACote() throws Exception {
 
-        Labyrinthe laby = new Labyrinthe("labyTests/laby0.txt", null);
+        Labyrinthe laby = new Labyrinthe("labyTests/laby3.txt", null);
 
 
         Player joueur = laby.getPlayer();

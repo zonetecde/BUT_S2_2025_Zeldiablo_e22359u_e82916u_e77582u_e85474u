@@ -17,7 +17,7 @@ public class ItemTest {
 
     @Test
     public void testRamasserItem() throws IOException {
-        Labyrinthe laby = new Labyrinthe(new File("labySimple/laby0.txt").getAbsolutePath(), null);
+        Labyrinthe laby = new Labyrinthe(new File("labyTests/laby3.txt").getAbsolutePath(), null);
         Player joueur = laby.getPlayer();
 
         boolean trouve = false;

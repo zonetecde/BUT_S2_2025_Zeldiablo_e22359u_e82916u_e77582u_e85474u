@@ -134,7 +134,7 @@ public class Labyrinthe {
         // parcours le fichier
         while (ligneBrute != null) {
             String ligne = ligneBrute.trim();
-            if(ligneBrute.split(";").length > 1) {
+            if (ligneBrute.split(";").length > 1) {
                 // Si la ligne contient une pancarte, on ignore le reste de la ligne
                 ligne = ligneBrute.split(";")[0];
             }
@@ -162,7 +162,7 @@ public class Labyrinthe {
 
                         // Si c'est pas le premier niveau
                         if (!nomDuLab.contains("1")) {
-                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE                            
+                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
                             if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX) {
 
                                 // ajoute un monstre statique\
@@ -365,6 +365,7 @@ public class Labyrinthe {
 
     /**
      * getter de la liste de monstres
+     *
      * @return Liste de monstre
      */
     public ArrayList<Monstre> getMonstres() {
@@ -373,6 +374,7 @@ public class Labyrinthe {
 
     /**
      * getter du nom du laby
+     *
      * @return Nom
      */
     public String getNomDuLab() {
@@ -422,8 +424,9 @@ public class Labyrinthe {
     /**
      * Vérifie si un joueur est présent sur la case spécifiée
      *
-     * @param y Coordonnée verticale de la case
-     * @param x Coordonnée horizontale de la case
+     * @param y     Coordonnée verticale de la case
+     * @param x     Coordonnée horizontale de la case
+     * @param aCote Si le joueur est à côté de la case retourne true quand même
      * @return true si le joueur est sur la case, false sinon
      */
     public boolean joueurSurCase(int y, int x) {
@@ -432,6 +435,7 @@ public class Labyrinthe {
 
     /**
      * Setter du joueur
+     *
      * @param joueur nouveau joueur
      */
     public void setJoueur(Player joueur) {
@@ -440,6 +444,7 @@ public class Labyrinthe {
 
     /**
      * getter du joueur
+     *
      * @return Joueur actuel
      */
     public Player getJoueur() {
@@ -517,6 +522,7 @@ public class Labyrinthe {
 
     /**
      * getter du nom de fichier
+     *
      * @return String nom
      */
     public String getNomFichier() {
