@@ -1,0 +1,29 @@
+@startuml
+participant ZeldiabloJeu
+participant "niveaux : ArrayList<Labyrinthe>" as niveaux
+participant "L1: Labyrinthe" as Labyrinthe
+participant "c1: Case" as Case
+participant "Amulette: Item" as Amulette
+
+ZeldiabloJeu -> niveaux : size()
+alt si niveaux.size() >= 5
+    ZeldiabloJeu -> niveaux : get(4)
+    ZeldiabloJeu -> Labyrinthe : getHauteur()
+    ZeldiabloJeu -> Labyrinthe : getLongueur()
+    loop pour chaque case (y, x)
+        ZeldiabloJeu -> Labyrinthe : getCase(y, x)
+        Labyrinthe -> Case : getIsWalkable()
+        Labyrinthe -> Case : hasItem()
+        Labyrinthe -> Labyrinthe : monstreSurCase(y, x)
+        Labyrinthe -> Labyrinthe : joueurSurCase(y, x)
+        alt si toutes les conditions sont vraies
+            ZeldiabloJeu -> casesVides : add(caseActuelle)
+        end
+    end
+    alt si casesVides.size() > 0
+        ZeldiabloJeu -> casesVides : get(random)
+        ZeldiabloJeu -> Amulette : new()
+        ZeldiabloJeu -> Case : addItem(Amulette)
+    end
+end
+@enduml
