@@ -14,4 +14,4 @@ Par exemple la classe EtatVisuelle à était supprimé du au ajout de Sprite qui
 
 Les diagrammes finaux se trouve donc dans le dossier itération-4
 
-ne pas corriger branche Continuite, pour expansion perso
+Merci de ne pas prêter attention à la branche `Continuite`, celle-ci étant pour des ajouts persos
