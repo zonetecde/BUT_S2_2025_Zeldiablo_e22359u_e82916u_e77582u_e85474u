@@ -103,6 +103,8 @@ public class ZeldiabloJeu implements Jeu {
             if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
+        } else if (clavier.space){
+            this.niveaux.get(currentLevel).getPlayer().getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel));
         }
     }
 
