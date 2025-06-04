@@ -4,7 +4,6 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
-import javafx.scene.paint.Color;
 
 /**
  * Classe abstraite représentant les cases de jeu
@@ -13,11 +12,11 @@ public abstract class Case extends Sprite implements Action{
     /**
      * Emplacement x de la case
      */
-    private int x;
+    private final int x;
     /**
      * Emplacement y de la case
      */
-    private int y;
+    private final int y;
 
     /**
     Permet de dire si on peut marcher sur cette case
@@ -27,12 +26,12 @@ public abstract class Case extends Sprite implements Action{
     /**
      * Type de la case
      */
-    private CaseType caseType;
+    private final CaseType caseType;
 
     /**
      * Constructeur de Case
-     * @param x
-     * @param y
+     * @param x pos x
+     * @param y pos y
      */
     public Case(int x, int y, boolean isWalkable, CaseType caseType, String img) {
         super(img);

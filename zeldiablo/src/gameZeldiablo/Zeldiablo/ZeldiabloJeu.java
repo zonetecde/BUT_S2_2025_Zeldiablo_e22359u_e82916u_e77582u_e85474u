@@ -1,11 +1,8 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Amulette;
-import gameZeldiablo.Zeldiablo.Items.Item;
-import gameZeldiablo.Zeldiablo.ZeldiabloDessin;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -28,7 +25,7 @@ public class ZeldiabloJeu implements Jeu {
     private ArrayList<Labyrinthe> niveaux;
     
     // Indice du niveau actuel
-    private int currentLevel = 0; // Le niveau actuel
+    private int currentLevel; // Le niveau actuel
 
     // Indique si le jeu est fini
     private boolean estFini = false;
@@ -46,20 +43,11 @@ public class ZeldiabloJeu implements Jeu {
      * @param secondes temps ecoule depuis la derniere mise a jour
      * @param clavier objet contenant l'état du clavier'
      */
+
+
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (getLaby().getPlayer().aGagne()) {
-            // Si victoire, attendre une touche pour revenir au menu
-            if (clavier.haut || clavier.bas || clavier.space || clavier.droite || clavier.gauche || clavier.interactionKey) {
-                getLaby().getPlayer().setaGagne(false);
-                getLaby().getPlayer().setEnVie(false);
-                inputsStart(clavier);
-            }
-            return;
-        }
-        if (getLaby().getPlayer().estMort() || getLaby().getPlayer().aGagne()) {
-            inputsStart(clavier);
-        } else if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
+        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
             if (!currentlyMoving) {
                 currentlyMoving = true;
@@ -193,7 +181,6 @@ public class ZeldiabloJeu implements Jeu {
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
-            System.err.println(e);
             estFini = true;
             System.exit(1);
         }
@@ -203,7 +190,6 @@ public class ZeldiabloJeu implements Jeu {
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
      */
-    // Dans ZeldiabloJeu.java
     public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
 
@@ -258,10 +244,18 @@ public class ZeldiabloJeu implements Jeu {
         return estFini;
     }
 
+    /**
+     * Getter du niveau
+     * @return laby
+     */
     public int getCurrentLevel() {
         return currentLevel;
     }
 
+    /**
+     * getter des niveaus
+     * @return liste de laby
+     */
     public ArrayList<Labyrinthe> getNiveaux() {
         return niveaux;
     }
@@ -285,7 +279,7 @@ public class ZeldiabloJeu implements Jeu {
                 for (int x = 0; x < laby.getLongueur(); x++) {
                     Case caseActuelle = laby.getCase(y, x);
                     if (caseActuelle.getIsWalkable() && !caseActuelle.hasItem() &&
-                            !laby.monstreSurCase(y, x) && !laby.joueurSurCase(y, x)) {
+                            laby.monstreSurCase(y, x) && !laby.joueurSurCase(y, x)) {
                         casesVides.add(caseActuelle);
                     }
                 }
@@ -294,7 +288,7 @@ public class ZeldiabloJeu implements Jeu {
             System.out.println("Nombre de cases vides trouvées : " + casesVides.size());
 
             if (!casesVides.isEmpty()) {
-                int idx = Utilities.getRandomNumber(0, casesVides.size() - 1);
+                int idx = (int) ((Math.random() * casesVides.size()-1));
                 Case caseChoisie = casesVides.get(idx);
                 System.out.println("Placement de l'amulette en position : ");
                 caseChoisie.addItem(new Amulette());
