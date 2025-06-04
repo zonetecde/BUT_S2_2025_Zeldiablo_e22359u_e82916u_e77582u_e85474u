@@ -26,6 +26,7 @@ public class Labyrinthe {
      */
     public static final char MUR = 'X';
     public static final char PORTE = 'P';
+    public static final char AMULETTE = 'A';
     public static final char PANCARTE = 'M';
     public static final char ITEM_EPEE = '1';
     public static final char ITEM_BATON = '2';
@@ -160,25 +161,26 @@ public class Labyrinthe {
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
-                        // Si c'est pas le premier niveau
-                        if (!nomDuLab.contains("1")) {
-                            //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
-                            if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX) {
-
-                                // ajoute un monstre statique\
-                                Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
-
-                                Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
-                                monstres.add(monstre);
-
-                                nbreMonstresSpawned++;
-                            }
+                        // Si c'est pas le premier niveau, ajouter potentiellement un monstre
+                        if (!nomDuLab.contains("1") && 
+                            joueur != null &&
+                            random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && 
+                            nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX &&
+                            !joueurAdjacentACase(numeroLigne, colonne)) {
+                            
+                            Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
+                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
+                            monstres.add(monstre);
+                            nbreMonstresSpawned++;
                         }
-
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new Food());
+                        break;
+                    case AMULETTE:
+                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne].addItem(new Amulette());
                         break;
 
                     case ITEM_EPEE:
@@ -242,6 +244,28 @@ public class Labyrinthe {
         this.initTimerMonstres();
     }
 
+
+    private boolean joueurAdjacentACase(int y, int x) {
+        // Vérifie si le joueur est adjacent à la case (y, x)
+        var caseApres = getSuivant(y, x, Direction.HAUT);
+        if (joueurSurCase(caseApres[0], caseApres[1])) {
+            return true;
+        }
+        caseApres = getSuivant(y, x, Direction.BAS);
+        if (joueurSurCase(caseApres[0], caseApres[1])) {
+            return true;
+        }
+        caseApres = getSuivant(y, x, Direction.DROITE);
+        if (joueurSurCase(caseApres[0], caseApres[1])) {
+            return true;
+        }
+        caseApres = getSuivant(y, x, Direction.GAUCHE);
+        if (joueurSurCase(caseApres[0], caseApres[1])) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * deplace le personnage en fonction de l'action.

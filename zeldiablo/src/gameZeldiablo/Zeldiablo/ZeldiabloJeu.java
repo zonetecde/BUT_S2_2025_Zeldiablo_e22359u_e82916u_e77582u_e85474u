@@ -175,9 +175,6 @@ public class ZeldiabloJeu implements Jeu {
             for (String f : fichiers) {
                 niveaux.add(new Labyrinthe(f,this));
             }
-
-            // Ajoute une amulette aléatoirement dans le labyrinthe
-            placerAmuletteAleatoire();
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
@@ -231,7 +228,6 @@ public class ZeldiabloJeu implements Jeu {
     public void init() {
         this.currentLevel=0;
         chargementNiveau();
-        placerAmuletteAleatoire();
         getLaby().getPlayer().setEnVie(false);
     }
 
@@ -258,46 +254,6 @@ public class ZeldiabloJeu implements Jeu {
      */
     public ArrayList<Labyrinthe> getNiveaux() {
         return niveaux;
-    }
-
-    /**
-     * Place une amulette aléatoirement dans le niveau 5
-     * Cherche une case vide et marchable pour y placer l'amulette.
-     */
-    private void placerAmuletteAleatoire() {
-        System.out.println("Tentative de placement de l'amulette...");
-        System.out.println("Nombre de niveaux : " + niveaux.size());
-
-        if (niveaux.size() >= 5) {
-            // On récupère spécifiquement le niveau 5 (index 4)
-            Labyrinthe laby = niveaux.get(4);
-            System.out.println("Niveau 5 trouvé : " + laby.getNomDuLab());
-
-            // On cherche toutes les cases vides et marchables du labyrinthe
-            ArrayList<Case> casesVides = new ArrayList<>();
-            for (int y = 0; y < laby.getHauteur(); y++) {
-                for (int x = 0; x < laby.getLongueur(); x++) {
-                    Case caseActuelle = laby.getCase(y, x);
-                    if (caseActuelle.getIsWalkable() && !caseActuelle.hasItem() &&
-                            laby.monstreSurCase(y, x) && !laby.joueurSurCase(y, x)) {
-                        casesVides.add(caseActuelle);
-                    }
-                }
-            }
-
-            System.out.println("Nombre de cases vides trouvées : " + casesVides.size());
-
-            if (!casesVides.isEmpty()) {
-                int idx = (int) ((Math.random() * casesVides.size()-1));
-                Case caseChoisie = casesVides.get(idx);
-                System.out.println("Placement de l'amulette en position : ");
-                caseChoisie.addItem(new Amulette());
-            } else {
-                System.out.println("ERREUR : Aucune case vide trouvée pour placer l'amulette !");
-            }
-        } else {
-            System.out.println("ERREUR : Le niveau 5 n'existe pas encore !");
-        }
     }
 }
 

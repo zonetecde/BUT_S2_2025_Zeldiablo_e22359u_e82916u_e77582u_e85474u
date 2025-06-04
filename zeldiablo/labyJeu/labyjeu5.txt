@@ -5,5 +5,5 @@ X...C........C...X
 XXX.XXXXXXXXXX.XXX
 X.C.....C.......CX
 X.XXXXXXXXXXXX.X.X
-X.C.....C.I..C...X
+X.C.....C.I..C..AX
 XXXXXXXXXXXXXXXXXX
