@@ -46,7 +46,7 @@ public class Labyrinthe {
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
     // et celle-ci est ouverte par une seule case d'ouverture.
 
-private Random random = new Random();
+    private Random random = new Random();
 
     // Entité joueur
     private Player joueur;
