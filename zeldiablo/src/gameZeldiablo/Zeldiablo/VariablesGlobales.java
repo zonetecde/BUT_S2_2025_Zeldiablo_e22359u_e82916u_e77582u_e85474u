@@ -15,7 +15,7 @@ public class VariablesGlobales {
 
         //Images
         public static final String[] SPRITE_MONSTRE = {"Monstre/SlimeBlack.png","Monstre/SlimeBlue.png","Monstre/SlimeGreen.png","Monstre/SlimeOrange.png"};
-        public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png"};
+        public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png","player/PlayerStabUp.png","player/PlayerStabDown.png","player/PlayerStabLeft.png","player/PlayerStabRight.png"};
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 
         public static final String SPRITE_CASE_VIDE = "Tiles/Sol.png";

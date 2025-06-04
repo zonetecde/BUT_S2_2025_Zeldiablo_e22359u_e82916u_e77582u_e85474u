@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Player extends Entite {
     private ArrayList<Item> inventory;
     boolean aGagne = false;
+    int sprite = 0;
 
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
@@ -18,8 +19,11 @@ public class Player extends Entite {
     }
 
     public void setSpriteJoueur(int i) {
-        this.setImg(VariablesGlobales.SPRITE_JOUEUR[i]);
+        this.sprite = i;
+        this.setImg(VariablesGlobales.SPRITE_JOUEUR[this.sprite]);
     }
+
+    public int getSpriteJoueur(){return sprite;}
 
     /**
      * Dit si le joueur est en vie ou non
@@ -108,7 +112,6 @@ public class Player extends Entite {
     /**
      * Regarde si le joueur possède un item dans son inventaire
      *
-     * @param item L'item à chercher dans l'inventaire
      * @return true si l'item est trouvé, false sinon
      */
     public boolean possedeItem(String nomItem) {
