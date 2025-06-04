@@ -99,6 +99,13 @@ public class ZeldiabloDessin implements DessinJeu {
                     }
                 }
 
+                // Affichage des items
+                try {
+                    gc.drawImage(laby.getCase(y, x).getItem().getImg(), x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                } catch (Exception none) {
+                    // L'img n'a pas encore chargé
+                }
+
                 // affichage du joueur
                 if (laby.joueurSurCase(y, x)){
                     // Dessiner le joueur
@@ -114,23 +121,16 @@ public class ZeldiabloDessin implements DessinJeu {
                         double textHeight = text.getLayoutBounds().getHeight();
                         double textX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - textWidth) / 2;
                         double textY = y * VariablesGlobales.TAILLE_CASE - 10;
-                        
+
                         // Dessine le fond blanc
                         gc.setFill(Color.WHITE);
                         gc.fillRoundRect(textX - 5, textY - textHeight, textWidth + 10, textHeight + 5, 5, 5);
-                        
+
                         // Dessine le texte en noir
                         gc.setFill(Color.BLACK);
                         gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
                         gc.fillText(msg, textX, textY);
                     }
-                }
-
-                // Affichage des items
-                try {
-                    gc.drawImage(laby.getCase(y, x).getItem().getImg(), x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                } catch (Exception none) {
-                    // L'img n'a pas encore chargé
                 }
             }
         }
