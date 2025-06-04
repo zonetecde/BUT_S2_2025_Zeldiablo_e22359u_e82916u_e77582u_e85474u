@@ -13,12 +13,12 @@ abstract class Sprite {
 abstract class Item {
   - name : String
   - type : TypeItem
-  - params : Object[]
   + Item(name : String, img : String, type : TypeItem)
   + getName() : String
   + getType() : TypeItem
   + getParams() : Object[]
   + toString() : String
+  + {abstract} getDegat() : double
 }
 
 abstract class Case {
@@ -36,11 +36,19 @@ abstract class Case {
 enum TypeItem {
   OBJET
   ARME
-  CONSOMMABLE
+  MISC
 }
 
 class Amulette {
   + Amulette()
+  + getDegat() : double
+}
+
+abstract class Arme {
+  # degat : double
+  + Arme(name : String, img : String, degat : double)
+  + getDegat() : double
+  + toString() : String
 }
 
 class Epee {
@@ -51,9 +59,20 @@ class Hache {
   + Hache()
 }
 
-
 class Baton {
   + Baton()
+}
+
+class Food {
+  + Food()
+  + use(laby : Labyrinthe) : boolean
+  + getDegat() : double
+}
+
+class ItemDefault {
+  + ItemDefault()
+  + ItemDefault(name : String)
+  + getDegat() : double
 }
 
 
@@ -77,9 +96,12 @@ class Player {
 Item --|> Sprite 
 Case --|> Sprite
 Amulette --|> Item 
-Epee --|> Item 
-Hache --|> Item
-Baton --|> Item
+Arme --|> Item
+Epee --|> Arme 
+Hache --|> Arme
+Baton --|> Arme
+Food --|> Item
+ItemDefault --|> Item
 CaseVide --|> Case
 
 Item --> TypeItem : utilise
