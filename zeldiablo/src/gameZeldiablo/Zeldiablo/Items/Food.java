@@ -12,7 +12,7 @@ public class Food extends Item{
 
     @Override
     public boolean use(Labyrinthe laby){
-        return laby.getPlayer().prendreDegat(-3);
+        return laby.getPlayer().gagnerVie(VariablesGlobales.HEAL_FOOD);
     }
 
 }
