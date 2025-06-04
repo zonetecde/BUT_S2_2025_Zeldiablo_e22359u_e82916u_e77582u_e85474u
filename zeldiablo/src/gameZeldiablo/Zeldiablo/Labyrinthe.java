@@ -152,8 +152,9 @@ public class Labyrinthe {
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
-                        gameBoard[numeroLigne][colonne].addItem(new ItemDefault());
+                        gameBoard[numeroLigne][colonne].addItem(new Food());
                         break;
+
                     case ITEM_EPEE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
                         gameBoard[numeroLigne][colonne].addItem(new Epee());

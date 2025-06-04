@@ -1,11 +1,8 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Amulette;
-import gameZeldiablo.Zeldiablo.Items.Item;
-import gameZeldiablo.Zeldiablo.ZeldiabloDessin;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -28,7 +25,7 @@ public class ZeldiabloJeu implements Jeu {
     private ArrayList<Labyrinthe> niveaux;
     
     // Indice du niveau actuel
-    private int currentLevel = 0; // Le niveau actuel
+    private int currentLevel; // Le niveau actuel
 
     // Indique si le jeu est fini
     private boolean estFini = false;
@@ -104,7 +101,14 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.space){
-            this.niveaux.get(currentLevel).getPlayer().getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel));
+            try {
+                Player tmp = this.niveaux.get(currentLevel).getPlayer();
+                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
+                    tmp.getInventory().remove(VariablesGlobales.curseur);
+                    VariablesGlobales.curseur-=1;
+                }
+            }
+            catch (Exception e){}
         }
     }
 
@@ -175,7 +179,6 @@ public class ZeldiabloJeu implements Jeu {
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
-            System.err.println(e);
             estFini=true;
             System.exit(1);
         }
