@@ -4,6 +4,9 @@ import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
+/**
+ * Classe des mechants très très mechants
+ */
 public class Monstre extends Entite {
     private DeplacementStrategie deplacementStrategie;
 
@@ -63,14 +66,26 @@ public class Monstre extends Entite {
         setIntelligence(Intelligence.MOYENNE);
     }
 
+    /**
+     * Methode pour deplacer le monstre selon sa strategie
+     * @param laby laby contenant le monstre
+     */
     public void deplacer(Labyrinthe laby){
         deplacementStrategie.deplacement(laby, this);
     }
 
+    /**
+     * getter de la strategie
+     * @return strategie
+     */
     public DeplacementStrategie getDeplacementStrategie() {
         return deplacementStrategie;
     }
 
+    /**
+     * setter de la strategie
+     * @param deplacementStrategie nouvelle strat
+     */
     public void setDeplacementStrategie(DeplacementStrategie deplacementStrategie) {
         this.deplacementStrategie = deplacementStrategie;
     }

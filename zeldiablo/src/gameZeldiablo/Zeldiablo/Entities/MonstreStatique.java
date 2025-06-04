@@ -1,9 +1,15 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
-import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStatique;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
-
+/**
+ * Monstre idiot et statique
+ */
 public class MonstreStatique extends Monstre {
+
+    /**
+     * Constructeur
+     * @param dx posx
+     * @param dy posy
+     */
     public MonstreStatique(int dx, int dy) {
         super(dx, dy, Intelligence.NULLE);
     }

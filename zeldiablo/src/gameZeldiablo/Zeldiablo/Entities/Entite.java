@@ -1,11 +1,6 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
-
-import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
-
-import java.util.ArrayList;
 
 /**
  * gere un personnage situe en x,y
@@ -16,8 +11,9 @@ public abstract class Entite extends Sprite {
      * position du personnage et vie
      */
     private int x, y;
-    private double hp, maxHp; // Les points de vie de l'entité
-    private double degat; // Les dégâts que fait l'entité
+    private double hp;
+    private final double maxHp; // Les points de vie de l'entité
+    private final double degat; // Les dégâts que fait l'entité
     boolean enVie = true;
     private EtatVisuelle etatVisuelle;
     private String msgToSay;
@@ -37,16 +33,6 @@ public abstract class Entite extends Sprite {
         this.degat = degat;
     }
 
-    /**
-     * permet de savoir si le personnage est en x,y
-     *
-     * @param dx position testee
-     * @param dy position testee
-     * @return true si le personnage est bien en (dx,dy)
-     */
-    public boolean etrePresent(int dx, int dy) {
-        return (this.x == dx && this.y == dy);
-    }
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage
@@ -100,6 +86,11 @@ public abstract class Entite extends Sprite {
         return this.y;
     }
 
+    /**
+     * Changement de position de l'entite
+     * @param y pos y
+     * @param x pos x
+     */
     public void setPosition(int y, int x){
         this.y = y;
         this.x = x;
@@ -166,22 +157,35 @@ public abstract class Entite extends Sprite {
         this.hp = hp;
     }
 
+    /**
+     * Verifie l'adjascence
+     * @param e Entite adjacente
+     * @return si à cote
+     */
     public boolean aCote(Entite e) {
         return (Math.abs(this.x - e.getX()) <= 1 && Math.abs(this.y - e.getY()) <= 1);
     }
 
-    public EtatVisuelle getEtatVisuelle() {
-        return etatVisuelle;
-    }
-
+    /**
+     * ???
+     * @param etatVisuelle etat
+     */
     public void setEtatVisuelle(EtatVisuelle etatVisuelle) {
         this.etatVisuelle = etatVisuelle;
     }
 
+    /**
+     * messages
+     * @return message de l'entite
+     */
     public String getMsgToSay() {
         return msgToSay;
     }
 
+    /**
+     * set message
+     * @param msgToSay nouveau message
+     */
     public void setMsgToSay(String msgToSay) {
         this.msgToSay = msgToSay;
     }
