@@ -1,0 +1,34 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Amulette
+class Baton
+class Epee
+class Food {
+  + use(Labyrinthe): boolean
+}
+class Hache
+class Item {
+  + getParams(): Object[]
+  + getType(): TypeItem
+  + toString(): String
+  + use(Labyrinthe): boolean
+  + getName(): String
+}
+class ItemDefault
+enum TypeItem << enumeration >> {
+  + valueOf(String): TypeItem
+  + values(): TypeItem[]
+}
+
+Amulette     -[#000082,plain]-^  Item
+Baton        -[#000082,plain]-^  Item
+Epee         -[#000082,plain]-^  Item
+Food         -[#000082,plain]-^  Item
+Hache        -[#000082,plain]-^  Item
+Item        "1" *-[#595959,plain]-> "type\n1" TypeItem
+ItemDefault  -[#000082,plain]-^  Item
+@enduml

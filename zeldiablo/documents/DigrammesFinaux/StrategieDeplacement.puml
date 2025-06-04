@@ -1,0 +1,50 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface Algorithme << interface >>
+interface Algorithme << interface >>
+class Arc
+class Arc
+class Arcs
+class Arcs
+class BellmanFord
+class BellmanFord
+class DeplacementFuyard
+class DeplacementHasard
+class DeplacementIntelligent
+class DeplacementRapprochement
+class DeplacementStatique
+interface DeplacementStrategie << interface >>
+interface Graphe << interface >>
+interface Graphe << interface >>
+class GrapheListe
+class GrapheListe
+class Valeurs
+class Valeurs
+
+Arcs                     "1" *-[#595959,plain]-> "arcs\n*" Arc
+Arcs                     "1" *-[#595959,plain]-> "arcs\n*" Arc
+BellmanFord               -[#008200,dashed]-^  Algorithme
+BellmanFord               -[#008200,dashed]-^  Algorithme
+BellmanFord               -[#595959,dashed]->  Valeurs                  : "«create»"
+BellmanFord               -[#595959,dashed]->  Valeurs                  : "«create»"
+DeplacementFuyard         -[#008200,dashed]-^  DeplacementStrategie
+DeplacementHasard         -[#008200,dashed]-^  DeplacementStrategie
+DeplacementIntelligent    -[#595959,dashed]->  BellmanFord              : "«create»"
+DeplacementIntelligent    -[#008200,dashed]-^  DeplacementStrategie
+DeplacementIntelligent   "1" *-[#595959,plain]-> "graphe\n1" GrapheListe
+DeplacementIntelligent    -[#595959,dashed]->  GrapheListe              : "«create»"
+DeplacementRapprochement  -[#008200,dashed]-^  DeplacementStrategie
+DeplacementStatique       -[#008200,dashed]-^  DeplacementStrategie
+GrapheListe               -[#595959,dashed]->  Arc                      : "«create»"
+GrapheListe               -[#595959,dashed]->  Arc                      : "«create»"
+GrapheListe               -[#595959,dashed]->  Arcs                     : "«create»"
+GrapheListe              "1" *-[#595959,plain]-> "adjacence\n*" Arcs
+GrapheListe               -[#595959,dashed]->  Arcs                     : "«create»"
+GrapheListe              "1" *-[#595959,plain]-> "adjacence\n*" Arcs
+GrapheListe               -[#008200,dashed]-^  Graphe
+GrapheListe               -[#008200,dashed]-^  Graphe
+@enduml

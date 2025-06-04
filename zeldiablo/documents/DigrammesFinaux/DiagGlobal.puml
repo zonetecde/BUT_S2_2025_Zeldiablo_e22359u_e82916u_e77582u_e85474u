@@ -1,0 +1,84 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Case {
+  + addItem(Item): void
+  + onStepOn(Entite): void
+  + onAction(Entite, ZeldiabloJeu): void
+  + removeItem(): void
+  + getIsWalkable(): boolean
+  + toString(): String
+}
+interface DeplacementStrategie << interface >> {
+  + deplacement(Labyrinthe, Monstre): void
+}
+enum Direction << enumeration >> {
+}
+class Entite {
+  + prendreDegat(double): void
+  + gagnerVie(double): boolean
+  + mettreDegat(Entite): void
+}
+class Item {
+  + toString(): String
+  + use(Labyrinthe): boolean
+}
+class Labyrinthe {
+  + canEntityMoveTo(int, int): boolean
+  + attaqueJoueur(): void
+  + initTimerMonstres(): void
+  + deplacerPerso(Direction, Entite): void
+  - estDansLimites(int, int): boolean
+  + ramasserItem(Player): void
+  - deplacerMonstres(): void
+  + arreterTimerMonstres(): void
+}
+class MainZeldiablo {
+  + main(String[]): void
+}
+
+class Prompt {
+  - makeHttpRequest(String, Consumer<String>): void
+  + askGptForMsgWhenPickingItem(String, Consumer<String>): void
+}
+class Sprite {
+}
+class VariablesGlobales
+class ZeldiabloDessin {
+  - afficherEcranVictoire(GraphicsContext, Canvas): void
+  - instructionUI(Labyrinthe, GraphicsContext): void
+  + dessinerJeu(Jeu, Canvas): void
+  - invUI(Labyrinthe, GraphicsContext, Canvas): void
+  - dessinerBarreVieMonstre(GraphicsContext, Monstre, int, int): void
+  - labyUI(Labyrinthe, GraphicsContext, Canvas): void
+  + startUI(GraphicsContext, Canvas): void
+  - heroUI(Labyrinthe, GraphicsContext): void
+}
+class ZeldiabloJeu {
+  - placerAmuletteAleatoire(): void
+  - chargementNiveau(): void
+  - inputsStart(Clavier): void
+  + init(): void
+  + update(double, Clavier): void
+  + changeLevel(boolean): void
+  - Inputs(Clavier): void
+  - inputInv(Clavier): void
+  - inputLaby(Clavier): void
+}
+
+Case                  -[#000082,plain]-^  Sprite
+Entite                -[#000082,plain]-^  Sprite
+Item                  -[#000082,plain]-^  Sprite
+Labyrinthe            -[#595959,dashed]->  Case                 : "«create»"
+Labyrinthe           "1" *-[#595959,plain]-> "gameBoard\n*" Case
+MainZeldiablo         -[#595959,dashed]->  ZeldiabloDessin      : "«create»"
+MainZeldiablo         -[#595959,dashed]->  ZeldiabloJeu         : "«create»"
+Sprite                -[#000082,plain]-^  ZeldiabloDessin
+ZeldiabloJeu          -[#595959,dashed]->  Labyrinthe           : "«create»"
+ZeldiabloJeu         "1" *-[#595959,plain]-> "niveaux\n*" Labyrinthe
+Labyrinthe            ..>                    Prompt
+Labyrinthe            ..>                    Direction
+@enduml
