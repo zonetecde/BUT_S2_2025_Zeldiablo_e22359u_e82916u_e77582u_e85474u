@@ -90,8 +90,29 @@ public class ZeldiabloDessin implements DessinJeu {
 
                 // affichage du joueur
                 if (laby.joueurSurCase(y, x)){
-                    // Couleur du joueur - bleu (cercle)
+                    // Dessiner le joueur
                     gc.drawImage(laby.getPlayer().getImg(),x * VariablesGlobales.TAILLE_CASE, y * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+
+                    // Dessine ce qu'il a à dire au-dessus de lui
+                    if(laby.getPlayer().getMsgToSay() != null && !laby.getPlayer().getMsgToSay().isEmpty()) {
+                        String msg = laby.getPlayer().getMsgToSay();
+                        // Calcule la largeur du texte pour le centrer
+                        Text text = new Text(msg);
+                        text.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                        double textWidth = text.getLayoutBounds().getWidth();
+                        double textHeight = text.getLayoutBounds().getHeight();
+                        double textX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - textWidth) / 2;
+                        double textY = y * VariablesGlobales.TAILLE_CASE - 10;
+                        
+                        // Dessine le fond blanc
+                        gc.setFill(Color.WHITE);
+                        gc.fillRoundRect(textX - 5, textY - textHeight, textWidth + 10, textHeight + 5, 5, 5);
+                        
+                        // Dessine le texte en noir
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                        gc.fillText(msg, textX, textY);
+                    }
                 }
 
                 // Affichage des items

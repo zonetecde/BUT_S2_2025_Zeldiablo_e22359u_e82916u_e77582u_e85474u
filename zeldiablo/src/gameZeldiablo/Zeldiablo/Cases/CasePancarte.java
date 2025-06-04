@@ -5,7 +5,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.paint.Color;
 
 public class CasePancarte extends Case {
-    private String message;
+    private final String message;
 
     /**
      * Constructeur de CasePancarte
@@ -24,6 +24,6 @@ public class CasePancarte extends Case {
      */
     @Override
     public void onStepOn(Entite entite) {
-        System.out.println(message);
+        entite.setMsgToSay("Je lis : " + message);
     }
 }

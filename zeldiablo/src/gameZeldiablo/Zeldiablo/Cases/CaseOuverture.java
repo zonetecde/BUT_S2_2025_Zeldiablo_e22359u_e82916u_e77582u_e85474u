@@ -2,11 +2,10 @@ package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.paint.Color;
 
 public class CaseOuverture extends Case {
     // Attribut contenant la methode a appeler lorsqu'une entité marche sur la case
-    private Runnable action;
+    private final Runnable action;
 
     /**
      * Constructeur de CaseOuverture

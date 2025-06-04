@@ -1,8 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 
 public class CasePorte extends Case {
