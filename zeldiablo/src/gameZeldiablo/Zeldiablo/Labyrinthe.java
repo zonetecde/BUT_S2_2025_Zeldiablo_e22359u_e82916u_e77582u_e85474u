@@ -6,6 +6,7 @@ import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Epee;
+import gameZeldiablo.Zeldiablo.Items.Food;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
@@ -144,6 +145,7 @@ public class Labyrinthe {
                             Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
                             monstres.add(monstre);
                         }
+
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);

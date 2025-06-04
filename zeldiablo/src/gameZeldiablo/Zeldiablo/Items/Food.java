@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Food extends Item{
     public Food(){
-        super("Food", VariablesGlobales.SPRITE_FOOD[(int)(Math.random()*VariablesGlobales.SPRITE_FOOD.length)],TypeItem.MISC);
+        super("Food", VariablesGlobales.SPRITE_FOOD[(int)Math.floor(Math.random()*VariablesGlobales.SPRITE_FOOD.length)],TypeItem.MISC);
     }
 
     @Override
