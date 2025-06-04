@@ -19,7 +19,7 @@ public abstract class Case extends Sprite implements Action{
      */
     private int y;
 
-    /*
+    /**
     Permet de dire si on peut marcher sur cette case
      */
     private boolean isWalkable;
@@ -42,7 +42,10 @@ public abstract class Case extends Sprite implements Action{
         this.caseType = caseType;
     }
 
-
+    /**
+     * Getter utilisé pour savoir si une entité peut marcher sur la case
+     * @return boolean
+     */
     public boolean getIsWalkable(){
         return this.isWalkable;
     }
