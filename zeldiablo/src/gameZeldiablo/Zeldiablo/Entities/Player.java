@@ -95,7 +95,7 @@ public class Player extends Entite {
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat((double)getInventory().get(VariablesGlobales.curseur).getParams()[0]);
+            cible.prendreDegat((double)getInventory().get(VariablesGlobales.curseur).getDegat());
         }
     }
 
