@@ -14,6 +14,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,7 +101,8 @@ public class Labyrinthe {
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
-        nomDuLab = nom;
+        // recupere le nom du lab : le nom du fichier dans le path
+        nomDuLab = new File(nom).getName();
 
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
@@ -148,7 +150,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
                         // Si c'est pas le premier niveau
-                        if (!nom.contains("1")) {
+                        if (!nomDuLab.contains("1")) {
                             //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
                             if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
                                 // ajoute un monstre statique\
@@ -182,7 +184,7 @@ public class Labyrinthe {
                         break;
                     case PANCARTE:
                         String textPancarte = "";
-                        if (nom.contains("1")) {
+                        if (nomDuLab.contains("1")) {
                             textPancarte = "Choisissez votre arme, jeune aventurier !";
                         }
 
