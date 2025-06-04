@@ -197,9 +197,6 @@ public class Labyrinthe {
             numeroLigne++;
         }        // ferme fichier
         bfRead.close();
-
-        // Initialise le timer pour le déplacement automatique des monstres
-        initTimerMonstres();
     }
 
 
@@ -412,7 +409,7 @@ public class Labyrinthe {
     /**
      * Initialise le timer pour le déplacement automatique des monstres
      */
-    private void initTimerMonstres() {
+    public void initTimerMonstres() {
         timerMonstres = new Timer();
         timerMonstres.scheduleAtFixedRate(new TimerTask() {
             @Override

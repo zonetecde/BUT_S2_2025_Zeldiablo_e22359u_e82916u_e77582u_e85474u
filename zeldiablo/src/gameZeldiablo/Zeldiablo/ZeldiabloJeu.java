@@ -146,6 +146,7 @@ public class ZeldiabloJeu implements Jeu {
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
                 this.chargementNiveau();
+                this.getLaby().initTimerMonstres();
                 currentLevel=0;
             }
             else{
