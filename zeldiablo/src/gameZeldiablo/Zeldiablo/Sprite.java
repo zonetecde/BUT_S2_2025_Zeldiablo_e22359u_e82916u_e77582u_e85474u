@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 /**
  * Classe abstraite pour les objets ayant un affichage
  */
-public abstract class Sprite extends ZeldiabloDessin {
+public abstract class Sprite {
     private String imgFile;
     private Image img;
 
