@@ -44,7 +44,7 @@ public class Labyrinthe {
     private String nomDuLab; // Identifiant du labyrinthe
 
     private Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-
+    private String nomFichier;
     private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
@@ -105,7 +105,7 @@ public class Labyrinthe {
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
-
+        this.nomFichier = nom;
         int nbLignes, nbColonnes;
 
         // récupère le nbre de lignes et de colonnes
@@ -242,8 +242,11 @@ public class Labyrinthe {
         int[] courante = {p.getY(), p.getX()};
 
         // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action);        // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
+        int[] suivante = getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
         if (canEntityMoveTo(suivante[0], suivante[1])) {
+            // Dès que l'entité se déplace, il ne dit plus rien
+            p.setMsgToSay("");
+
             // on met à jour la position du personnage
             p.setY(suivante[0]);
             p.setX(suivante[1]);
@@ -484,5 +487,10 @@ public class Labyrinthe {
             timerMonstres.cancel();
             timerMonstres = null;
         }
+    }
+
+    public String getNomFichier() {
+        // Retourne le nom du fichier du labyrinthe
+        return nomFichier;
     }
 }

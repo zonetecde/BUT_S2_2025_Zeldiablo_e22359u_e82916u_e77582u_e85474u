@@ -48,9 +48,10 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void update(double secondes, Clavier clavier) {
-        if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
+        if (getLaby().getPlayer().estMort() || getLaby().getPlayer().aGagne()) {
+            inputsStart(clavier);
+        } else if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
-            // on met un scheduler
             if (!currentlyMoving) {
                 currentlyMoving = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -58,11 +59,9 @@ public class ZeldiabloJeu implements Jeu {
                     currentlyMoving = false;
                 }, 100, TimeUnit.MILLISECONDS);
 
-                // Toggle l'affichage du menu si la touche tab est pressée
                 if (clavier.tab) {
                     VariablesGlobales.MenuOuvert = !VariablesGlobales.MenuOuvert;
                 }
-                // Déplace le personnage
                 Inputs(clavier);
 
                 scheduler.shutdown();
@@ -192,35 +191,29 @@ public class ZeldiabloJeu implements Jeu {
     /**
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
-     */    public void changeLevel(boolean next) {
+     */
+    // Dans ZeldiabloJeu.java
+    public void changeLevel(boolean next) {
         int newLevel = next ? currentLevel + 1 : currentLevel - 1;
-        if (newLevel < niveaux.size()) {
-            // Arrête le timer de l'ancien niveau
-            getLaby().arreterTimerMonstres();
-            
-            Player playerCloned = getLaby().getPlayer().clone();
 
-            // Changement de niveau
-            currentLevel = newLevel;
+        if (newLevel < 0 || newLevel >= niveaux.size()) {
+            return;
+        }
 
-            getLaby().setPlayer(playerCloned);
-            
-            // Place le joueur à la position de départ du nouveau niveau si next = true, sinon à la position de la case d'escalier si next = false
-            if (!next) {
-                // Si on essaie d'aller au niveau -1, et que on a l'amulette, on gagne
-                if (currentLevel == -1) {
-                    if(getLaby().getPlayer().possedeItem("Amulette")) {
-                        getLaby().getPlayer().setaGagne(true);
-                    }
-                }
-                else {
-                    getLaby().getPlayer().setY(getLaby().getPositionEscalierSortant()[0]);
-                    getLaby().getPlayer().setX(getLaby().getPositionEscalierSortant()[1]);
-                }
-            } else {
-                getLaby().getPlayer().setY(getLaby().getPositionEscalierEntrant()[0]);
-                getLaby().getPlayer().setX(getLaby().getPositionEscalierEntrant()[1]);
-            }
+        getLaby().arreterTimerMonstres();
+
+        Player playerCloned = getLaby().getPlayer().clone();
+
+        currentLevel = newLevel;
+
+        getLaby().setPlayer(playerCloned);
+
+        if (!next) {
+            playerCloned.setY(getLaby().getPositionEscalierSortant()[0]);
+            playerCloned.setX(getLaby().getPositionEscalierSortant()[1]);
+        } else {
+            playerCloned.setY(getLaby().getPositionEscalierEntrant()[0]);
+            playerCloned.setX(getLaby().getPositionEscalierEntrant()[1]);
         }
     }
 
