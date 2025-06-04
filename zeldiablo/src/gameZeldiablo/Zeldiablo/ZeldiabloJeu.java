@@ -116,7 +116,9 @@ public class ZeldiabloJeu implements Jeu {
                 Player tmp = this.niveaux.get(currentLevel).getPlayer();
                 if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
                     tmp.getInventory().remove(VariablesGlobales.curseur);
-                    VariablesGlobales.curseur-=1;
+                    if (VariablesGlobales.curseur>0) {
+                        VariablesGlobales.curseur -= 1;
+                    }
                 }
             }
             catch (Exception e){}

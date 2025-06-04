@@ -9,11 +9,13 @@ import gameZeldiablo.Zeldiablo.Items.Baton;
 import gameZeldiablo.Zeldiablo.Items.Epee;
 import gameZeldiablo.Zeldiablo.Items.Food;
 import gameZeldiablo.Zeldiablo.Items.Hache;
+import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Items.ItemDefault;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Entities.EtatVisuelle;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,7 +102,8 @@ public class Labyrinthe {
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
-        nomDuLab = nom;
+        // recupere le nom du lab : le nom du fichier dans le path
+        nomDuLab = new File(nom).getName();
 
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
@@ -148,7 +151,7 @@ public class Labyrinthe {
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
                         // Si c'est pas le premier niveau
-                        if (!nom.contains("1")) {
+                        if (!nomDuLab.contains("1")) {
                             //ajoute un potentiel monstre statique avec une proba de PROBA_MONSTRE
                             if (random.nextDouble() < VariablesGlobales.PROBA_MONSTRE) {
                                 // ajoute un monstre statique\
@@ -182,7 +185,7 @@ public class Labyrinthe {
                         break;
                     case PANCARTE:
                         String textPancarte = "";
-                        if (nom.contains("1")) {
+                        if (nomDuLab.contains("1")) {
                             textPancarte = "Choisissez votre arme, jeune aventurier !";
                         }
 
@@ -379,7 +382,16 @@ public class Labyrinthe {
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            joueur.getInventory().add(caseCourante.getItem());
+            Item item = caseCourante.getItem();
+
+            joueur.getInventory().add(item);
+            String nomItem = item.getName();
+
+            // Génère avec l'IA le texte que le joueur va dire
+            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getImgFileName(), texteIA -> {
+                joueur.setMsgToSay(texteIA);
+            });
+
             caseCourante.removeItem();
         }
     }

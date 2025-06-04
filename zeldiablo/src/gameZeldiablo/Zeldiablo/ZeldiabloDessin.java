@@ -159,6 +159,7 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.fillText("E pour prendre un item", baseXPlayer + 5, 145 + 125);
         gc.fillText("Tab pour ouvrir l'inventaire", baseXPlayer + 5, 160 + 125);
         gc.fillText("X pour attaquer un monstre", baseXPlayer + 5, 175 + 125);
+        gc.fillText("Espace dans l'inventaire pour consommer", baseXPlayer + 5, 190 + 125);
     }   
     
     private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc, Canvas c) {
