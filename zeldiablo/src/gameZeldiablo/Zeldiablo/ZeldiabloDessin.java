@@ -246,6 +246,7 @@ public class ZeldiabloDessin implements DessinJeu {
             double textY = caseY + (double) caseHeight / 2 + 5;
 
             gc.fillText(itemText, textX, textY);
+            gc.drawImage(inv.get(i).getImg(),caseX+10,caseY,24,24);
 
             x += 1;
             if (x >= VariablesGlobales.COL_NUM_MENU) {
