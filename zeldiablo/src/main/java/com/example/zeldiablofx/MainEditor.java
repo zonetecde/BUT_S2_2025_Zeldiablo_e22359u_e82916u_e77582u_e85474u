@@ -1,6 +1,8 @@
 package main.java.com.example.zeldiablofx;
 
+import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -8,23 +10,28 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainEditor extends Application {
+    public static final double SQUAREWIDTH = 20;
+    public static final double SQUAREHEIGHT = 20;
+
     Labyrinthe l;
     String fileName;
+    Case brush;
 
     public static void main(String[] args){
         launch(args);
@@ -35,6 +42,42 @@ public class MainEditor extends Application {
     public void start(Stage stage) throws Exception {
         launcher(stage);
         stage.show();
+    }
+
+
+    public void editor(Stage stage){
+        int colnum = l.getLongueur();
+        int linenum = l.getHauteur();
+
+        HBox root = new HBox();
+        root.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(root,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+20,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE);
+        GridPane carte = new GridPane();
+
+
+        //Creation des cases
+        ImageView[][] map  = new ImageView[colnum][linenum];
+
+        for (int i=0;i<colnum;i++){
+            for (int j=0;j<linenum;j++){
+                Image img = l.getCase(j,i).getSprite().getImg();
+                //set de l'affichage
+                ImageView imageView = new ImageView(img);
+                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+
+                imageView.setOnMouseClicked(new CaseHandler(l,j,i,imageView));
+                map[i][j] = imageView;
+                carte.add(imageView,i,j);
+            }
+        }
+
+        //Menu selection case
+        VBox menu = menuCases();
+
+
+        root.getChildren().addAll(menu,carte);
+        stage.setScene(scene);
     }
 
     public void launcher(Stage stage){
@@ -56,6 +99,7 @@ public class MainEditor extends Application {
         hBox2.setAlignment(Pos.CENTER);
         TextField input2 = new TextField();
         input2.setPromptText("Name of the text file");
+        input2.setText("Laby/labyJeu/labyjeu1.txt");
         Button launch2 = new Button("Launch");
         hBox2.getChildren().addAll(input2,launch2);
 
@@ -73,9 +117,9 @@ public class MainEditor extends Application {
                 fileName = input2.getText();
                 try {
                     l = new Labyrinthe(fileName, null);
-
-                    //TODO Lancement de l'editeur
+                    editor(stage);
                 } catch (IOException e) {
+                    System.out.println(e.getMessage());
                     input2.setText("Chemin invalide");
                 }
             }
@@ -126,7 +170,9 @@ public class MainEditor extends Application {
                     int xi = Integer.parseInt(x.getText());
                     int yi = Integer.parseInt(y.getText());
                     l = new Labyrinthe(xi,yi,fileName);
+                    editor(stage);
                 }catch (Exception e){
+                    System.out.println(e.getMessage());
                     System.out.println("Valeurs mauvaises");
                 }
 
@@ -135,5 +181,62 @@ public class MainEditor extends Application {
 
         root.getChildren().addAll(lignex,ligney,create);
         stage.setScene(scene);
+    }
+
+    public VBox menuCases(){
+        VBox menu = new VBox();
+        List<Button> casebutton = new ArrayList<>();
+        List<Case> typeCase = new ArrayList<>();
+        typeCase.add(new CaseMur(0,0));
+        typeCase.add(new CaseVide(0,0));
+
+
+        for (int i=0;i<typeCase.size();i++){
+            //Creation du bouton
+            Button button = new Button();
+            //Cration d'une imageview adaptee
+            ImageView imageView = new ImageView(typeCase.get(i).getSprite().getImg());
+            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+            button.setGraphic(imageView);
+            //Ajout du bouton à la liste de boutons
+            casebutton.add(button);
+            menu.getChildren().add(button);
+            button.setOnMouseClicked(new MenuButtonHandler(typeCase.get(i)));
+        }
+
+        return menu;
+    }
+
+    class MenuButtonHandler implements EventHandler<MouseEvent> {
+        Case aCase;
+        public MenuButtonHandler(Case c){
+            aCase = c;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            brush= aCase;
+            System.out.println(brush);
+        }
+    }
+
+    class CaseHandler implements EventHandler<MouseEvent>{
+        Labyrinthe laby;
+        int x,y;
+        ImageView button;
+        public CaseHandler(Labyrinthe l,int x,int y,ImageView button){
+            laby=l;
+            this.x=x;
+            this.y=y;
+            this.button= button;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            l.getGameBoard()[x][y]=brush;
+            button.setImage(brush.getSprite().getImg());
+
+        }
     }
 }

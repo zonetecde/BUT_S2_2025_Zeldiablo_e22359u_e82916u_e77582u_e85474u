@@ -97,7 +97,7 @@ public class Labyrinthe {
         this.nomFichier = name;
         this.nomDuLab = name;
         for (int i=0;i<x;i++){
-            for (int j=0;i<y;j++){
+            for (int j=0;j<y;j++){
                 this.gameBoard[i][j]= new CaseVide(i,j);
             }
         }
@@ -596,4 +596,6 @@ public class Labyrinthe {
         // Retourne le nom du fichier du labyrinthe
         return nomFichier;
     }
+
+    public Case[][] getGameBoard(){return gameBoard;}
 }
