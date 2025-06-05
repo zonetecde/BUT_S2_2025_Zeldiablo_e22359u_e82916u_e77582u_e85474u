@@ -12,13 +12,13 @@ public class ChangementNiveauTest {
         jeu.init();
 
         Item itemTest = new ItemDefault("Clé");
-        jeu.getLaby().getPlayer().getInventory().add(itemTest);
+        jeu.getLaby().getPlayer().getInventaireObjet().getItems().add(itemTest);
         double hpAvant = jeu.getLaby().getPlayer().getHp();
 
         jeu.changeLevel(true);
 
         assertEquals(1, jeu.getCurrentLevel());
-        assertTrue(jeu.getLaby().getPlayer().getInventory().stream()
+        assertTrue(jeu.getLaby().getPlayer().getInventaireObjet().getItems().stream()
                 .anyMatch(i -> i.getName().equals(itemTest.getName())));
         assertEquals(hpAvant, jeu.getLaby().getPlayer().getHp());
     }
@@ -31,13 +31,13 @@ public class ChangementNiveauTest {
         assertEquals(1, jeu.getCurrentLevel());
 
         Item itemTest = new ItemDefault("Clé");
-        jeu.getLaby().getPlayer().getInventory().add(itemTest);
+        jeu.getLaby().getPlayer().getInventaireObjet().getItems().add(itemTest);
         double hpAvant = jeu.getLaby().getPlayer().getHp();
 
         jeu.changeLevel(false);
 
         assertEquals(0, jeu.getCurrentLevel());
-        assertTrue(jeu.getLaby().getPlayer().getInventory().stream()
+        assertTrue(jeu.getLaby().getPlayer().getInventaireObjet().getItems().stream()
                 .anyMatch(i -> i.getName().equals(itemTest.getName())));
         assertEquals(hpAvant, jeu.getLaby().getPlayer().getHp());
     }

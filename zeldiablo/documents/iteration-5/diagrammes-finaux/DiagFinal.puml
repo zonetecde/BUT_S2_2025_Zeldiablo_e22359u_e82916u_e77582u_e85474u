@@ -32,11 +32,22 @@ class Player {
     + setSpriteJoueur(i: int): void
     + getSpriteJoueur(): int
     + setEnVie(b: boolean): void
-    + setInventory(inventory: ArrayList<Item>): void
-    + getInventory(): ArrayList<Item>
+    + getInventaireObjet(): Inventaire
     + getVie(): double
     + mettreDegat(cible: Entite): void
     + aGagne(): boolean
+    + possedeItem(nomItem: String): boolean
+}
+
+class Inventaire {
+    + Inventaire()
+    + Inventaire(items: ArrayList<Item>)
+    + ajouterItem(item: Item): void
+    + getItems(): ArrayList<Item>
+    + setItems(items: ArrayList<Item>): void
+    + size(): int
+    + get(index: int): Item
+    + vider(): void
     + possedeItem(nomItem: String): boolean
 }
 
@@ -241,11 +252,12 @@ DeplacementStrategie <|.. DeplacementRapprochement
 DeplacementStrategie <|.. DeplacementIntelligent
 DeplacementStrategie <|.. DeplacementFuyard
 
-Labyrinthe "1" *--> "*" Case : gameBoard
-Labyrinthe "1" *--> "*" Monstre : monstres
-Labyrinthe "1" *--> "1" Player : joueur
+Labyrinthe "1" --> "*" Case : gameBoard
+Labyrinthe "1" --> "*" Monstre : monstres
+Labyrinthe "1" --> "1" Player : joueur
 Monstre "1" --> "1" DeplacementStrategie : deplacementStrategie
-Player "1" *--> "*" Item : inventory
+Player "1" --> "1" Inventaire : inventaire
+Inventaire "1" --> "*" Item : items
 CaseVide "1" --> "0..1" Item : item
 
 Item --> Sprite : sprite

@@ -19,7 +19,7 @@ public class aGagneTest {
         Player joueur = niveau1.getPlayer();
 
         // On donne l'amulette au joueur
-        joueur.getInventory().add(new Amulette());
+        joueur.getInventaireObjet().getItems().add(new Amulette());
 
         // On place le joueur sur l'escalier descendant
         int[] posEscalier = niveau1.getPositionEscalierEntrant();

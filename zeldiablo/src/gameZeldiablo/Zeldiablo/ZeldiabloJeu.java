@@ -83,7 +83,7 @@ public class ZeldiabloJeu implements Jeu {
 
     private void inputInv(Clavier clavier){
         if (clavier.droite){
-            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-1) {
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventaireObjet().getItems().size()-1) {
                 VariablesGlobales.curseur += 1;
             }
         } else if (clavier.gauche){
@@ -95,14 +95,14 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.bas){
-            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
+            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventaireObjet().getItems().size()-3) {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.space) {
             try {
                 Player tmp = this.niveaux.get(currentLevel).getPlayer();
-                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
-                    tmp.getInventory().remove(VariablesGlobales.curseur);
+                if (tmp.getInventaireObjet().getItems().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
+                    tmp.getInventaireObjet().getItems().remove(VariablesGlobales.curseur);
                     if (VariablesGlobales.curseur>0) {
                         VariablesGlobales.curseur -= 1;
                     }

@@ -440,7 +440,7 @@ public class Labyrinthe {
             // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
             Item item = caseCourante.getItem();
 
-            joueur.getInventory().add(item);
+            joueur.getInventaireObjet().getItems().add(item);
             String nomItem = item.getName();
 
             // Génère avec l'IA le texte que le joueur va dire
@@ -524,7 +524,6 @@ public class Labyrinthe {
      */
     public void initTimerMonstres() {
         if(timerMonstres != null) {
-            System.out.println("canceled");
             timerMonstres.cancel();
         }
 

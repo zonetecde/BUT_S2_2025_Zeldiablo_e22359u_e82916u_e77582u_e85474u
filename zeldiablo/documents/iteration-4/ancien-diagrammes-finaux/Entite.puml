@@ -34,24 +34,14 @@ class Player {
   + setSpriteJoueur(i: int): void
   + getSpriteJoueur(): int
   + setEnVie(b: boolean): void
-  + getInventaireObjet(): Inventaire
+  + setInventory(inventory: ArrayList<Item>): void
+  + getInventory(): ArrayList<Item>
   + getVie(): double
   + mettreDegat(cible: Entite): void
   + aGagne(): boolean
   + setaGagne(b: boolean): void
-  + clone(): Player
-}
-
-class Inventaire {
-  + Inventaire()
-  + Inventaire(items: ArrayList<Item>)
-  + ajouterItem(item: Item): void
-  + getItems(): ArrayList<Item>
-  + setItems(items: ArrayList<Item>): void
-  + size(): int
-  + get(index: int): Item
-  + vider(): void
   + possedeItem(nomItem: String): boolean
+  + clone(): Player
 }
 
 enum Intelligence {
@@ -61,25 +51,11 @@ enum Intelligence {
   FORTE
 }
 
-class DeplacementStrategieFactory {
-  + {static} creerStrategie(intelligence: Intelligence): DeplacementStrategie
-}
-
-interface DeplacementStrategie {
-  + deplacement(laby: Labyrinthe, monstre: Monstre): void
-}
-
 Monstre --|> Entite
 Player --|> Entite
 
 Monstre --> Intelligence : intelligence
-Monstre --> DeplacementStrategie : deplacementStrategie
-Player --> "1" Inventaire : inventaire
-Inventaire --> "*" Item : items
-
-DeplacementStrategieFactory ..> Intelligence : utilise
-Monstre ..> DeplacementStrategieFactory : utilise
-DeplacementStrategieFactory ..> DeplacementStrategie : crée
+Player --> "*" Item : inventory
 
 hide Entite::getX
 hide Entite::getY

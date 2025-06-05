@@ -28,11 +28,11 @@ public class ItemTest {
                     joueur.setX(x);
                     joueur.setY(y);
 
-                    assertEquals(0, joueur.getInventory().size());
+                    assertEquals(0, joueur.getInventaireObjet().getItems().size());
 
                     laby.ramasserItem(joueur);
 
-                    assertEquals(1, joueur.getInventory().size());
+                    assertEquals(1, joueur.getInventaireObjet().getItems().size());
 
                     assertFalse(c.hasItem());
 

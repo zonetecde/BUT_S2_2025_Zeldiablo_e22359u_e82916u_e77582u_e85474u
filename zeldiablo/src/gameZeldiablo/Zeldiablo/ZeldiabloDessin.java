@@ -176,7 +176,7 @@ public class ZeldiabloDessin implements DessinJeu {
     }   
     
     private void itemActuellementSelectionneUI(Labyrinthe laby, GraphicsContext gc) {
-        ArrayList<Item> inv = laby.getPlayer().getInventory();
+        ArrayList<Item> inv = laby.getPlayer().getInventaireObjet().getItems();
         if (!inv.isEmpty()) {
             Item item = inv.get(VariablesGlobales.curseur);
             int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
@@ -194,7 +194,7 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param c Le canvas sur lequel dessiner l'inventaire.
      */    
     private void invUI(Labyrinthe laby, GraphicsContext gc, Canvas c){
-        ArrayList<Item> inv = laby.getPlayer().getInventory();
+        ArrayList<Item> inv = laby.getPlayer().getInventaireObjet().getItems();
 
         // Paramètres de base
         double menuX = c.getWidth() / 4;

@@ -8,9 +8,9 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import java.util.ArrayList;
 
 public class Player extends Entite {
-    private ArrayList<Item> inventory;
-    boolean aGagne = false;
-    int sprite = 0;
+    private Inventaire inventaire;
+    private boolean aGagne = false;
+    private int sprite = 0;
 
     /**
      * Constructeur
@@ -21,7 +21,7 @@ public class Player extends Entite {
      */
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
-        this.inventory = new ArrayList<>();
+        this.inventaire = new Inventaire();
     }
 
     /**
@@ -37,38 +37,46 @@ public class Player extends Entite {
      * getter du sprite
      * @return num du sprite
      */
-    public int getSpriteJoueur(){return sprite;}
-
+    public int getSpriteJoueur(){return sprite;}    
+    
     /**
      * Dit si le joueur est en vie ou non
      * Si le joueur meurt, son inventaire est vidé
      *
      * @param b true si le joueur est en vie, false sinon
      */
+
+
     public void setEnVie(boolean b) {
         if (!b) {
-            inventory.clear();
+            inventaire.vider();
         }
-
         super.setEnVie(b);
-    }
-
+    }    
+    
     /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
      *
      * @param inventory L'inventaire du joueur, une liste d'objets
      */
     public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
+        this.inventaire.setItems(inventory);
     }
 
     /**
-     * Retourne l'inventaire du joueur
-     *
-     * @return L'inventaire du joueur, une liste d'items
+     * Ajoute un item à l'inventaire du joueur
+     * @param item L'item à ajouter
      */
-    public ArrayList<Item> getInventory() {
-        return inventory;
+    public void ajouterItem(Item item) {
+        inventaire.ajouterItem(item);
+    }
+
+    /**
+     * Retourne l'objet Inventaire du joueur
+     * @return L'objet Inventaire
+     */
+    public Inventaire getInventaireObjet() {
+        return inventaire;
     }
 
     /**
@@ -88,14 +96,14 @@ public class Player extends Entite {
     public void mettreDegat(Entite cible) {
         if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
-            if(getInventory().size() == 0 || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
+            if(this.getInventaireObjet().size() == 0 || this.getInventaireObjet().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
                 cible.prendreDegat(this.getDegat());
                 return;
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat((double)getInventory().get(VariablesGlobales.curseur).getDegat());
+            cible.prendreDegat(this.getInventaireObjet().get(VariablesGlobales.curseur).getDegat());
         }
     }
 
@@ -115,22 +123,8 @@ public class Player extends Entite {
      */
     public void setaGagne(boolean b) {
         this.aGagne = b;
-    }
-
-    /**
-     * Regarde si le joueur possède un item dans son inventaire
-     *
-     * @return true si l'item est trouvé, false sinon
-     */
-    public boolean possedeItem(String nomItem) {
-        for (Item item : inventory) {
-            if (item.getName().equals(nomItem)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    }   
+    
     /**
      * Clone le joueur
      * @return nouveau joueur
@@ -139,7 +133,7 @@ public class Player extends Entite {
         Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
         clone.setEnVie(super.getEnVie());
         clone.setHp(this.getHp());
-        clone.setInventory(new ArrayList<>(this.inventory));
+        clone.setInventory(new ArrayList<>(this.inventaire.getItems()));
         return clone;
     }
 }

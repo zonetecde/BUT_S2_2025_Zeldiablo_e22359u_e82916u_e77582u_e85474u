@@ -19,7 +19,7 @@ alt [. touche pressée]
         ZJ -> ZJ : inputInv(clavier)
         activate ZJ
         
-        note over ZJ, Inventory : Navigation inventaire :\n- droite/gauche : curseur + ou - 1\n- haut/bas : curseur + ou - 4\n(avec vérifications limites via player.getInventory().size())
+        note over ZJ, Inventory : Navigation inventaire :\n- droite/gauche : curseur + ou - 1\n- haut/bas : curseur + ou - 4\n(avec vérifications limites via player.getInventaireObjet().getItems().size())
         
         ZJ -> Player : getInventory()
         Player --> ZJ : Inventory

@@ -34,7 +34,7 @@ public class CaseEscalier extends Case{
         // Si l'escalier est descendant et que le joueur a l'amulette, il gagne le jeu
         String nomFichier = jeu.getLaby().getNomFichier();
         if (!monte && nomFichier.endsWith("1.txt")) {
-            boolean possedeAmulette = jeu.getLaby().getPlayer().possedeItem("Amulette");
+            boolean possedeAmulette = jeu.getLaby().getPlayer().getInventaireObjet().possedeItem("Amulette");
             if (possedeAmulette) {
                 jeu.getLaby().getPlayer().setaGagne(true);
             } else {
