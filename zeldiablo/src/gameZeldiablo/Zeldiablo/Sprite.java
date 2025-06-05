@@ -1,12 +1,14 @@
 package gameZeldiablo.Zeldiablo;
 
 import javafx.scene.image.Image;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Classe abstraite pour les objets ayant un affichage
  */
-public class Sprite {
+public class Sprite implements Serializable {
     // Dictionnaire pour éviter de créer plusieurs fois la même image
     private static HashMap<String, Image> imageCache = new HashMap<>();
     private String imgFile;

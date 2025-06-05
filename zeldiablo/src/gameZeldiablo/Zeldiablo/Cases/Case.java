@@ -5,10 +5,12 @@ import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 
+import java.io.Serializable;
+
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case implements Action{
+public abstract class Case implements Action, Serializable {
     /**
      * Emplacement x de la case
      */

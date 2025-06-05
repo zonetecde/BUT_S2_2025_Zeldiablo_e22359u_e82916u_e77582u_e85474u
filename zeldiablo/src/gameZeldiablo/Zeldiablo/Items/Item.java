@@ -3,7 +3,9 @@ package gameZeldiablo.Zeldiablo.Items;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
-public abstract class Item {
+import java.io.Serializable;
+
+public abstract class Item implements Serializable {
     private final String name;
     private final TypeItem type;
 

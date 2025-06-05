@@ -7,10 +7,7 @@ import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -19,7 +16,7 @@ import java.util.TimerTask;
 /**
  * classe labyrinthe. represente un labyrinthe avec
  */
-public class Labyrinthe {
+public class Labyrinthe implements Serializable {
     /**
      * Constantes char
      */

@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,18 +17,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainEditor extends Application {
-    public static final double SQUAREWIDTH = 20;
-    public static final double SQUAREHEIGHT = 20;
 
     Labyrinthe l;
     String fileName;
@@ -73,7 +70,7 @@ public class MainEditor extends Application {
         }
 
         //Menu selection case
-        VBox menu = menuCases();
+        ScrollPane menu = new ScrollPane(menuCases());
 
 
         root.getChildren().addAll(menu,carte);
@@ -111,27 +108,35 @@ public class MainEditor extends Application {
         Button launch3 = new Button("Launch");
         hBox3.getChildren().addAll(input3,launch3);
 
-        launch2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                fileName = input2.getText();
-                try {
-                    l = new Labyrinthe(fileName, null);
-                    editor(stage);
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                    input2.setText("Chemin invalide");
-                }
+        launch1.setOnMouseClicked(mouseEvent -> {
+            fileName = input.getText();
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Laby/LabyBin/"+fileName));
+                l = (Labyrinthe) ois.readObject();
+                editor(stage);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                input.setText("Chemin invalide");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+                input.setText("Fichier Corrompu");
             }
-
         });
 
-        launch3.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                fileName = input3.getText();
-                creator(stage);
+        launch2.setOnMouseClicked(mouseEvent -> {
+            fileName = input2.getText();
+            try {
+                l = new Labyrinthe(fileName, null);
+                editor(stage);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                input2.setText("Chemin invalide");
             }
+        });
+
+        launch3.setOnMouseClicked(mouseEvent -> {
+            fileName = input3.getText();
+            creator(stage);
         });
 
         root.getChildren().addAll(title,hBox1,hBox2,hBox3);
@@ -163,20 +168,17 @@ public class MainEditor extends Application {
         y.setPromptText("Hauteur");
         ligney.getChildren().addAll(label2,y);
 
-        create.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try{
-                    int xi = Integer.parseInt(x.getText());
-                    int yi = Integer.parseInt(y.getText());
-                    l = new Labyrinthe(xi,yi,fileName);
-                    editor(stage);
-                }catch (Exception e){
-                    System.out.println(e.getMessage());
-                    System.out.println("Valeurs mauvaises");
-                }
-
+        create.setOnMouseClicked(mouseEvent -> {
+            try{
+                int xi = Integer.parseInt(x.getText());
+                int yi = Integer.parseInt(y.getText());
+                l = new Labyrinthe(xi,yi,fileName);
+                editor(stage);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                System.out.println("Valeurs mauvaises");
             }
+
         });
 
         root.getChildren().addAll(lignex,ligney,create);
@@ -190,22 +192,45 @@ public class MainEditor extends Application {
         typeCase.add(new CaseMur(0,0));
         typeCase.add(new CaseVide(0,0));
 
+        //Bouton de save
+        Button save = new Button("Save");
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                save();
+            }
+        });
+        menu.getChildren().add(save);
 
-        for (int i=0;i<typeCase.size();i++){
+
+        for (Case aCase : typeCase) {
             //Creation du bouton
             Button button = new Button();
             //Cration d'une imageview adaptee
-            ImageView imageView = new ImageView(typeCase.get(i).getSprite().getImg());
+            ImageView imageView = new ImageView(aCase.getSprite().getImg());
             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
             button.setGraphic(imageView);
             //Ajout du bouton à la liste de boutons
             casebutton.add(button);
             menu.getChildren().add(button);
-            button.setOnMouseClicked(new MenuButtonHandler(typeCase.get(i)));
+            button.setOnMouseClicked(new MenuButtonHandler(aCase));
         }
 
         return menu;
+    }
+
+    public void save(){
+        try {
+            File file = new File("Laby/LabyBin/" + fileName);
+            file.createNewFile();
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+            oos.writeObject(l);
+            System.out.println("Everything's okay");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Erreur de sauvegarde");
+        }
     }
 
     class MenuButtonHandler implements EventHandler<MouseEvent> {

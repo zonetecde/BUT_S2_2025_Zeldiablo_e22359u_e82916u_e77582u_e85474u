@@ -2,10 +2,12 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.Sprite;
 
+import java.io.Serializable;
+
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite {
+public abstract class Entite implements Serializable {
 
     /**
      * position du personnage et vie
