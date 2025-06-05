@@ -1,4 +1,4 @@
-package     com.example.zeldiablofx;
+package main.java.com.example.zeldiablofx;
 
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import javafx.application.Application;
