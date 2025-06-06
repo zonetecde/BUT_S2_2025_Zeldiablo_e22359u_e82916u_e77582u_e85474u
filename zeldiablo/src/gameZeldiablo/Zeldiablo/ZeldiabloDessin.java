@@ -90,13 +90,13 @@ public class ZeldiabloDessin implements DessinJeu {
             for (int x = pX-VariablesGlobales.DISTANCE_VUE; x < pX+VariablesGlobales.DISTANCE_VUE; x++) {
                 try {
                     // Couleur des murs - noir
-                    gc.drawImage(laby.getCase(y, x).getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    gc.drawImage(laby.getCase(y, x).getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
 
                     ArrayList<Monstre> entites = laby.getMonstres();
                     for (Monstre m : entites) {
                         if (m.getX() == x && m.getY() == y) {
-                            gc.drawImage(m.getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                            gc.drawImage(m.getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                             // Dessiner la barre de vie au-dessus du monstre
                             dessinerBarreVieMonstre(gc, m, (x-pX), (y-pY));
                         }
@@ -104,7 +104,7 @@ public class ZeldiabloDessin implements DessinJeu {
 
                     // Affichage des items
                     try {
-                        gc.drawImage(laby.getCase(y, x).getItem().getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                        gc.drawImage(laby.getCase(y, x).getItem().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                     } catch (Exception none) {
                         // L'img n'a pas encore chargé
                     }
@@ -112,7 +112,7 @@ public class ZeldiabloDessin implements DessinJeu {
                     // affichage du joueur
                     if (laby.joueurSurCase(y, x)) {
                         // Dessiner le joueur
-                        gc.drawImage(laby.getPlayer().getSprite().getImg(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                        gc.drawImage(laby.getPlayer().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
                         // Dessine ce qu'il a à dire au-dessus de lui
                         if (laby.getPlayer().getMsgToSay() != null && !laby.getPlayer().getMsgToSay().isEmpty()) {
@@ -253,7 +253,7 @@ public class ZeldiabloDessin implements DessinJeu {
             double textY = caseY + (double) caseHeight / 2 + 5;
 
             gc.fillText(itemText, textX, textY);
-            gc.drawImage(inv.get(i).getSprite().getImg(),caseX+10,caseY,24,24);
+            gc.drawImage(inv.get(i).getSprite(),caseX+10,caseY,24,24);
 
             x += 1;
             if (x >= VariablesGlobales.COL_NUM_MENU) {

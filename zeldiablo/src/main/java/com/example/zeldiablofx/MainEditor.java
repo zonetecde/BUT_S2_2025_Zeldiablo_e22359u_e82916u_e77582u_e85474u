@@ -57,7 +57,7 @@ public class MainEditor extends Application {
 
         for (int i=0;i<colnum;i++){
             for (int j=0;j<linenum;j++){
-                Image img = l.getCase(j,i).getSprite().getImg();
+                Image img = l.getCase(j,i).getSprite();
                 //set de l'affichage
                 ImageView imageView = new ImageView(img);
                 imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
@@ -207,7 +207,7 @@ public class MainEditor extends Application {
             //Creation du bouton
             Button button = new Button();
             //Cration d'une imageview adaptee
-            ImageView imageView = new ImageView(aCase.getSprite().getImg());
+            ImageView imageView = new ImageView(aCase.getSprite());
             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
             button.setGraphic(imageView);
@@ -260,7 +260,7 @@ public class MainEditor extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             l.getGameBoard()[x][y]=brush;
-            button.setImage(brush.getSprite().getImg());
+            button.setImage(brush.getSprite());
 
         }
     }

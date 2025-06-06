@@ -2,6 +2,8 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.Sprite;
 
+import javafx.scene.image.Image;
+
 import java.io.Serializable;
 
 /**
@@ -18,7 +20,7 @@ public abstract class Entite implements Serializable {
     private final double degat; // Les dégâts que fait l'entité
     private boolean enVie = true;
     private String msgToSay;
-    private Sprite sprite; // L'image de l'entité
+    private String sprite; // L'image de l'entité
 
     /**
      * constructeur
@@ -32,7 +34,7 @@ public abstract class Entite implements Serializable {
         this.hp = maxHp;
         this.maxHp = maxHp;
         this.degat = degat;
-        this.sprite = new Sprite(img);
+        this.sprite = img;
     }
 
 
@@ -40,9 +42,15 @@ public abstract class Entite implements Serializable {
      * Retourne le sprite de l'entité
      * @return Sprite de l'entité
      */
-    public Sprite getSprite() {
-        return this.sprite;
+    public Image getSprite() {
+        return Sprite.getImg(sprite);
     }
+
+    /**
+     * Remplace le sprite
+     * @param s nouvelle image
+     */
+    public void setSprite(String s){sprite=s;}
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage

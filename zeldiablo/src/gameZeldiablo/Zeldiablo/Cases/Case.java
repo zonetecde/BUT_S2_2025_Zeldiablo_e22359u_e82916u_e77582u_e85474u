@@ -4,6 +4,7 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
+import javafx.scene.image.Image;
 
 import java.io.Serializable;
 
@@ -25,7 +26,7 @@ public abstract class Case implements Action, Serializable {
      */
     private boolean isWalkable;
 
-    private Sprite sprite; // L'image de la case
+    private String sprite; // L'image de la case
 
     /**
      * Constructeur de Case
@@ -36,7 +37,7 @@ public abstract class Case implements Action, Serializable {
         this.x = x;
         this.y = y;
         this.isWalkable = isWalkable;
-        this.sprite = new Sprite(img);
+        this.sprite = img;
     }
 
     /**
@@ -59,8 +60,16 @@ public abstract class Case implements Action, Serializable {
      * Retourne le sprite de la case
      * @return Sprite de la case
      */
-    public Sprite getSprite() {
-        return this.sprite;
+    public Image getSprite() {
+        return Sprite.getImg(sprite);
+    }
+
+    /**
+     * Remplace le sprite
+     * @param s nouvelle image
+     */
+    public void setSprite(String s){
+        sprite=s;
     }
 
     /**

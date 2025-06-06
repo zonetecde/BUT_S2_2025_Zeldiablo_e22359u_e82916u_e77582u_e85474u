@@ -2,42 +2,28 @@ package gameZeldiablo.Zeldiablo;
 
 import javafx.scene.image.Image;
 
-import java.io.Serializable;
+
 import java.util.HashMap;
 
 /**
  * Classe abstraite pour les objets ayant un affichage
  */
-public class Sprite implements Serializable {
+public class Sprite {
     // Dictionnaire pour éviter de créer plusieurs fois la même image
-    private static HashMap<String, Image> imageCache = new HashMap<>();
-    private String imgFile;
-    private Image img;
+    private static final HashMap<String, Image> imageCache = new HashMap<>();
 
-    /**
-     * Constructeur
-     * @param s chemin vers l'image
-     */
-    public Sprite(String s){
-        this.imgFile = s;
-    }
 
     /**
      * Creation de l'image
      * @param img nom
      */
-    public void setImg(String img){
-        this.imgFile = img;
+    public static void setImg(String img){
         // Vérifier si l'image est déjà dans le dict
-        if (imageCache.containsKey(img)) {
-            this.img = imageCache.get(img);
-        } else {
+        if (!imageCache.containsKey(img)) {
             try {
-                this.img = new Image(imgFile);
+                Image image = new Image(img);
                 // Ajouter l'image au dict si elle a bien été créée
-                if (this.img != null) {
-                    imageCache.put(img, this.img);
-                }
+                imageCache.put(img, image);
             } catch (Exception e) {
                 // JavaFX n'a toujours pas été initialisé
             }
@@ -48,21 +34,13 @@ public class Sprite implements Serializable {
      * getter de l'image
      * @return image actuelle
      */
-    public Image getImg(){
-        if(this.img == null){
+    public static Image getImg(String img){
             // Vérifier si l'image est déjà en cache
-            if (imageCache.containsKey(this.imgFile)) {
-                this.img = imageCache.get(this.imgFile);
-            } else {
-                this.setImg(imgFile);
-                
+            if (!imageCache.containsKey(img)) {
+                setImg(img);
             }
-        }
-        return this.img;
-    }
 
-    public String getImgFileName(){
-        return this.imgFile;
+        return imageCache.get(img);
     }
 
     /**

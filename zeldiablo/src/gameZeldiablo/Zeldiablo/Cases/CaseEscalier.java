@@ -21,7 +21,7 @@ public class CaseEscalier extends Case{
         super(x, y, true, VariablesGlobales.SPRITE_ESCALIER_HAUT);
         this.monte = monte;
         if (!monte) {
-            this.getSprite().setImg(VariablesGlobales.SPRITE_ESCALIER_BAS);
+            this.setSprite(VariablesGlobales.SPRITE_ESCALIER_BAS);
         }
     }
 

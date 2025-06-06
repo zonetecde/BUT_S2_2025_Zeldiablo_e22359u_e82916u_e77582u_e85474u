@@ -452,7 +452,7 @@ public class Labyrinthe implements Serializable {
             String nomItem = item.getName();
 
             // Génère avec l'IA le texte que le joueur va dire
-            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSprite().getImgFileName(), joueur::setMsgToSay);
+            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSpriteName(), joueur::setMsgToSay);
 
             caseCourante.removeItem();
         }

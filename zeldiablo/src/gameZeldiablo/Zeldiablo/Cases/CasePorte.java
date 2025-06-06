@@ -24,7 +24,7 @@ public class CasePorte extends Case {
         if (!ouverte) {
             this.ouverte = true;
             this.setIsWalkable(true); // Permet de marcher sur la case
-            this.getSprite().setImg(VariablesGlobales.SPRITE_PORTE_OUVERTE);
+            this.setSprite(VariablesGlobales.SPRITE_PORTE_OUVERTE);
         }
     }
 }
