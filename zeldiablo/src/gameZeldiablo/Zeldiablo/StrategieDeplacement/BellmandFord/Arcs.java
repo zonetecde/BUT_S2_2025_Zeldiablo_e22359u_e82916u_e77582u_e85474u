@@ -1,12 +1,13 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Classe Arcs gerant une liste d'objets Arc
  */
-public class Arcs {
+public class Arcs implements Serializable {
     private final List<Arc> arcs; // Contient la liste des arcs
 
     /**

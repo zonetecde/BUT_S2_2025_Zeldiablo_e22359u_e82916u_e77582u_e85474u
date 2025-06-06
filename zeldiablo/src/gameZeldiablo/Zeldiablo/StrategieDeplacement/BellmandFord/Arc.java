@@ -1,10 +1,12 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 
 
+import java.io.Serializable;
+
 /**
  * Arc, Classe brique réprésentant les arcs entre les noeuds
  */
-public class Arc {
+public class Arc implements Serializable {
         private final String dest; // Contient le nom de la destination
         private final double cout; // Contient le coût de l'arc
         private String numLigne;

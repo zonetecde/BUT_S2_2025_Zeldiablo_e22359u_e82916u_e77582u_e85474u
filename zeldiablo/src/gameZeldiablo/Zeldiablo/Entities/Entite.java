@@ -206,4 +206,16 @@ public abstract class Entite implements Serializable {
     public void setMsgToSay(String msgToSay) {
         this.msgToSay = msgToSay;
     }
+
+    @Override
+    public Entite clone(){
+        return new Monstre(getX(),getY());
+    }
+
+    public Entite clone(int x,int y){
+            Entite e= this.clone();
+            e.setX(x);
+            e.setY(y);
+            return e;
+    }
 }

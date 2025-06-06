@@ -5,7 +5,9 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 
-public class DeplacementIntelligent implements DeplacementStrategie {
+import java.io.Serializable;
+
+public class DeplacementIntelligent implements DeplacementStrategie, Serializable {
     @Override
     /**
      * Déplace l'entité selon la stratégie de déplacement intelligente.

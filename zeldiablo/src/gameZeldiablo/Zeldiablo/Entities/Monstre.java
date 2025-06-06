@@ -10,6 +10,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  */
 public class Monstre extends Entite {
     private DeplacementStrategie deplacementStrategie;
+    private Intelligence i;
 
     /**
      * Constructeur de la classe Monstre.
@@ -21,6 +22,7 @@ public class Monstre extends Entite {
      * */
     public Monstre(int x, int y, double pv, double degat, Intelligence intelligence) {
         super(x, y, pv, degat,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);
+        this.i=intelligence;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
     }
 
@@ -28,7 +30,8 @@ public class Monstre extends Entite {
      *  Constructeur 2
      */
     public Monstre(int x, int y, Intelligence intelligence) {
-        super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);        
+        super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()]);
+        this.i=intelligence;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
     }
 
@@ -39,6 +42,7 @@ public class Monstre extends Entite {
      */
     public Monstre(int x, int y) {
         super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[(int)(Math.random()*VariablesGlobales.SPRITE_MONSTRE.length)]);
+        this.i=Intelligence.MOYENNE;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(Intelligence.MOYENNE);
     }
 
@@ -64,5 +68,17 @@ public class Monstre extends Entite {
      */
     public void setDeplacementStrategie(DeplacementStrategie deplacementStrategie) {
         this.deplacementStrategie = deplacementStrategie;
+    }
+
+    public Monstre clone(){
+        Monstre m = new Monstre(getX(),getY(),i);
+        return m;
+    }
+
+    public Entite clone(int x,int y){
+        Monstre m = this.clone();
+        m.setX(x);
+        m.setY(y);
+        return m;
     }
 }

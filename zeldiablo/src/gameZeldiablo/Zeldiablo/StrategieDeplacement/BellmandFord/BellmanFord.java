@@ -1,9 +1,11 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 
+import java.io.Serializable;
+
 /**
  * Algorithme de BellmanFord
  */
-public class BellmanFord  implements Algorithme {
+public class BellmanFord  implements Algorithme, Serializable {
     /**
      * Algorithme de Bellman-ford (Point Fixe)
      * @param g Graphe étudié

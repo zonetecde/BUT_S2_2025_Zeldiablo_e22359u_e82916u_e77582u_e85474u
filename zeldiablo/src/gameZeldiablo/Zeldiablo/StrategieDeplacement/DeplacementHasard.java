@@ -4,7 +4,9 @@ import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 
-public class DeplacementHasard implements DeplacementStrategie {
+import java.io.Serializable;
+
+public class DeplacementHasard implements DeplacementStrategie, Serializable {
     /**
      * Déplace l'entité selon la stratégie de déplacement aléatoire.
      * @param laby

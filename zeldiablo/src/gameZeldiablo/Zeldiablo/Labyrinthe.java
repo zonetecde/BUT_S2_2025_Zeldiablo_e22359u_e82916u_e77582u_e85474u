@@ -47,7 +47,8 @@ public class Labyrinthe implements Serializable {
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
     // et celle-ci est ouverte par une seule case d'ouverture.
 
-    private Random random = new Random();
+
+    private transient Random random = new Random();
 
     // Entité joueur
     private Player joueur;
@@ -55,7 +56,16 @@ public class Labyrinthe implements Serializable {
     private final ArrayList<Monstre> monstres = new ArrayList<>();
 
     // Timer pour le déplacement automatique des monstres
-    private Timer timerMonstres;
+    private transient Timer timerMonstres;
+
+
+
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.random = new Random();  // or restore seed if needed
+        this.initTimerMonstres();
+    }
 
     /**
      * Retourne la case suivante en fonction de l'action
@@ -93,6 +103,7 @@ public class Labyrinthe implements Serializable {
         this.gameBoard = new Case[x][y];
         this.nomFichier = name;
         this.nomDuLab = name;
+        this.joueur = new Player(0,0,5,5);
         for (int i=0;i<x;i++){
             for (int j=0;j<y;j++){
                 this.gameBoard[i][j]= new CaseVide(i,j);
@@ -552,7 +563,8 @@ public class Labyrinthe implements Serializable {
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
         ArrayList<Monstre> monstresASupprimer = new ArrayList<>();
         
-        for (Monstre monstre : monstres) {
+        for (int i=0;i<monstres.size();i++) {
+            Monstre monstre = monstres.get(i);
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
 

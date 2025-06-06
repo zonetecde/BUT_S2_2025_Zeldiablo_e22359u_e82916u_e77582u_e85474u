@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,7 +13,7 @@ import java.util.List;
  * - on accede avec des get (getValeur et getParent)
  * - on modifie avec des set (setValeur et setParent)
  */
-public class Valeurs {
+public class Valeurs implements Serializable {
 
     /**
      * attributs pour stocker les informations 

@@ -1,16 +1,16 @@
 package main.java.com.example.zeldiablofx;
 
 import gameZeldiablo.Zeldiablo.Cases.*;
+import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.Entities.Intelligence;
+import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +28,8 @@ public class MainEditor extends Application {
 
     Labyrinthe l;
     String fileName;
-    Case brush;
+    Case brushTile = new CaseMur(0,0);
+    Monstre brushEntite = new Monstre(0,0);
 
     public static void main(String[] args){
         launch(args);
@@ -43,37 +44,11 @@ public class MainEditor extends Application {
 
 
     public void editor(Stage stage){
-        int colnum = l.getLongueur();
-        int linenum = l.getHauteur();
+        TabPane root = new TabPane();
+        root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        Scene scene = new Scene(root,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30);
 
-        HBox root = new HBox();
-        root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+20,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE);
-        GridPane carte = new GridPane();
-
-
-        //Creation des cases
-        ImageView[][] map  = new ImageView[colnum][linenum];
-
-        for (int i=0;i<colnum;i++){
-            for (int j=0;j<linenum;j++){
-                Image img = l.getCase(j,i).getSprite();
-                //set de l'affichage
-                ImageView imageView = new ImageView(img);
-                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-
-                imageView.setOnMouseClicked(new CaseHandler(l,j,i,imageView));
-                map[i][j] = imageView;
-                carte.add(imageView,i,j);
-            }
-        }
-
-        //Menu selection case
-        ScrollPane menu = new ScrollPane(menuCases());
-
-
-        root.getChildren().addAll(menu,carte);
+        root.getTabs().addAll(this.tabTile(),this.tabEnnemy());
         stage.setScene(scene);
     }
 
@@ -124,9 +99,9 @@ public class MainEditor extends Application {
         });
 
         launch2.setOnMouseClicked(mouseEvent -> {
-            fileName = input2.getText();
+            fileName = input2.getText().split("/")[input2.getText().split("/").length-1];
             try {
-                l = new Labyrinthe(fileName, null);
+                l = new Labyrinthe(input2.getText(), null);
                 editor(stage);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -185,6 +160,93 @@ public class MainEditor extends Application {
         stage.setScene(scene);
     }
 
+    public void save(){
+        try {
+            File file = new File("Laby/LabyBin/" + fileName);
+            file.createNewFile();
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+            oos.writeObject(l);
+            System.out.println("Everything's okay");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Erreur de sauvegarde");
+        }
+    }
+
+    public GridPane grille(boolean tile, boolean ennemy){
+        int colnum = l.getLongueur();
+        int linenum = l.getHauteur();
+
+
+        GridPane carte = new GridPane();
+
+
+        //Creation des cases
+        ImageView[][] map  = new ImageView[colnum][linenum];
+
+        for (int i=0;i<colnum;i++){
+            for (int j=0;j<linenum;j++){
+                //set de l'affichage
+                if (tile) {
+                    Image img = l.getCase(j,i).getSprite();
+                    ImageView imageView = new ImageView(img);
+                    imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                    imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                    if (!ennemy) {
+                        imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
+                    }else{
+                        imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
+                    }
+                    map[i][j] = imageView;
+                    carte.add(imageView,i,j);
+                }
+                if (ennemy){
+                    for (int y=0;y<l.getMonstres().size();y++){
+                        Monstre m = l.getMonstres().get(y);
+                        if (m.getY()==i && m.getX()==j){
+                            Image img = m.getSprite();
+                            ImageView imageView = new ImageView(img);
+                            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                            carte.add(imageView,i,j);
+                        }
+                    }
+                }
+
+
+            }
+        }
+        return carte;
+    }
+
+    public Tab tabTile(){
+        Tab root = new Tab("Tiles");
+        HBox main = new HBox();
+        main.setAlignment(Pos.CENTER);
+        //TabTiles
+        GridPane carte = this.grille(true,false);
+        //Menu selection case
+        ScrollPane menu = new ScrollPane(menuCases());
+
+        main.getChildren().addAll(menu,carte);
+        root.setContent(main);
+        return root;
+    }
+
+    public Tab tabEnnemy(){
+        Tab root = new Tab("Ennemy");
+        HBox main = new HBox();
+        main.setAlignment(Pos.CENTER);
+        //TabTiles
+        GridPane carte = this.grille(true,true);
+        //Menu selection case
+        ScrollPane menu = new ScrollPane(menuEnnemy());
+
+        main.getChildren().addAll(menu,carte);
+        root.setContent(main);
+        return root;
+    }
+
     public VBox menuCases(){
         VBox menu = new VBox();
         List<Button> casebutton = new ArrayList<>();
@@ -214,35 +276,62 @@ public class MainEditor extends Application {
             //Ajout du bouton à la liste de boutons
             casebutton.add(button);
             menu.getChildren().add(button);
-            button.setOnMouseClicked(new MenuButtonHandler(aCase));
+            button.setOnMouseClicked(new MenuButtonHandler<Case>(aCase));
         }
 
         return menu;
     }
 
-    public void save(){
-        try {
-            File file = new File("Laby/LabyBin/" + fileName);
-            file.createNewFile();
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-            oos.writeObject(l);
-            System.out.println("Everything's okay");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Erreur de sauvegarde");
+    public VBox menuEnnemy(){
+        VBox menu = new VBox();
+        List<Button> casebutton = new ArrayList<>();
+        List<Monstre> typeMonstre = new ArrayList<>();
+        for (int i=0;i<Intelligence.values().length;i++) {
+            typeMonstre.add(new Monstre(0,0,Intelligence.values()[i]));
         }
+
+        //Bouton de save
+        Button save = new Button("Save");
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                save();
+            }
+        });
+        menu.getChildren().add(save);
+
+
+        for (Monstre m : typeMonstre) {
+            //Creation du bouton
+            Button button = new Button();
+            //Cration d'une imageview adaptee
+            ImageView imageView = new ImageView(m.getSprite());
+            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+            button.setGraphic(imageView);
+            //Ajout du bouton à la liste de boutons
+            casebutton.add(button);
+            menu.getChildren().add(button);
+            button.setOnMouseClicked(new MenuButtonHandler<Monstre>(m));
+        }
+
+        return menu;
     }
 
-    class MenuButtonHandler implements EventHandler<MouseEvent> {
-        Case aCase;
-        public MenuButtonHandler(Case c){
+    class MenuButtonHandler<MenuType> implements EventHandler<MouseEvent> {
+        MenuType aCase;
+        public MenuButtonHandler(MenuType c){
             aCase = c;
         }
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            brush= aCase;
-            System.out.println(brush);
+            if (aCase instanceof Case) {
+                brushTile = (Case)aCase;
+            } else if(aCase instanceof Monstre){
+                brushEntite = (Monstre) aCase;
+            }
+            System.out.println(brushTile);
         }
     }
 
@@ -259,9 +348,31 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            l.getGameBoard()[x][y]=brush;
-            button.setImage(brush.getSprite());
+            l.getGameBoard()[x][y]= brushTile;
+            button.setImage(brushTile.getSprite());
 
         }
     }
+
+    class EntityHandler implements EventHandler<MouseEvent>{
+        Labyrinthe laby;
+        int x,y;
+        ImageView button;
+        public EntityHandler(Labyrinthe l,int x,int y,ImageView button){
+            laby=l;
+            this.x=x;
+            this.y=y;
+            this.button= button;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            Monstre m = (Monstre)brushEntite.clone(y,x);
+            l.getMonstres().add(m);
+            button.setImage(brushEntite.getSprite());
+
+        }
+    }
+
+
 }

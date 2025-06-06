@@ -4,7 +4,9 @@ import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
-public class DeplacementRapprochement implements DeplacementStrategie {
+import java.io.Serializable;
+
+public class DeplacementRapprochement implements DeplacementStrategie, Serializable {
 
     /**
      * Déplace le monstre vers le joueur en utilisant une stratégie de rapprochement.

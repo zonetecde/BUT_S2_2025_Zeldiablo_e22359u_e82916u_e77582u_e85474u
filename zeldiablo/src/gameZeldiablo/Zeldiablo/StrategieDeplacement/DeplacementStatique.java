@@ -3,7 +3,9 @@ package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
-public class DeplacementStatique implements DeplacementStrategie {
+import java.io.Serializable;
+
+public class DeplacementStatique implements DeplacementStrategie, Serializable {
     @Override
     /**
      * Déplace l'entité selon la stratégie de déplacement statique.

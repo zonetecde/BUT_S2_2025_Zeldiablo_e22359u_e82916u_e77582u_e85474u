@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord;
 
+import java.io.Serializable;
 import java.util.List;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Grapheliste implemente Graphe en utilisant des ArrayList
  */
-public class GrapheListe implements Graphe{
+public class GrapheListe implements Graphe, Serializable {
     private ArrayList<String> noeuds; // Représente la liste des noeuds du graphe
     private ArrayList<Arcs> adjacence; // Représente la liste des arcs partant de chaque noeud du graphe
 
