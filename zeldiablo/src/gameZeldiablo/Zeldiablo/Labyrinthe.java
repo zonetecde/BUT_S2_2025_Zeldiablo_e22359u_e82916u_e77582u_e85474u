@@ -38,10 +38,7 @@ public class Labyrinthe implements Serializable {
     public static final char STAIR_SORTIE = 'S';
     public static final char STAIRS_DEPART = 'D';
 
-    private final String nomDuLab; // Identifiant du labyrinthe
-
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private final String nomFichier;
     private final int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private final int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
     private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
@@ -99,10 +96,8 @@ public class Labyrinthe implements Serializable {
         return new int[]{y, x};
     }
 
-    public Labyrinthe(int x,int y,String name){
+    public Labyrinthe(int x,int y){
         this.gameBoard = new Case[x][y];
-        this.nomFichier = name;
-        this.nomDuLab = name;
         this.joueur = new Player(0,0,5,5);
         for (int i=0;i<x;i++){
             for (int j=0;j<y;j++){
@@ -118,13 +113,9 @@ public class Labyrinthe implements Serializable {
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
-        // recupere le nom du lab : le nom du fichier dans le path
-        nomDuLab = new File(nom).getName();
-
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
-        this.nomFichier = nom;
         int nbLignes, nbColonnes;
         int nbreMonstresSpawned = 0;
 
@@ -169,13 +160,7 @@ public class Labyrinthe implements Serializable {
                  * Runnable pour ouvrir la porte du niveau.
                  * Cette action est déclenchée par une case d'ouverture.
                  */
-                // Ouvre la porte du niveau
-                Runnable ouvrirPorte = () -> {
-                    // Ouvre la porte du niveau
-                    if (casePorte != null) {
-                        casePorte.ouvrir();
-                    }
-                };
+
                 switch (c) {
                     case MUR:
                         gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
@@ -183,18 +168,15 @@ public class Labyrinthe implements Serializable {
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
 
-                        // Si c'est pas le premier niveau, ajouter potentiellement un monstre
-                        if (!VariablesGlobales.DOSSIER_LABY.equals("labyIntro") && !nomDuLab.contains("1") &&
-                            joueur != null &&
-                            random.nextDouble() < VariablesGlobales.PROBA_MONSTRE && 
-                            nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX &&
-                            !joueurAdjacentACase(numeroLigne, colonne)) {
-                            
-                            Intelligence intelligenceAleatoire = Intelligence.values()[random.nextInt(Intelligence.values().length)];
-                            Monstre monstre = new Monstre(colonne, numeroLigne, intelligenceAleatoire);
-                            monstres.add(monstre);
-                            nbreMonstresSpawned++;
-                        }
+//                        // Si c'est pas le premier niveau, ajouter potentiellement un monstre
+//                        if (!VariablesGlobales.DOSSIER_LABY.equals("labyIntro") &&
+//                            joueur != null &&
+//                            random.nextDouble() < VariablesGlobales.PROBA_MONSTRE &&
+//                            nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX &&
+//                            !joueurAdjacentACase(numeroLigne, colonne)) {
+//
+//
+//                        }
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
@@ -217,7 +199,7 @@ public class Labyrinthe implements Serializable {
                         gameBoard[numeroLigne][colonne].addItem(new Hache());
                         break;
                     case CASE_OUVERTURE:
-                        gameBoard[numeroLigne][colonne] = new CaseOuverture(colonne, numeroLigne, ouvrirPorte);
+                        gameBoard[numeroLigne][colonne] = new CaseSwitch(colonne, numeroLigne);
                         break;
                     case PANCARTE:
                         String textPancarte = ligneBrute.split(";")[1];
@@ -300,11 +282,7 @@ public class Labyrinthe implements Serializable {
             return true;
         }
         caseApres = getSuivant(y, x, Direction.GAUCHE);
-        if (joueurSurCase(caseApres[0], caseApres[1])) {
-            return true;
-        }
-
-        return false;
+        return joueurSurCase(caseApres[0], caseApres[1]);
     }
 
     /**
@@ -345,14 +323,6 @@ public class Labyrinthe implements Serializable {
                 !joueurSurCase(i, j);
     }
 
-    /**
-     * jamais fini
-     *
-     * @return fin du jeu
-     */
-    public boolean etreFini() {
-        return false;
-    }
 
     // ##################################
     // METHODES UTILITAIRES
@@ -436,14 +406,6 @@ public class Labyrinthe implements Serializable {
         return monstres;
     }
 
-    /**
-     * getter du nom du laby
-     *
-     * @return Nom
-     */
-    public String getNomDuLab() {
-        return nomDuLab;
-    }
 
     /**
      * Ramasse un objet si le joueur est sur une case contenant un objet
@@ -562,9 +524,8 @@ public class Labyrinthe implements Serializable {
     private void deplacerMonstres() {
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
         ArrayList<Monstre> monstresASupprimer = new ArrayList<>();
-        
-        for (int i=0;i<monstres.size();i++) {
-            Monstre monstre = monstres.get(i);
+
+        for (Monstre monstre : monstres) {
             // On effectue le déplacement du monstre
             monstre.deplacer(this);
 
@@ -572,12 +533,12 @@ public class Labyrinthe implements Serializable {
                 //etat visuelle
                 monstre.mettreDegat(this.joueur);
             }
-            
+
             // déclanche le onstepon de la case où se trouve le monstre
             Case caseMonstre = getCase(monstre.getY(), monstre.getX());
             caseMonstre.onStepOn(monstre);
 
-            if(monstre.getHp() <= 0) {
+            if (monstre.getHp() <= 0) {
                 monstresASupprimer.add(monstre);
             }
         }
@@ -596,15 +557,6 @@ public class Labyrinthe implements Serializable {
         }
     }
 
-    /**
-     * getter du nom de fichier
-     *
-     * @return String nom
-     */
-    public String getNomFichier() {
-        // Retourne le nom du fichier du labyrinthe
-        return nomFichier;
-    }
 
     public Case[][] getGameBoard(){return gameBoard;}
 }

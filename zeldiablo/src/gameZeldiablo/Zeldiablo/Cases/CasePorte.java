@@ -17,14 +17,15 @@ public class CasePorte extends Case {
         super(x, y, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
     }
 
+
     /**
      * Ouvre la porte
      */
-    public void ouvrir() {
-        if (!ouverte) {
-            this.ouverte = true;
-            this.setIsWalkable(true); // Permet de marcher sur la case
-            this.setSprite(VariablesGlobales.SPRITE_PORTE_OUVERTE);
-        }
+    @Override
+    public void activate() {
+        this.ouverte = !this.ouverte;
+        this.setIsWalkable(!this.getIsWalkable()); // Permet de marcher sur la case
+        if (ouverte) {this.setSprite(VariablesGlobales.SPRITE_PORTE_FERMEE);}
+        else{this.setSprite(VariablesGlobales.SPRITE_PORTE_OUVERTE);}
     }
 }

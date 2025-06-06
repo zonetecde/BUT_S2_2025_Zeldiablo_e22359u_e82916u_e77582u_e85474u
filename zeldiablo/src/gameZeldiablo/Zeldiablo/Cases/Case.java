@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case implements Action, Serializable {
+public abstract class Case implements Serializable {
     /**
      * Emplacement x de la case
      */
@@ -25,6 +25,8 @@ public abstract class Case implements Action, Serializable {
     Permet de dire si on peut marcher sur cette case
      */
     private boolean isWalkable;
+
+    private boolean isActivable = false;
 
     private String sprite; // L'image de la case
 
@@ -40,13 +42,7 @@ public abstract class Case implements Action, Serializable {
         this.sprite = img;
     }
 
-    /**
-     * Getter utilisé pour savoir si une entité peut marcher sur la case
-     * @return boolean
-     */
-    public boolean getIsWalkable(){
-        return this.isWalkable;
-    }
+//Methodes a implanter//
 
     /**
      * Méthode appelée lorsqu'une entité marche sur la case
@@ -54,22 +50,6 @@ public abstract class Case implements Action, Serializable {
      */
     public void onStepOn(Entite entite) {
         // Action par défaut
-    }
-
-    /**
-     * Retourne le sprite de la case
-     * @return Sprite de la case
-     */
-    public Image getSprite() {
-        return Sprite.getImg(sprite);
-    }
-
-    /**
-     * Remplace le sprite
-     * @param s nouvelle image
-     */
-    public void setSprite(String s){
-        sprite=s;
     }
 
     /**
@@ -81,12 +61,47 @@ public abstract class Case implements Action, Serializable {
     }
 
     /**
+     * Methode utilisée par les objets activables
+     */
+    public void activate(){
+        //Action par défaut
+    }
+
+
+    /**
      * Méthode pour ajouter un item à la case
      * @param item L'item à ajouter
      */
     public void addItem(Item item) {
         // Action par défaut
     }
+
+//Getters//
+
+    /**
+     * Getter
+     * @return si la case est activable
+     */
+    public boolean isActivable(){return isActivable;}
+
+    /**
+     * Getter utilisé pour savoir si une entité peut marcher sur la case
+     * @return boolean
+     */
+    public boolean getIsWalkable(){return this.isWalkable;}
+
+    /**
+     * Retourne le sprite de la case
+     * @return Sprite de la case
+     */
+    public Image getSprite() {return Sprite.getImg(sprite);}
+
+    /**
+     * Méthode pour obtenir l'item de la case
+     * @return L'item de la case, ou null si aucun item n'est présent
+     */
+    public Item getItem() {/*Action par défaut*/return null;}
+
 
     /**
      * Vérifie si la case contient un objet
@@ -97,22 +112,27 @@ public abstract class Case implements Action, Serializable {
         return false;
     }
 
+
+//Setters//
+
+    /**
+     * Setter de isActivable
+     * @param a is activable
+     */
+    public void setActivable(boolean a){this.isActivable=a;}
+
+    /**
+     * Remplace le sprite
+     * @param s nouvelle image
+     */
+    public void setSprite(String s){sprite=s;}
+
     /**
      * Méthode pour retirer un item de la case
      */
-    public void removeItem() {
-        // Action par défaut
-    }
+    public void removeItem() {/*Action par défaut*/}
 
-    /**
-     * Méthode pour obtenir l'item de la case
-     * @return L'item de la case, ou null si aucun item n'est présent
-     */
-    public Item getItem() {
-        // Action par défaut
-        return null;
-    }
-   
+
     /**
      * Setter de si la case est marchable
      * @param isWalkable true si la case est marchable, false sinon
@@ -120,6 +140,8 @@ public abstract class Case implements Action, Serializable {
     public void setIsWalkable(boolean isWalkable) {
         this.isWalkable = isWalkable;
     }
+
+//TOSTRING
 
     /**
      * ToString format : Case{x=0, y=0, isWalkable=true}

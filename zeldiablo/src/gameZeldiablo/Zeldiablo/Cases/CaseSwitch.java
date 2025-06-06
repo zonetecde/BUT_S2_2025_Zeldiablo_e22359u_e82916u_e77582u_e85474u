@@ -3,9 +3,9 @@ package gameZeldiablo.Zeldiablo.Cases;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
-public class CaseOuverture extends Case {
-    // Attribut contenant la methode a appeler lorsqu'une entité marche sur la case
-    private final Runnable action;
+public class CaseSwitch extends Case {
+
+    private Case link;
 
     /**
      * Constructeur de CaseOuverture
@@ -14,9 +14,13 @@ public class CaseOuverture extends Case {
      * @param y position y de la case
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
-    public CaseOuverture(int x, int y, Runnable action) {
+    public CaseSwitch(int x, int y, Case action) {
         super(x, y, true, VariablesGlobales.SPRITE_P_P);
-        this.action = action;
+        this.link = action;
+    }
+
+    public CaseSwitch(int x, int y) {
+        this(x,y,null);
     }
 
     /**
@@ -24,6 +28,15 @@ public class CaseOuverture extends Case {
      */
     @Override
     public void onStepOn(Entite entite) {
-        action.run();
+        if (link != null) {
+            link.activate();
+        }
     }
+
+    /**
+     * Lie la plaque avec un autre objet
+     * @param ccase objet activable
+     */
+    public void createLink(Case ccase){this.link=ccase;}
+
 }

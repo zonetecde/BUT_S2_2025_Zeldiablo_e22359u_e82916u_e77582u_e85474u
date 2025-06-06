@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -147,7 +148,7 @@ public class MainEditor extends Application {
             try{
                 int xi = Integer.parseInt(x.getText());
                 int yi = Integer.parseInt(y.getText());
-                l = new Labyrinthe(xi,yi,fileName);
+                l = new Labyrinthe(xi,yi);
                 editor(stage);
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -173,16 +174,15 @@ public class MainEditor extends Application {
         }
     }
 
-    public GridPane grille(boolean tile, boolean ennemy){
+    public StackPane grille(boolean tile, boolean ennemy){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
+        StackPane root = new StackPane();
+        root.setAlignment(Pos.CENTER);
 
+        GridPane tiles = new GridPane();
+        GridPane entities = new GridPane();
 
-        GridPane carte = new GridPane();
-
-
-        //Creation des cases
-        ImageView[][] map  = new ImageView[colnum][linenum];
 
         for (int i=0;i<colnum;i++){
             for (int j=0;j<linenum;j++){
@@ -194,11 +194,8 @@ public class MainEditor extends Application {
                     imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
                     if (!ennemy) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
-                    }else{
-                        imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
                     }
-                    map[i][j] = imageView;
-                    carte.add(imageView,i,j);
+                    tiles.add(imageView,i,j);
                 }
                 if (ennemy){
                     for (int y=0;y<l.getMonstres().size();y++){
@@ -208,7 +205,8 @@ public class MainEditor extends Application {
                             ImageView imageView = new ImageView(img);
                             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                            carte.add(imageView,i,j);
+                            imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
+                            entities.add(imageView,i,j);
                         }
                     }
                 }
@@ -216,7 +214,9 @@ public class MainEditor extends Application {
 
             }
         }
-        return carte;
+
+        root.getChildren().addAll(tiles,entities);
+        return root;
     }
 
     public Tab tabTile(){
@@ -224,7 +224,7 @@ public class MainEditor extends Application {
         HBox main = new HBox();
         main.setAlignment(Pos.CENTER);
         //TabTiles
-        GridPane carte = this.grille(true,false);
+        StackPane carte = this.grille(true,false);
         //Menu selection case
         ScrollPane menu = new ScrollPane(menuCases());
 
@@ -238,7 +238,7 @@ public class MainEditor extends Application {
         HBox main = new HBox();
         main.setAlignment(Pos.CENTER);
         //TabTiles
-        GridPane carte = this.grille(true,true);
+        StackPane carte = this.grille(true,true);
         //Menu selection case
         ScrollPane menu = new ScrollPane(menuEnnemy());
 
