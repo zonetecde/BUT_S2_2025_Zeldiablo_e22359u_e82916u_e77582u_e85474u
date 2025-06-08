@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeplacementTest {
     private Labyrinthe labyrinthe;
-    private static final String CHEMIN_LABY_TEST = "labyTests/laby0.txt";
+    private static final String CHEMIN_LABY_TEST = "Laby/labyTests/laby0.txt";
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_TEST, null);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_TEST);
     }
 
     @Test

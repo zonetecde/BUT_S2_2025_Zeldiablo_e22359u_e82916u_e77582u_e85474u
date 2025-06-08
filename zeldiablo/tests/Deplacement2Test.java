@@ -9,13 +9,12 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Deplacement2Test {
-    private static final String CHEMIN_LABY_SANS_MUR = "labyTests/labySansMur.txt";
-    private static final String CHEMIN_LABY_AVEC_MUR = "labyTests/labyAvecMur.txt";
-    private static final String CHEMIN_LABY_BELLMAN = "labyTests/testBellmanFord.txt";
+    private static final String CHEMIN_LABY_SANS_MUR = "Laby/labyTests/labySansMur.txt";
+    private static final String CHEMIN_LABY_BELLMAN = "Laby/labyTests/testBellmanFord.txt";
 
     @Test
     void testDeplacementRapprochementSansMur() throws IOException {
-        Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_SANS_MUR, null);
+        Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_SANS_MUR);
 
         // place le joueur en bas à droite
         Player joueur = new Player(8, 8, 5, 1);
@@ -43,7 +42,7 @@ public class Deplacement2Test {
 
     @Test
     void testDeplacementIntelligentAvecMur() throws IOException {
-        Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_BELLMAN, null);
+        Labyrinthe labyrinthe = new Labyrinthe(CHEMIN_LABY_BELLMAN);
 
         // place le joueur de l'autre côté du mur
         Player joueur = new Player(1, 1, 5, 1);

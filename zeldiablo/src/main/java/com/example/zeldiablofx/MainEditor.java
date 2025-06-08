@@ -25,7 +25,7 @@ public class MainEditor extends Application {
 
     Labyrinthe l;
     String fileName;
-    Case brushTile = new CaseMur(0,0);
+    Case brushTile = new CaseMur();
     Monstre brushEntite = new Monstre(0,0);
     ImageView brushImage = new ImageView(brushTile.getSprite());
 
@@ -97,7 +97,7 @@ public class MainEditor extends Application {
         Button launch3 = new Button("Launch");
         hBox3.getChildren().addAll(input3,launch3);
 
-        launch1.setOnMouseClicked(_ -> {
+        launch1.setOnMouseClicked(mouseEvent -> {
             fileName = input.getText();
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Laby/LabyBin/"+fileName));
@@ -112,10 +112,10 @@ public class MainEditor extends Application {
             }
         });
 
-        launch2.setOnMouseClicked(_ -> {
+        launch2.setOnMouseClicked(mouseEvent -> {
             fileName = input2.getText().split("/")[input2.getText().split("/").length-1];
             try {
-                l = new Labyrinthe(input2.getText(), null);
+                l = new Labyrinthe(input2.getText());
                 editor(stage);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -123,7 +123,7 @@ public class MainEditor extends Application {
             }
         });
 
-        launch3.setOnMouseClicked(_ -> {
+        launch3.setOnMouseClicked(mouseEvent -> {
             fileName = input3.getText();
             if (!fileName.isEmpty()) {
                 creator(stage);
@@ -165,7 +165,7 @@ public class MainEditor extends Application {
         y.setPromptText("Hauteur");
         ligney.getChildren().addAll(label2,y);
 
-        create.setOnMouseClicked(_ -> {
+        create.setOnMouseClicked(mouseEvent -> {
             try{
                 int xi = Integer.parseInt(x.getText());
                 int yi = Integer.parseInt(y.getText());
@@ -259,7 +259,7 @@ public class MainEditor extends Application {
         }else{
             root = new Tab("Tiles");
         }
-        root.setOnSelectionChanged(_ -> {
+        root.setOnSelectionChanged(event -> {
             HBox main = new HBox(10);
             main.setAlignment(Pos.CENTER);
             //Menu Droite
@@ -293,7 +293,7 @@ public class MainEditor extends Application {
 
         //Bouton de save
         Button save = new Button("Save");
-        save.setOnMouseClicked(_ -> save());
+        save.setOnMouseClicked(mouseEvent -> save());
         menu.getChildren().add(save);
 
         //Liste des brush
@@ -316,8 +316,8 @@ public class MainEditor extends Application {
             }
         }else{
             List<Case> type = new ArrayList<>();
-            type.add(new CaseMur(0,0));
-            type.add(new CaseVide(0,0));
+            type.add(new CaseMur());
+            type.add(new CaseVide());
 
             for (Case aCase : type) {
                 //Creation du bouton

@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class CasePiegeTest {
 
     private Labyrinthe labyrinthe;
-    private static final String CHEMIN_LABY_PIEGE = "labyTests/laby0.txt";
+    private static final String CHEMIN_LABY_PIEGE = "Laby/labyTests/laby0.txt";
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE, null);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_PIEGE);
     }
 
     /**
@@ -32,7 +32,7 @@ class CasePiegeTest {
      */
     @Test
     void testConstructionCasePiege() {
-        CasePiege casePiege = new CasePiege(1, 1, 1);
+        CasePiege casePiege = new CasePiege( 1);
         assertEquals(1, casePiege.getDegats(), "Les dégâts du piège devraient être de 1");
         assertTrue(casePiege.getIsWalkable(), "La case piège devrait être marchable");
     }

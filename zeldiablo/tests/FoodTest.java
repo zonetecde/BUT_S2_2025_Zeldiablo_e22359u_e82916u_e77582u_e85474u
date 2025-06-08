@@ -12,7 +12,7 @@ public class FoodTest {
 
     @Test
     public void testUse() throws Exception{
-        Labyrinthe laby = new Labyrinthe("labyTests/laby0.txt",null);
+        Labyrinthe laby = new Labyrinthe("Laby/labyTests/laby0.txt");
         ArrayList<Item> inv = new ArrayList<Item>();
         inv.add(new Food());
         laby.getPlayer().setInventory(inv);

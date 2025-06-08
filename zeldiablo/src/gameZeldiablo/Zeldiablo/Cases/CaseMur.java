@@ -5,10 +5,8 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 public class CaseMur extends Case {
     /**
      * Constructeur
-     * @param x posx
-     * @param y posy
      */
-    public CaseMur(int x, int y){
-        super(x, y, false, VariablesGlobales.SPRITE_MUR);
+    public CaseMur(){
+        super(false, VariablesGlobales.SPRITE_MUR);
     }
 }

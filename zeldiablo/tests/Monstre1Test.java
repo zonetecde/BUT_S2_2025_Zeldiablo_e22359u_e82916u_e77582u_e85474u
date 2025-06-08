@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class Monstre1Test {
 
     private Labyrinthe labyrinthe;
-    private static final String CHEMIN_LABY_MONSTRE = "labyTests/laby0.txt";
+    private static final String CHEMIN_LABY_MONSTRE = "Laby/labyTests/laby0.txt";
 
     @BeforeEach
     void setUp() throws IOException {
-        labyrinthe = new Labyrinthe(CHEMIN_LABY_MONSTRE, null);
+        labyrinthe = new Labyrinthe(CHEMIN_LABY_MONSTRE);
     }
 
     //Vu que l'apparition n'est pas garantie, on ne peut pas le tester donc je test simplement la colision

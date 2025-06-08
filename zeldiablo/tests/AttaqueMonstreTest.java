@@ -15,7 +15,7 @@ public class AttaqueMonstreTest {
      */
     void testMonstreAttaqueJoueurQuandACote() throws Exception {
 
-        Labyrinthe laby = new Labyrinthe("labyTests/laby0.txt", null);
+        Labyrinthe laby = new Labyrinthe("Laby/labyTests/laby0.txt");
 
         Player joueur = laby.getPlayer();
         joueur.setX(1);

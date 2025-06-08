@@ -12,9 +12,9 @@ public class CasePorte extends Case {
      * @param x position x de la case
      * @param y position y de la case
      */
-    public CasePorte(int x, int y) {
+    public CasePorte() {
         // Au chargement du niveau la porte est fermée
-        super(x, y, false, VariablesGlobales.SPRITE_PORTE_FERMEE);
+        super(false, VariablesGlobales.SPRITE_PORTE_FERMEE);
     }
 
 

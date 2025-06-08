@@ -9,12 +9,10 @@ public class CasePancarte extends Case {
     /**
      * Constructeur de CasePancarte
      *
-     * @param x position x de la case
-     * @param y position y de la case
      * @param message message à afficher lorsque l'entité marche sur la case
      */
-    public CasePancarte(int x, int y, String message) {
-        super(x, y, true, VariablesGlobales.SPRITE_PANCARTE);
+    public CasePancarte(String message) {
+        super(true, VariablesGlobales.SPRITE_PANCARTE);
         this.message = message;
     }
     

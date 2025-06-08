@@ -10,11 +10,9 @@ public class CaseVide extends Case {
 
     /**
      * Constructeur
-     * @param x pos x
-     * @param y pos y
      */
-    public CaseVide(int x, int y){
-        super(x, y, true, VariablesGlobales.SPRITE_CASE_VIDE);
+    public CaseVide(){
+        super(true, VariablesGlobales.SPRITE_CASE_VIDE);
     }
 
     /**

@@ -41,11 +41,7 @@ public class Labyrinthe implements Serializable {
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
     private final int[] positionEscalierSortant = new int[2]; // Position de l'escalier
     private final int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
-    private CasePorte casePorte; // La porte du niveau, si elle existe. Il y en a seulement une par niveau
-    // et celle-ci est ouverte par une seule case d'ouverture.
 
-
-    private transient Random random = new Random();
 
     // Entité joueur
     private Player joueur;
@@ -60,7 +56,7 @@ public class Labyrinthe implements Serializable {
     @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        this.random = new Random();  // or restore seed if needed
+        Random random = new Random();  // or restore seed if needed
         //TODO Jeu qui init le timermonstre
     }
 
@@ -101,7 +97,7 @@ public class Labyrinthe implements Serializable {
         this.joueur = new Player(0,0,5,5);
         for (int i=0;i<x;i++){
             for (int j=0;j<y;j++){
-                this.gameBoard[i][j]= new CaseVide(i,j);
+                this.gameBoard[i][j]= new CaseVide();
             }
         }
     }
@@ -112,12 +108,11 @@ public class Labyrinthe implements Serializable {
      * @param nom nom du fichier de labyrinthe
      * @throws IOException probleme a la lecture / ouverture
      */
-    public Labyrinthe(String nom, ZeldiabloJeu jeu) throws IOException {
+    public Labyrinthe(String nom) throws IOException {
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
         int nbLignes, nbColonnes;
-        int nbreMonstresSpawned = 0;
 
         // récupère le nbre de lignes et de colonnes
         String premiereLigne = bfRead.readLine();
@@ -163,10 +158,10 @@ public class Labyrinthe implements Serializable {
 
                 switch (c) {
                     case MUR:
-                        gameBoard[numeroLigne][colonne] = new CaseMur(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseMur();
                         break;
                     case VIDE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
 
 //                        // Si c'est pas le premier niveau, ajouter potentiellement un monstre
 //                        if (!VariablesGlobales.DOSSIER_LABY.equals("labyIntro") &&
@@ -179,44 +174,44 @@ public class Labyrinthe implements Serializable {
 //                        }
                         break;
                     case ITEM:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         gameBoard[numeroLigne][colonne].addItem(new Food());
                         break;
                     case AMULETTE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         gameBoard[numeroLigne][colonne].addItem(new Amulette());
                         break;
                     case ITEM_EPEE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         gameBoard[numeroLigne][colonne].addItem(new Epee());
                         break;
                     case ITEM_BATON:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         gameBoard[numeroLigne][colonne].addItem(new Baton());
                         break;
                     case ITEM_HACHE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         gameBoard[numeroLigne][colonne].addItem(new Hache());
                         break;
                     case CASE_OUVERTURE:
-                        gameBoard[numeroLigne][colonne] = new CaseSwitch(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseSwitch();
                         break;
                     case PANCARTE:
                         String textPancarte = ligneBrute.split(";")[1];
 
-                        gameBoard[numeroLigne][colonne] = new CasePancarte(colonne, numeroLigne, textPancarte);
+                        gameBoard[numeroLigne][colonne] = new CasePancarte(textPancarte);
                         break;
                     case CASE_PIEGE:
-                        gameBoard[numeroLigne][colonne] = new CasePiege(colonne, numeroLigne, 0.5);
+                        gameBoard[numeroLigne][colonne] = new CasePiege(0.5);
                         break;
                     case STAIR_SORTIE:
-                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, true);
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier( true);
                         // Enregistre la position de l'escalier sortant
                         positionEscalierSortant[0] = numeroLigne;
                         positionEscalierSortant[1] = colonne;
                         break;
                     case STAIRS_DEPART:
-                        gameBoard[numeroLigne][colonne] = new CaseEscalier(colonne, numeroLigne, false);
+                        gameBoard[numeroLigne][colonne] = new CaseEscalier(false);
 
                         // Enregistre la position de l'escalier entrant
                         positionEscalierEntrant[0] = numeroLigne;
@@ -229,26 +224,25 @@ public class Labyrinthe implements Serializable {
 
                         break;
                     case PORTE:
-                        casePorte = new CasePorte(colonne, numeroLigne);
-                        gameBoard[numeroLigne][colonne] = casePorte;
+                        gameBoard[numeroLigne][colonne] = new CasePorte();
                         break;
                     case MONSTRE_INTELLIGENT:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreIntelligent = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
                         monstres.add(monstreIntelligent);
                         break;
                     case MONSTRE_NULLE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreNulle = new Monstre(colonne, numeroLigne, Intelligence.NULLE);
                         monstres.add(monstreNulle);
                         break;
                     case MONSTRE_MOYEN:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreMoyen = new Monstre(colonne, numeroLigne, Intelligence.MOYENNE);
                         monstres.add(monstreMoyen);
                         break;
                     case MONSTRE_FAIBLE:
-                        gameBoard[numeroLigne][colonne] = new CaseVide(colonne, numeroLigne);
+                        gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreFaible = new Monstre(colonne, numeroLigne, Intelligence.FAIBLE);
                         monstres.add(monstreFaible);
                         break;

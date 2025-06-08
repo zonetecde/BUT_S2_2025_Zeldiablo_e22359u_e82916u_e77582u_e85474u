@@ -13,13 +13,11 @@ public class CasePiege extends Case {
     /**
      * Constructeur de CasePiege
      *
-     * @param x      Position x de la case
-     * @param y      Position y de la case
      * @param degats Dégâts infligés par le piège
      */
 
-    public CasePiege(int x, int y, double degats) {
-        super(x, y, true, VariablesGlobales.SPRITE_PIEGE);
+    public CasePiege(double degats) {
+        super(true, VariablesGlobales.SPRITE_PIEGE);
         this.degats = degats;
     }
 

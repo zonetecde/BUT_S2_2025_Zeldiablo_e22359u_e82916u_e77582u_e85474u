@@ -10,17 +10,15 @@ public class CaseSwitch extends Case {
     /**
      * Constructeur de CaseOuverture
      *
-     * @param x position x de la case
-     * @param y position y de la case
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
-    public CaseSwitch(int x, int y, Case action) {
-        super(x, y, true, VariablesGlobales.SPRITE_P_P);
+    public CaseSwitch( Case action) {
+        super(true, VariablesGlobales.SPRITE_P_P);
         this.link = action;
     }
 
-    public CaseSwitch(int x, int y) {
-        this(x,y,null);
+    public CaseSwitch() {
+        this(null);
     }
 
     /**

@@ -108,7 +108,7 @@ public class ZeldiabloJeu implements Jeu {
                     }
                 }
             }
-            catch (Exception e){}
+            catch (Exception ignore){}
         }
     }
 
@@ -173,7 +173,7 @@ public class ZeldiabloJeu implements Jeu {
             }
             Arrays.sort(fichiers);
             for (String f : fichiers) {
-                niveaux.add(new Labyrinthe(f,this));
+                niveaux.add(new Labyrinthe(f));
             }
         }
         catch (IOException e){

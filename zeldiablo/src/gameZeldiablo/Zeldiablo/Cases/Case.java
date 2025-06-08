@@ -12,14 +12,6 @@ import java.io.Serializable;
  * Classe abstraite représentant les cases de jeu
  */
 public abstract class Case implements Serializable {
-    /**
-     * Emplacement x de la case
-     */
-    private final int x;
-    /**
-     * Emplacement y de la case
-     */
-    private final int y;
 
     /**
     Permet de dire si on peut marcher sur cette case
@@ -31,13 +23,11 @@ public abstract class Case implements Serializable {
     private String sprite; // L'image de la case
 
     /**
-     * Constructeur de Case
-     * @param x pos x
-     * @param y pos y
+     * Constructeur basique de case
+     * @param isWalkable peut on marcher dessus
+     * @param img l'image reliée
      */
-    public Case(int x, int y, boolean isWalkable, String img) {
-        this.x = x;
-        this.y = y;
+    public Case(boolean isWalkable, String img) {
         this.isWalkable = isWalkable;
         this.sprite = img;
     }
@@ -144,13 +134,11 @@ public abstract class Case implements Serializable {
 //TOSTRING
 
     /**
-     * ToString format : Case{x=0, y=0, isWalkable=true}
+     * ToString format : Case{isWalkable=true}
      * @return String représentant la case
      */
     public String toString() {
         return "Case{" +
-                "x=" + x +
-                ", y=" + y +
                 ", isWalkable=" + isWalkable +
                 '}';
     }
