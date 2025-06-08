@@ -107,6 +107,10 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
         return false;
     }
 
+    public boolean isLinked(){
+        return false;
+    }
+
     public Case clone(){
         Case o = null;
         try {

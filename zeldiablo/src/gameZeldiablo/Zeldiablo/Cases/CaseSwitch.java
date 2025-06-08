@@ -38,4 +38,8 @@ public class CaseSwitch extends Case {
      */
     public void createLink(Case ccase){this.link=ccase;}
 
+    @Override
+    public boolean isLinked() {
+        return (this.link!=null);
+    }
 }

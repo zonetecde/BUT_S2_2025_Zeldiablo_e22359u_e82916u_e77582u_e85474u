@@ -230,16 +230,18 @@ public class MainEditor extends Application {
                     ImageView imageView = new ImageView(img);
                     imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                     imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+
                     //Set de l'action onClick des cases
-                    if (!ennemy && !items) {
+                    if (!ennemy && !items && !link) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
-                    }else if(!items){
+                    }else if(!items && !link){
                         imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
-                    }else{
+                    }else if (!link){
                         imageView.setOnMouseClicked(new ItemHandler(l.getCase(j,i),imageView));
                     }
                     root.add(imageView,i,j);
                 }
+
                 //Affichage des ennemis
                 if (ennemy){
                     for (int k=0;k<l.getMonstres().size();k++){
@@ -253,6 +255,7 @@ public class MainEditor extends Application {
                         }
                     }
                 }
+                //Affichage des liens
                 if (link){
                     if(l.getCase(j,i).isActivable()){
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED);
@@ -260,11 +263,19 @@ public class MainEditor extends Application {
                         circle.setOnMouseClicked(new AcivableHandler(l.getCase(j,i)));
                     }
                     if(l.getCase(j,i).isActivate()){
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.BLUE);
+                        //Couleur differente si deja lié ou pas
+                        Color c;
+                        if (l.getCase(j,i).isLinked()){
+                            c = Color.YELLOW;
+                        }else{
+                            c = Color.BLUE;
+                        }
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
                         root.add(circle,i,j);
                         circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
                     }
                 }
+                //Affichage des Items
                 if (items){
                     Case cur = l.getCase(j,i);
                     if(cur.hasItem()){
@@ -303,7 +314,7 @@ public class MainEditor extends Application {
             menuRight.getChildren().add(brushImage);
 
             //TabTiles
-            GridPane carte = grille(true,monstre,false,item);
+            ScrollPane carte = new ScrollPane(grille(true,monstre,false,item));
 
             //Menu selection case
             ScrollPane menu = new ScrollPane(menu(monstre,item));
@@ -324,7 +335,7 @@ public class MainEditor extends Application {
     public Tab linkTab(){
         Tab root = new Tab("Links");
         root.setOnSelectionChanged(event -> {
-            root.setContent(grille(true, false, true,false));
+            root.setContent(new ScrollPane(grille(true, false, true,false)));
         });
 
         return root;
@@ -368,6 +379,8 @@ public class MainEditor extends Application {
             type.add(new CaseEscalier(true));
             type.add(new CaseSwitch());
             type.add(new CasePorte());
+            type.add(new CasePancarte("Default"));
+            type.add(new CasePiege(5));
         }
 
         for (Sprited s : type) {
@@ -513,7 +526,8 @@ public class MainEditor extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             brushLink.createLink(activable);
-            curSel.setFill(Color.BLUE);
+            curSel.setFill(Color.YELLOW);
+            curSel = null;
             brushLink = null;
         }
     }
