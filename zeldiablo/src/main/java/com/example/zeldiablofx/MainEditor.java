@@ -3,7 +3,9 @@ package main.java.com.example.zeldiablofx;
 import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
+import gameZeldiablo.Zeldiablo.Items.*;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.Sprited;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -27,10 +29,13 @@ public class MainEditor extends Application {
 
     Labyrinthe l;
     String fileName;
+    //Brush
     Case brushTile = new CaseMur();
     Monstre brushEntite = new Monstre(0,0);
-    ImageView brushImage = new ImageView(brushTile.getSprite());
     CaseSwitch brushLink;
+    Item brushItem = new Amulette();
+
+    ImageView brushImage = new ImageView(brushTile.getSprite());
     Circle curSel;
 
     /**
@@ -64,7 +69,7 @@ public class MainEditor extends Application {
 
         Tab launchOther = new Tab("launcher",launcher(stage));
 
-        root.getTabs().addAll(this.tab(false),this.tab(true),this.linkTab(),launchOther);
+        root.getTabs().addAll(this.tab(false,false),this.tab(true,false),this.tab(false,true),this.linkTab(),launchOther);
         stage.setScene(scene);
     }
 
@@ -209,7 +214,7 @@ public class MainEditor extends Application {
      * @param ennemy affichage des ennemis?
      * @return Grille du niveau
      */
-    public GridPane grille(boolean tile, boolean ennemy, boolean link){
+    public GridPane grille(boolean tile, boolean ennemy, boolean link, boolean items){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
         GridPane root = new GridPane();
@@ -226,10 +231,12 @@ public class MainEditor extends Application {
                     imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                     imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
                     //Set de l'action onClick des cases
-                    if (!ennemy) {
+                    if (!ennemy && !items) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
-                    }else{
+                    }else if(!items){
                         imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
+                    }else{
+                        imageView.setOnMouseClicked(new ItemHandler(l.getCase(j,i),imageView));
                     }
                     root.add(imageView,i,j);
                 }
@@ -246,7 +253,6 @@ public class MainEditor extends Application {
                         }
                     }
                 }
-
                 if (link){
                     if(l.getCase(j,i).isActivable()){
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED);
@@ -257,6 +263,15 @@ public class MainEditor extends Application {
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.BLUE);
                         root.add(circle,i,j);
                         circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
+                    }
+                }
+                if (items){
+                    Case cur = l.getCase(j,i);
+                    if(cur.hasItem()){
+                        ImageView imageView = new ImageView(cur.getItem().getSprite());
+                        imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                        imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                        root.add(imageView,i,j);
                     }
                 }
             }
@@ -270,9 +285,11 @@ public class MainEditor extends Application {
      * @param monstre si le tab concerne les monstres
      * @return un Tab fonctionnel
      */
-    public Tab tab(boolean monstre){
+    public Tab tab(boolean monstre,boolean item){
         Tab root;
-        if (monstre) {
+        if (item){
+            root = new Tab("Items");
+        } else if (monstre) {
             root = new Tab("Monstre");
         }else{
             root = new Tab("Tiles");
@@ -286,10 +303,10 @@ public class MainEditor extends Application {
             menuRight.getChildren().add(brushImage);
 
             //TabTiles
-            GridPane carte = grille(true,monstre,false);
+            GridPane carte = grille(true,monstre,false,item);
 
             //Menu selection case
-            ScrollPane menu = new ScrollPane(menu(monstre));
+            ScrollPane menu = new ScrollPane(menu(monstre,item));
 
 
 
@@ -307,7 +324,7 @@ public class MainEditor extends Application {
     public Tab linkTab(){
         Tab root = new Tab("Links");
         root.setOnSelectionChanged(event -> {
-            root.setContent(grille(true, false, true));
+            root.setContent(grille(true, false, true,false));
         });
 
         return root;
@@ -318,9 +335,9 @@ public class MainEditor extends Application {
      * @param monstre si la brush concerne monstre
      * @return une liste de bouton brush
      */
-    public VBox menu(boolean monstre){
+    public VBox menu(boolean monstre,boolean item){
         VBox menu = new VBox();
-
+        List<Sprited> type;
 
         //Bouton de save
         Button save = new Button("Save");
@@ -328,44 +345,42 @@ public class MainEditor extends Application {
         menu.getChildren().add(save);
 
         //Liste des brush
-        if (monstre) {
-            List<Monstre> type = new ArrayList<>();
+        if (item){
+            type = new ArrayList<>();
+            type.add(new Amulette());
+            type.add(new Food());
+            type.add(new Epee());
+            type.add(new Hache());
+            type.add(new ItemDefault());
+
+
+        } else if (monstre) {
+            type = new ArrayList<>();
             for (int i = 0; i < Intelligence.values().length; i++) {
                 type.add(new Monstre(0, 0, Intelligence.values()[i]));
             }
-            for (Monstre m : type) {
-                //Creation du bouton
-                Button button = new Button();
-                //Cration d'une imageview adaptee
-                ImageView imageView = new ImageView(m.getSprite());
-                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                button.setGraphic(imageView);
-                //Ajout du bouton à la liste de boutons
-                menu.getChildren().add(button);
-                button.setOnMouseClicked(new MenuButtonHandler<>(m));
-            }
-        }else{
-            List<Case> type = new ArrayList<>();
+
+        }else {
+            type = new ArrayList<>();
             type.add(new CaseMur());
             type.add(new CaseVide());
             type.add(new CaseEscalier(false));
             type.add(new CaseEscalier(true));
             type.add(new CaseSwitch());
             type.add(new CasePorte());
+        }
 
-            for (Case aCase : type) {
-                //Creation du bouton
-                Button button = new Button();
-                //Cration d'une imageview adaptee
-                ImageView imageView = new ImageView(aCase.getSprite());
-                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                button.setGraphic(imageView);
-                //Ajout du bouton à la liste de boutons
-                menu.getChildren().add(button);
-                button.setOnMouseClicked(new MenuButtonHandler<>(aCase));
-            }
+        for (Sprited s : type) {
+            //Creation du bouton
+            Button button = new Button();
+            //Cration d'une imageview adaptee
+            ImageView imageView = new ImageView(s.getSprite());
+            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+            button.setGraphic(imageView);
+            //Ajout du bouton à la liste de boutons
+            menu.getChildren().add(button);
+            button.setOnMouseClicked(new MenuButtonHandler<>(s));
         }
 
         return menu;
@@ -389,6 +404,9 @@ public class MainEditor extends Application {
 
             } else if(aCase instanceof Monstre){
                 brushEntite = (Monstre) aCase;
+                brushImage.setImage(brushEntite.getSprite());
+            } else if(aCase instanceof Item){
+                brushItem = (Item) aCase;
                 brushImage.setImage(brushEntite.getSprite());
             }
 
@@ -445,6 +463,22 @@ public class MainEditor extends Application {
             l.getMonstres().add(m);
             button.setImage(brushEntite.getSprite());
 
+        }
+    }
+
+    class ItemHandler implements EventHandler<MouseEvent>{
+        Case c;
+        ImageView button;
+
+        public ItemHandler(Case c,ImageView button){
+            this.c=c;
+            this.button=button;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            c.addItem(brushItem);
+            button.setImage(brushItem.getSprite());
         }
     }
 

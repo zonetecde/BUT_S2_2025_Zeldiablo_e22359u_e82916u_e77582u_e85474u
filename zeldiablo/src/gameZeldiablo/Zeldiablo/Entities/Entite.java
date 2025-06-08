@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 import gameZeldiablo.Zeldiablo.Sprite;
 
+import gameZeldiablo.Zeldiablo.Sprited;
 import javafx.scene.image.Image;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite implements Serializable {
+public abstract class Entite implements Serializable, Sprited {
 
     /**
      * position du personnage et vie

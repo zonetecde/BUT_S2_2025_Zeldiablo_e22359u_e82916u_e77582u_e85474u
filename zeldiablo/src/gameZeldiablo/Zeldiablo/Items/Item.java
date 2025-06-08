@@ -2,10 +2,11 @@ package gameZeldiablo.Zeldiablo.Items;
 
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
+import gameZeldiablo.Zeldiablo.Sprited;
 import javafx.scene.image.Image;
 import java.io.Serializable;
 
-public abstract class Item implements Serializable {
+public abstract class Item implements Serializable, Sprited {
     private final String name;
     private final TypeItem type;
 

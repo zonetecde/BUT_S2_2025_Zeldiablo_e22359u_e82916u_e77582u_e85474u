@@ -3,6 +3,7 @@ package gameZeldiablo.Zeldiablo.Cases;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
+import gameZeldiablo.Zeldiablo.Sprited;
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 import javafx.scene.image.Image;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case implements Serializable,Cloneable {
+public abstract class Case implements Serializable,Cloneable, Sprited {
 
     /**
     Permet de dire si on peut marcher sur cette case
