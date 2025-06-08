@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * Classe abstraite représentant les cases de jeu
  */
-public abstract class Case implements Serializable {
+public abstract class Case implements Serializable,Cloneable {
 
     /**
     Permet de dire si on peut marcher sur cette case
@@ -104,6 +104,21 @@ public abstract class Case implements Serializable {
     public boolean hasItem() {
         // Action par défaut
         return false;
+    }
+
+    public Case clone(){
+        Case o = null;
+        try {
+            // On récupère l'instance à renvoyer par l'appel de la
+            // méthode super.clone()
+            o = (Case)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            // Ne devrait jamais arriver, car nous implémentons
+            // l'interface Cloneable
+            cnse.printStackTrace(System.err);
+        }
+        // on renvoie le clone
+        return o;
     }
 
 

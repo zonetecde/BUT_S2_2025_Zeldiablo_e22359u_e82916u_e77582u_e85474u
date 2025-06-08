@@ -30,6 +30,8 @@ public class MainEditor extends Application {
     Case brushTile = new CaseMur();
     Monstre brushEntite = new Monstre(0,0);
     ImageView brushImage = new ImageView(brushTile.getSprite());
+    CaseSwitch brushLink;
+    Circle curSel;
 
     /**
      * Lancement de l'app
@@ -247,10 +249,14 @@ public class MainEditor extends Application {
 
                 if (link){
                     if(l.getCase(j,i).isActivable()){
-                        root.add(new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED),i,j);
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED);
+                        root.add(circle,i,j);
+                        circle.setOnMouseClicked(new AcivableHandler(l.getCase(j,i)));
                     }
                     if(l.getCase(j,i).isActivate()){
-                        root.add(new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.BLUE),i,j);
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.BLUE);
+                        root.add(circle,i,j);
+                        circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
                     }
                 }
             }
@@ -294,6 +300,10 @@ public class MainEditor extends Application {
         return root;
     }
 
+    /**
+     * Creation du tab des link
+     * @return tab
+     */
     public Tab linkTab(){
         Tab root = new Tab("Links");
         root.setOnSelectionChanged(event -> {
@@ -409,7 +419,7 @@ public class MainEditor extends Application {
                     l.setPositionEscalierEntrant(x,y);
                 }
             }
-            l.getGameBoard()[x][y]= brushTile;
+            l.getGameBoard()[x][y]= brushTile.clone();
             button.setImage(brushTile.getSprite());
 
         }
@@ -437,6 +447,44 @@ public class MainEditor extends Application {
 
         }
     }
+
+    class SwitchHandler implements EventHandler<MouseEvent>{
+        CaseSwitch caseS;
+        Circle show;
+
+        public SwitchHandler(CaseSwitch caseS,Circle circle){
+            this.caseS=caseS;
+            show = circle;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            if (curSel!=null){
+                curSel.setFill(Color.BLUE);
+            }
+            brushLink = caseS;
+            curSel=show;
+            curSel.setFill(Color.GREEN);
+
+        }
+    }
+
+    class AcivableHandler implements EventHandler<MouseEvent>{
+        Case activable;
+
+        public AcivableHandler(Case activable){
+            this.activable = activable;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            brushLink.createLink(activable);
+            curSel.setFill(Color.BLUE);
+            brushLink = null;
+        }
+    }
+
+
 
 
 }
