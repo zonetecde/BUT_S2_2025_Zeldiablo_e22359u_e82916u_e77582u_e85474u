@@ -15,6 +15,7 @@ public class CaseSwitch extends Case {
     public CaseSwitch( Case action) {
         super(true, VariablesGlobales.SPRITE_P_P);
         this.link = action;
+        setActivate(true);
     }
 
     public CaseSwitch() {

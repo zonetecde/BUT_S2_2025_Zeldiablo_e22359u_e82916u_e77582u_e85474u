@@ -20,6 +20,8 @@ public abstract class Case implements Serializable {
 
     private boolean isActivable = false;
 
+    private boolean activate = false;
+
     private String sprite; // L'image de la case
 
     /**
@@ -74,6 +76,8 @@ public abstract class Case implements Serializable {
      */
     public boolean isActivable(){return isActivable;}
 
+    public boolean isActivate(){return activate;}
+
     /**
      * Getter utilisé pour savoir si une entité peut marcher sur la case
      * @return boolean
@@ -110,6 +114,12 @@ public abstract class Case implements Serializable {
      * @param a is activable
      */
     public void setActivable(boolean a){this.isActivable=a;}
+
+    /**
+     * Setter de activate
+     * @param a is activator
+     */
+    public void setActivate(boolean a){this.activate=a;}
 
     /**
      * Remplace le sprite

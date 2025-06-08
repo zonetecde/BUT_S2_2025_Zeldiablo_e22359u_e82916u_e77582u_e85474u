@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 
@@ -45,7 +47,7 @@ public class MainEditor extends Application {
     public void start(Stage stage){
         brushImage.setFitHeight(VariablesGlobales.TAILLE_CASE);
         brushImage.setFitWidth(VariablesGlobales.TAILLE_CASE);
-        launcher(stage);
+        stage.setScene(new Scene(launcher(stage)));
         stage.show();
     }
 
@@ -58,7 +60,9 @@ public class MainEditor extends Application {
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Scene scene = new Scene(root/*,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30*/);
 
-        root.getTabs().addAll(this.tab(false),this.tab(true));
+        Tab launchOther = new Tab("launcher",launcher(stage));
+
+        root.getTabs().addAll(this.tab(false),this.tab(true),this.linkTab(),launchOther);
         stage.setScene(scene);
     }
 
@@ -66,10 +70,9 @@ public class MainEditor extends Application {
      * Methode se chargeant de trouver sur quelle base lancer l'editeur
      * @param stage fenetre
      */
-    public void launcher(Stage stage){
+    public VBox launcher(Stage stage){
         VBox root = new VBox(30);
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root,800,800);
         Label title = new Label("Editeur de niveau");
 
         //Load from Bin
@@ -134,7 +137,7 @@ public class MainEditor extends Application {
 
         root.getChildren().addAll(title,hBox1,hBox2,hBox3);
 
-        stage.setScene(scene);
+        return root;
     }
 
     /**
@@ -204,7 +207,7 @@ public class MainEditor extends Application {
      * @param ennemy affichage des ennemis?
      * @return Grille du niveau
      */
-    public GridPane grille(boolean tile, boolean ennemy){
+    public GridPane grille(boolean tile, boolean ennemy, boolean link){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
         GridPane root = new GridPane();
@@ -241,6 +244,15 @@ public class MainEditor extends Application {
                         }
                     }
                 }
+
+                if (link){
+                    if(l.getCase(j,i).isActivable()){
+                        root.add(new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED),i,j);
+                    }
+                    if(l.getCase(j,i).isActivate()){
+                        root.add(new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.BLUE),i,j);
+                    }
+                }
             }
         }
 
@@ -268,7 +280,7 @@ public class MainEditor extends Application {
             menuRight.getChildren().add(brushImage);
 
             //TabTiles
-            GridPane carte = grille(true,monstre);
+            GridPane carte = grille(true,monstre,false);
 
             //Menu selection case
             ScrollPane menu = new ScrollPane(menu(monstre));
@@ -277,6 +289,15 @@ public class MainEditor extends Application {
 
             main.getChildren().addAll(menu,carte,menuRight);
             root.setContent(main);
+        });
+
+        return root;
+    }
+
+    public Tab linkTab(){
+        Tab root = new Tab("Links");
+        root.setOnSelectionChanged(event -> {
+            root.setContent(grille(true, false, true));
         });
 
         return root;
@@ -320,6 +341,8 @@ public class MainEditor extends Application {
             type.add(new CaseVide());
             type.add(new CaseEscalier(false));
             type.add(new CaseEscalier(true));
+            type.add(new CaseSwitch());
+            type.add(new CasePorte());
 
             for (Case aCase : type) {
                 //Creation du bouton
@@ -379,8 +402,7 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (laby.getCase(y,x) instanceof CaseEscalier){
-                CaseEscalier stairs = (CaseEscalier) laby.getCase(y,x);
+            if (laby.getCase(x, y) instanceof CaseEscalier stairs){
                 if (stairs.getMonte()){
                     l.setPositionEscalierSortant(x,y);
                 }else{

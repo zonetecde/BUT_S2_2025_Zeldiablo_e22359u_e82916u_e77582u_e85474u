@@ -9,12 +9,11 @@ public class CasePorte extends Case {
     /**
      * Constructeur de CasePorte
      *
-     * @param x position x de la case
-     * @param y position y de la case
      */
     public CasePorte() {
         // Au chargement du niveau la porte est fermée
         super(false, VariablesGlobales.SPRITE_PORTE_FERMEE);
+        setActivable(true);
     }
 
 
