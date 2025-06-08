@@ -1,13 +1,11 @@
 package main.java.com.example.zeldiablofx;
 
 import gameZeldiablo.Zeldiablo.Cases.*;
-import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -31,29 +29,43 @@ public class MainEditor extends Application {
     Monstre brushEntite = new Monstre(0,0);
     ImageView brushImage = new ImageView(brushTile.getSprite());
 
+    /**
+     * Lancement de l'app
+     * @param args args fournis
+     */
     public static void main(String[] args){
         launch(args);
     }
 
-
+    /**
+     * Methode de début lançant la selection de niveau
+     * @param stage Fenetre affichant l'app
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage){
         brushImage.setFitHeight(VariablesGlobales.TAILLE_CASE);
         brushImage.setFitWidth(VariablesGlobales.TAILLE_CASE);
         launcher(stage);
         stage.show();
     }
 
-
+    /**
+     * Editeur de niveaux
+     * @param stage fenetre
+     */
     public void editor(Stage stage){
         TabPane root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Scene scene = new Scene(root/*,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30*/);
 
-        root.getTabs().addAll(this.tabTile(),this.tabEnnemy());
+        root.getTabs().addAll(this.tab(false),this.tab(true));
         stage.setScene(scene);
     }
 
+    /**
+     * Methode se chargeant de trouver sur quelle base lancer l'editeur
+     * @param stage fenetre
+     */
     public void launcher(Stage stage){
         VBox root = new VBox(30);
         root.setAlignment(Pos.CENTER);
@@ -85,7 +97,7 @@ public class MainEditor extends Application {
         Button launch3 = new Button("Launch");
         hBox3.getChildren().addAll(input3,launch3);
 
-        launch1.setOnMouseClicked(mouseEvent -> {
+        launch1.setOnMouseClicked(_ -> {
             fileName = input.getText();
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Laby/LabyBin/"+fileName));
@@ -100,7 +112,7 @@ public class MainEditor extends Application {
             }
         });
 
-        launch2.setOnMouseClicked(mouseEvent -> {
+        launch2.setOnMouseClicked(_ -> {
             fileName = input2.getText().split("/")[input2.getText().split("/").length-1];
             try {
                 l = new Labyrinthe(input2.getText(), null);
@@ -111,9 +123,13 @@ public class MainEditor extends Application {
             }
         });
 
-        launch3.setOnMouseClicked(mouseEvent -> {
+        launch3.setOnMouseClicked(_ -> {
             fileName = input3.getText();
-            creator(stage);
+            if (!fileName.isEmpty()) {
+                creator(stage);
+            }else{
+                input3.setText("Nom vide");
+            }
         });
 
         root.getChildren().addAll(title,hBox1,hBox2,hBox3);
@@ -121,6 +137,10 @@ public class MainEditor extends Application {
         stage.setScene(scene);
     }
 
+    /**
+     * Fenetre de creation de niveau avec ses dimensions
+     * @param stage fenetre
+     */
     public void creator(Stage stage){
         VBox root = new VBox(30);
         root.setAlignment(Pos.CENTER);
@@ -145,7 +165,7 @@ public class MainEditor extends Application {
         y.setPromptText("Hauteur");
         ligney.getChildren().addAll(label2,y);
 
-        create.setOnMouseClicked(mouseEvent -> {
+        create.setOnMouseClicked(_ -> {
             try{
                 int xi = Integer.parseInt(x.getText());
                 int yi = Integer.parseInt(y.getText());
@@ -162,6 +182,9 @@ public class MainEditor extends Application {
         stage.setScene(scene);
     }
 
+    /**
+     * Methode de sauvegarde du niveau dans LabyBin
+     */
     public void save(){
         try {
             File file = new File("Laby/LabyBin/" + fileName);
@@ -175,6 +198,12 @@ public class MainEditor extends Application {
         }
     }
 
+    /**
+     * GridPane gerant l'affichage de la map
+     * @param tile affichage des tiles?
+     * @param ennemy affichage des ennemis?
+     * @return Grille du niveau
+     */
     public GridPane grille(boolean tile, boolean ennemy){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
@@ -185,11 +214,13 @@ public class MainEditor extends Application {
         for (int i=0;i<colnum;i++){
             for (int j=0;j<linenum;j++){
                 //set de l'affichage
+                //Affichage des Tiles
                 if (tile) {
                     Image img = l.getCase(j,i).getSprite();
                     ImageView imageView = new ImageView(img);
                     imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                     imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                    //Set de l'action onClick des cases
                     if (!ennemy) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
                     }else{
@@ -197,6 +228,7 @@ public class MainEditor extends Application {
                     }
                     root.add(imageView,i,j);
                 }
+                //Affichage des ennemis
                 if (ennemy){
                     for (int k=0;k<l.getMonstres().size();k++){
                         Monstre m = l.getMonstres().get(k);
@@ -209,134 +241,105 @@ public class MainEditor extends Application {
                         }
                     }
                 }
-
-
             }
         }
 
         return root;
     }
 
-    public Tab tabTile(){
-        Tab root = new Tab("Tiles");
-        root.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                HBox main = new HBox(10);
-                main.setAlignment(Pos.CENTER);
-                //Menu Droite
-                VBox menuRight = new VBox(30);
-                menuRight.setAlignment(Pos.BOTTOM_RIGHT);
-                menuRight.getChildren().add(brushImage);
+    /**
+     * Creation des tab de l'editeur
+     * @param monstre si le tab concerne les monstres
+     * @return un Tab fonctionnel
+     */
+    public Tab tab(boolean monstre){
+        Tab root;
+        if (monstre) {
+            root = new Tab("Monstre");
+        }else{
+            root = new Tab("Tiles");
+        }
+        root.setOnSelectionChanged(_ -> {
+            HBox main = new HBox(10);
+            main.setAlignment(Pos.CENTER);
+            //Menu Droite
+            VBox menuRight = new VBox(30);
+            menuRight.setAlignment(Pos.BOTTOM_RIGHT);
+            menuRight.getChildren().add(brushImage);
 
-                //TabTiles
-                GridPane carte = grille(true,false);
+            //TabTiles
+            GridPane carte = grille(true,monstre);
 
-                //Menu selection case
-                ScrollPane menu = new ScrollPane(menuCases());
+            //Menu selection case
+            ScrollPane menu = new ScrollPane(menu(monstre));
 
 
 
-                main.getChildren().addAll(menu,carte,menuRight);
-                root.setContent(main);
-            }
+            main.getChildren().addAll(menu,carte,menuRight);
+            root.setContent(main);
         });
 
         return root;
     }
 
-    public Tab tabEnnemy(){
-        Tab root = new Tab("Ennemy");
-        root.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-               HBox main = new HBox(10);
-               main.setAlignment(Pos.CENTER);
-                //Menu Droite
-                VBox menuRight = new VBox(30);
-                menuRight.setAlignment(Pos.BOTTOM_RIGHT);
-                menuRight.getChildren().add(brushImage);
-
-               //TabTiles
-               GridPane carte = grille(true,true);
-               //Menu selection case
-               ScrollPane menu = new ScrollPane(menuEnnemy());
-
-               main.getChildren().addAll(menu,carte,menuRight);
-               root.setContent(main);
-           }
-       });
-
-        return root;
-    }
-
-    public VBox menuCases(){
+    /**
+     * Menus de selection des brush
+     * @param monstre si la brush concerne monstre
+     * @return une liste de bouton brush
+     */
+    public VBox menu(boolean monstre){
         VBox menu = new VBox();
-        List<Case> typeCase = new ArrayList<>();
-        typeCase.add(new CaseMur(0,0));
-        typeCase.add(new CaseVide(0,0));
+
 
         //Bouton de save
         Button save = new Button("Save");
-        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                save();
-            }
-        });
+        save.setOnMouseClicked(_ -> save());
         menu.getChildren().add(save);
 
+        //Liste des brush
+        if (monstre) {
+            List<Monstre> type = new ArrayList<>();
+            for (int i = 0; i < Intelligence.values().length; i++) {
+                type.add(new Monstre(0, 0, Intelligence.values()[i]));
+            }
+            for (Monstre m : type) {
+                //Creation du bouton
+                Button button = new Button();
+                //Cration d'une imageview adaptee
+                ImageView imageView = new ImageView(m.getSprite());
+                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                button.setGraphic(imageView);
+                //Ajout du bouton à la liste de boutons
+                menu.getChildren().add(button);
+                button.setOnMouseClicked(new MenuButtonHandler<>(m));
+            }
+        }else{
+            List<Case> type = new ArrayList<>();
+            type.add(new CaseMur(0,0));
+            type.add(new CaseVide(0,0));
 
-        for (Case aCase : typeCase) {
-            //Creation du bouton
-            Button button = new Button();
-            //Cration d'une imageview adaptee
-            ImageView imageView = new ImageView(aCase.getSprite());
-            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-            button.setGraphic(imageView);
-            //Ajout du bouton à la liste de boutons
-            menu.getChildren().add(button);
-            button.setOnMouseClicked(new MenuButtonHandler<Case>(aCase));
+            for (Case aCase : type) {
+                //Creation du bouton
+                Button button = new Button();
+                //Cration d'une imageview adaptee
+                ImageView imageView = new ImageView(aCase.getSprite());
+                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                button.setGraphic(imageView);
+                //Ajout du bouton à la liste de boutons
+                menu.getChildren().add(button);
+                button.setOnMouseClicked(new MenuButtonHandler<>(aCase));
+            }
         }
 
         return menu;
     }
 
-    public VBox menuEnnemy(){
-        VBox menu = new VBox();
-        List<Monstre> typeMonstre = new ArrayList<>();
-        for (int i=0;i<Intelligence.values().length;i++) {
-            typeMonstre.add(new Monstre(0,0,Intelligence.values()[i]));
-        }
-
-        //Bouton de save
-        Button save = new Button("Save");
-        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                save();
-            }
-        });
-        menu.getChildren().add(save);
-
-
-        for (Monstre m : typeMonstre) {
-            //Creation du bouton
-            Button button = new Button();
-            //Cration d'une imageview adaptee
-            ImageView imageView = new ImageView(m.getSprite());
-            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-            button.setGraphic(imageView);
-            //Ajout du bouton à la liste de boutons
-            menu.getChildren().add(button);
-            button.setOnMouseClicked(new MenuButtonHandler<Monstre>(m));
-        }
-
-        return menu;
-    }
-
+    /**
+     * Handler influant sur la case cliquée
+     * @param <MenuType> type d'objet manipulé
+     */
     class MenuButtonHandler<MenuType> implements EventHandler<MouseEvent> {
         MenuType aCase;
         public MenuButtonHandler(MenuType c){
@@ -358,6 +361,9 @@ public class MainEditor extends Application {
         }
     }
 
+    /**
+     * Handler changeant la brush en une case
+     */
     class CaseHandler implements EventHandler<MouseEvent>{
         Labyrinthe laby;
         int x,y;
@@ -377,6 +383,9 @@ public class MainEditor extends Application {
         }
     }
 
+    /**
+     * handler changeant la brush en une entite
+     */
     class EntityHandler implements EventHandler<MouseEvent>{
         Labyrinthe laby;
         int x,y;
