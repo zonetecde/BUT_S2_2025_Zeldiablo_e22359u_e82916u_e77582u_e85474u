@@ -41,4 +41,6 @@ public class CaseEscalier extends Case{
 
         jeu.changeLevel(this.monte);
     }
+
+    public boolean getMonte(){return monte;}
 }

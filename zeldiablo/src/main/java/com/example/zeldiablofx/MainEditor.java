@@ -318,6 +318,8 @@ public class MainEditor extends Application {
             List<Case> type = new ArrayList<>();
             type.add(new CaseMur());
             type.add(new CaseVide());
+            type.add(new CaseEscalier(false));
+            type.add(new CaseEscalier(true));
 
             for (Case aCase : type) {
                 //Creation du bouton
@@ -377,6 +379,14 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
+            if (laby.getCase(y,x) instanceof CaseEscalier){
+                CaseEscalier stairs = (CaseEscalier) laby.getCase(y,x);
+                if (stairs.getMonte()){
+                    l.setPositionEscalierSortant(x,y);
+                }else{
+                    l.setPositionEscalierEntrant(x,y);
+                }
+            }
             l.getGameBoard()[x][y]= brushTile;
             button.setImage(brushTile.getSprite());
 

@@ -39,8 +39,8 @@ public class Labyrinthe implements Serializable {
     public static final char STAIRS_DEPART = 'D';
 
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private final int[] positionEscalierSortant = new int[2]; // Position de l'escalier
-    private final int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
+    private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
+    private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
 
 
     // Entité joueur
@@ -399,6 +399,9 @@ public class Labyrinthe implements Serializable {
     }
 
 
+    public Case[][] getGameBoard(){return gameBoard;}
+
+
     /**
      * Ramasse un objet si le joueur est sur une case contenant un objet
      *
@@ -549,6 +552,7 @@ public class Labyrinthe implements Serializable {
         }
     }
 
+    public void setPositionEscalierSortant(int x,int y){positionEscalierSortant = new int[]{x, y};}
 
-    public Case[][] getGameBoard(){return gameBoard;}
+    public void setPositionEscalierEntrant(int x,int y){positionEscalierEntrant = new int[]{x, y};}
 }

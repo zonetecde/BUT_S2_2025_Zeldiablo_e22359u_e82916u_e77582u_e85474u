@@ -185,7 +185,7 @@ public class ZeldiabloDessin implements DessinJeu {
         ArrayList<Item> inv = laby.getPlayer().getInventory();
         if (!inv.isEmpty()) {
             Item item = inv.get(VariablesGlobales.curseur);
-            int baseXPlayer = laby.getLongueur() * VariablesGlobales.TAILLE_CASE;
+            int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
             gc.setFill(Color.BLACK);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
             String itemText = "Selected";

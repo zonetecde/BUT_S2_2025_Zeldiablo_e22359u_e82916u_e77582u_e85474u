@@ -6,7 +6,9 @@ import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
@@ -173,12 +175,15 @@ public class ZeldiabloJeu implements Jeu {
             }
             Arrays.sort(fichiers);
             for (String f : fichiers) {
-                niveaux.add(new Labyrinthe(f));
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+                    niveaux.add((Labyrinthe) ois.readObject());
             }
         }
         catch (IOException e){
             System.out.println("Données de laby corrompues");
-            estFini = true;
+            System.exit(1);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Fichier binaires corrompus");
             System.exit(1);
         }
     }
