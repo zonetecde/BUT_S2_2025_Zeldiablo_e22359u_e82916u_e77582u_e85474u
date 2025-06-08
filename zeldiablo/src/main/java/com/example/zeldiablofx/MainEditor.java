@@ -7,6 +7,7 @@ import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,10 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 
@@ -31,6 +29,7 @@ public class MainEditor extends Application {
     String fileName;
     Case brushTile = new CaseMur(0,0);
     Monstre brushEntite = new Monstre(0,0);
+    ImageView brushImage = new ImageView(brushTile.getSprite());
 
     public static void main(String[] args){
         launch(args);
@@ -39,6 +38,8 @@ public class MainEditor extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        brushImage.setFitHeight(VariablesGlobales.TAILLE_CASE);
+        brushImage.setFitWidth(VariablesGlobales.TAILLE_CASE);
         launcher(stage);
         stage.show();
     }
@@ -47,7 +48,7 @@ public class MainEditor extends Application {
     public void editor(Stage stage){
         TabPane root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        Scene scene = new Scene(root,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30);
+        Scene scene = new Scene(root/*,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30*/);
 
         root.getTabs().addAll(this.tabTile(),this.tabEnnemy());
         stage.setScene(scene);
@@ -174,14 +175,11 @@ public class MainEditor extends Application {
         }
     }
 
-    public StackPane grille(boolean tile, boolean ennemy){
+    public GridPane grille(boolean tile, boolean ennemy){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
-        StackPane root = new StackPane();
+        GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
-
-        GridPane tiles = new GridPane();
-        GridPane entities = new GridPane();
 
 
         for (int i=0;i<colnum;i++){
@@ -195,18 +193,18 @@ public class MainEditor extends Application {
                     if (!ennemy) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
                     }
-                    tiles.add(imageView,i,j);
+                    root.add(imageView,i,j);
                 }
                 if (ennemy){
-                    for (int y=0;y<l.getMonstres().size();y++){
-                        Monstre m = l.getMonstres().get(y);
+                    for (int k=0;k<l.getMonstres().size();k++){
+                        Monstre m = l.getMonstres().get(k);
                         if (m.getY()==i && m.getX()==j){
                             Image img = m.getSprite();
                             ImageView imageView = new ImageView(img);
                             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
                             imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
-                            entities.add(imageView,i,j);
+                            root.add(imageView,i,j);
                         }
                     }
                 }
@@ -215,41 +213,64 @@ public class MainEditor extends Application {
             }
         }
 
-        root.getChildren().addAll(tiles,entities);
         return root;
     }
 
     public Tab tabTile(){
         Tab root = new Tab("Tiles");
-        HBox main = new HBox();
-        main.setAlignment(Pos.CENTER);
-        //TabTiles
-        StackPane carte = this.grille(true,false);
-        //Menu selection case
-        ScrollPane menu = new ScrollPane(menuCases());
+        root.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                HBox main = new HBox(10);
+                main.setAlignment(Pos.CENTER);
+                //Menu Droite
+                VBox menuRight = new VBox(30);
+                menuRight.setAlignment(Pos.BOTTOM_RIGHT);
+                menuRight.getChildren().add(brushImage);
 
-        main.getChildren().addAll(menu,carte);
-        root.setContent(main);
+                //TabTiles
+                GridPane carte = grille(true,false);
+
+                //Menu selection case
+                ScrollPane menu = new ScrollPane(menuCases());
+
+
+
+                main.getChildren().addAll(menu,carte,menuRight);
+                root.setContent(main);
+            }
+        });
+
         return root;
     }
 
     public Tab tabEnnemy(){
         Tab root = new Tab("Ennemy");
-        HBox main = new HBox();
-        main.setAlignment(Pos.CENTER);
-        //TabTiles
-        StackPane carte = this.grille(true,true);
-        //Menu selection case
-        ScrollPane menu = new ScrollPane(menuEnnemy());
+        root.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+               HBox main = new HBox(10);
+               main.setAlignment(Pos.CENTER);
+                //Menu Droite
+                VBox menuRight = new VBox(30);
+                menuRight.setAlignment(Pos.BOTTOM_RIGHT);
+                menuRight.getChildren().add(brushImage);
 
-        main.getChildren().addAll(menu,carte);
-        root.setContent(main);
+               //TabTiles
+               GridPane carte = grille(true,true);
+               //Menu selection case
+               ScrollPane menu = new ScrollPane(menuEnnemy());
+
+               main.getChildren().addAll(menu,carte,menuRight);
+               root.setContent(main);
+           }
+       });
+
         return root;
     }
 
     public VBox menuCases(){
         VBox menu = new VBox();
-        List<Button> casebutton = new ArrayList<>();
         List<Case> typeCase = new ArrayList<>();
         typeCase.add(new CaseMur(0,0));
         typeCase.add(new CaseVide(0,0));
@@ -274,7 +295,6 @@ public class MainEditor extends Application {
             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
             button.setGraphic(imageView);
             //Ajout du bouton à la liste de boutons
-            casebutton.add(button);
             menu.getChildren().add(button);
             button.setOnMouseClicked(new MenuButtonHandler<Case>(aCase));
         }
@@ -284,7 +304,6 @@ public class MainEditor extends Application {
 
     public VBox menuEnnemy(){
         VBox menu = new VBox();
-        List<Button> casebutton = new ArrayList<>();
         List<Monstre> typeMonstre = new ArrayList<>();
         for (int i=0;i<Intelligence.values().length;i++) {
             typeMonstre.add(new Monstre(0,0,Intelligence.values()[i]));
@@ -310,7 +329,6 @@ public class MainEditor extends Application {
             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
             button.setGraphic(imageView);
             //Ajout du bouton à la liste de boutons
-            casebutton.add(button);
             menu.getChildren().add(button);
             button.setOnMouseClicked(new MenuButtonHandler<Monstre>(m));
         }
@@ -328,9 +346,13 @@ public class MainEditor extends Application {
         public void handle(MouseEvent mouseEvent) {
             if (aCase instanceof Case) {
                 brushTile = (Case)aCase;
+                brushImage.setImage(brushTile.getSprite());
+
             } else if(aCase instanceof Monstre){
                 brushEntite = (Monstre) aCase;
+                brushImage.setImage(brushEntite.getSprite());
             }
+
             System.out.println(brushTile);
         }
     }
