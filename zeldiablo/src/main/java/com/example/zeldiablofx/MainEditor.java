@@ -192,6 +192,8 @@ public class MainEditor extends Application {
                     imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
                     if (!ennemy) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
+                    }else{
+                        imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
                     }
                     root.add(imageView,i,j);
                 }
@@ -203,7 +205,6 @@ public class MainEditor extends Application {
                             ImageView imageView = new ImageView(img);
                             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                            imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
                             root.add(imageView,i,j);
                         }
                     }
@@ -389,7 +390,7 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            Monstre m = (Monstre)brushEntite.clone(y,x);
+            Monstre m = (Monstre)brushEntite.clone(x,y);
             l.getMonstres().add(m);
             button.setImage(brushEntite.getSprite());
 

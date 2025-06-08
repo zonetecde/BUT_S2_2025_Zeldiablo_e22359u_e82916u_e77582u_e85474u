@@ -61,7 +61,7 @@ public class Labyrinthe implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         this.random = new Random();  // or restore seed if needed
-        this.initTimerMonstres();
+        //TODO Jeu qui init le timermonstre
     }
 
     /**
@@ -263,8 +263,6 @@ public class Labyrinthe implements Serializable {
         }        // ferme fichier
         bfRead.close();
 
-        // Timer pour que les monstres bougent
-        this.initTimerMonstres();
     }
 
     private boolean joueurAdjacentACase(int y, int x) {
