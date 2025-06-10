@@ -5,6 +5,7 @@ import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.*;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.MapList;
 import gameZeldiablo.Zeldiablo.Sprited;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
@@ -20,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import javax.swing.plaf.metal.MetalIconFactory;
@@ -68,11 +70,15 @@ public class MainEditor extends Application {
     public void editor(Stage stage){
         TabPane root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        Scene scene = new Scene(root/*,(this.l.getLongueur()+1)* VariablesGlobales.TAILLE_CASE+30,this.l.getHauteur()*VariablesGlobales.TAILLE_CASE+30*/);
+        Scene scene = new Scene(root);
 
         Tab launchOther = new Tab("launcher",launcher(stage));
 
-        root.getTabs().addAll(this.tab(false,false),this.tab(true,false),this.tab(false,true),this.linkTab(),launchOther);
+        root.getTabs().addAll(this.tab(false,false)
+                ,this.tab(true,false)
+                ,this.tab(false,true)
+                ,this.linkTab(),this.stairTab(),launchOther);
+
         stage.setScene(scene);
     }
 
@@ -224,7 +230,7 @@ public class MainEditor extends Application {
      * @param ennemy affichage des ennemis?
      * @return Grille du niveau
      */
-    public GridPane grille(boolean tile, boolean ennemy, boolean link, boolean items){
+    public GridPane grille(boolean tile, boolean ennemy, boolean link, boolean items,boolean stairs){
         int colnum = l.getLongueur();
         int linenum = l.getHauteur();
         GridPane root = new GridPane();
@@ -266,47 +272,47 @@ public class MainEditor extends Application {
                     }
                 }
                 //Affichage des liens
-                if (link){
-                    if(l.getCase(j,i).isActivable()){
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED);
-                        root.add(circle,i,j);
-                        circle.setOnMouseClicked(new AcivableHandler(l.getCase(j,i)));
+                if (link) {
+                    if (l.getCase(j, i).isActivable()) {
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, Color.RED);
+                        root.add(circle, i, j);
+                        circle.setOnMouseClicked(new AcivableHandler(l.getCase(j, i)));
 
-                        CasePorte casePorte = (CasePorte)(l.getCase(j,i));
-                        Label label = new Label( casePorte.getId()+"");
+                        CasePorte casePorte = (CasePorte) (l.getCase(j, i));
+                        Label label = new Label(casePorte.getId() + "");
                         GridPane.setHalignment(label, HPos.CENTER);
-                        root.add(label,i,j);
+                        root.add(label, i, j);
                     }
-                    if(l.getCase(j,i).isActivate()){
+                    if (l.getCase(j, i).isActivate()) {
                         //Couleur differente si deja lié ou pas
                         Color c;
-                        if (l.getCase(j,i).isLinked()){
+                        if (l.getCase(j, i).isLinked()) {
                             c = Color.YELLOW;
-                        }else{
+                        } else {
                             c = Color.BLUE;
                         }
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
-                        root.add(circle,i,j);
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, c);
+                        root.add(circle, i, j);
                         //Texte
                         try {
                             CaseSwitch caseSwitch = (CaseSwitch) (l.getCase(j, i));
                             Label label = new Label(caseSwitch.getLink().getId() + "");
                             GridPane.setHalignment(label, HPos.CENTER);
                             root.add(label, i, j);
-                        }catch (Exception ignore){}
-                        circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
+                        } catch (Exception ignore) {
+                        }
+                        circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j, i), circle));
                     }
+                }
+
+                if (stairs){
                     if(l.getCase(j,i) instanceof CaseEscalier){
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.VIOLET);
                         root.add(circle,i,j);
-                        circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent mouseEvent) {
-                                setStairWd(l.getCase(j,i));
-                            }
-                        });
+                        circle.setOnMouseClicked(new StairsHandler((CaseEscalier) l.getCase(j,i)));
                     }
                 }
+
                 //Affichage des Items
                 if (items){
                     Case cur = l.getCase(j,i);
@@ -351,7 +357,7 @@ public class MainEditor extends Application {
             menuRight.getChildren().add(brushImage);
 
             //TabTiles
-            ScrollPane carte = new ScrollPane(grille(true,monstre,false,item));
+            ScrollPane carte = new ScrollPane(grille(true,monstre,false,item,false));
 
             //Menu selection case
             ScrollPane menu = new ScrollPane(menu(monstre,item));
@@ -372,7 +378,20 @@ public class MainEditor extends Application {
     public Tab linkTab(){
         Tab root = new Tab("Links");
         root.setOnSelectionChanged(event -> {
-            root.setContent(new ScrollPane(grille(true, false, true,false)));
+            root.setContent(new ScrollPane(grille(true, false, true,false,false)));
+        });
+
+        return root;
+    }
+
+    /**
+     * Creation du tab des stairs
+     * @return tab
+     */
+    public Tab stairTab(){
+        Tab root = new Tab("Stairs");
+        root.setOnSelectionChanged(event -> {
+            root.setContent(new ScrollPane(grille(true, false, false,false,true)));
         });
 
         return root;
@@ -434,6 +453,34 @@ public class MainEditor extends Application {
         }
 
         return menu;
+    }
+
+    public Scene getStairOutput(String labyrinthe,CaseEscalier stairs,Stage stage) {
+        Labyrinthe l = MapList.getMap(labyrinthe);
+        int colnum = l.getLongueur();
+        int linenum = l.getHauteur();
+        GridPane root = new GridPane();
+        root.setAlignment(Pos.CENTER);
+
+
+        for (int i = 0; i < colnum; i++) {
+            for (int j = 0; j < linenum; j++) {
+                //set de l'affichage
+                //Affichage des Tiles
+                Image img = l.getCase(j, i).getSprite();
+                ImageView imageView = new ImageView(img);
+                imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+                imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+
+                //Set de l'action onClick des cases
+                if (l.getCase(j,i) instanceof CaseEscalier) {
+                    imageView.setOnMouseClicked(new CaseCoordHandler(i, j, stairs, labyrinthe, stage));
+                }
+                root.add(imageView, i, j);
+            }
+        }
+
+        return new Scene(root);
     }
 
     /**
@@ -571,15 +618,57 @@ public class MainEditor extends Application {
         }
     }
 
+    class CaseCoordHandler implements EventHandler<MouseEvent>{
+
+        int x,y;
+        CaseEscalier stairs;
+        String labyrinthe;
+        Stage stage;
+
+        public CaseCoordHandler(int x,int y,CaseEscalier stairs,String labyrinthe,Stage stage){
+            this.x=x;
+            this.y=y;
+            this.stairs=stairs;
+            this.labyrinthe=labyrinthe;
+            this.stage=stage;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            stairs.setNext(labyrinthe,x,y);
+            stage.close();
+        }
+    }
+
     class StairsHandler implements EventHandler<MouseEvent>{
 
-        public StairsHandler(CaseEscalier stairs){}
+        CaseEscalier stairs;
+
+        public StairsHandler(CaseEscalier stairs){
+            this.stairs=stairs;
+        }
+
         /**
          * @param mouseEvent clic
          */
         @Override
         public void handle(MouseEvent mouseEvent) {
+            TextField textField = new TextField();
+            textField.setPromptText("A quelle map relier l'escalier?");
+            Button button = new Button("Go");
 
+            Stage stage= new Stage(StageStyle.DECORATED);
+            VBox root = new VBox(20);
+            root.getChildren().addAll(textField,button);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    stage.setScene(getStairOutput(textField.getText(),stairs,stage));
+                }
+            });
         }
     }
 
