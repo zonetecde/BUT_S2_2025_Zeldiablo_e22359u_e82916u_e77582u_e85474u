@@ -12,6 +12,7 @@ public class VariablesGlobales {
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 
         //Sprites de cases
+        public static final String SPRITE_SPAWN = "Tiles/Spawn.png";
         public static final String SPRITE_CASE_VIDE = "Tiles/Sol.png";
         public static final String SPRITE_ESCALIER_HAUT = "Tiles/StairUp.png";
         public static final String SPRITE_ESCALIER_BAS = "Tiles/StairDown.png";

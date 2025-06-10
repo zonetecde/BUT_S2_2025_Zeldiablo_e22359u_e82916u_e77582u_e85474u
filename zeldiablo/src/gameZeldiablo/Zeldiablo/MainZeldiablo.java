@@ -13,17 +13,8 @@ public class MainZeldiablo {
     public static void main(String[] args) {
         int level = 0;
 
-        if(args.length > 0){
-            // Le premier arg est le nom du niveau à charger
-            try {
-                level = Integer.parseInt(args[0]);
-            } catch(NumberFormatException ex){
-                System.out.println("Numéro de niveau invalide. Chargement du niveau 1.");
-            }
-        }
-
         int pFPS = 100;        // creation des objets
-        ZeldiabloJeu zeldiabloJeu = new ZeldiabloJeu(level);
+        ZeldiabloJeu zeldiabloJeu = new ZeldiabloJeu();
         ZeldiabloDessin zeldiabloDessin = new ZeldiabloDessin();
 
         zeldiabloJeu.init();

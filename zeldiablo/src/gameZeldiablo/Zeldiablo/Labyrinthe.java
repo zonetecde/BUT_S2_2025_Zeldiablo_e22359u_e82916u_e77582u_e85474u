@@ -39,8 +39,6 @@ public class Labyrinthe implements Serializable {
     public static final char STAIRS_DEPART = 'D';
 
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private int[] positionEscalierSortant ; // Position de l'escalier
-    private int[] positionEscalierEntrant ; // Position de l'escalier
 
 
     // Entité joueur
@@ -56,7 +54,15 @@ public class Labyrinthe implements Serializable {
     @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        Random random = new Random();  // or restore seed if needed
+        Random random = new Random();// or restore seed if needed
+        for (int i=0; i<gameBoard.length;i++){
+            for (int j=0;j<gameBoard[0].length;j++){
+                if (gameBoard[i][j] instanceof CaseSpawn){
+                    this.joueur.setX(i);
+                    this.joueur.setY(j);
+                }
+            }
+        }
     }
 
     /**
@@ -205,17 +211,9 @@ public class Labyrinthe implements Serializable {
                         break;
                     case STAIR_SORTIE:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier( true);
-                        // Enregistre la position de l'escalier sortant
-                        positionEscalierSortant = new int[2];
-                        positionEscalierSortant[0] = numeroLigne;
-                        positionEscalierSortant[1] = colonne;
                         break;
                     case STAIRS_DEPART:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier(false);
-                        positionEscalierEntrant= new int[2];
-                        // Enregistre la position de l'escalier entrant
-                        positionEscalierEntrant[0] = numeroLigne;
-                        positionEscalierEntrant[1] = colonne;
 
                         // ajoute PJ et crée une case vide à cet endroit
 
@@ -362,24 +360,6 @@ public class Labyrinthe implements Serializable {
 
     public Player getPlayer() {
         return this.joueur;
-    }
-
-    /**
-     * Retourne la position de l'escalier sortant
-     *
-     * @return Un tableau contenant les coordonnées de l'escalier sortant [y, x]
-     */
-    public int[] getPositionEscalierSortant() {
-        return positionEscalierSortant;
-    }
-
-    /**
-     * Retourne la position de l'escalier entrant
-     *
-     * @return Un tableau contenant les coordonnées de l'escalier entrant [y, x]
-     */
-    public int[] getPositionEscalierEntrant() {
-        return positionEscalierEntrant;
     }
 
     /**
@@ -551,8 +531,4 @@ public class Labyrinthe implements Serializable {
             timerMonstres = null;
         }
     }
-
-    public void setPositionEscalierSortant(int x,int y){positionEscalierSortant = new int[]{x, y};}
-
-    public void setPositionEscalierEntrant(int x,int y){positionEscalierEntrant = new int[]{x, y};}
 }

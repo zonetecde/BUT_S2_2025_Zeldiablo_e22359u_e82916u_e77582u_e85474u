@@ -11,11 +11,11 @@ public class aGagneTest {
 
     @Test
     void testJoueurGagneAvecAmuletteSurEscalierDescendant() {
-        ZeldiabloJeu jeu = new ZeldiabloJeu(0);
+        ZeldiabloJeu jeu = new ZeldiabloJeu();
         jeu.init();
 
         // On prend le niveau 1 (index 0)
-        Labyrinthe niveau1 = jeu.getNiveaux().get(0);
+        Labyrinthe niveau1 = jeu.getLaby();
         Player joueur = niveau1.getPlayer();
 
         // On donne l'amulette au joueur

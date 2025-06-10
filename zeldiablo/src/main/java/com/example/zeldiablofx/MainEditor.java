@@ -205,7 +205,6 @@ public class MainEditor extends Application {
      * Methode de sauvegarde du niveau dans LabyBin
      */
     public void save(){
-        if (l.getPositionEscalierEntrant() != null) {
             try {
                 File file = new File("Laby/LabyBin/" + fileName);
                 file.createNewFile();
@@ -216,12 +215,6 @@ public class MainEditor extends Application {
                 System.out.println(e.getMessage());
                 System.out.println("Erreur de sauvegarde");
             }
-        }else{
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Manque escalier entrant");
-            alert.show();
-        }
     }
 
     /**
@@ -437,6 +430,7 @@ public class MainEditor extends Application {
             type.add(new CasePorte());
             type.add(new CasePancarte("Default"));
             type.add(new CasePiege(5));
+            type.add(new CaseSpawn());
         }
 
         for (Sprited s : type) {
@@ -527,13 +521,6 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (brushTile instanceof CaseEscalier stairs){
-                if (stairs.getMonte()){
-                    l.setPositionEscalierSortant(x,y);
-                }else{
-                    l.setPositionEscalierEntrant(x,y);
-                }
-            }
             l.getGameBoard()[x][y]= brushTile.clone();
             button.setImage(brushTile.getSprite());
 

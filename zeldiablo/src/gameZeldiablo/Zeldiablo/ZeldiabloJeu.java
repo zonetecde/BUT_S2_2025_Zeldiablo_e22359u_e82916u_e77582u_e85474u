@@ -26,9 +26,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
     private Labyrinthe niveaux;
-    
-    // Indice du niveau actuel
-    private int currentLevel; // Le niveau actuel
+
 
     // Indique si le jeu est fini
     private boolean estFini = false;
@@ -37,9 +35,6 @@ public class ZeldiabloJeu implements Jeu {
     private boolean currentlyMoving = false;
 
 
-    public ZeldiabloJeu(int level){
-        currentLevel = level;
-    }
 
     /**
      * Action à chaque frame
@@ -208,13 +203,6 @@ public class ZeldiabloJeu implements Jeu {
         return estFini;
     }
 
-    /**
-     * Getter du niveau
-     * @return laby
-     */
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
 
 }
 
