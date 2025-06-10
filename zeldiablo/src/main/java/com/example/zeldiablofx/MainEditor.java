@@ -22,6 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 
+import javax.swing.plaf.metal.MetalIconFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +105,7 @@ public class MainEditor extends Application {
         //Create
         HBox hBox3 = new HBox();
         hBox3.setAlignment(Pos.CENTER);
-        TextField input3 = new TextField();
+        TextField input3 = new TextField("FirstMap");
         input3.setPromptText("Name of the new file");
         Button launch3 = new Button("Launch");
         hBox3.getChildren().addAll(input3,launch3);
@@ -295,6 +296,16 @@ public class MainEditor extends Application {
                         }catch (Exception ignore){}
                         circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
                     }
+                    if(l.getCase(j,i) instanceof CaseEscalier){
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.VIOLET);
+                        root.add(circle,i,j);
+                        circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                setStairWd(l.getCase(j,i));
+                            }
+                        });
+                    }
                 }
                 //Affichage des Items
                 if (items){
@@ -311,6 +322,11 @@ public class MainEditor extends Application {
 
         return root;
     }
+
+    public void setStairWd(CaseEscalier stairs){
+
+    }
+
 
     /**
      * Creation des tab de l'editeur
@@ -552,6 +568,18 @@ public class MainEditor extends Application {
                 curSel = null;
                 brushLink = null;
             }
+        }
+    }
+
+    class StairsHandler implements EventHandler<MouseEvent>{
+
+        public StairsHandler(CaseEscalier stairs){}
+        /**
+         * @param mouseEvent clic
+         */
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+
         }
     }
 

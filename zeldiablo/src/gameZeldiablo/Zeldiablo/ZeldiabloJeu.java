@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
@@ -21,9 +22,10 @@ public class ZeldiabloJeu implements Jeu {
      * Classe principale du jeu Zeldiablo.
      * Elle gère le chargement des niveaux, les déplacements du personnage,
      * et l'état du jeu.
+     * La premiere map doit s'appeler FirstMap
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
-    private ArrayList<Labyrinthe> niveaux;
+    private Labyrinthe niveaux;
     
     // Indice du niveau actuel
     private int currentLevel; // Le niveau actuel
@@ -85,7 +87,7 @@ public class ZeldiabloJeu implements Jeu {
 
     private void inputInv(Clavier clavier){
         if (clavier.droite){
-            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-1) {
+            if (VariablesGlobales.curseur<this.niveaux.getPlayer().getInventory().size()-1) {
                 VariablesGlobales.curseur += 1;
             }
         } else if (clavier.gauche){
@@ -97,13 +99,13 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.bas){
-            if (VariablesGlobales.curseur<this.niveaux.get(currentLevel).getPlayer().getInventory().size()-3) {
+            if (VariablesGlobales.curseur<this.niveaux.getPlayer().getInventory().size()-3) {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.space) {
             try {
-                Player tmp = this.niveaux.get(currentLevel).getPlayer();
-                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux.get(currentLevel))) {
+                Player tmp = this.niveaux.getPlayer();
+                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux)) {
                     tmp.getInventory().remove(VariablesGlobales.curseur);
                     if (VariablesGlobales.curseur>0) {
                         VariablesGlobales.curseur -= 1;
@@ -151,8 +153,8 @@ public class ZeldiabloJeu implements Jeu {
 
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
-                this.chargementNiveau();
-                currentLevel=0;
+                this.niveaux = MapList.getMap("FirstMap");
+                this.niveaux.getPlayer().setEnVie(true);
                 VariablesGlobales.curseur=0;
             }
             else{
@@ -161,61 +163,23 @@ public class ZeldiabloJeu implements Jeu {
         }
     }
 
-    /**
-     * Methode pour charger les niveaux du jeu
-     */
-    private void chargementNiveau(){
-        try {
-            niveaux =new ArrayList<>();
-            File[] folder = new File(VariablesGlobales.DOSSIER_LABY).listFiles();
-            assert folder != null;
-            String[] fichiers = new String[folder.length];
-            for (int i=0;i<folder.length;i++){
-                fichiers[i]=folder[i].getAbsolutePath();
-            }
-            Arrays.sort(fichiers);
-            for (String f : fichiers) {
-                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
-                    niveaux.add((Labyrinthe) ois.readObject());
-            }
-        }
-        catch (IOException e){
-            System.out.println("Données de laby corrompues");
-            System.exit(1);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Fichier binaires corrompus");
-            System.exit(1);
-        }
-    }
 
     /**
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
      */
-    public void changeLevel(boolean next) {
-        int newLevel = next ? currentLevel + 1 : currentLevel - 1;
-
-        if (newLevel < 0 || newLevel >= niveaux.size()) {
-            return;
-        }
-
+    public void changeLevel(String next, int x, int y) {
         getLaby().arreterTimerMonstres();
 
         Player playerCloned = getLaby().getPlayer().clone();
 
-        currentLevel = newLevel;
-
+        niveaux = MapList.getMap(next);
         getLaby().setPlayer(playerCloned);
 
         getLaby().initTimerMonstres();
 
-        if (!next) {
-            playerCloned.setY(getLaby().getPositionEscalierSortant()[0]);
-            playerCloned.setX(getLaby().getPositionEscalierSortant()[1]);
-        } else {
-            playerCloned.setY(getLaby().getPositionEscalierEntrant()[0]);
-            playerCloned.setX(getLaby().getPositionEscalierEntrant()[1]);
-        }
+        playerCloned.setY(y);
+        playerCloned.setX(x);
     }
 
     /**
@@ -223,7 +187,7 @@ public class ZeldiabloJeu implements Jeu {
      * @return renvoie le laby actuel
      */
     public Labyrinthe getLaby(){
-        return niveaux.get(currentLevel);
+        return niveaux;
     }
 
     /**
@@ -231,8 +195,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
-        this.currentLevel=0;
-        chargementNiveau();
+        this.niveaux = MapList.getMap("FirstMap");
         getLaby().getPlayer().setEnVie(false);
     }
 
@@ -253,13 +216,6 @@ public class ZeldiabloJeu implements Jeu {
         return currentLevel;
     }
 
-    /**
-     * getter des niveaus
-     * @return liste de laby
-     */
-    public ArrayList<Labyrinthe> getNiveaux() {
-        return niveaux;
-    }
 }
 
 
