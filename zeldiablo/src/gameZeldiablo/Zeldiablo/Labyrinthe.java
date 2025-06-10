@@ -212,7 +212,7 @@ public class Labyrinthe implements Serializable {
                         break;
                     case STAIRS_DEPART:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier(false);
-
+                        positionEscalierEntrant= new int[2];
                         // Enregistre la position de l'escalier entrant
                         positionEscalierEntrant[0] = numeroLigne;
                         positionEscalierEntrant[1] = colonne;

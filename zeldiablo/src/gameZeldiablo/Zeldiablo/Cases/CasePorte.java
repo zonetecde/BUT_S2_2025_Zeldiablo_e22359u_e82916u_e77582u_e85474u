@@ -4,8 +4,9 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 
 public class CasePorte extends Case {
+    public static int idset = 0;
     private boolean ouverte = false; // Indique si la porte est ouverte ou fermée
-        
+    private int id;
     /**
      * Constructeur de CasePorte
      *
@@ -26,5 +27,13 @@ public class CasePorte extends Case {
         this.setIsWalkable(!this.getIsWalkable()); // Permet de marcher sur la case
         if (!ouverte) {this.setSprite(VariablesGlobales.SPRITE_PORTE_FERMEE);}
         else{this.setSprite(VariablesGlobales.SPRITE_PORTE_OUVERTE);}
+    }
+
+
+
+    @Override
+    public void updateId(){
+        this.id=idset;
+        idset++;
     }
 }

@@ -4,8 +4,8 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 public class CaseSwitch extends Case {
-
     private Case link;
+
 
     /**
      * Constructeur de CaseOuverture
@@ -42,4 +42,7 @@ public class CaseSwitch extends Case {
     public boolean isLinked() {
         return (this.link!=null);
     }
+
+    public Case getLink(){return this.link;}
+
 }

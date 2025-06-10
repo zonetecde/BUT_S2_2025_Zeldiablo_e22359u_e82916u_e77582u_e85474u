@@ -9,6 +9,7 @@ import gameZeldiablo.Zeldiablo.Sprited;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainEditor extends Application {
@@ -196,7 +198,6 @@ public class MainEditor extends Application {
      * Methode de sauvegarde du niveau dans LabyBin
      */
     public void save(){
-        System.out.println(l.getPositionEscalierEntrant());
         if (l.getPositionEscalierEntrant() != null) {
             try {
                 File file = new File("Laby/LabyBin/" + fileName);
@@ -269,6 +270,11 @@ public class MainEditor extends Application {
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.RED);
                         root.add(circle,i,j);
                         circle.setOnMouseClicked(new AcivableHandler(l.getCase(j,i)));
+
+                        CasePorte casePorte = (CasePorte)(l.getCase(j,i));
+                        Label label = new Label( casePorte.getId()+"");
+                        GridPane.setHalignment(label, HPos.CENTER);
+                        root.add(label,i,j);
                     }
                     if(l.getCase(j,i).isActivate()){
                         //Couleur differente si deja lié ou pas
@@ -280,6 +286,13 @@ public class MainEditor extends Application {
                         }
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
                         root.add(circle,i,j);
+                        //Texte
+                        try {
+                            CaseSwitch caseSwitch = (CaseSwitch) (l.getCase(j, i));
+                            Label label = new Label(caseSwitch.getLink().getId() + "");
+                            GridPane.setHalignment(label, HPos.CENTER);
+                            root.add(label, i, j);
+                        }catch (Exception ignore){}
                         circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j,i),circle));
                     }
                 }

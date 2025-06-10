@@ -25,6 +25,8 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
 
     private String sprite; // L'image de la case
 
+    private int id=0;// id eventuel
+
     /**
      * Constructeur basique de case
      * @param isWalkable peut on marcher dessus
@@ -69,6 +71,8 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
         // Action par défaut
     }
 
+    public void updateId(){/*Action par defaut*/}
+
 //Getters//
 
     /**
@@ -107,6 +111,10 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
         return false;
     }
 
+    public int getId(){
+        return id;
+    }
+
     public boolean isLinked(){
         return false;
     }
@@ -117,6 +125,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
             // On récupère l'instance à renvoyer par l'appel de la
             // méthode super.clone()
             o = (Case)super.clone();
+            o.updateId();
         } catch(CloneNotSupportedException cnse) {
             // Ne devrait jamais arriver, car nous implémentons
             // l'interface Cloneable
