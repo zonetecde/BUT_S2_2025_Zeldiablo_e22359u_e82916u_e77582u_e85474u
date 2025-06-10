@@ -464,7 +464,7 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (laby.getCase(x, y) instanceof CaseEscalier stairs){
+            if (brushTile instanceof CaseEscalier stairs){
                 if (stairs.getMonte()){
                     l.setPositionEscalierSortant(x,y);
                 }else{
@@ -546,10 +546,12 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            brushLink.createLink(activable);
-            curSel.setFill(Color.YELLOW);
-            curSel = null;
-            brushLink = null;
+            if (brushLink!=null) {
+                brushLink.createLink(activable);
+                curSel.setFill(Color.YELLOW);
+                curSel = null;
+                brushLink = null;
+            }
         }
     }
 
