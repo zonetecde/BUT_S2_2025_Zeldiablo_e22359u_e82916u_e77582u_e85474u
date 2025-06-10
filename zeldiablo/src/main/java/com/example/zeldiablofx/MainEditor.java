@@ -77,7 +77,9 @@ public class MainEditor extends Application {
         root.getTabs().addAll(this.tab(false,false)
                 ,this.tab(true,false)
                 ,this.tab(false,true)
-                ,this.linkTab(),this.stairTab(),launchOther);
+                ,this.linkTab(),this.stairTab(),
+                launchOther,
+                saveTab());
 
         stage.setScene(scene);
     }
@@ -217,6 +219,28 @@ public class MainEditor extends Application {
             }
     }
 
+    public Tab saveTab(){
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.TOP_CENTER);
+        Tab tab = new Tab("Save",root);
+
+        Button button = new Button("Save");
+        TextField textField = new TextField(this.fileName);
+        textField.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(textField,button);
+
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fileName= textField.getText();
+                save();
+            }
+        });
+
+        return tab;
+
+    }
+
     /**
      * GridPane gerant l'affichage de la map
      * @param tile affichage des tiles?
@@ -322,11 +346,6 @@ public class MainEditor extends Application {
         return root;
     }
 
-    public void setStairWd(CaseEscalier stairs){
-
-    }
-
-
     /**
      * Creation des tab de l'editeur
      * @param monstre si le tab concerne les monstres
@@ -398,11 +417,6 @@ public class MainEditor extends Application {
     public VBox menu(boolean monstre,boolean item){
         VBox menu = new VBox();
         List<Sprited> type;
-
-        //Bouton de save
-        Button save = new Button("Save");
-        save.setOnMouseClicked(mouseEvent -> save());
-        menu.getChildren().add(save);
 
         //Liste des brush
         if (item){
