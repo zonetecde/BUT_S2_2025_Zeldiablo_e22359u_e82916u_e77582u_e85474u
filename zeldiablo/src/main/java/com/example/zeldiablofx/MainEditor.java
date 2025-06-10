@@ -196,15 +196,23 @@ public class MainEditor extends Application {
      * Methode de sauvegarde du niveau dans LabyBin
      */
     public void save(){
-        try {
-            File file = new File("Laby/LabyBin/" + fileName);
-            file.createNewFile();
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-            oos.writeObject(l);
-            System.out.println("Everything's okay");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Erreur de sauvegarde");
+        System.out.println(l.getPositionEscalierEntrant());
+        if (l.getPositionEscalierEntrant() != null) {
+            try {
+                File file = new File("Laby/LabyBin/" + fileName);
+                file.createNewFile();
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                oos.writeObject(l);
+                System.out.println("Everything's okay");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Erreur de sauvegarde");
+            }
+        }else{
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Manque escalier entrant");
+            alert.show();
         }
     }
 

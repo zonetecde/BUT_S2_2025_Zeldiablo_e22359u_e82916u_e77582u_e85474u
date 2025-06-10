@@ -39,8 +39,8 @@ public class Labyrinthe implements Serializable {
     public static final char STAIRS_DEPART = 'D';
 
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
-    private int[] positionEscalierSortant = new int[2]; // Position de l'escalier
-    private int[] positionEscalierEntrant = new int[2]; // Position de l'escalier
+    private int[] positionEscalierSortant ; // Position de l'escalier
+    private int[] positionEscalierEntrant ; // Position de l'escalier
 
 
     // Entité joueur
@@ -57,7 +57,6 @@ public class Labyrinthe implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         Random random = new Random();  // or restore seed if needed
-        //TODO Jeu qui init le timermonstre
     }
 
     /**
@@ -207,6 +206,7 @@ public class Labyrinthe implements Serializable {
                     case STAIR_SORTIE:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier( true);
                         // Enregistre la position de l'escalier sortant
+                        positionEscalierSortant = new int[2];
                         positionEscalierSortant[0] = numeroLigne;
                         positionEscalierSortant[1] = colonne;
                         break;
