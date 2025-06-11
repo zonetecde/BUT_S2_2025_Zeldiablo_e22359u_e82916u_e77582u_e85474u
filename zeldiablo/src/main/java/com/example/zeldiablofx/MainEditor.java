@@ -24,10 +24,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-import javax.swing.plaf.metal.MetalIconFactory;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainEditor extends Application {
@@ -324,7 +322,10 @@ public class MainEditor extends Application {
 
                 if (stairs){
                     if(l.getCase(j,i) instanceof CaseEscalier){
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, Color.VIOLET);
+                        Color c;
+                        if(l.getCase(j,i).isLinked()){c = Color.DARKVIOLET;}
+                        else{c = Color.VIOLET;}
+                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
                         root.add(circle,i,j);
                         circle.setOnMouseClicked(new StairsHandler((CaseEscalier) l.getCase(j,i)));
                     }
@@ -464,9 +465,9 @@ public class MainEditor extends Application {
     }
 
     public Scene getStairOutput(String labyrinthe,CaseEscalier stairs,Stage stage) {
-        Labyrinthe l = MapList.getMap(labyrinthe);
-        int colnum = l.getLongueur();
-        int linenum = l.getHauteur();
+        Labyrinthe laby = MapList.getMap(labyrinthe);
+        int colnum = laby.getLongueur();
+        int linenum = laby.getHauteur();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
 
@@ -475,16 +476,22 @@ public class MainEditor extends Application {
             for (int j = 0; j < linenum; j++) {
                 //set de l'affichage
                 //Affichage des Tiles
-                Image img = l.getCase(j, i).getSprite();
+                Image img = laby.getCase(j, i).getSprite();
                 ImageView imageView = new ImageView(img);
                 imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
                 imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+                root.add(imageView, i, j);
 
                 //Set de l'action onClick des cases
-                if (l.getCase(j,i) instanceof CaseEscalier) {
-                    imageView.setOnMouseClicked(new CaseCoordHandler(i, j, stairs, labyrinthe, stage));
+                if (laby.getCase(j,i) instanceof CaseEscalier) {
+                    Color c;
+                    if(laby.getCase(j,i).isLinked()){c = Color.DARKVIOLET;}
+                    else{c = Color.VIOLET;}
+                    Circle circle = new Circle((double)VariablesGlobales.TAILLE_CASE/2,c);
+                    circle.setOnMouseClicked(new StairLink(i, j, stairs, labyrinthe, stage));
+                    root.add(circle,i,j);
                 }
-                root.add(imageView, i, j);
+
             }
         }
 
@@ -619,14 +626,14 @@ public class MainEditor extends Application {
         }
     }
 
-    class CaseCoordHandler implements EventHandler<MouseEvent>{
+    static class StairLink implements EventHandler<MouseEvent>{
 
         int x,y;
         CaseEscalier stairs;
         String labyrinthe;
         Stage stage;
 
-        public CaseCoordHandler(int x,int y,CaseEscalier stairs,String labyrinthe,Stage stage){
+        public StairLink(int x, int y, CaseEscalier stairs, String labyrinthe, Stage stage){
             this.x=x;
             this.y=y;
             this.stairs=stairs;
@@ -657,6 +664,7 @@ public class MainEditor extends Application {
             TextField textField = new TextField();
             textField.setPromptText("A quelle map relier l'escalier?");
             Button button = new Button("Go");
+            button.setDefaultButton(true);
 
             Stage stage= new Stage(StageStyle.DECORATED);
             VBox root = new VBox(20);

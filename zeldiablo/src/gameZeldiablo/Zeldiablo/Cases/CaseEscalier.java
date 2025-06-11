@@ -52,4 +52,5 @@ public class CaseEscalier extends Case{
     }
 
     public boolean getMonte(){return monte;}
+    public boolean isLinked(){return (this.nextMap!=null);}
 }
