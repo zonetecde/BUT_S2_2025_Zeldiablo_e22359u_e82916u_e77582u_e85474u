@@ -19,7 +19,7 @@ public class ZeldiabloJeu implements Jeu {
      * La premiere map doit s'appeler FirstMap
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
-    private final Player joueur = new Player(0,0,10,5);
+    private final Player joueur = new Player(0,0,10,1);
 
 
     // Indique si le jeu est fini

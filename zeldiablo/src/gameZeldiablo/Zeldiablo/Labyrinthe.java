@@ -288,7 +288,7 @@ public class Labyrinthe implements Serializable {
 
     public void attaqueJoueur() {//TODO
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Entite> monstresACheck = new ArrayList<>(entites);
+        ArrayList<Entite> monstresACheck = getMonstres();
 
         // Pour chaque monstre
         for (Entite joueur : getJoueurs()) {
