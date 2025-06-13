@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
 import gameZeldiablo.Zeldiablo.Direction;
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
@@ -13,21 +14,21 @@ import java.io.Serializable;
  */
 public class DeplacementFuyard implements DeplacementStrategie, Serializable {
     @Override
-    public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
+    public void deplacement(Player joueur, Monstre monstre) {
         int[] prochainePosition = Labyrinthe.getSuivant(monstre.getY(), monstre.getX(), Direction.DROITE);
-        if (labyrinthe.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+        if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
             monstre.setPosition(prochainePosition[0], prochainePosition[1]);
         } else {
             prochainePosition = Labyrinthe.getSuivant(monstre.getY(), monstre.getX(), Direction.BAS);
-            if (labyrinthe.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+            if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
                 monstre.setPosition(prochainePosition[0], prochainePosition[1]);
             } else {
                 prochainePosition = Labyrinthe.getSuivant(monstre.getY(), monstre.getX(), Direction.GAUCHE);
-                if (labyrinthe.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+                if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
                     monstre.setPosition(prochainePosition[0], prochainePosition[1]);
                 } else {
                     prochainePosition = Labyrinthe.getSuivant(monstre.getY(), monstre.getX(), Direction.HAUT);
-                    if (labyrinthe.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+                    if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
                         monstre.setPosition(prochainePosition[0], prochainePosition[1]);
                     }
                 }

@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
 import gameZeldiablo.Zeldiablo.Direction;
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
@@ -13,14 +14,14 @@ public class DeplacementRapprochement implements DeplacementStrategie, Serializa
      * Le monstre se déplace dans la direction où il y a le plus de différence
      * entre sa position et celle du joueur.
      *
-     * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
+     * @param joueur
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
     @Override
-    public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
+    public void deplacement(Player joueur, Monstre monstre) {
         // Récupère la position du joueur
-        int joueurX = labyrinthe.getPlayer().getX();
-        int joueurY = labyrinthe.getPlayer().getY();
+        int joueurX = joueur.getX();
+        int joueurY = joueur.getY();
         
         int monstreX = monstre.getX();
         int monstreY = monstre.getY();
@@ -41,7 +42,7 @@ public class DeplacementRapprochement implements DeplacementStrategie, Serializa
         
         // Tente le déplacement
         int[] prochainePosition = Labyrinthe.getSuivant(monstreY, monstreX, direction);
-        if (labyrinthe.canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
+        if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
             monstre.setPosition(prochainePosition[0], prochainePosition[1]);
         }
         // Si impossible, le monstre ne bouge pas

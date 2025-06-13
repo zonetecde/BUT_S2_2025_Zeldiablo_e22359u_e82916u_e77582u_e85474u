@@ -1,17 +1,11 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
+import gameZeldiablo.Zeldiablo.Cases.CaseSpawn;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +19,7 @@ public class ZeldiabloJeu implements Jeu {
      * La premiere map doit s'appeler FirstMap
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
-    private Labyrinthe niveaux;
+    private final Player joueur = new Player(0,0,10,5);
 
 
     // Indique si le jeu est fini
@@ -69,7 +63,8 @@ public class ZeldiabloJeu implements Jeu {
      * @param clavier Objet Clavier pour recuperer des input
      */
     private void Inputs(Clavier clavier) {
-        if (getLaby().getPlayer().estMort()){
+        if (joueur.estMort()){
+            joueur.getLabyrinthe().arreterTimerMonstres();
             inputsStart(clavier);
         } else if (VariablesGlobales.MenuOuvert){
             inputInv(clavier);
@@ -82,7 +77,7 @@ public class ZeldiabloJeu implements Jeu {
 
     private void inputInv(Clavier clavier){
         if (clavier.droite){
-            if (VariablesGlobales.curseur<this.niveaux.getPlayer().getInventory().size()-1) {
+            if (VariablesGlobales.curseur<this.joueur.getInventory().size()-1) {
                 VariablesGlobales.curseur += 1;
             }
         } else if (clavier.gauche){
@@ -94,14 +89,13 @@ public class ZeldiabloJeu implements Jeu {
                 VariablesGlobales.curseur -= VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.bas){
-            if (VariablesGlobales.curseur<this.niveaux.getPlayer().getInventory().size()-3) {
+            if (VariablesGlobales.curseur<joueur.getInventory().size()-3) {
                 VariablesGlobales.curseur += VariablesGlobales.COL_NUM_MENU;
             }
         } else if (clavier.space) {
             try {
-                Player tmp = this.niveaux.getPlayer();
-                if (tmp.getInventory().get(VariablesGlobales.curseur).use(niveaux)) {
-                    tmp.getInventory().remove(VariablesGlobales.curseur);
+                if (joueur.getInventory().get(VariablesGlobales.curseur).use(joueur)) {
+                    joueur.getInventory().remove(VariablesGlobales.curseur);
                     if (VariablesGlobales.curseur>0) {
                         VariablesGlobales.curseur -= 1;
                     }
@@ -114,31 +108,31 @@ public class ZeldiabloJeu implements Jeu {
     private void inputLaby(Clavier clavier){
         if (clavier.interactionKey) {
             // Ramasse l'objet si possible
-            getLaby().ramasserItem(getLaby().getPlayer());
+            joueur.ramasserItem();
             // Intéragit avec la case
             Labyrinthe currentLaby = getLaby();
-            Player player = currentLaby.getPlayer();
+            Player player = joueur;
             Case playerCase = currentLaby.getCase(player.getY(), player.getX());
             playerCase.onAction(player, this);
         }
 
         if (clavier.droite) {
-            getLaby().deplacerPerso(Direction.DROITE, this.getLaby().getPlayer());
-            getLaby().getPlayer().setSpriteJoueur(3);
+            getLaby().deplacerPerso(Direction.DROITE, joueur);
+            joueur.setSpriteJoueur(3);
         } else if (clavier.gauche) {
-            getLaby().deplacerPerso(Direction.GAUCHE, this.getLaby().getPlayer());
-            getLaby().getPlayer().setSpriteJoueur(2);
+            getLaby().deplacerPerso(Direction.GAUCHE, joueur);
+            joueur.setSpriteJoueur(2);
         } else if (clavier.haut) {
-            getLaby().deplacerPerso(Direction.HAUT, this.getLaby().getPlayer());
-            getLaby().getPlayer().setSpriteJoueur(0);
+            getLaby().deplacerPerso(Direction.HAUT, joueur);
+            joueur.setSpriteJoueur(0);
         } else if (clavier.bas) {
-            getLaby().deplacerPerso(Direction.BAS, this.getLaby().getPlayer());
-            getLaby().getPlayer().setSpriteJoueur(1);
+            getLaby().deplacerPerso(Direction.BAS, joueur);
+            joueur.setSpriteJoueur(1);
         }
         else if (clavier.x) {
             getLaby().attaqueJoueur();
-            if (getLaby().getPlayer().getSpriteJoueur()<VariablesGlobales.SPRITE_JOUEUR.length/2) {
-                getLaby().getPlayer().setSpriteJoueur(getLaby().getPlayer().getSpriteJoueur() + 4);
+            if (joueur.getSpriteJoueur()<VariablesGlobales.SPRITE_JOUEUR.length/2) {
+                joueur.setSpriteJoueur(joueur.getSpriteJoueur() + 4);
             }
         }
     }
@@ -148,8 +142,20 @@ public class ZeldiabloJeu implements Jeu {
 
         else if (clavier.space){
             if (VariablesGlobales.curseurStart) {
-                this.niveaux = MapList.getMap("FirstMap");
-                this.niveaux.getPlayer().setEnVie(true);
+                joueur.setLabyrinthe(MapList.getMap("FirstMap"));
+                getLaby().initTimerMonstres();
+                getJoueur().reset();
+                getLaby().getEntites().add(joueur);
+                //Set du joueur sur un point de spawn
+                for (int i=0;i<getLaby().getLongueur();i++){
+                    for (int j=0;j<getLaby().getHauteur();j++){
+                        if (getLaby().getCase(j,i) instanceof CaseSpawn){
+                            joueur.setX(i);
+                            joueur.setY(j);
+                        }
+                    }
+                }
+                joueur.setEnVie(true);
                 VariablesGlobales.curseur=0;
             }
             else{
@@ -164,17 +170,18 @@ public class ZeldiabloJeu implements Jeu {
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
      */
     public void changeLevel(String next, int x, int y) {
-        getLaby().arreterTimerMonstres();
+        if (getLaby().getJoueurs().size()==1) {
+            getLaby().arreterTimerMonstres();
+        }
+        getLaby().getEntites().remove(joueur);
 
-        Player playerCloned = getLaby().getPlayer().clone();
-
-        niveaux = MapList.getMap(next);
-        getLaby().setPlayer(playerCloned);
+        joueur.setLabyrinthe(MapList.getMap(next));
+        joueur.setY(y);
+        joueur.setX(x);
+        getLaby().getEntites().add(joueur);
 
         getLaby().initTimerMonstres();
 
-        playerCloned.setY(y);
-        playerCloned.setX(x);
     }
 
     /**
@@ -182,16 +189,19 @@ public class ZeldiabloJeu implements Jeu {
      * @return renvoie le laby actuel
      */
     public Labyrinthe getLaby(){
-        return niveaux;
+        return joueur.getLabyrinthe();
     }
+
+    public Player getJoueur(){return this.joueur;}
 
     /**
      * Action lancée avant le jeu
      */
     @Override
     public void init() {
-        this.niveaux = MapList.getMap("FirstMap");
-        getLaby().getPlayer().setEnVie(false);
+        joueur.setLabyrinthe(MapList.getMap("FirstMap"));
+        joueur.getLabyrinthe().arreterTimerMonstres();
+        joueur.setEnVie(false);
     }
 
     /**

@@ -2,7 +2,6 @@ package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 
 import java.io.Serializable;
@@ -16,19 +15,18 @@ public class DeplacementIntelligent implements DeplacementStrategie, Serializabl
      * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
-    public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
+    public void deplacement(Player joueur , Monstre monstre) {
         // Récupération de la position du joueur
-        Player joueur = labyrinthe.getJoueur();
         int posMonstreX = monstre.getX();
         int posMonstreY = monstre.getY();
         int posJoueurX = joueur.getX();
         int posJoueurY = joueur.getY();
 
-        String caseJoueur = labyrinthe.getCase(posJoueurY, posJoueurX).toString();
-        String caseMonstre = labyrinthe.getCase(posMonstreY, posMonstreX).toString();
+        String caseJoueur = joueur.getLabyrinthe().getCase(posJoueurY, posJoueurX).toString();
+        String caseMonstre = joueur.getLabyrinthe().getCase(posMonstreY, posMonstreX).toString();
 
         // Créer un graphe du labyrinthe
-        GrapheListe graphe = new GrapheListe(labyrinthe);
+        GrapheListe graphe = new GrapheListe(joueur.getLabyrinthe());
 
         // Calculer le chemin le plus court vers le joueur
         Algorithme bellmanFord = new BellmanFord();
@@ -44,7 +42,7 @@ public class DeplacementIntelligent implements DeplacementStrategie, Serializabl
             int prochaineX = coordonnees[1];
 
             // Vérifier si la case est walkable avant de déplacer le monstre
-            if (labyrinthe.getCase(prochaineY, prochaineX).getIsWalkable() && labyrinthe.monstreSurCase(prochaineY, prochaineX) && !labyrinthe.joueurSurCase(prochaineY, prochaineX)) {
+            if (joueur.getLabyrinthe().getCase(prochaineY, prochaineX).getIsWalkable() && joueur.getLabyrinthe().entiteSurCase(prochaineY, prochaineX)) {
                 monstre.setPosition(prochaineY, prochaineX);
             }
         }

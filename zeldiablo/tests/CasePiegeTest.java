@@ -4,7 +4,6 @@ import gameZeldiablo.Zeldiablo.Cases.CasePiege;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Direction;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +43,7 @@ class CasePiegeTest {
     @Test
     void testDegatsInfliges() throws IOException {
         // On récupère le joueur
-        Player joueur = labyrinthe.getPlayer();
+        Player joueur = labyrinthe.getJoueurs();
         double pvInitiaux = joueur.getHp();
 
         // On déplace le joueur sur la case piège

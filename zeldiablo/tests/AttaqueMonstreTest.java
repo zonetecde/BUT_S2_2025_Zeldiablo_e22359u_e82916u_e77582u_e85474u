@@ -17,17 +17,17 @@ public class AttaqueMonstreTest {
 
         Labyrinthe laby = new Labyrinthe("Laby/labyTests/laby0.txt");
 
-        Player joueur = laby.getPlayer();
+        Player joueur = laby.getJoueurs();
         joueur.setX(1);
         joueur.setY(1);
 
         Monstre monstre = new Monstre(2, 1, Intelligence.NULLE);
-        laby.getMonstres().clear();
-        laby.getMonstres().add(monstre);
+        laby.getEntites().clear();
+        laby.getEntites().add(monstre);
 
         double hpAvant = joueur.getHp();
         laby.attaqueJoueur();
-        laby.getMonstres().get(0).mettreDegat(joueur);
+        laby.getEntites().get(0).mettreDegat(joueur);
         double hpApres = joueur.getHp();
         assertTrue(hpApres < hpAvant, "Le joueur doit perdre des PV si un monstre l'attaque à côté");
     }

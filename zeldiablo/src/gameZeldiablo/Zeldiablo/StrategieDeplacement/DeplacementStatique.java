@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.StrategieDeplacement;
 
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 
@@ -14,7 +15,7 @@ public class DeplacementStatique implements DeplacementStrategie, Serializable {
      * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
-    public void deplacement(Labyrinthe labyrinthe, Monstre monstre) {
+    public void deplacement(Player joueur, Monstre monstre) {
         // Déplacement statique (ne bouge pas)
     }
 }

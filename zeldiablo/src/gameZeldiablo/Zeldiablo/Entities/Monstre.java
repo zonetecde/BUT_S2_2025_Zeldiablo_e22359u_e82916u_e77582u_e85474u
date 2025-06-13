@@ -48,10 +48,10 @@ public class Monstre extends Entite {
 
     /**
      * Methode pour deplacer le monstre selon sa strategie
-     * @param laby laby contenant le monstre
+     * @param joueur laby contenant le monstre
      */
-    public void deplacer(Labyrinthe laby){
-        deplacementStrategie.deplacement(laby, this);
+    public void deplacer(Player joueur){
+        deplacementStrategie.deplacement(joueur,this);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Monstre extends Entite {
         return m;
     }
 
-    public Entite clone(int x,int y){
+    public Monstre clone(int x,int y){
         Monstre m = this.clone();
         m.setX(x);
         m.setY(y);

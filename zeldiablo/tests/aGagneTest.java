@@ -1,7 +1,6 @@
 import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Amulette;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ public class aGagneTest {
 
         // On prend le niveau 1 (index 0)
         Labyrinthe niveau1 = jeu.getLaby();
-        Player joueur = niveau1.getPlayer();
+        Player joueur = niveau1.getJoueurs();
 
         // On donne l'amulette au joueur
         joueur.getInventory().add(new Amulette());

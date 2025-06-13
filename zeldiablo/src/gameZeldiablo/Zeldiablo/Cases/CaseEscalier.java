@@ -40,9 +40,9 @@ public class CaseEscalier extends Case{
     public void onAction(Entite entite, ZeldiabloJeu jeu) {
         // Si l'escalier est descendant et que le joueur a l'amulette, il gagne le jeu
         if (!monte && jeu.getLaby()== MapList.getMap("FirstMap")) {
-            boolean possedeAmulette = jeu.getLaby().getPlayer().possedeItem("Amulette");
+            boolean possedeAmulette = jeu.getJoueur().possedeItem("Amulette");
             if (possedeAmulette) {
-                jeu.getLaby().getPlayer().setaGagne(true);
+                jeu.getJoueur().setaGagne(true);
             } else {
                 entite.setMsgToSay("Il me manque quelque chose...");
             }

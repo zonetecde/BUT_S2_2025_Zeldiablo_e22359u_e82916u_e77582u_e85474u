@@ -1,14 +1,19 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
 
+import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Items.TypeItem;
+import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.Prompt;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 
 public class Player extends Entite {
     private ArrayList<Item> inventory;
+    private Labyrinthe labyrinthe;
     boolean aGagne = false;
     int sprite = 0;
 
@@ -22,6 +27,34 @@ public class Player extends Entite {
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
         this.inventory = new ArrayList<>();
+    }
+
+    /**
+     * Ramasse un objet si le joueur est sur une case contenant un objet
+     *
+     */
+    public void ramasserItem() {
+        int x = this.getX();
+        int y = this.getY();
+        Case caseCourante = getLabyrinthe().getCase(y, x);
+        // Vérifie si la case contient un objet
+        if (caseCourante.hasItem()) {
+            // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
+            Item item = caseCourante.getItem();
+
+            getInventory().add(item);
+            String nomItem = item.getName();
+
+            // Génère avec l'IA le texte que le joueur va dire
+            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSpriteName(), this::setMsgToSay);
+
+            caseCourante.removeItem();
+        }
+    }
+
+    public void reset(){
+        this.setInventory(new ArrayList<>());
+        this.setHp(this.getMaxHp());
     }
 
     /**
@@ -130,6 +163,14 @@ public class Player extends Entite {
         }
         return false;
     }
+
+   public Labyrinthe getLabyrinthe(){
+        return this.labyrinthe;
+   }
+
+   public void setLabyrinthe(Labyrinthe l){
+        this.labyrinthe = l;
+   }
 
     /**
      * Clone le joueur

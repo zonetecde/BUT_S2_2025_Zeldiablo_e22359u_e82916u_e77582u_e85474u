@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
@@ -17,8 +18,8 @@ public class Food extends Item{
      * @return si utilisé
      */    
     @Override
-    public boolean use(Labyrinthe laby){
-        return laby.getPlayer().gagnerVie(VariablesGlobales.HEAL_FOOD);
+    public boolean use(Player p){
+        return p.gagnerVie(VariablesGlobales.HEAL_FOOD);
     }
     
     /**

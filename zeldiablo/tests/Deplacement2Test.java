@@ -19,12 +19,12 @@ public class Deplacement2Test {
         // place le joueur en bas à droite
         Player joueur = new Player(8, 8, 5, 1);
         labyrinthe.setPlayer(joueur);
-        labyrinthe.getMonstres().clear(); // vide la liste des monstres existants
+        labyrinthe.getEntites().clear(); // vide la liste des monstres existants
 
         // place le monstre en haut à gauche avec stratégie de rapprochement
         Monstre monstre = new Monstre(2, 2);
         monstre.setDeplacementStrategie(new DeplacementRapprochement());
-        labyrinthe.getMonstres().add(monstre);
+        labyrinthe.getEntites().add(monstre);
 
         // position initiale
         int xInitial = monstre.getX();
@@ -47,12 +47,12 @@ public class Deplacement2Test {
         // place le joueur de l'autre côté du mur
         Player joueur = new Player(1, 1, 5, 1);
         labyrinthe.setPlayer(joueur);
-        labyrinthe.getMonstres().clear(); // Vide la liste des monstres existants
+        labyrinthe.getEntites().clear(); // Vide la liste des monstres existants
 
         // place le monstre avant le mur avec stratégie intelligente
         Monstre monstre = new Monstre(8, 5);
         monstre.setDeplacementStrategie(new DeplacementIntelligent());
-        labyrinthe.getMonstres().add(monstre);
+        labyrinthe.getEntites().add(monstre);
 
         // position initiale
         int xInitial = monstre.getX();

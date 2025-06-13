@@ -1,6 +1,7 @@
 package main.java.com.example.zeldiablofx;
 
 import gameZeldiablo.Zeldiablo.Cases.*;
+import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.*;
@@ -266,7 +267,7 @@ public class MainEditor extends Application {
                     if (!ennemy && !items && !link) {
                         imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
                     }else if(!items && !link){
-                        imageView.setOnMouseClicked(new EntityHandler(l, j, i, imageView));
+                        imageView.setOnMouseClicked(new EntityHandler(l, i, j, imageView));
                     }else if (!link){
                         imageView.setOnMouseClicked(new ItemHandler(l.getCase(j,i),imageView));
                     }
@@ -275,9 +276,9 @@ public class MainEditor extends Application {
 
                 //Affichage des ennemis
                 if (ennemy){
-                    for (int k=0;k<l.getMonstres().size();k++){
-                        Monstre m = l.getMonstres().get(k);
-                        if (m.getY()==i && m.getX()==j){
+                    for (int k = 0; k<l.getEntites().size(); k++){
+                        Entite m = l.getEntites().get(k);
+                        if (m.getY()==j && m.getX()==i){
                             Image img = m.getSprite();
                             ImageView imageView = new ImageView(img);
                             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
@@ -564,8 +565,8 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            Monstre m = (Monstre)brushEntite.clone(x,y);
-            l.getMonstres().add(m);
+            Entite m = brushEntite.clone(x,y);
+            l.getEntites().add(m);
             button.setImage(brushEntite.getSprite());
 
         }

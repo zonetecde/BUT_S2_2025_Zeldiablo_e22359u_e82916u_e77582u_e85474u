@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.Sprited;
@@ -24,7 +25,7 @@ public abstract class Item implements Serializable, Sprited {
         this.type = type;
     }
 
-    public boolean use(Labyrinthe laby){return false;}
+    public boolean use(Player p){return false;}
 
     /**
      * Retourne le sprite de l'item

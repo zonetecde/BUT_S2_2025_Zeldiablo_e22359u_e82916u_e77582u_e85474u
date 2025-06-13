@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
+import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
 import gameZeldiablo.Zeldiablo.Sprited;
@@ -207,6 +208,8 @@ public abstract class Entite implements Serializable, Sprited {
     public void setMsgToSay(String msgToSay) {
         this.msgToSay = msgToSay;
     }
+
+    public void deplacer(Player joueur){/*Methode de monstres*/}
 
     @Override
     public Entite clone(){

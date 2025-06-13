@@ -1,3 +1,4 @@
+import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.Food;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
@@ -12,13 +13,13 @@ public class FoodTest {
 
     @Test
     public void testUse() throws Exception{
-        Labyrinthe laby = new Labyrinthe("Laby/labyTests/laby0.txt");
+        Player joueur = new Player(1,1,2,2);
         ArrayList<Item> inv = new ArrayList<Item>();
         inv.add(new Food());
-        laby.getPlayer().setInventory(inv);
-        laby.getPlayer().prendreDegat(3);
-        inv.get(0).use(laby);
-        assertEquals(VariablesGlobales.PV_BASE,laby.getPlayer().getVie());
+        joueur.setInventory(inv);
+        joueur.prendreDegat(3);
+        inv.get(0).use(joueur);
+        assertEquals(VariablesGlobales.PV_BASE,joueur.getVie());
 
     }
 

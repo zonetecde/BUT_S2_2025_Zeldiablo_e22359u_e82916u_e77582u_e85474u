@@ -40,11 +40,8 @@ public class Labyrinthe implements Serializable {
 
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
-
-    // Entité joueur
-    private Player joueur;
     //Monstres
-    private final ArrayList<Monstre> monstres = new ArrayList<>();
+    private final ArrayList<Entite> entites = new ArrayList<>();
 
     // Timer pour le déplacement automatique des monstres
     private transient Timer timerMonstres;
@@ -55,51 +52,11 @@ public class Labyrinthe implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         Random random = new Random();// or restore seed if needed
-        for (int i=0; i<gameBoard.length;i++){
-            for (int j=0;j<gameBoard[0].length;j++){
-                if (gameBoard[i][j] instanceof CaseSpawn){
-                    this.joueur.setX(i);
-                    this.joueur.setY(j);
-                }
-            }
-        }
     }
 
-    /**
-     * Retourne la case suivante en fonction de l'action
-     *
-     * @param x      case depart
-     * @param y      case depart
-     * @param action action effectuee
-     * @return case suivante
-     */
-    public static int[] getSuivant(int y, int x, Direction action) {
-        switch (action) {
-            case HAUT:
-                // on monte une ligne
-                y--;
-                break;
-            case BAS:
-                // on descend une ligne
-                y++;
-                break;
-            case DROITE:
-                // on augmente colonne
-                x++;
-                break;
-            case GAUCHE:
-                // on augmente colonne
-                x--;
-                break;
-            default:
-                throw new Error("action inconnue");
-        }
-        return new int[]{y, x};
-    }
 
     public Labyrinthe(int x,int y){
         this.gameBoard = new Case[x][y];
-        this.joueur = new Player(0,0,5,5);
         for (int i=0;i<x;i++){
             for (int j=0;j<y;j++){
                 this.gameBoard[i][j]= new CaseVide();
@@ -137,7 +94,6 @@ public class Labyrinthe implements Serializable {
         // creation labyrinthe vide
         gameBoard = new Case[nbLignes][nbColonnes];
 
-        this.joueur = null;
 
         // lecture des cases
         String ligneBrute = bfRead.readLine();
@@ -214,12 +170,6 @@ public class Labyrinthe implements Serializable {
                         break;
                     case STAIRS_DEPART:
                         gameBoard[numeroLigne][colonne] = new CaseEscalier(false);
-
-                        // ajoute PJ et crée une case vide à cet endroit
-
-                        if (this.joueur == null)
-                            this.joueur = new Player(colonne, numeroLigne, VariablesGlobales.PV_BASE, VariablesGlobales.DEGAT_BASE);
-
                         break;
                     case PORTE:
                         gameBoard[numeroLigne][colonne] = new CasePorte();
@@ -227,22 +177,22 @@ public class Labyrinthe implements Serializable {
                     case MONSTRE_INTELLIGENT:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreIntelligent = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
-                        monstres.add(monstreIntelligent);
+                        entites.add(monstreIntelligent);
                         break;
                     case MONSTRE_NULLE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreNulle = new Monstre(colonne, numeroLigne, Intelligence.NULLE);
-                        monstres.add(monstreNulle);
+                        entites.add(monstreNulle);
                         break;
                     case MONSTRE_MOYEN:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreMoyen = new Monstre(colonne, numeroLigne, Intelligence.MOYENNE);
-                        monstres.add(monstreMoyen);
+                        entites.add(monstreMoyen);
                         break;
                     case MONSTRE_FAIBLE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
                         Monstre monstreFaible = new Monstre(colonne, numeroLigne, Intelligence.FAIBLE);
-                        monstres.add(monstreFaible);
+                        entites.add(monstreFaible);
                         break;
                     default:
                         throw new Error("caractere inconnu " + c);
@@ -257,23 +207,6 @@ public class Labyrinthe implements Serializable {
 
     }
 
-    private boolean joueurAdjacentACase(int y, int x) {
-        // Vérifie si le joueur est adjacent à la case (y, x)
-        var caseApres = getSuivant(y, x, Direction.HAUT);
-        if (joueurSurCase(caseApres[0], caseApres[1])) {
-            return true;
-        }
-        caseApres = getSuivant(y, x, Direction.BAS);
-        if (joueurSurCase(caseApres[0], caseApres[1])) {
-            return true;
-        }
-        caseApres = getSuivant(y, x, Direction.DROITE);
-        if (joueurSurCase(caseApres[0], caseApres[1])) {
-            return true;
-        }
-        caseApres = getSuivant(y, x, Direction.GAUCHE);
-        return joueurSurCase(caseApres[0], caseApres[1]);
-    }
 
     /**
      * deplace le personnage en fonction de l'action.
@@ -295,7 +228,7 @@ public class Labyrinthe implements Serializable {
             p.setY(suivante[0]);
             p.setX(suivante[1]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
-            caseSuivante.onStepOn(this.joueur);
+            caseSuivante.onStepOn(p);
         }
     }
 
@@ -309,8 +242,7 @@ public class Labyrinthe implements Serializable {
     public boolean canEntityMoveTo(int i, int j) {
         return estDansLimites(i, j) &&
                 (getCase(i, j).getIsWalkable()) &&
-                monstreSurCase(i, j) &&
-                !joueurSurCase(i, j);
+                !entiteSurCase(i, j);
     }
 
 
@@ -329,6 +261,114 @@ public class Labyrinthe implements Serializable {
         return y >= 0 && y < getHauteur() && x >= 0 && x < getLongueur();
     }
 
+
+    /**
+     * Vérifie si un monstre est présent sur la case spécifiée
+     *
+     * @param y Coordonnée verticale de la case
+     * @param x Coordonnée horizontale de la case
+     * @return true si un monstre est sur la case, false sinon
+     */
+    public boolean entiteSurCase(int y, int x) {
+        for (Entite e : entites) {
+            if (e.getY() == y && e.getX() == x) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+    /**
+     * Effectue l'attaque du joueur sur les monstres à proximité.
+     * Cette méthode change l'état visuel du joueur et des monstres touchés,
+     */
+
+    public void attaqueJoueur() {//TODO
+        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
+        ArrayList<Entite> monstresACheck = new ArrayList<>(entites);
+
+        // Pour chaque monstre
+        for (Entite joueur : getJoueurs()) {
+            for (Entite monstre : monstresACheck) {
+                // Si le monstre est à côté du joueur
+                if (joueur.aCote(monstre)) {
+                    joueur.mettreDegat(monstre);
+
+                    // Si le monstre est mort
+                    if (monstre.estMort()) {
+                        entites.remove(monstre);
+                        joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Effectue le déplacement et les actions de tous les monstres
+     */
+    private void deplacerMonstres() {
+        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
+        ArrayList<Entite> monstresASupprimer = new ArrayList<>();
+
+        for (Entite monstre : getMonstres()) {
+            // On effectue le déplacement du monstre
+            monstre.deplacer((Player)getJoueurs().get(0));
+
+            for (Entite joueur : getJoueurs()) {
+                if (monstre.aCote(joueur)) {
+                    //etat visuelle
+                    monstre.mettreDegat(joueur);
+                }
+            }
+
+            // déclanche le onstepon de la case où se trouve le monstre
+            Case caseMonstre = getCase(monstre.getY(), monstre.getX());
+            caseMonstre.onStepOn(monstre);
+
+            if (monstre.getHp() <= 0) {
+                monstresASupprimer.add(monstre);
+            }
+        }
+        
+        // Supprime les monstres morts
+        entites.removeAll(monstresASupprimer);
+    }
+
+    /**
+     * Arrête le timer des monstres (utile lors de la destruction du labyrinthe)
+     */
+    public void arreterTimerMonstres() {
+        if (timerMonstres != null) {
+            timerMonstres.cancel();
+            timerMonstres = null;
+        }
+    }
+
+    /**
+     * Initialise le timer pour le déplacement automatique des monstres
+     */
+    public void initTimerMonstres() {
+        if(timerMonstres != null) {
+            System.out.println("canceled");
+            timerMonstres.cancel();
+        }
+
+        timerMonstres = new Timer();
+        timerMonstres.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                deplacerMonstres();
+            }
+        }, 0, VariablesGlobales.DEPLACEMENT_MONSTRE);
+    }
+
+
+    //Getters
     /**
      * return taille selon Y
      *
@@ -358,177 +398,70 @@ public class Labyrinthe implements Serializable {
         return gameBoard[y][x];
     }
 
-    public Player getPlayer() {
-        return this.joueur;
-    }
-
-    /**
-     * Setter du joueur
-     */
-    public void setPlayer(Player joueur) {
-        this.joueur = joueur;
-    }
 
     /**
      * getter de la liste de monstres
      *
      * @return Liste de monstre
      */
-    public ArrayList<Monstre> getMonstres() {
-        return monstres;
+    public ArrayList<Entite> getEntites() {
+        return entites;
     }
 
 
     public Case[][] getGameBoard(){return gameBoard;}
 
-
-    /**
-     * Ramasse un objet si le joueur est sur une case contenant un objet
-     *
-     * @param joueur Le joueur qui tente de ramasser l'objet
-     */
-    public void ramasserItem(Player joueur) {
-        int x = joueur.getX();
-        int y = joueur.getY();
-        Case caseCourante = getCase(y, x);
-        // Vérifie si la case contient un objet
-        if (caseCourante.hasItem()) {
-            // Ajoute l'objet à l'inventaire du joueur et retire l'objet de la case
-            Item item = caseCourante.getItem();
-
-            joueur.getInventory().add(item);
-            String nomItem = item.getName();
-
-            // Génère avec l'IA le texte que le joueur va dire
-            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSpriteName(), joueur::setMsgToSay);
-
-            caseCourante.removeItem();
-        }
-    }
-
-    /**
-     * Vérifie si un monstre est présent sur la case spécifiée
-     *
-     * @param y Coordonnée verticale de la case
-     * @param x Coordonnée horizontale de la case
-     * @return true si un monstre est sur la case, false sinon
-     */
-    public boolean monstreSurCase(int y, int x) {
-        for (Entite monstre : monstres) {
-            if (monstre.getY() == y && monstre.getX() == x) {
-                return false;
+    public ArrayList<Entite> getJoueurs(){
+        ArrayList<Entite> joueurs = new ArrayList<>();
+        for (Entite e : entites){
+            if (e instanceof Player){
+                joueurs.add(e);
             }
         }
-        return true;
+        return joueurs;
+    }
+
+    public ArrayList<Entite> getMonstres(){
+        ArrayList<Entite> joueurs = new ArrayList<>();
+        for (Entite e : entites){
+            if (e instanceof Monstre){
+                joueurs.add(e);
+            }
+        }
+        return joueurs;
     }
 
     /**
-     * Vérifie si un joueur est présent sur la case spécifiée
+     * Retourne la case suivante en fonction de l'action
      *
-     * @param y     Coordonnée verticale de la case
-     * @param x     Coordonnée horizontale de la case
-     * @return true si le joueur est sur la case, false sinon
+     * @param x      case depart
+     * @param y      case depart
+     * @param action action effectuee
+     * @return case suivante
      */
-    public boolean joueurSurCase(int y, int x) {
-        return this.joueur.getY() == y && this.joueur.getX() == x;
-    }
-
-    /**
-     * Setter du joueur
-     *
-     * @param joueur nouveau joueur
-     */
-    public void setJoueur(Player joueur) {
-        this.joueur = joueur;
-    }
-
-    /**
-     * getter du joueur
-     *
-     * @return Joueur actuel
-     */
-    public Player getJoueur() {
-        return this.joueur;
-    }
-
-    /**
-     * Effectue l'attaque du joueur sur les monstres à proximité.
-     * Cette méthode change l'état visuel du joueur et des monstres touchés,
-     */
-
-    public void attaqueJoueur() {
-        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Monstre> monstresACheck = new ArrayList<>(monstres);
-
-        // Pour chaque monstre
-        for (Monstre monstre : monstresACheck) {
-            // Si le monstre est à côté du joueur
-            if (joueur.aCote(monstre)) {
-                joueur.mettreDegat(monstre);
-
-                // Si le monstre est mort
-                if (monstre.estMort()) {
-                    monstres.remove(monstre);
-                    joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
-                }
-            }
+    public static int[] getSuivant(int y, int x, Direction action) {
+        switch (action) {
+            case HAUT:
+                // on monte une ligne
+                y--;
+                break;
+            case BAS:
+                // on descend une ligne
+                y++;
+                break;
+            case DROITE:
+                // on augmente colonne
+                x++;
+                break;
+            case GAUCHE:
+                // on augmente colonne
+                x--;
+                break;
+            default:
+                throw new Error("action inconnue");
         }
+        return new int[]{y, x};
     }
 
-    /**
-     * Initialise le timer pour le déplacement automatique des monstres
-     */
-    public void initTimerMonstres() {
-        if(timerMonstres != null) {
-            System.out.println("canceled");
-            timerMonstres.cancel();
-        }
 
-        timerMonstres = new Timer();
-        timerMonstres.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                deplacerMonstres();
-            }
-        }, 0, VariablesGlobales.DEPLACEMENT_MONSTRE);
-    }
-
-    /**
-     * Effectue le déplacement et les actions de tous les monstres
-     */
-    private void deplacerMonstres() {
-        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Monstre> monstresASupprimer = new ArrayList<>();
-
-        for (Monstre monstre : monstres) {
-            // On effectue le déplacement du monstre
-            monstre.deplacer(this);
-
-            if (monstre.aCote(this.joueur)) {
-                //etat visuelle
-                monstre.mettreDegat(this.joueur);
-            }
-
-            // déclanche le onstepon de la case où se trouve le monstre
-            Case caseMonstre = getCase(monstre.getY(), monstre.getX());
-            caseMonstre.onStepOn(monstre);
-
-            if (monstre.getHp() <= 0) {
-                monstresASupprimer.add(monstre);
-            }
-        }
-        
-        // Supprime les monstres morts
-        monstres.removeAll(monstresASupprimer);
-    }
-
-    /**
-     * Arrête le timer des monstres (utile lors de la destruction du labyrinthe)
-     */
-    public void arreterTimerMonstres() {
-        if (timerMonstres != null) {
-            timerMonstres.cancel();
-            timerMonstres = null;
-        }
-    }
 }

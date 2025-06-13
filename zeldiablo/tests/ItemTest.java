@@ -1,7 +1,6 @@
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Items.Item;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +17,7 @@ public class ItemTest {
     @Test
     public void testRamasserItem() throws IOException {
         Labyrinthe laby = new Labyrinthe(new File("Laby/labyTests/laby3.txt").getAbsolutePath());
-        Player joueur = laby.getPlayer();
+        Player joueur = laby.getJoueurs();
 
         boolean trouve = false;
         for (int y = 0; y < laby.getHauteur(); y++) {

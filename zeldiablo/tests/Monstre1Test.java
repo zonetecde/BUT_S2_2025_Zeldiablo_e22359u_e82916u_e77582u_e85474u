@@ -27,10 +27,10 @@ class Monstre1Test {
      */
     @Test
     void testCollisionMonstre() {
-        Player joueur = labyrinthe.getPlayer();
+        Player joueur = labyrinthe.getJoueurs();
         // Place un monstre à droite du joueur
         MonstreStatique monstre = new MonstreStatique(joueur.getX() + 1, joueur.getY());
-        labyrinthe.getMonstres().add(monstre);
+        labyrinthe.getEntites().add(monstre);
 
         int yAvant = joueur.getY();
         int xAvant = joueur.getX();
