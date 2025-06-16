@@ -17,6 +17,10 @@ public class Player extends Entite {
     boolean aGagne = false;
     int sprite = 0;
 
+    public boolean menuOuvert = false;
+    public boolean curseurStart = true;
+    public int curseur = 0;
+
     /**
      * Constructeur
      * @param dx posx
@@ -121,14 +125,14 @@ public class Player extends Entite {
     public void mettreDegat(Entite cible) {
         if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
-            if(getInventory().size() == 0 || getInventory().get(VariablesGlobales.curseur).getType() != TypeItem.ARME) {
+            if(getInventory().isEmpty() || getInventory().get(curseur).getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
                 cible.prendreDegat(this.getDegat());
                 return;
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat((double)getInventory().get(VariablesGlobales.curseur).getDegat());
+            cible.prendreDegat((double)getInventory().get(curseur).getDegat());
         }
     }
 

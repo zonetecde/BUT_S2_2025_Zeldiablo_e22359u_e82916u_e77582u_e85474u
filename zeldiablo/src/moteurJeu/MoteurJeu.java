@@ -16,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 // copied from: https://gist.github.com/james-d/8327842
 // and modified to use canvas drawing instead of shapes
 
@@ -47,7 +49,7 @@ public class MoteurJeu extends Application {
     /**
      * touches appuyee entre deux frame
      */
-    Clavier controle = new Clavier();
+    ArrayList<Clavier> controle = new ArrayList<>();
 
     /**
      * lancement d'un jeu
@@ -59,6 +61,7 @@ public class MoteurJeu extends Application {
         // le jeu en cours et son afficheur
         MoteurJeu.jeu = jeu;
         MoteurJeu.dessin = dessin;
+
 
         // si le jeu existe, on lance le moteur de jeu
         if (jeu != null)
@@ -91,6 +94,7 @@ public class MoteurJeu extends Application {
      */
     public void start(Stage primaryStage) {
         // initialisation du canvas de dessin et du container
+        controle.add(new Clavier());
         final Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
         canvas.widthProperty().bind(canvasContainer.widthProperty());
@@ -115,14 +119,14 @@ public class MoteurJeu extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                controle.appuyerTouche(event);
+                controle.get(0).appuyerTouche(event);
             }
         });
 
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                controle.relacherTouche(event);
+                controle.get(0).relacherTouche(event);
             }
         });
 
@@ -169,7 +173,7 @@ public class MoteurJeu extends Application {
                 // si le temps ecoule depasse le necessaire pour FPS souhaite
                 if (dureeEnMilliSecondes > dureeFPS) {
                     // met a jour le jeu en passant les touches appuyees
-                    jeu.update(dureeEnMilliSecondes / 1_000., controle);
+                    jeu.update(dureeEnMilliSecondes / 1_000., controle.get(0));
 
                     // dessine le jeu
                     dessin.dessinerJeu(jeu, canvas);

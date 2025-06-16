@@ -11,8 +11,6 @@ public class MainZeldiablo {
      * @param args Arguments de la ligne de commande, le premier argument est le numéro du niveau à charger.
      */
     public static void main(String[] args) {
-        int level = 0;
-
         int pFPS = 100;        // creation des objets
         ZeldiabloJeu zeldiabloJeu = new ZeldiabloJeu();
         ZeldiabloDessin zeldiabloDessin = new ZeldiabloDessin();

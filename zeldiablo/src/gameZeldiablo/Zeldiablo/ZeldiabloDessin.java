@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class ZeldiabloDessin implements DessinJeu {
     private Image imageJoueur;
+    private ZeldiabloJeu jeu;
 
 
     /**
@@ -26,6 +27,7 @@ public class ZeldiabloDessin implements DessinJeu {
      */
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) {
+        this.jeu= (ZeldiabloJeu) jeu;
         Player player = ((ZeldiabloJeu) jeu).getJoueur();
 
         // recupere un pinceau pour dessiner
@@ -63,7 +65,7 @@ public class ZeldiabloDessin implements DessinJeu {
             // Affiche l'item actuellement sélectionné dans l'inventaire
             itemActuellementSelectionneUI(player, gc);
 
-            if (VariablesGlobales.MenuOuvert) {
+            if (player.menuOuvert) {
                 invUI(player, gc, canvas);
             }
         }
@@ -180,7 +182,7 @@ public class ZeldiabloDessin implements DessinJeu {
     private void itemActuellementSelectionneUI(Player joueur, GraphicsContext gc) {
         ArrayList<Item> inv = joueur.getInventory();
         if (!inv.isEmpty()) {
-            Item item = inv.get(VariablesGlobales.curseur);
+            Item item = inv.get(joueur.curseur);
             int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
             gc.setFill(Color.BLACK);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
@@ -226,7 +228,7 @@ public class ZeldiabloDessin implements DessinJeu {
             double caseY = menuY + caseHeight * y;
 
             // Couleur de fond de case
-            if (i == VariablesGlobales.curseur) {
+            if (i == joueur.curseur) {
                 gc.setFill(Color.rgb(227, 208, 149,0.9)); // Case sélectionnée
             } else if (couleurcases) {
                 gc.setFill(Color.rgb(72, 58, 160,0.9));
@@ -283,7 +285,7 @@ public class ZeldiabloDessin implements DessinJeu {
 
         //Curseur
         double emCursor;
-        if (VariablesGlobales.curseurStart){
+        if (jeu.getJoueur().curseurStart){
             emCursor=c.getHeight()/2.5-5;
         }
         else{
