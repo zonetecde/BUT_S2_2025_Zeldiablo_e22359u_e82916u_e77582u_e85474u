@@ -6,14 +6,18 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class ZeldiabloJeu implements Jeu {
     public static int nbJoueur = 0;
-    private int idComp;
+    public int idComp;
+    public boolean lance = false;
+    private boolean multiplayer;
 
     /**
      * Classe principale du jeu Zeldiablo.
@@ -22,7 +26,8 @@ public class ZeldiabloJeu implements Jeu {
      * La premiere map doit s'appeler FirstMap
      */
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
-    private final ArrayList<Player> joueur = new ArrayList<>();
+    private List<Player> joueur = new ArrayList<>();
+    private int curJoueur = 0;
 
 
     // Indique si le jeu est fini
@@ -65,8 +70,11 @@ public class ZeldiabloJeu implements Jeu {
      * Déplace le personnage en fonction des touches pressées.
      * @param clavier Objet Clavier pour recuperer des input
      */
-    private void Inputs(Clavier clavier) {
-        if (getJoueur().estMort()){
+    private void Inputs(Clavier clavier,int joueur) {
+        curJoueur = joueur;
+        if (!lance){
+            inputJoin(clavier);
+        } else if (getJoueur().estMort()){
             getJoueur().getLabyrinthe().arreterTimerMonstres();
             inputsStart(clavier);
         } else if (getJoueur().menuOuvert){
@@ -76,6 +84,33 @@ public class ZeldiabloJeu implements Jeu {
             inputLaby(clavier);
         }
 
+    }
+
+    private void Inputs(Clavier clavier){
+        this.Inputs(clavier,idComp);
+    }
+
+    private void inputJoin(Clavier clavier){
+        if (clavier.bas){
+            getJoueur().curseurLog = (getJoueur().curseurLog+1)%3;
+        }else if (clavier.haut){
+            if (getJoueur().curseurLog>0){getJoueur().curseurLog--;}
+            else{ getJoueur().curseurLog = 2;}
+        } else if (clavier.space) {
+            switch (getJoueur().curseurLog){
+                case 0:
+                    multiplayer = false;
+                    lance = true;
+                    break;
+                case 1:
+                    multiplayer = true;
+                    break;
+                case 2:
+                    multiplayer = true;
+                    MapList.initialisation();
+            }
+
+        }
     }
 
     private void inputInv(Clavier clavier){
@@ -133,7 +168,7 @@ public class ZeldiabloJeu implements Jeu {
             getJoueur().setSpriteJoueur(1);
         }
         else if (clavier.x) {
-            getLaby().attaqueJoueur();
+            getJoueur().attaque();
             if (getJoueur().getSpriteJoueur()<VariablesGlobales.SPRITE_JOUEUR.length/2) {
                 getJoueur().setSpriteJoueur(getJoueur().getSpriteJoueur() + 4);
             }
@@ -173,6 +208,7 @@ public class ZeldiabloJeu implements Jeu {
         nbJoueur++;
     }
 
+
     /**
      * Change le niveau du jeu.
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
@@ -196,11 +232,21 @@ public class ZeldiabloJeu implements Jeu {
      * Getter de laby
      * @return renvoie le laby actuel
      */
-    public Labyrinthe getLaby(){
-        return getJoueur().getLabyrinthe();
+    public Labyrinthe getLaby(int joueur){
+        return getJoueur(joueur).getLabyrinthe();
     }
 
-    public Player getJoueur(){return this.joueur.get(idComp);}
+    public Labyrinthe getLaby(){
+        return getLaby(curJoueur);
+    }
+
+    public Player getJoueur(int joueur){return this.joueur.get(joueur);}
+
+    public Player getJoueur(){return getJoueur(curJoueur);}
+
+    public void setJoueurs(List<Player> players){this.joueur=players;}
+
+    public List<Player> getJoueurs(){return joueur;}
 
     /**
      * Action lancée avant le jeu

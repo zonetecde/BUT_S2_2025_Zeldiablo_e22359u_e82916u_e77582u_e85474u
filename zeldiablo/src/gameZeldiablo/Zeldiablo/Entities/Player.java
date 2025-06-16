@@ -7,7 +7,6 @@ import gameZeldiablo.Zeldiablo.Items.TypeItem;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Prompt;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 
@@ -19,6 +18,7 @@ public class Player extends Entite {
 
     public boolean menuOuvert = false;
     public boolean curseurStart = true;
+    public int curseurLog = 0;
     public int curseur = 0;
 
     /**
@@ -61,6 +61,71 @@ public class Player extends Entite {
         this.setHp(this.getMaxHp());
     }
 
+
+    
+    /**
+     * Inflige des dégâts à une cible en fonction de l'item équipé
+     * @param cible L'entité cible qui subit les dégâts
+     */
+    @Override
+    public void mettreDegat(Entite cible) {
+        if (cible != null && cible.getEnVie()) {
+            // regarde l'item actuellement équipé
+            if(getInventory().isEmpty() || getInventory().get(curseur).getType() != TypeItem.ARME) {
+                // Si l'inventaire est vide, on inflige les dégâts de base
+                cible.prendreDegat(this.getDegat());
+                return;
+            }
+
+            // Le premier paramètre des armes est les dégâts
+            cible.prendreDegat((double)getInventory().get(curseur).getDegat());
+        }
+    }
+
+    /**
+     * Effectue l'attaque du joueur sur les monstres à proximité.
+     * Cette méthode change l'état visuel du joueur et des monstres touchés,
+     */
+
+    public void attaque() {
+        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
+        ArrayList<Entite> monstresACheck = labyrinthe.getMonstres();
+
+        // Pour chaque monstre
+        for (Entite monstre : monstresACheck) {
+            // Si le monstre est à côté du joueur
+            if (this.aCote(monstre)) {
+                this.mettreDegat(monstre);
+
+                // Si le monstre est mort
+                if (monstre.estMort()) {
+                    labyrinthe.getEntites().remove(monstre);
+                    this.setHp(Math.min(this.getHp() + 1, this.getMaxHp()));
+                }
+            }
+        }
+    }
+
+
+
+    /**
+     * Regarde si le joueur possède un item dans son inventaire
+     *
+     * @return true si l'item est trouvé, false sinon
+     */
+    public boolean possedeItem(String nomItem) {
+        for (Item item : inventory) {
+            if (item.getName().equals(nomItem)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    //Getters et setters
+
     /**
      * Setter du sprite
      * @param i nombre associé au sprite
@@ -91,6 +156,32 @@ public class Player extends Entite {
     }
 
     /**
+     * Retourne si le joueur a gagné ou non
+     *
+     * @return true si le joueur a gagné, false sinon
+     */
+    public boolean aGagne() {
+        return aGagne;
+    }
+
+    /**
+     * Set si le joueur a gagné ou non
+     *
+     * @param b true si le joueur a gagné, false sinon
+     */
+    public void setaGagne(boolean b) {
+        this.aGagne = b;
+    }
+
+    public Labyrinthe getLabyrinthe(){
+        return this.labyrinthe;
+    }
+
+    public void setLabyrinthe(Labyrinthe l){
+        this.labyrinthe = l;
+    }
+
+    /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
      *
      * @param inventory L'inventaire du joueur, une liste d'objets
@@ -115,76 +206,5 @@ public class Player extends Entite {
     public double getVie() {
         return this.getHp();
 
-    }
-    
-    /**
-     * Inflige des dégâts à une cible en fonction de l'item équipé
-     * @param cible L'entité cible qui subit les dégâts
-     */
-    @Override
-    public void mettreDegat(Entite cible) {
-        if (cible != null && cible.getEnVie()) {
-            // regarde l'item actuellement équipé
-            if(getInventory().isEmpty() || getInventory().get(curseur).getType() != TypeItem.ARME) {
-                // Si l'inventaire est vide, on inflige les dégâts de base
-                cible.prendreDegat(this.getDegat());
-                return;
-            }
-
-            // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat((double)getInventory().get(curseur).getDegat());
-        }
-    }
-
-    /**
-     * Retourne si le joueur a gagné ou non
-     *
-     * @return true si le joueur a gagné, false sinon
-     */
-    public boolean aGagne() {
-        return aGagne;
-    }
-
-    /**
-     * Set si le joueur a gagné ou non
-     *
-     * @param b true si le joueur a gagné, false sinon
-     */
-    public void setaGagne(boolean b) {
-        this.aGagne = b;
-    }
-
-    /**
-     * Regarde si le joueur possède un item dans son inventaire
-     *
-     * @return true si l'item est trouvé, false sinon
-     */
-    public boolean possedeItem(String nomItem) {
-        for (Item item : inventory) {
-            if (item.getName().equals(nomItem)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-   public Labyrinthe getLabyrinthe(){
-        return this.labyrinthe;
-   }
-
-   public void setLabyrinthe(Labyrinthe l){
-        this.labyrinthe = l;
-   }
-
-    /**
-     * Clone le joueur
-     * @return nouveau joueur
-     */
-    public Player clone() {
-        Player clone = new Player(this.getX(), this.getY(), this.getMaxHp(), this.getDegat());
-        clone.setEnVie(super.getEnVie());
-        clone.setHp(this.getHp());
-        clone.setInventory(new ArrayList<>(this.inventory));
-        return clone;
     }
 }

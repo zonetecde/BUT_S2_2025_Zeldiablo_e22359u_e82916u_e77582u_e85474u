@@ -28,16 +28,16 @@ public class ZeldiabloDessin implements DessinJeu {
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) {
         this.jeu= (ZeldiabloJeu) jeu;
-        Player player = ((ZeldiabloJeu) jeu).getJoueur();
+        Player player = this.jeu.getJoueur(this.jeu.idComp);
 
         // recupere un pinceau pour dessiner
         final GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        if (player.estMort()){
-            startUI(gc,canvas);
-        }
-        else if (player.aGagne()){
-            startUI(gc,canvas);
+        if (!this.jeu.lance){
+            logUI(player,gc,canvas);
+        } else if (player.estMort()){
+            startUI(player,gc,canvas);
+        } else if (player.aGagne()){
+            startUI(player,gc,canvas);
             afficherEcranVictoire(gc,canvas);
             javafx.animation.Timeline timeline = new javafx.animation.Timeline(
                 new javafx.animation.KeyFrame(
@@ -51,8 +51,7 @@ public class ZeldiabloDessin implements DessinJeu {
             timeline.setCycleCount(1);
             timeline.play();
             
-        }
-        else {
+        } else {
             // Dessine le laby
             labyUI(player, gc, canvas);
 
@@ -69,6 +68,37 @@ public class ZeldiabloDessin implements DessinJeu {
                 invUI(player, gc, canvas);
             }
         }
+    }
+
+    private void logUI(Player joueur,GraphicsContext gc,Canvas c){
+        //Fond
+        gc.setFill(Color.rgb(72, 58, 160));
+        gc.fillRect(0,0,c.getWidth(),c.getHeight());
+        gc.setFill(Color.rgb(121, 101, 193));
+        gc.setFont(Font.font("Caladea" ,44));
+
+        double baseH = c.getHeight()/5;
+
+        for (int i=1 ; i<4 ; i++) {
+            gc.strokeRect(c.getWidth() / 3, baseH*i , c.getWidth() / 3, c.getHeight() / 7);
+            gc.fillRect(c.getWidth() / 3, baseH*i , c.getWidth() / 3, c.getHeight() / 7);
+        }
+
+
+        //Texte
+        gc.setFill(Color.BLACK);
+        gc.fillText("Solo",(c.getWidth()/2.5),(baseH * 1.5));
+        gc.fillText("Join" , c.getWidth()/2.5,baseH * 2.5);
+        gc.fillText("Host" , c.getWidth()/2.5,baseH * 3.5);
+
+        //Curseur
+        double emCursor = switch (joueur.curseurLog) {
+            case 0 -> baseH *  1.25;
+            case 1 -> baseH *  2.25;
+            default -> baseH * 3.25;
+        };
+
+        gc.fillOval(c.getWidth()/3-10,emCursor,20,20);
     }
 
     /**
@@ -261,35 +291,33 @@ public class ZeldiabloDessin implements DessinJeu {
         }
     }
 
-    public void startUI(GraphicsContext gc, Canvas c){
+    public void startUI(Player joueur,GraphicsContext gc, Canvas c){
+        gc.clearRect(0,0,c.getWidth(),c.getHeight());
         //Fond
         gc.setFill(Color.rgb(72, 58, 160));
         gc.fillRect(0,0,c.getWidth(),c.getHeight());
         gc.setFill(Color.rgb(121, 101, 193));
         gc.setFont(Font.font("Caladea" ,44));
 
-        //Premiere Case
-        gc.rect(c.getWidth()/3,c.getHeight()/3,c.getWidth()/3,c.getHeight()/7);
-        gc.stroke();
-        gc.fill();
+        double baseH = c.getHeight()/4;
 
-        //Deuxieme case
-        gc.rect(c.getWidth()/3,c.getHeight()/2,c.getWidth()/3,c.getHeight()/7);
-        gc.stroke();
-        gc.fill();
+        for (int i=1 ; i<3 ; i++) {
+            gc.strokeRect(c.getWidth() / 3, baseH*i , c.getWidth() / 3, c.getHeight() / 7);
+            gc.fillRect(c.getWidth() / 3, baseH*i , c.getWidth() / 3, c.getHeight() / 7);
+        }
 
         //Texte
         gc.setFill(Color.BLACK);
-        gc.fillText("Start",(c.getWidth()/2.5),(c.getHeight()/2.5+10));
-        gc.fillText("Leave" , c.getWidth()/2.5,c.getHeight()/1.75+10);
+        gc.fillText("Start",(c.getWidth()/2.5),baseH * 1.4);
+        gc.fillText("Leave" , c.getWidth()/2.5,baseH * 2.4);
 
         //Curseur
         double emCursor;
-        if (jeu.getJoueur().curseurStart){
-            emCursor=c.getHeight()/2.5-5;
+        if (joueur.curseurStart){
+            emCursor=baseH * 1.25;
         }
         else{
-            emCursor=c.getHeight()/1.75-5;
+            emCursor=baseH * 2.25;
         }
 
         gc.fillOval(c.getWidth()/3-10,emCursor,20,20);

@@ -279,35 +279,6 @@ public class Labyrinthe implements Serializable {
     }
 
 
-
-
-    /**
-     * Effectue l'attaque du joueur sur les monstres à proximité.
-     * Cette méthode change l'état visuel du joueur et des monstres touchés,
-     */
-
-    public void attaqueJoueur() {//TODO
-        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Entite> monstresACheck = getMonstres();
-
-        // Pour chaque monstre
-        for (Entite joueur : getJoueurs()) {
-            for (Entite monstre : monstresACheck) {
-                // Si le monstre est à côté du joueur
-                if (joueur.aCote(monstre)) {
-                    joueur.mettreDegat(monstre);
-
-                    // Si le monstre est mort
-                    if (monstre.estMort()) {
-                        entites.remove(monstre);
-                        joueur.setHp(Math.min(joueur.getHp() + 1, joueur.getMaxHp()));
-                    }
-                }
-            }
-        }
-    }
-
-
     /**
      * Effectue le déplacement et les actions de tous les monstres
      */
