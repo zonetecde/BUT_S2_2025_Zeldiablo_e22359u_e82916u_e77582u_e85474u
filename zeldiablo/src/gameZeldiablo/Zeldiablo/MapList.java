@@ -32,7 +32,7 @@ public class MapList {
         try {
             File folder = new File("Laby/LabyBin");
             for (File f : Objects.requireNonNull(folder.listFiles())) {
-                MapList.getMap(f.getName());
+                MapList.getMap(f.getName()).arreterTimerMonstres();
             }
         }
         catch (Exception e){

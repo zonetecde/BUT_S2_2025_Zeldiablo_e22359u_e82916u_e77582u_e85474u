@@ -2,7 +2,9 @@ package moteurJeu;
 
 import javafx.scene.input.KeyEvent;
 
-public class Clavier {
+import java.io.Serializable;
+
+public class Clavier implements Serializable {
 
     /**
      * controle appuyes
