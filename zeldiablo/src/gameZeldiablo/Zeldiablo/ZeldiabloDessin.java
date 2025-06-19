@@ -202,11 +202,16 @@ public class ZeldiabloDessin implements DessinJeu {
         
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        String displayLog = "Not logged in";
+        if (jeu.roomID != null){
+            displayLog=jeu.roomID;
+        }
         gc.fillText("ZQSD : Move", baseXPlayer + 5, 130 + 125);
         gc.fillText("E : Take", baseXPlayer + 5, 145 + 125);
         gc.fillText("Tab : Inv", baseXPlayer + 5, 160 + 125);
         gc.fillText("X : Attack", baseXPlayer + 5, 175 + 125);
         gc.fillText("Space : Use", baseXPlayer + 5, 190 + 125);
+        gc.fillText(displayLog, baseXPlayer + 5, 205 + 125);
     }   
     
     private void itemActuellementSelectionneUI(Player joueur, GraphicsContext gc) {

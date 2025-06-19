@@ -37,8 +37,7 @@ public class MapList {
         }
         catch (Exception e){
             System.out.println("Donnees corrompues");
-            System.out.println(e.getMessage());
-            System.exit(1);
+            throw new RuntimeException(e);
         }
     }
 

@@ -6,6 +6,7 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -17,6 +18,7 @@ public class ZeldiabloJeu implements Jeu {
     public int idComp;
     public boolean lance;
     public boolean multiplayer;
+    public String roomID;
 
     /**
      * Classe principale du jeu Zeldiablo.
@@ -59,15 +61,17 @@ public class ZeldiabloJeu implements Jeu {
                 }, 160, TimeUnit.MILLISECONDS);
 
                 if (lance && multiplayer) {
-                    room.getClaviers().add(idComp, clavier);
+                    room.getClaviers().set(idComp, clavier);
 
                     for (int i=0;i<joueur.size();i++) {
+                        curJoueur = i;
                         System.out.println(room.getClaviers().get(i));
-                        Inputs(room.getClaviers().get(i), i);
+                        Inputs(room.getClaviers().get(i));
                     }
 
                 } else{
-                    Inputs(clavier,idComp);
+                    curJoueur = idComp;
+                    Inputs(clavier);
                 }
 
                 scheduler.shutdown();
@@ -79,15 +83,13 @@ public class ZeldiabloJeu implements Jeu {
      * Déplace le personnage en fonction des touches pressées.
      * @param clavier Objet Clavier pour recuperer des input
      */
-    private void Inputs(Clavier clavier,int joueur) {
-        curJoueur = joueur;
+    private void Inputs(Clavier clavier) {
         if (clavier.tab) {
             getJoueur().menuOuvert = !getJoueur().menuOuvert;
         }
         if (!lance){
             inputJoin(clavier);
         } else if (getJoueur().estMort()){
-            getJoueur().getLabyrinthe().arreterTimerMonstres();
             inputsStart(clavier);
         } else if (getJoueur().menuOuvert){
             inputInv(clavier);
@@ -99,35 +101,35 @@ public class ZeldiabloJeu implements Jeu {
     }
 
     private void inputJoin(Clavier clavier){
-        try {
-            if (clavier.bas) {
-                getJoueur().curseurLog = (getJoueur().curseurLog + 1) % 3;
-            } else if (clavier.haut) {
-                if (getJoueur().curseurLog > 0) {
-                    getJoueur().curseurLog--;
-                } else {
-                    getJoueur().curseurLog = 2;
-                }
-            } else if (clavier.space) {
-                room = new ServerRoom();
-                switch (getJoueur().curseurLog) {
-                    case 0:
-                        lance = true;
-                        break;
-                    case 1:
-                        this.idComp = room.log(this, clavier);
-                        multiplayer = true;
-                        lance = true;
-                        break;
-                    case 2:
-                        new Thread( () -> room.host(this, clavier));
-                        this.idComp = 0;
-                        lance = true;
-                }
-
+        if (clavier.bas) {
+            getJoueur().curseurLog = (getJoueur().curseurLog + 1) % 3;
+        } else if (clavier.haut) {
+            if (getJoueur().curseurLog > 0) {
+                getJoueur().curseurLog--;
+            } else {
+                getJoueur().curseurLog = 2;
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } else if (clavier.space) {
+            //Creation d'une nouvelle room
+            room = new ServerRoom();
+            switch (getJoueur().curseurLog) {
+                case 0:
+                    //Lancement en solo sans room
+                    lance = true;
+                    break;
+                case 1:
+                    //rejoindre une room
+                    this.idComp = room.log(this, clavier);
+                    multiplayer = true;
+                    lance = true;
+                    break;
+                case 2:
+                    //Heberger une room
+                    new Thread( () -> room.host(this, clavier)).start();
+                    this.idComp = 0;
+                    lance = true;
+            }
+
         }
     }
 
@@ -266,13 +268,12 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
+        MapList.initialisation();
         lance = false;
         multiplayer = false;
         curJoueur = 0;
         idComp = 0;
         joueur.add(new Player(0,0,5,5));
-        getJoueur().setLabyrinthe(MapList.getMap("FirstMap"));
-        getJoueur().getLabyrinthe().arreterTimerMonstres();
         getJoueur().setEnVie(false);
 
     }
