@@ -42,37 +42,39 @@ public class ZeldiabloJeu implements Jeu {
     /**
      * Action à chaque frame
      * @param secondes temps ecoule depuis la derniere mise a jour
-     * @param clavier objet contenant l'état du clavier'
+     * @param c objet contenant l'état du clavier'
      */
 
 
     @Override
-    public void update(double secondes, Clavier clavier) {
+    public void update(double secondes, Clavier c) {
+        if (multiplayer) {
+            room.sendData(new Encapsulation(c, idComp));
+            room.getClaviers().set(this.idComp,c);
+
+            for (int i = 0 ; i<room.getClaviers().size();i++) {
+                Clavier clavier = room.getClaviers().get(i);
+                curJoueur = i;
+                takeInput(clavier, i);
+            }
+        }else{
+            takeInput(c,idComp);
+        }
+
+    }
+
+    private void takeInput(Clavier clavier, int i) {
         if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
-            if (multiplayer){
-                room.sendData(new Encapsulation(clavier, idComp));
-            }
-            if (!currentlyMoving) {
-                currentlyMoving = true;
+            if (!joueur.get(i).currentlyMoving) {
+                joueur.get(i).currentlyMoving = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                int finalI = i;
                 scheduler.schedule(() -> {
-                    currentlyMoving = false;
+                    joueur.get(finalI).currentlyMoving = false;
                 }, 160, TimeUnit.MILLISECONDS);
 
-                if (lance && multiplayer) {
-                    room.getClaviers().set(idComp, clavier);
-
-                    for (int i=0;i<joueur.size();i++) {
-                        curJoueur = i;
-                        System.out.println(room.getClaviers().get(i));
-                        Inputs(room.getClaviers().get(i));
-                    }
-
-                } else{
-                    curJoueur = idComp;
-                    Inputs(clavier);
-                }
+                Inputs(clavier);
 
                 scheduler.shutdown();
             }

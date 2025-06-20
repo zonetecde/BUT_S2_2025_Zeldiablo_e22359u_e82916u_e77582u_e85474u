@@ -20,6 +20,7 @@ public class Player extends Entite {
     public boolean curseurStart = true;
     public int curseurLog = 0;
     public int curseur = 0;
+    public boolean currentlyMoving = false;
 
     /**
      * Constructeur
