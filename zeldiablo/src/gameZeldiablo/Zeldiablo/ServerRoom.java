@@ -85,8 +85,12 @@ public class ServerRoom {
                 Encapsulation tmp = (Encapsulation) in.get(i).readObject();
                 if (tmp.concerne==5){
                         logServer("Player "+i+" asked for broad data");
+                        if (!playersInRoom.isEmpty()) {
+                            sendData(Encapsulation.ASK_PLAYERS, 0);
+                            Thread.sleep(100);
+                        }
                         sendData(new Encapsulation(claviers, playersInRoom, maps),-1);
-                }else {
+                } else {
                     tmp.getData(this, game);
                     if (isServer()) {
                         for (int j = 0 ; j<out.size() ; j++) {
@@ -102,7 +106,7 @@ public class ServerRoom {
             }
         } catch (EOFException e) {
             System.out.println("Connexion terminée proprement.");
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
             System.out.println("Erreur de réception : " + e.getMessage());
         }
     }

@@ -124,6 +124,7 @@ public class ZeldiabloJeu implements Jeu {
             switch (getJoueur().curseurLog) {
                 case 0:
                     //Lancement en solo sans room
+                    joueur.add(new Player(0,0,5,2));
                     lance = true;
                     break;
                 case 1:
@@ -212,10 +213,12 @@ public class ZeldiabloJeu implements Jeu {
 
         else if (clavier.space){
             if (getJoueur().curseurStart) {
+                if (multiplayer) {
+                    room.setGame(this);
+                }
                 getJoueur().setLabyrinthe(MapList.getMap("FirstMap"));
                 getLaby().initTimerMonstres();
                 getJoueur().reset();
-                getLaby().getEntites().add(getJoueur());
                 //Set du joueur sur un point de spawn
                 for (int i=0;i<getLaby().getLongueur();i++){
                     for (int j=0;j<getLaby().getHauteur();j++){
@@ -227,7 +230,6 @@ public class ZeldiabloJeu implements Jeu {
                 }
                 getJoueur().setEnVie(true);
                 getJoueur().curseur=0;
-                room.setGame(this);
             }
             else{
                 System.exit(0);
@@ -245,12 +247,10 @@ public class ZeldiabloJeu implements Jeu {
         if (getLaby().getJoueurs().size()==1) {
             getLaby().arreterTimerMonstres();
         }
-        getLaby().getEntites().remove(getJoueur());
 
         getJoueur().setLabyrinthe(MapList.getMap(next));
         getJoueur().setY(y);
         getJoueur().setX(x);
-        getLaby().getEntites().add(getJoueur());
 
         getLaby().initTimerMonstres();
 

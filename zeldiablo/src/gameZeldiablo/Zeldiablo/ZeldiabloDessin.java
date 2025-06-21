@@ -128,7 +128,7 @@ public class ZeldiabloDessin implements DessinJeu {
 
                     ArrayList<Entite> entites = joueur.getLabyrinthe().getEntites();
                     for (Entite m : entites) {
-                        if (m.getX() == x && m.getY() == y) {
+                        if (m.getX() == x && m.getY() == y && m.getEnVie()) {
                             gc.drawImage(m.getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                             // Dessiner la barre de vie au-dessus du monstre
                             dessinerBarreVieMonstre(gc, m, (x-pX), (y-pY));

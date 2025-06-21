@@ -179,7 +179,11 @@ public class Player extends Entite {
     }
 
     public void setLabyrinthe(Labyrinthe l){
+        if (this.labyrinthe!=null){
+            this.labyrinthe.getEntites().remove(this);
+        }
         this.labyrinthe = l;
+        l.getEntites().add(this);
     }
 
     /**
