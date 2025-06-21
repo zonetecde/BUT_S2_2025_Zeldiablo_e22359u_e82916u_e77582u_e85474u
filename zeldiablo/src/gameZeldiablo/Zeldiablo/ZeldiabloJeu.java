@@ -6,9 +6,9 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,12 +30,12 @@ public class ZeldiabloJeu implements Jeu {
     private List<Player> joueur = new ArrayList<>();
     private int curJoueur = 0;
 
+    // Clavier correspondant à la derniere config
+    private Clavier oldKb;
 
     // Indique si le jeu est fini
     private boolean estFini = false;
 
-    // Indique si le personnage est en train de se déplacer
-    private boolean currentlyMoving = false;
 
 
 
@@ -49,8 +49,15 @@ public class ZeldiabloJeu implements Jeu {
     @Override
     public void update(double secondes, Clavier c) {
         if (multiplayer) {
-            room.sendData(new Encapsulation(c, idComp));
-            room.getClaviers().set(this.idComp,c);
+            if (!c.equals(oldKb)) {
+                oldKb = c.clone();
+                room.sendData(new Encapsulation(c.clone(), idComp), -1);
+                room.getClaviers().set(this.idComp,c);
+                System.out.println("nbJoueurs: "+ joueur.size());
+            }
+
+            //room.getClaviers().forEach((System.out::println));
+
 
             for (int i = 0 ; i<room.getClaviers().size();i++) {
                 Clavier clavier = room.getClaviers().get(i);
@@ -66,12 +73,12 @@ public class ZeldiabloJeu implements Jeu {
     private void takeInput(Clavier clavier, int i) {
         if (clavier.droite || clavier.gauche || clavier.haut || clavier.bas || clavier.tab || clavier.interactionKey || clavier.space || clavier.x) {
             // Pour empêcher de spam les déplacements du personnage
+            //System.out.println("dans Takeinput :\n"+clavier+"\n"+oldKb);
             if (!joueur.get(i).currentlyMoving) {
                 joueur.get(i).currentlyMoving = true;
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-                int finalI = i;
                 scheduler.schedule(() -> {
-                    joueur.get(finalI).currentlyMoving = false;
+                    joueur.get(i).currentlyMoving = false;
                 }, 160, TimeUnit.MILLISECONDS);
 
                 Inputs(clavier);
@@ -121,17 +128,20 @@ public class ZeldiabloJeu implements Jeu {
                     break;
                 case 1:
                     //rejoindre une room
-                    this.idComp = room.log(this, clavier);
+                    //Demande l'adresse
+                    Scanner sc = new Scanner(System.in);
+                    System.out.println("Adresse");
+                    String ad = sc.nextLine();
+                    this.idComp = room.logIn(this, clavier,ad);
                     multiplayer = true;
                     lance = true;
                     break;
                 case 2:
                     //Heberger une room
-                    new Thread( () -> room.host(this, clavier)).start();
-                    this.idComp = 0;
-                    lance = true;
+                    new Thread(() -> {
+                        new ServerRoom().createServer();
+                    }).start();
             }
-
         }
     }
 
@@ -217,6 +227,7 @@ public class ZeldiabloJeu implements Jeu {
                 }
                 getJoueur().setEnVie(true);
                 getJoueur().curseur=0;
+                room.setGame(this);
             }
             else{
                 System.exit(0);

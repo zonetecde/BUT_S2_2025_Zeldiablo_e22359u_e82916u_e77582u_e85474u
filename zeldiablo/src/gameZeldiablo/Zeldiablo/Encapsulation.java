@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Encapsulation implements Serializable {
-    public int concerne; // 1 Clavier / 2 Player / 3 mapList /  4 All
+    public static Encapsulation ASK_DATA = new Encapsulation(5) ;
+
+    public int concerne; // 1 Clavier / 2 Player / 3 mapList /  4 All / 5 askData
 
     public int place;
     public Clavier clavier;
@@ -19,15 +21,9 @@ public class Encapsulation implements Serializable {
 
     public Encapsulation(Object o,int place){
         this.place = place;
-        if (o instanceof Clavier){
+        if (o instanceof Clavier) {
             concerne = 1;
-            this.clavier= (Clavier) o;
-        }else if(o instanceof Player){
-            concerne = 2;
-            player = (Player) o;
-        }else if(o instanceof Map<?,?>){
-            concerne = 3;
-            map = (Map<String, Labyrinthe>) o;
+            this.clavier = (Clavier) o;
         }
     }
 
@@ -38,16 +34,47 @@ public class Encapsulation implements Serializable {
         this.concerne=4;
     }
 
+    public Encapsulation(int use){
+        this.concerne = use;
+    }
+
     public void getData(ServerRoom serverRoom,ZeldiabloJeu jeu){
         switch (concerne) {
-            case 1 -> serverRoom.getClaviers().set(place, clavier);
-            case 2 -> serverRoom.getPlayers().set(place, player);
-            case 3 -> serverRoom.setMaps(map);
+            case 1 -> {
+                try {
+                    serverRoom.getClaviers().set(place, clavier);
+                    serverRoom.logServer("Clavier reçu du joueur " + place + " : " + clavier.toString());
+                }catch (Exception ignore){}
+            }
             case 4 -> {
+                if (!serverRoom.isServer()) {
+                    serverRoom.setGame(jeu);
+                    serverRoom.setDataReceived(true);
+                    System.out.println("Sync du jeu");
+                }else{
+                    serverRoom.logServer("Sync du server");
+                }
+
                 serverRoom.setMaps(map);
                 serverRoom.setClaviers(this.claviers);
                 serverRoom.setPlayers(players);
-                serverRoom.setGame(jeu);
+            }
+        }
+    }
+
+    public String toString(){
+        switch (concerne){
+            case 1 -> {
+                return "Contient Clavier";
+            }
+            case 4 -> {
+                return "Contient info gen";
+            }
+            case 5 -> {
+                return "Demande de données";
+            }
+            default -> {
+                return "Donnees inconnues";
             }
         }
     }

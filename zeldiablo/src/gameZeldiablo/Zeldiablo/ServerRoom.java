@@ -1,6 +1,15 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import moteurJeu.Clavier;
 
 import java.io.*;
@@ -21,40 +30,74 @@ public class ServerRoom {
     private Map<String,Labyrinthe> maps = new HashMap<>();
     //Jeu auxquel est relié le server local
     private ZeldiabloJeu game;
+    //le jeu est il initialisé?
+    private volatile boolean dataReceived = false;
 
     //Socket de partage d'information entre les joueurs
-    Socket dataSocket;
+    List<Socket> dataSocket = new ArrayList<>();
     //OutputStream pour partager des donnees
-    ObjectOutputStream out;
+    List<ObjectOutputStream> out= new ArrayList<>();
     //InputStream pour recuperer les donnees
-    ObjectInputStream in;
+    List<ObjectInputStream> in = new ArrayList<>();
+    //Zone de log
+    TextArea logArea;
 
     /**
      * Methode envoyant des données sous forme d'Encapsulation
      * sur le socket
      * @param e données a envoyer
      */
-    public void sendData(Encapsulation e){
+    public void sendData(Encapsulation e, int sortie){
         try {
-            out.writeObject(e);
-            out.flush();
+            if (sortie == -1){
+                //BroadCast
+                for (ObjectOutputStream oos : out) {
+                    oos.writeObject(e);
+                    oos.flush();
+                }
+            }else{
+                out.get(sortie).writeObject(e);
+                out.get(sortie).flush();
+            }
+            if (isServer()) {
+                logServer("Server sent Data to "+sortie);
+            }else{
+                System.out.println("Client sent data "+ game.idComp);
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public void logServer(String s){
+        if (logArea!=null) {
+            Platform.runLater(() -> logArea.appendText(s + "\n"));
+        }else{System.out.println("Erreur de log \n" + s);}
     }
 
     /**
      * Boucle infinie recuperant des données sous forme
      * d'Encapsulation et les applique au server
      */
-    public void gettingData() {
+    public void gettingData(int i) {
         try {
             while (true) {
-                Encapsulation tmp = (Encapsulation) in.readObject();
-                if (tmp!=null) {
-                    tmp.getData(this,game);
-                }else{
-                    sendData(new Encapsulation(claviers,playersInRoom,maps));
+                Encapsulation tmp = (Encapsulation) in.get(i).readObject();
+                if (tmp.concerne==5){
+                        logServer("Player "+i+" asked for broad data");
+                        sendData(new Encapsulation(claviers, playersInRoom, maps),-1);
+                }else {
+                    tmp.getData(this, game);
+                    if (isServer()) {
+                        for (int j = 0 ; j<out.size() ; j++) {
+                            if (j!=i) {
+                                sendData(tmp, j);
+                            }
+                        }
+                        logServer("Server got Data from " + i + " : " + tmp);
+                    }else{
+                        System.out.println("Client got data : "+ tmp);
+                    }
                 }
             }
         } catch (EOFException e) {
@@ -64,6 +107,7 @@ public class ServerRoom {
         }
     }
 
+
     /**
      * initialise le jeu coté client
      * @param jeu jeu à initialiser
@@ -71,39 +115,64 @@ public class ServerRoom {
     public void setGame(ZeldiabloJeu jeu){
         MapList.setMapList(maps);
         jeu.setJoueurs(playersInRoom);
-        //TODO
-        System.out.println(playersInRoom.size());
     }
 
     /**
      * Initialise le server à partir du jeu actuel
-     * @param jeu jeu actuel
-     * @param clavier clavier actuel
      */
-    public void initServer(ZeldiabloJeu jeu,Clavier clavier){
+    public void initServer(){
         maps = MapList.getMapList();
-        playersInRoom = jeu.getJoueurs();
-        claviers.add(clavier);
+    }
+
+    public void affichageServer(String name){
+        Platform.runLater(() -> {
+            VBox vBox= new VBox(new Label(name));
+            vBox.setAlignment(Pos.CENTER);
+
+            VBox hBox = new VBox(20);
+            logArea = new TextArea();
+            logArea.setEditable(false);
+            logArea.setWrapText(true);
+            logServer("Creation server");
+            hBox.getChildren().add(logArea);
+            vBox.getChildren().add(hBox);
+            Scene scene = new Scene(vBox,400,400);
+
+            //Stage
+            Stage stage = new Stage(StageStyle.UTILITY);
+            stage.initModality(Modality.NONE);
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 
     /**
      * Methode de creation de room depuis les maps existantes
-     * @param jeu jeu sur lequel sera basé le server
-     * @param clavier clavier de l'host
      */
-    public void host(ZeldiabloJeu jeu,Clavier clavier){
-        this.game=jeu;
+    public void createServer(){
         MapList.initialisation();
-        initServer(jeu,clavier);
+        initServer();
         try {
             ServerSocket getSocket = new ServerSocket(8000);
-            jeu.roomID = getSocket.getInetAddress().toString();
-            dataSocket = getSocket.accept();
-            out = new ObjectOutputStream(dataSocket.getOutputStream());
-            in = new ObjectInputStream(dataSocket.getInputStream());
-            new Thread(this::gettingData).start();
-            jeu.multiplayer= true;
-        } catch (IOException e) {
+            //Cherche indefiniment des nouveaux joueurs
+            affichageServer(getSocket.getInetAddress().toString());
+            new Thread(() -> {
+                try {
+                    while (true) {
+                        Socket socket = getSocket.accept();
+                        dataSocket.add(socket);
+                        out.add(new ObjectOutputStream(socket.getOutputStream()));
+                        in.add(new ObjectInputStream(socket.getInputStream()));
+                        logServer("Client Connecté");
+                        // Démarrer la réception ici si c’est le 1er client
+                        int tmp = in.size()-1;
+                        new Thread(() -> gettingData(tmp)).start();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
+        } catch(IOException e){
             throw new RuntimeException(e);
         }
     }
@@ -114,26 +183,28 @@ public class ServerRoom {
      * @param clavier clavier actuel
      * @return id du nouveau joueur
      */
-    public int log(ZeldiabloJeu jeu,Clavier clavier){
+    public int logIn(ZeldiabloJeu jeu, Clavier clavier,String adresse){
         this.game=jeu;
         try {
-            //Demande l'adresse
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Adresse");
-            String ad = sc.nextLine();
-            InetAddress address = InetAddress.getByName(ad);
+            InetAddress address = InetAddress.getByName(adresse);
 
             //Se connecte au server
-            dataSocket = new Socket(address,8000);
-            out = new ObjectOutputStream(dataSocket.getOutputStream());
-            in = new ObjectInputStream(dataSocket.getInputStream());
+            Socket tmp = new Socket(address,8000);
+            dataSocket.add(tmp);
+            out.add(new ObjectOutputStream(tmp.getOutputStream()));
+            in.add(new ObjectInputStream(tmp.getInputStream()));
+            jeu.roomID = tmp.getInetAddress().toString();
 
             //lance la reception de données
-            new Thread(this::gettingData).start();
+            new Thread(() -> gettingData(0)).start();
 
             //recupere le server
-            sendData(null);
-            Thread.sleep(1000);
+            sendData(Encapsulation.ASK_DATA,-1);
+            while (!dataReceived){
+                Thread.sleep(50);
+                System.out.println("waiting in vain");
+            }
+
             //Ajoute un joueur à la room
             Player newPlayer = new Player(0,0,5,2);
             newPlayer.setEnVie(false);
@@ -142,8 +213,8 @@ public class ServerRoom {
             claviers.add(claviers.size(), clavier);
 
             //syncro le jeu et le serv
-            sendData(new Encapsulation(claviers,playersInRoom,maps));
             setGame(jeu);
+            sendData(new Encapsulation(claviers,playersInRoom,maps),-1);
 
             //Retourne l'id du nouveau joueur
             return playersInRoom.size()-1;
@@ -151,6 +222,8 @@ public class ServerRoom {
             throw new RuntimeException(e);
         }
     }
+
+
 
     //Getters et Setters
 
@@ -168,5 +241,9 @@ public class ServerRoom {
     public void setClaviers(List<Clavier> c){this.claviers=c;}
 
     public void setPlayers(List<Player> p){this.playersInRoom=p;}
+
+    public boolean isServer(){return (this.game==null);}
+
+    public void setDataReceived(boolean d){this.dataReceived=d;}
 
 }
