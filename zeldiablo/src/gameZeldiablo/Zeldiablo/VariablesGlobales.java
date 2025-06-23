@@ -7,7 +7,13 @@ public class VariablesGlobales {
         public static final String DOSSIER_LABY = "Laby/LabyBin"; // labyJeu ou labyIntro
 
         //Images
-        public static final String[] SPRITE_MONSTRE = {"Monstre/statique.png","Monstre/faible.png","Monstre/moyen.png","Monstre/intelligent.png"};
+        //Monstres
+        public static final String[] SPRITE_MONSTRE_I0 = {"Monstre/SlimeGreen.png","Monstre/SlimeGreenSquished.png"};
+        public static final String[] SPRITE_MONSTRE_I1 = {"Monstre/SlimeOrange.png","Monstre/SlimeOrangeSquished.png"};
+        public static final String[] SPRITE_MONSTRE_I2 = {"Monstre/SlimeRed.png","Monstre/SlimeRedSquished.png"};
+        public static final String[] SPRITE_MONSTRE_I3 = {"Monstre/SlimeBlue.png","Monstre/SlimeBlueSquished.png"};
+        public static final String[][] SPRITE_MONSTRE = {SPRITE_MONSTRE_I0,SPRITE_MONSTRE_I1,SPRITE_MONSTRE_I2,SPRITE_MONSTRE_I3};
+
         public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png","player/PlayerStabUp.png","player/PlayerStabDown.png","player/PlayerStabLeft.png","player/PlayerStabRight.png"};
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 

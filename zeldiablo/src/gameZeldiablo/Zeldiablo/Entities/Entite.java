@@ -20,7 +20,8 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     private final double degat; // Les dégâts que fait l'entité
     private boolean enVie = true;
     private String msgToSay;
-    private String sprite; // L'image de l'entité
+    private String[] sprite; // L'image de l'entité
+    private int spriteInt = 0;
     private Labyrinthe labyrinthe;
 
     /**
@@ -29,7 +30,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(double dx, double dy, double maxHp, double degat, String img, Labyrinthe labyrinthe) {
+    public Entite(double dx, double dy, double maxHp, double degat, String[] img, Labyrinthe labyrinthe) {
         this.x = dx;
         this.y = dy;
         this.hp = maxHp;
@@ -45,14 +46,9 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * @return Sprite de l'entité
      */
     public Image getSprite() {
-        return Sprite.getImg(sprite);
+        return Sprite.getImg(sprite[spriteInt]);
     }
 
-    /**
-     * Remplace le sprite
-     * @param s nouvelle image
-     */
-    public void setSprite(String s){sprite=s;}
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage
@@ -101,7 +97,8 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
             double[] old = {this.getY(), this.getX()};
             for (double i = 0; i < 11; i++) {
                 try {
-                    Thread.sleep(15);
+                    Thread.sleep(10);
+                    switchSprite();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -115,7 +112,29 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
         }).start();
     }
 
-    //Getters
+    public void switchSprite(){
+        if (spriteInt<sprite.length-1) {
+            System.out.println(sprite.length);
+            spriteInt++;
+        }else{spriteInt=0;}
+    }
+
+
+
+
+
+
+    //Getters/Setters
+
+    /**
+     * Remplace le sprite
+     * @param s nouvelle image
+     */
+    public void setSprite(String[] s){sprite=s;}
+
+    public void setSpriteInt(int i){this.spriteInt = i ;}
+
+    public int getSpriteInt(){return spriteInt;}
 
     public Labyrinthe getLabyrinthe(){return labyrinthe;}
 

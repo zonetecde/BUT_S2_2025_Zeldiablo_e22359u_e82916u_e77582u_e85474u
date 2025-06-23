@@ -16,6 +16,6 @@ public class DeplacementStatique implements DeplacementStrategie, Serializable {
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
     public void deplacement(Player joueur, Monstre monstre) {
-        // Déplacement statique (ne bouge pas)
+        monstre.switchSprite();
     }
 }

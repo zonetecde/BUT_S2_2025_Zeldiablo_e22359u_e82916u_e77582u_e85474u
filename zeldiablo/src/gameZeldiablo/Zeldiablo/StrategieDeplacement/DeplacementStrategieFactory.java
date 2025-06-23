@@ -12,17 +12,12 @@ public class DeplacementStrategieFactory {
      * @throws IllegalArgumentException Si l'intelligence n'est pas reconnue
      */
     public static DeplacementStrategie creerStrategie(Intelligence intelligence) {
-        switch(intelligence) {
-            case NULLE:
-                return new DeplacementStatique();
-            case FAIBLE:
-                return new DeplacementHasard();
-            case MOYENNE:
-                return new DeplacementRapprochement();
-            case FORTE:
-                return new DeplacementIntelligent();
-            default:
-                throw new IllegalArgumentException("Intelligence non reconnue: " + intelligence);
-        }
+        return switch (intelligence) {
+            case NULLE -> new DeplacementStatique();
+            case FAIBLE -> new DeplacementHasard();
+            case MOYENNE -> new DeplacementRapprochement();
+            case FORTE -> new DeplacementIntelligent();
+            default -> throw new IllegalArgumentException("Intelligence non reconnue: " + intelligence);
+        };
     }
 }

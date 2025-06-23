@@ -31,7 +31,7 @@ public class Player extends Entite {
      * @param degat attaque du joueur
      */
     public Player(int dx, int dy, double maxHp, double degat) {
-        super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0],null);
+        super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR,null);
         this.inventory = new ArrayList<>();
     }
 
@@ -80,7 +80,7 @@ public class Player extends Entite {
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat((double)getInventory().get(curseur).getDegat());
+            cible.prendreDegat(getInventory().get(curseur).getDegat());
         }
     }
 
@@ -90,7 +90,6 @@ public class Player extends Entite {
      */
 
     public void attaque() {
-
         // Pour chaque monstre
         int[] next = Labyrinthe.getSuivant(this.getY(),this.getX(),facing);
         for (Entite monstre : getLabyrinthe().getMonstres()) {
@@ -131,7 +130,10 @@ public class Player extends Entite {
         }
     }
 
-
+    @Override
+    public void switchSprite(){
+        this.setSpriteInt(this.getSpriteInt());
+    }
 
     /**
      * Regarde si le joueur possède un item dans son inventaire
@@ -151,20 +153,6 @@ public class Player extends Entite {
 
     //Getters et setters
 
-    /**
-     * Setter du sprite
-     * @param i nombre associé au sprite
-     */
-    public void setSpriteJoueur(int i) {
-        this.sprite = i;
-        this.setSprite(VariablesGlobales.SPRITE_JOUEUR[this.sprite]);
-    }
-
-    /**
-     * getter du sprite
-     * @return num du sprite
-     */
-    public int getSpriteJoueur(){return sprite;}
 
     /**
      * Dit si le joueur est en vie ou non
