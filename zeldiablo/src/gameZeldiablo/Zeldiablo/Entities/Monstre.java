@@ -53,9 +53,12 @@ public class Monstre extends Entite implements Cloneable, Tickable {
     /**
      * Methode pour deplacer le monstre selon sa strategie
      */
-    public void deplacer(Direction action, Entite p){
+    public void deplacer(Direction action){
         Entite tmp = getLabyrinthe().getJoueurs().get(0);
+        //Deplacement
         deplacementStrategie.deplacement((Player)tmp,this);
+
+        //Attaque
         for (Entite joueur : getLabyrinthe().getJoueurs()) {
             if (this.aCote(joueur)) {
                 //etat visuelle
@@ -63,7 +66,7 @@ public class Monstre extends Entite implements Cloneable, Tickable {
             }
         }
 
-        // déclanche le onstepon de la case où se trouve le monstre
+        // déclenche le onstepon de la case où se trouve le monstre
         Case caseMonstre = getLabyrinthe().getCase(this.getY(), this.getX());
         caseMonstre.onStepOn(this);
 
@@ -75,7 +78,7 @@ public class Monstre extends Entite implements Cloneable, Tickable {
     @Override
     public void tick() {
         if (curTick==ticInterval) {
-            deplacer(null, null);
+            deplacer(null);
             curTick = 0;
         }else{
             curTick++;

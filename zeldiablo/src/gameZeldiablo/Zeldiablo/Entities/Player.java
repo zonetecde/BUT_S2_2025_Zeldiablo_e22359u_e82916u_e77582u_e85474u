@@ -111,38 +111,22 @@ public class Player extends Entite {
      *
      * @param action une des actions possibles
      */
-    public void deplacer(Direction action, Entite p) {
+    public void deplacer(Direction action) {
         if (action!=null) {
             // case courante
-            int[] courante = { p.getY(),  p.getX()};
+            int[] courante = { this.getY(),  this.getX()};
 
             // calcule case suivante
             int[] suivante = Labyrinthe.getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
             if (getLabyrinthe().canEntityMoveTo(suivante[0], suivante[1])) {
                 // Dès que l'entité se déplace, il ne dit plus rien
-                p.setMsgToSay("");
+                this.setMsgToSay("");
 
                 // on met à jour la position du personnage
                 //Thread d'animation de deplacement du personnage
-                new Thread(() -> {
-                    double[] old = {p.getY(), p.getX()};
-                    for (double i = 0; i < 11; i++) {
-                        try {
-                            Thread.sleep(15);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        this.facing = action;
-                        switch (action) {
-                            case HAUT -> p.setY(old[0] - (i / 10));
-                            case BAS -> p.setY(old[0] + (i / 10));
-                            case GAUCHE -> p.setX(old[1] - (i / 10));
-                            case DROITE -> p.setX(old[1] + (i / 10));
-                        }
-                    }
-                }).start();
+                animationDep(action);
                 Case caseSuivante = getLabyrinthe().getCase(suivante[0], suivante[1]);
-                caseSuivante.onStepOn(p);
+                caseSuivante.onStepOn(this);
             }
         }
     }

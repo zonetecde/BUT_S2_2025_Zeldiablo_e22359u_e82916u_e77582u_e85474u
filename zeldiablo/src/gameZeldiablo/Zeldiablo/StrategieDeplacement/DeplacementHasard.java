@@ -24,7 +24,7 @@ public class DeplacementHasard implements DeplacementStrategie, Serializable {
         // vérifie si le déplacement est possible
         if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
             // déplacement
-            monstre.setPosition(prochainePosition[0], prochainePosition[1]);
+            monstre.animationDep(directionChoisie);
         }
     }
 }

@@ -43,7 +43,7 @@ public class DeplacementRapprochement implements DeplacementStrategie, Serializa
         // Tente le déplacement
         int[] prochainePosition = Labyrinthe.getSuivant((int)monstreY, (int)monstreX, direction);
         if (joueur.getLabyrinthe().canEntityMoveTo(prochainePosition[0], prochainePosition[1])) {
-            monstre.setPosition(prochainePosition[0], prochainePosition[1]);
+            monstre.animationDep(direction);
         }
         // Si impossible, le monstre ne bouge pas
     }

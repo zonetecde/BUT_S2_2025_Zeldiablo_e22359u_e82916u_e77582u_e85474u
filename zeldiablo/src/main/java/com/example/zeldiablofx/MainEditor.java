@@ -105,7 +105,7 @@ public class MainEditor extends Application {
         hBox2.setAlignment(Pos.CENTER);
         TextField input2 = new TextField();
         input2.setPromptText("Name of the text file");
-        input2.setText("Laby/labyJeu/labyjeu1.txt");
+        input2.setText("Laby/labyJeu/FirstMap");
         Button launch2 = new Button("Launch");
         hBox2.getChildren().addAll(input2,launch2);
 

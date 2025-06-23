@@ -69,7 +69,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
         }
     }
 
-    public abstract void deplacer(Direction action, Entite p);
+    public abstract void deplacer(Direction action);
 
     public boolean gagnerVie(double v){
         if (this.hp==this.maxHp){
@@ -95,6 +95,25 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
 
     @Override
     public void tick() {/*inutile ici*/}
+
+    public void animationDep(Direction action){
+        new Thread(() -> {
+            double[] old = {this.getY(), this.getX()};
+            for (double i = 0; i < 11; i++) {
+                try {
+                    Thread.sleep(15);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                switch (action) {
+                    case HAUT   -> this.setY(old[0] - (i / 10));
+                    case BAS    -> this.setY(old[0] + (i / 10));
+                    case GAUCHE -> this.setX(old[1] - (i / 10));
+                    case DROITE -> this.setX(old[1] + (i / 10));
+                }
+            }
+        }).start();
+    }
 
     //Getters
 
