@@ -7,6 +7,8 @@ public class VariablesGlobales {
         public static final String DOSSIER_LABY = "Laby/LabyBin"; // labyJeu ou labyIntro
 
         //Images
+        public static final String SPRITE_CROIX = "Cross.png";
+
         //Monstres
         public static final String[] SPRITE_MONSTRE_I0 = {"Monstre/SlimeGreen.png","Monstre/SlimeGreenSquished.png"};
         public static final String[] SPRITE_MONSTRE_I1 = {"Monstre/SlimeOrange.png","Monstre/SlimeOrangeSquished.png"};

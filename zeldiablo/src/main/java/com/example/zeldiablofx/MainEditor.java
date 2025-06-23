@@ -1,14 +1,11 @@
 package main.java.com.example.zeldiablofx;
 
+import gameZeldiablo.Zeldiablo.*;
 import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.*;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
-import gameZeldiablo.Zeldiablo.MapList;
-import gameZeldiablo.Zeldiablo.Sprited;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -28,6 +25,7 @@ import javafx.stage.StageStyle;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainEditor extends Application {
 
@@ -292,7 +290,7 @@ public class MainEditor extends Application {
                     if (l.getCase(j, i).isActivable()) {
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, Color.RED);
                         root.add(circle, i, j);
-                        circle.setOnMouseClicked(new AcivableHandler(l.getCase(j, i)));
+                        circle.setOnMouseClicked(new ActivableHandler(l.getCase(j, i)));
 
                         CasePorte casePorte = (CasePorte) (l.getCase(j, i));
                         Label label = new Label(casePorte.getId() + "");
@@ -328,7 +326,7 @@ public class MainEditor extends Application {
                         else{c = Color.VIOLET;}
                         Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
                         root.add(circle,i,j);
-                        circle.setOnMouseClicked(new StairsHandler((CaseEscalier) l.getCase(j,i)));
+                        circle.setOnMouseClicked(new Stairs_Handler((CaseEscalier) l.getCase(j,i)));
                     }
                 }
 
@@ -420,6 +418,15 @@ public class MainEditor extends Application {
         VBox menu = new VBox();
         List<Sprited> type;
 
+        //Creation du bouton
+        Button delbutton = new Button();
+        //Creation d'une imageview adaptee
+        ImageView delImageView = new ImageView(Sprite.getImg(VariablesGlobales.SPRITE_CROIX));
+        delImageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
+        delImageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
+        delbutton.setGraphic(delImageView);
+
+
         //Liste des brush
         if (item){
             type = new ArrayList<>();
@@ -429,12 +436,30 @@ public class MainEditor extends Application {
             type.add(new Hache());
             type.add(new Bombe());
 
+            //Del button
+            delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    brushItem = null;
+                }
+            });
+            menu.getChildren().add(delbutton);
+
 
         } else if (monstre) {
             type = new ArrayList<>();
             for (int i = 0; i < Intelligence.values().length; i++) {
                 type.add(new Monstre(0, 0, Intelligence.values()[i],null));
             }
+
+            //Del Button
+            delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    brushEntite = null;
+                }
+            });
+            menu.getChildren().add(delbutton);
 
         }else {
             type = new ArrayList<>();
@@ -452,7 +477,7 @@ public class MainEditor extends Application {
         for (Sprited s : type) {
             //Creation du bouton
             Button button = new Button();
-            //Cration d'une imageview adaptee
+            //Creation d'une imageview adaptee
             ImageView imageView = new ImageView(s.getSprite());
             imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
             imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
@@ -489,7 +514,7 @@ public class MainEditor extends Application {
                     if(laby.getCase(j,i).isLinked()){c = Color.DARKVIOLET;}
                     else{c = Color.VIOLET;}
                     Circle circle = new Circle((double)VariablesGlobales.TAILLE_CASE/2,c);
-                    circle.setOnMouseClicked(new StairLink(i, j, stairs, labyrinthe, stage));
+                    circle.setOnMouseClicked(new Stair_Link(i, j, stairs, labyrinthe, stage));
                     root.add(circle,i,j);
                 }
 
@@ -520,7 +545,7 @@ public class MainEditor extends Application {
                 brushImage.setImage(brushEntite.getSprite());
             } else if(aCase instanceof Item){
                 brushItem = (Item) aCase;
-                brushImage.setImage(brushEntite.getSprite());
+                brushImage.setImage(brushItem.getSprite());
             }
 
             System.out.println(brushTile);
@@ -565,9 +590,19 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            Entite m = brushEntite.clone(x,y);
-            m.setLabyrinthe(l);
-            button.setImage(brushEntite.getSprite());
+            if (brushEntite!=null) {
+                Entite m = brushEntite.clone(x,y);
+                m.setLabyrinthe(l);
+                button.setImage(brushEntite.getSprite());
+            }else{
+                button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
+                for (Entite e : l.getEntites()) {
+                    if (e.getX() == x && e.getY() == y) {
+                        l.getEntites().remove(e);
+                        l.getTics().remove(e);
+                    }
+                }
+            }
 
         }
     }
@@ -583,8 +618,13 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            c.addItem(brushItem);
-            button.setImage(brushItem.getSprite());
+            if (brushItem != null) {
+                c.addItem(brushItem);
+                button.setImage(brushItem.getSprite());
+            }else{
+                c.addItem(null);
+                button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
+            }
         }
     }
 
@@ -609,10 +649,10 @@ public class MainEditor extends Application {
         }
     }
 
-    class AcivableHandler implements EventHandler<MouseEvent>{
+    class ActivableHandler implements EventHandler<MouseEvent>{
         Case activable;
 
-        public AcivableHandler(Case activable){
+        public ActivableHandler(Case activable){
             this.activable = activable;
         }
 
@@ -627,14 +667,14 @@ public class MainEditor extends Application {
         }
     }
 
-    static class StairLink implements EventHandler<MouseEvent>{
+    static class Stair_Link implements EventHandler<MouseEvent>{
 
         int x,y;
         CaseEscalier stairs;
         String labyrinthe;
         Stage stage;
 
-        public StairLink(int x, int y, CaseEscalier stairs, String labyrinthe, Stage stage){
+        public Stair_Link(int x, int y, CaseEscalier stairs, String labyrinthe, Stage stage){
             this.x=x;
             this.y=y;
             this.stairs=stairs;
@@ -649,11 +689,30 @@ public class MainEditor extends Application {
         }
     }
 
-    class StairsHandler implements EventHandler<MouseEvent>{
+    class Stairs_OpenMap implements EventHandler<MouseEvent>{
+
+        String map;
+        CaseEscalier stairs;
+        Stage stage;
+
+
+        public Stairs_OpenMap(String map,CaseEscalier stairs,Stage stage){
+            this.map = map;
+            this.stairs = stairs;
+            this.stage = stage;
+        }
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            stage.setScene(getStairOutput(map,stairs,stage));
+        }
+    }
+
+    class Stairs_Handler implements EventHandler<MouseEvent>{
 
         CaseEscalier stairs;
 
-        public StairsHandler(CaseEscalier stairs){
+        public Stairs_Handler(CaseEscalier stairs){
             this.stairs=stairs;
         }
 
@@ -662,23 +721,21 @@ public class MainEditor extends Application {
          */
         @Override
         public void handle(MouseEvent mouseEvent) {
-            TextField textField = new TextField();
-            textField.setPromptText("A quelle map relier l'escalier?");
-            Button button = new Button("Go");
-            button.setDefaultButton(true);
-
-            Stage stage= new Stage(StageStyle.DECORATED);
             VBox root = new VBox(20);
-            root.getChildren().addAll(textField,button);
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage stage= new Stage(StageStyle.DECORATED);
+            stage.setScene(new Scene(root,300,400));
 
-            button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    stage.setScene(getStairOutput(textField.getText(),stairs,stage));
-                }
-            });
+            VBox vBox = new VBox(10);
+            File file = new File("Laby/LabyBin");
+            for (File f : Objects.requireNonNull(file.listFiles())){
+                Button linkButton = new Button(f.getName());
+                linkButton.setOnMouseClicked(new Stairs_OpenMap(f.getName(),stairs,stage));
+                vBox.getChildren().add(linkButton);
+            }
+            ScrollPane scrollPane = new ScrollPane(vBox);
+
+            root.getChildren().addAll(scrollPane);
+            stage.show();
         }
     }
 
