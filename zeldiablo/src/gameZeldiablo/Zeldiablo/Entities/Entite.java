@@ -114,15 +114,9 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
 
     public void switchSprite(){
         if (spriteInt<sprite.length-1) {
-            System.out.println(sprite.length);
             spriteInt++;
         }else{spriteInt=0;}
     }
-
-
-
-
-
 
     //Getters/Setters
 

@@ -427,7 +427,7 @@ public class MainEditor extends Application {
             type.add(new Food());
             type.add(new Epee());
             type.add(new Hache());
-            type.add(new ItemDefault());
+            type.add(new Bombe());
 
 
         } else if (monstre) {

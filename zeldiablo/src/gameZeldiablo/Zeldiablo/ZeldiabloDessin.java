@@ -122,9 +122,15 @@ public class ZeldiabloDessin implements DessinJeu {
         for (int y = (int) (pY-VariablesGlobales.DISTANCE_VUE); y < pY+VariablesGlobales.DISTANCE_VUE; y++) {
             for (int x = (int) (pX-VariablesGlobales.DISTANCE_VUE); x < pX+VariablesGlobales.DISTANCE_VUE; x++) {
                 try {
-                    // Couleur des murs - noir
+                    // Affichage des murs
                     gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
 
+                    // Affichage des items
+                    try {
+                        gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getItem().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                    } catch (Exception none) {
+                        // L'img n'a pas encore chargé
+                    }
 
                     ArrayList<Entite> entites = joueur.getLabyrinthe().getEntites();
                     for (Entite m : entites) {
@@ -161,14 +167,6 @@ public class ZeldiabloDessin implements DessinJeu {
                             }
                         }
                     }
-
-                    // Affichage des items
-                    try {
-                        gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getItem().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
-                    } catch (Exception none) {
-                        // L'img n'a pas encore chargé
-                    }
-
                 }catch (Exception ignore){}
             }
         }

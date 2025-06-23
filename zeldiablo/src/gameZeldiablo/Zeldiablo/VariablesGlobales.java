@@ -14,6 +14,7 @@ public class VariablesGlobales {
         public static final String[] SPRITE_MONSTRE_I3 = {"Monstre/SlimeBlue.png","Monstre/SlimeBlueSquished.png"};
         public static final String[][] SPRITE_MONSTRE = {SPRITE_MONSTRE_I0,SPRITE_MONSTRE_I1,SPRITE_MONSTRE_I2,SPRITE_MONSTRE_I3};
 
+        public static final String[] SPRITE_EXPLOSION = {"Tiles/Explosion/Explosion_1.png","Tiles/Explosion/Explosion_2.png","Tiles/Explosion/Explosion_3.png","Tiles/Sol.png"};
         public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png","player/PlayerStabUp.png","player/PlayerStabDown.png","player/PlayerStabLeft.png","player/PlayerStabRight.png"};
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 
@@ -28,12 +29,14 @@ public class VariablesGlobales {
         public static final String SPRITE_PORTE_FERMEE = "Tiles/DoorClosed.png";
         public static final String SPRITE_PORTE_OUVERTE = "Tiles/DoorOpened.png";
         public static final String SPRITE_PANCARTE = "Tiles/Pancarte.png";
+        public static final String SPRITE_CASE_BOMBE = "Tiles/Bomb.png";
 
         //Sprite Items
         public static final String SPRITE_AMULETTE = "Items/Amulette.png";
         public static final String SPRITE_EPEE = "Items/Epee.png";
         public static final String SPRITE_BATON = "Items/Baton.png";
         public static final String SPRITE_HACHE = "Items/hache.png";
+        public static final String SPRITE_BOMBE = "Items/Bomb.png";
 
         //Constantes
         public static final int DISTANCE_VUE = 15;//Mettre valeur impaire

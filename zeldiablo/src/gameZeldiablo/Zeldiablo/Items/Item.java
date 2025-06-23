@@ -53,5 +53,5 @@ public abstract class Item implements Serializable, Sprited {
      * Getter pour les dégâts de l'item
      * @return Les dégâts de l'item
      */
-    public abstract double getDegat();
+    public double getDegat(){return -1;}
 }
