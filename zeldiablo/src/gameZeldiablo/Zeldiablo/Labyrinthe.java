@@ -176,22 +176,22 @@ public class Labyrinthe implements Serializable {
                         break;
                     case MONSTRE_INTELLIGENT:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        Monstre monstreIntelligent = new Monstre(colonne, numeroLigne, Intelligence.FORTE);
+                        Monstre monstreIntelligent = new Monstre(colonne, numeroLigne, Intelligence.FORTE,this);
                         entites.add(monstreIntelligent);
                         break;
                     case MONSTRE_NULLE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        Monstre monstreNulle = new Monstre(colonne, numeroLigne, Intelligence.NULLE);
+                        Monstre monstreNulle = new Monstre(colonne, numeroLigne, Intelligence.NULLE,this);
                         entites.add(monstreNulle);
                         break;
                     case MONSTRE_MOYEN:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        Monstre monstreMoyen = new Monstre(colonne, numeroLigne, Intelligence.MOYENNE);
+                        Monstre monstreMoyen = new Monstre(colonne, numeroLigne, Intelligence.MOYENNE,this);
                         entites.add(monstreMoyen);
                         break;
                     case MONSTRE_FAIBLE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        Monstre monstreFaible = new Monstre(colonne, numeroLigne, Intelligence.FAIBLE);
+                        Monstre monstreFaible = new Monstre(colonne, numeroLigne, Intelligence.FAIBLE,this);
                         entites.add(monstreFaible);
                         break;
                     default:
@@ -208,46 +208,6 @@ public class Labyrinthe implements Serializable {
     }
 
 
-    /**
-     * deplace le personnage en fonction de l'action.
-     * gere la collision avec les murs
-     *
-     * @param action une des actions possibles
-     */
-    public void deplacerPerso(Direction action, Entite p) {
-        // case courante
-        int[] courante = {(int)p.getY(), (int)p.getX()};
-
-        // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
-        if (canEntityMoveTo(suivante[0], suivante[1])) {
-            // Dès que l'entité se déplace, il ne dit plus rien
-            p.setMsgToSay("");
-
-            // on met à jour la position du personnage
-            //Thread d'animation de deplacement du personnage
-            new Thread(() -> {
-                double[] old = {p.getY(),p.getX()};
-                for (double i=0 ; i<11 ; i++){
-                    try {
-                        Thread.sleep(15);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    switch (action){
-                        case HAUT   -> p.setY(old[0]-(i/10));
-                        case BAS    -> p.setY(old[0]+(i/10));
-                        case GAUCHE -> p.setX(old[1]-(i/10));
-                        case DROITE -> p.setX(old[1]+(i/10));
-                    }
-                }
-            }).start();
-//            p.setX(suivante[1]);
-//            p.setY(suivante[0]);
-            Case caseSuivante = getCase(suivante[0], suivante[1]);
-            caseSuivante.onStepOn(p);
-        }
-    }
 
     /**
      * Vérifie si une entité peut se déplacer vers une case donnée.
@@ -297,37 +257,6 @@ public class Labyrinthe implements Serializable {
 
 
     /**
-     * Effectue le déplacement et les actions de tous les monstres
-     */
-    private void deplacerMonstres() {
-        // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Entite> monstresASupprimer = new ArrayList<>();
-
-        for (Entite monstre : getMonstres()) {
-            // On effectue le déplacement du monstre
-            monstre.deplacer((Player)getJoueurs().get(0));
-
-            for (Entite joueur : getJoueurs()) {
-                if (monstre.aCote(joueur)) {
-                    //etat visuelle
-                    monstre.mettreDegat(joueur);
-                }
-            }
-
-            // déclanche le onstepon de la case où se trouve le monstre
-            Case caseMonstre = getCase((int)monstre.getY(), (int)monstre.getX());
-            caseMonstre.onStepOn(monstre);
-
-            if (monstre.getHp() <= 0) {
-                monstresASupprimer.add(monstre);
-            }
-        }
-        
-        // Supprime les monstres morts
-        entites.removeAll(monstresASupprimer);
-    }
-
-    /**
      * Arrête le timer des monstres (utile lors de la destruction du labyrinthe)
      */
     public void arreterTimerMonstres() {
@@ -350,13 +279,16 @@ public class Labyrinthe implements Serializable {
         timerMonstres.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                deplacerMonstres();
+                for (Entite e : getEntites()){
+                    e.deplacer(null,null);
+                }
             }
         }, 0, VariablesGlobales.DEPLACEMENT_MONSTRE);
     }
 
 
     //Getters
+
     /**
      * return taille selon Y
      *

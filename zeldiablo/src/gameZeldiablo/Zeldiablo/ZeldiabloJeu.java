@@ -188,16 +188,16 @@ public class ZeldiabloJeu implements Jeu {
         }
 
         if (clavier.droite) {
-            getLaby().deplacerPerso(Direction.DROITE, getJoueur());
+            getJoueur().deplacer(Direction.DROITE, getJoueur());
             getJoueur().setSpriteJoueur(3);
         } else if (clavier.gauche) {
-            getLaby().deplacerPerso(Direction.GAUCHE, getJoueur());
+            getJoueur().deplacer(Direction.GAUCHE, getJoueur());
             getJoueur().setSpriteJoueur(2);
         } else if (clavier.haut) {
-            getLaby().deplacerPerso(Direction.HAUT, getJoueur());
+            getJoueur().deplacer(Direction.HAUT, getJoueur());
             getJoueur().setSpriteJoueur(0);
         } else if (clavier.bas) {
-            getLaby().deplacerPerso(Direction.BAS, getJoueur());
+            getJoueur().deplacer(Direction.BAS, getJoueur());
             getJoueur().setSpriteJoueur(1);
         }
         else if (clavier.x) {

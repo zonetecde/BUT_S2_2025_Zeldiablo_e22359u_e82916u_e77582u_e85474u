@@ -433,7 +433,7 @@ public class MainEditor extends Application {
         } else if (monstre) {
             type = new ArrayList<>();
             for (int i = 0; i < Intelligence.values().length; i++) {
-                type.add(new Monstre(0, 0, Intelligence.values()[i]));
+                type.add(new Monstre(0, 0, Intelligence.values()[i],null));
             }
 
         }else {
@@ -566,7 +566,7 @@ public class MainEditor extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             Entite m = brushEntite.clone(x,y);
-            l.getEntites().add(m);
+            m.setLabyrinthe(l);
             button.setImage(brushEntite.getSprite());
 
         }

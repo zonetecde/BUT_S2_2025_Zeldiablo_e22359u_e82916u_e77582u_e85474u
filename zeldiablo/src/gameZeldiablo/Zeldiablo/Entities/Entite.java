@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
+import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Sprite;
 
@@ -23,6 +24,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
     private boolean enVie = true;
     private String msgToSay;
     private String sprite; // L'image de l'entité
+    private Labyrinthe labyrinthe;
 
     /**
      * constructeur
@@ -30,13 +32,14 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(double dx, double dy, double maxHp, double degat, String img) {
+    public Entite(double dx, double dy, double maxHp, double degat, String img, Labyrinthe labyrinthe) {
         this.x = dx;
         this.y = dy;
         this.hp = maxHp;
         this.maxHp = maxHp;
         this.degat = degat;
         this.sprite = img;
+        this.setLabyrinthe(labyrinthe);
     }
 
 
@@ -68,6 +71,8 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
         }
     }
 
+    public abstract void deplacer(Direction action, Entite p);
+
     public boolean gagnerVie(double v){
         if (this.hp==this.maxHp){
             return false;
@@ -90,6 +95,19 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
         }
     }
 
+    //Getters
+
+    public Labyrinthe getLabyrinthe(){return labyrinthe;}
+
+    public void setLabyrinthe(Labyrinthe l){
+        if (l!=null) {
+            if (this.labyrinthe!=null){
+                this.labyrinthe.getEntites().remove(this);
+            }
+            this.labyrinthe = l;
+            l.getEntites().add(this);
+        }
+    }
 
     /**
      * Retourne si l'entité est en vie

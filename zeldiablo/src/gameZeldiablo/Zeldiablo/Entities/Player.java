@@ -2,6 +2,7 @@ package gameZeldiablo.Zeldiablo.Entities;
 
 
 import gameZeldiablo.Zeldiablo.Cases.Case;
+import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Items.TypeItem;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 
 public class Player extends Entite {
     private ArrayList<Item> inventory;
-    private Labyrinthe labyrinthe;
     boolean aGagne = false;
     int sprite = 0;
 
@@ -30,7 +30,7 @@ public class Player extends Entite {
      * @param degat attaque du joueur
      */
     public Player(int dx, int dy, double maxHp, double degat) {
-        super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0]);
+        super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR[0],null);
         this.inventory = new ArrayList<>();
     }
 
@@ -90,7 +90,7 @@ public class Player extends Entite {
 
     public void attaque() {
         // Crée une copie de la liste pour éviter les problèmes de modification pendant l'itération
-        ArrayList<Entite> monstresACheck = labyrinthe.getMonstres();
+        ArrayList<Entite> monstresACheck = getLabyrinthe().getMonstres();
 
         // Pour chaque monstre
         for (Entite monstre : monstresACheck) {
@@ -100,7 +100,7 @@ public class Player extends Entite {
 
                 // Si le monstre est mort
                 if (monstre.estMort()) {
-                    labyrinthe.getEntites().remove(monstre);
+                    getLabyrinthe().getEntites().remove(monstre);
                     this.setHp(Math.min(this.getHp() + 1, this.getMaxHp()));
                 }
             }
@@ -174,18 +174,6 @@ public class Player extends Entite {
         this.aGagne = b;
     }
 
-    public Labyrinthe getLabyrinthe(){
-        return this.labyrinthe;
-    }
-
-    public void setLabyrinthe(Labyrinthe l){
-        if (this.labyrinthe!=null){
-            this.labyrinthe.getEntites().remove(this);
-        }
-        this.labyrinthe = l;
-        l.getEntites().add(this);
-    }
-
     /**
      * Setter de l'inventaire du joueur (entre les niveaux par exemple)
      *
@@ -211,5 +199,46 @@ public class Player extends Entite {
     public double getVie() {
         return this.getHp();
 
+    }
+
+    /**
+     * deplace le personnage en fonction de l'action.
+     * gere la collision avec les murs
+     *
+     * @param action une des actions possibles
+     */
+    public void deplacer(Direction action, Entite p) {
+        if (action!=null) {
+            // case courante
+            int[] courante = {(int) p.getY(), (int) p.getX()};
+
+            // calcule case suivante
+            int[] suivante = Labyrinthe.getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
+            if (getLabyrinthe().canEntityMoveTo(suivante[0], suivante[1])) {
+                // Dès que l'entité se déplace, il ne dit plus rien
+                p.setMsgToSay("");
+
+                // on met à jour la position du personnage
+                //Thread d'animation de deplacement du personnage
+                new Thread(() -> {
+                    double[] old = {p.getY(), p.getX()};
+                    for (double i = 0; i < 11; i++) {
+                        try {
+                            Thread.sleep(15);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        switch (action) {
+                            case HAUT -> p.setY(old[0] - (i / 10));
+                            case BAS -> p.setY(old[0] + (i / 10));
+                            case GAUCHE -> p.setX(old[1] - (i / 10));
+                            case DROITE -> p.setX(old[1] + (i / 10));
+                        }
+                    }
+                }).start();
+                Case caseSuivante = getLabyrinthe().getCase(suivante[0], suivante[1]);
+                caseSuivante.onStepOn(p);
+            }
+        }
     }
 }
