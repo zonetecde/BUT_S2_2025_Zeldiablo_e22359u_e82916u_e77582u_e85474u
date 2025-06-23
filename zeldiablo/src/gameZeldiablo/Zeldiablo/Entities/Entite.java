@@ -1,10 +1,7 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
-import gameZeldiablo.Zeldiablo.Direction;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
-import gameZeldiablo.Zeldiablo.Sprite;
+import gameZeldiablo.Zeldiablo.*;
 
-import gameZeldiablo.Zeldiablo.Sprited;
 import javafx.scene.image.Image;
 
 import java.io.Serializable;
@@ -12,7 +9,7 @@ import java.io.Serializable;
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite implements Serializable, Sprited,Cloneable {
+public abstract class Entite implements Serializable, Sprited,Cloneable, Tickable {
 
     /**
      * position du personnage et vie
@@ -68,6 +65,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
         else{
             this.enVie=false;
             this.hp=0;
+            setLabyrinthe(null);
         }
     }
 
@@ -89,23 +87,30 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
      * Inflige des dégâts à une cible
      * @param cible L'entité cible qui subit les dégâts
      */
-    public void mettreDegat(Entite cible) {
+    public void infligerDegats(Entite cible) {
         if (cible != null && cible.enVie) {
             cible.prendreDegat(this.degat);
         }
     }
+
+    @Override
+    public void tick() {/*inutile ici*/}
 
     //Getters
 
     public Labyrinthe getLabyrinthe(){return labyrinthe;}
 
     public void setLabyrinthe(Labyrinthe l){
+        if (this.labyrinthe!=null){
+            this.labyrinthe.getEntites().remove(this);
+            this.labyrinthe.getTics().remove(this);
+        }
         if (l!=null) {
-            if (this.labyrinthe!=null){
-                this.labyrinthe.getEntites().remove(this);
-            }
             this.labyrinthe = l;
             l.getEntites().add(this);
+            l.getTics().add(this);
+        }else{
+            this.labyrinthe=null;
         }
     }
 
@@ -234,7 +239,6 @@ public abstract class Entite implements Serializable, Sprited,Cloneable {
         this.msgToSay = msgToSay;
     }
 
-    public void deplacer(Player joueur){/*Methode de monstres*/}
 
     @Override
     public Entite clone(){

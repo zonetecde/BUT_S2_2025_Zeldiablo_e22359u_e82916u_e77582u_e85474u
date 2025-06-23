@@ -69,7 +69,7 @@ public class Player extends Entite {
      * @param cible L'entité cible qui subit les dégâts
      */
     @Override
-    public void mettreDegat(Entite cible) {
+    public void infligerDegats(Entite cible) {
         if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
             if(getInventory().isEmpty() || getInventory().get(curseur).getType() != TypeItem.ARME) {
@@ -96,7 +96,7 @@ public class Player extends Entite {
         for (Entite monstre : monstresACheck) {
             // Si le monstre est à côté du joueur
             if (this.aCote(monstre)) {
-                this.mettreDegat(monstre);
+                this.infligerDegats(monstre);
 
                 // Si le monstre est mort
                 if (monstre.estMort()) {
@@ -190,15 +190,6 @@ public class Player extends Entite {
      */
     public ArrayList<Item> getInventory() {
         return inventory;
-    }
-
-    /**
-     * getter des hp
-     * @return double hp
-     */
-    public double getVie() {
-        return this.getHp();
-
     }
 
     /**

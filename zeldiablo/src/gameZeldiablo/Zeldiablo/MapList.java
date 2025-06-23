@@ -2,7 +2,6 @@ package gameZeldiablo.Zeldiablo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class MapList {
         try {
             File folder = new File("Laby/LabyBin");
             for (File f : Objects.requireNonNull(folder.listFiles())) {
-                MapList.getMap(f.getName()).arreterTimerMonstres();
+                MapList.getMap(f.getName()).stopTickLoop();
             }
         }
         catch (Exception e){

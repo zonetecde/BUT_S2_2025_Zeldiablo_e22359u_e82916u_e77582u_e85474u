@@ -5,15 +5,16 @@ import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategie;
 import gameZeldiablo.Zeldiablo.StrategieDeplacement.DeplacementStrategieFactory;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
+import gameZeldiablo.Zeldiablo.Tickable;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-
-import java.util.ArrayList;
 
 /**
  * Classe des mechants très très mechants
  */
-public class Monstre extends Entite implements Cloneable{
+public class Monstre extends Entite implements Cloneable, Tickable {
     private DeplacementStrategie deplacementStrategie;
+    private int curTick = 0;
+    private int ticInterval = 15;
     private Intelligence i;
 
     /**
@@ -59,7 +60,7 @@ public class Monstre extends Entite implements Cloneable{
         for (Entite joueur : getLabyrinthe().getJoueurs()) {
             if (this.aCote(joueur)) {
                 //etat visuelle
-                this.mettreDegat(joueur);
+                this.infligerDegats(joueur);
             }
         }
 
@@ -72,22 +73,17 @@ public class Monstre extends Entite implements Cloneable{
         }
     }
 
-
-    /**
-     * getter de la strategie
-     * @return strategie
-     */
-    public DeplacementStrategie getDeplacementStrategie() {
-        return deplacementStrategie;
+    @Override
+    public void tick() {
+        if (curTick==ticInterval) {
+            deplacer(null, null);
+            curTick = 0;
+        }else{
+            curTick++;
+        }
     }
 
-    /**
-     * setter de la strategie
-     * @param deplacementStrategie nouvelle strat
-     */
-    public void setDeplacementStrategie(DeplacementStrategie deplacementStrategie) {
-        this.deplacementStrategie = deplacementStrategie;
-    }
+
 
     @Override
     public Monstre clone(){

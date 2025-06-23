@@ -9,7 +9,7 @@ import gameZeldiablo.Zeldiablo.Items.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,20 +40,27 @@ public class Labyrinthe implements Serializable {
 
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
-    //Monstres
+    //Entites
     private final ArrayList<Entite> entites = new ArrayList<>();
 
+    //Ticks
+    private final ArrayList<Tickable> ticks = new ArrayList<>();
+
     // Timer pour le déplacement automatique des monstres
-    private transient Timer timerMonstres;
+    private transient Timer timerTicks = new Timer("ticks");
 
-
-
+    /**
+     * Méthode appelée automatiquement lors de la désérialisation de l'objet.
+     * Permet de réinitialiser les champs transient et autres initialisations nécessaires.
+     */
     @Serial
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        Random random = new Random();// or restore seed if needed
-    }
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        // Désérialisation par défaut des champs non-transient
+        ois.defaultReadObject();
 
+        // Réinitialisation du timer
+       timerTicks = new Timer("ticks");
+    }
 
     public Labyrinthe(int x,int y){
         this.gameBoard = new Case[x][y];
@@ -123,16 +130,6 @@ public class Labyrinthe implements Serializable {
                         break;
                     case VIDE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-
-//                        // Si c'est pas le premier niveau, ajouter potentiellement un monstre
-//                        if (!VariablesGlobales.DOSSIER_LABY.equals("labyIntro") &&
-//                            joueur != null &&
-//                            random.nextDouble() < VariablesGlobales.PROBA_MONSTRE &&
-//                            nbreMonstresSpawned < VariablesGlobales.NBRE_MONSTRES_MAX &&
-//                            !joueurAdjacentACase(numeroLigne, colonne)) {
-//
-//
-//                        }
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
@@ -259,35 +256,28 @@ public class Labyrinthe implements Serializable {
     /**
      * Arrête le timer des monstres (utile lors de la destruction du labyrinthe)
      */
-    public void arreterTimerMonstres() {
-        if (timerMonstres != null) {
-            timerMonstres.cancel();
-            timerMonstres = null;
-        }
+    public void stopTickLoop() {
+        timerTicks.purge();
     }
 
     /**
      * Initialise le timer pour le déplacement automatique des monstres
      */
-    public void initTimerMonstres() {
-        if(timerMonstres != null) {
-            System.out.println("canceled");
-            timerMonstres.cancel();
-        }
-
-        timerMonstres = new Timer();
-        timerMonstres.scheduleAtFixedRate(new TimerTask() {
+    public void launchTickLoop() {
+        timerTicks.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (Entite e : getEntites()){
-                    e.deplacer(null,null);
+                for (Tickable t : getTics()){
+                    t.tick();
                 }
             }
-        }, 0, VariablesGlobales.DEPLACEMENT_MONSTRE);
+        }, 0, VariablesGlobales.TICK_SPEED);
     }
 
 
     //Getters
+
+    public List<Tickable> getTics(){return ticks;}
 
     /**
      * return taille selon Y

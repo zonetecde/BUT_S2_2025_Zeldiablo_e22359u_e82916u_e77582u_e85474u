@@ -7,14 +7,14 @@ import gameZeldiablo.Zeldiablo.StrategieDeplacement.BellmandFord.*;
 import java.io.Serializable;
 
 public class DeplacementIntelligent implements DeplacementStrategie, Serializable {
-    @Override
+
     /**
      * Déplace l'entité selon la stratégie de déplacement intelligente.
      * Le monstre se déplace vers le joueur en minimisant la distance.
      *
-     * @param labyrinthe Le labyrinthe dans lequel se trouve le monstre.
      * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
+    @Override
     public void deplacement(Player joueur , Monstre monstre) {
         // Récupération de la position du joueur
         int posMonstreX = monstre.getX();

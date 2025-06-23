@@ -120,16 +120,15 @@ public class ZeldiabloJeu implements Jeu {
             }
         } else if (clavier.space) {
             //Creation d'une nouvelle room
-            room = new ServerRoom();
             switch (getJoueur().curseurLog) {
                 case 0:
                     //Lancement en solo sans room
-                    joueur.add(new Player(0,0,5,2));
                     lance = true;
                     break;
                 case 1:
                     //rejoindre une room
                     //Demande l'adresse
+                    room = new ServerRoom();
                     Scanner sc = new Scanner(System.in);
                     System.out.println("Adresse");
                     String ad = sc.nextLine();
@@ -139,6 +138,7 @@ public class ZeldiabloJeu implements Jeu {
                     break;
                 case 2:
                     //Heberger une room
+                    room = new ServerRoom();
                     new Thread(() -> {
                         new ServerRoom().createServer();
                     }).start();
@@ -217,7 +217,7 @@ public class ZeldiabloJeu implements Jeu {
                     room.setGame(this);
                 }
                 getJoueur().setLabyrinthe(MapList.getMap("FirstMap"));
-                getLaby().initTimerMonstres();
+                getLaby().launchTickLoop();
                 getJoueur().reset();
                 //Set du joueur sur un point de spawn
                 for (int i=0;i<getLaby().getLongueur();i++){
@@ -245,14 +245,14 @@ public class ZeldiabloJeu implements Jeu {
      */
     public void changeLevel(String next, int x, int y) {
         if (getLaby().getJoueurs().size()==1) {
-            getLaby().arreterTimerMonstres();
+            getLaby().stopTickLoop();
         }
 
         getJoueur().setLabyrinthe(MapList.getMap(next));
         getJoueur().setY(y);
         getJoueur().setX(x);
 
-        getLaby().initTimerMonstres();
+        getLaby().launchTickLoop();
 
     }
 
