@@ -133,7 +133,7 @@ public class ZeldiabloDessin implements DessinJeu {
                             double[] pos2 = m.getDoublePos();
                             gc.drawImage(m.getSprite(), (pos2[1]-pX) * VariablesGlobales.TAILLE_CASE, (pos2[0]-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                             // Dessiner la barre de vie au-dessus du monstre
-                            dessinerBarreVieMonstre(gc, m, (x-pX), (y-pY));
+                            dessinerBarreVieMonstre(gc, m, (pos2[1]-pX), (pos2[0]-pY));
 
                             // Dessine ce qu'il a à dire au-dessus de lui
                             if (m.getMsgToSay() != null && !m.getMsgToSay().isEmpty()) {
