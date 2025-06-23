@@ -12,10 +12,9 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  * Classe des mechants très très mechants
  */
 public class Monstre extends Entite implements Cloneable, Tickable {
-    private DeplacementStrategie deplacementStrategie;
+    private final DeplacementStrategie deplacementStrategie;
     private int curTick = 0;
-    private int ticInterval = 15;
-    private Intelligence i;
+    private final int ticInterval;
 
     /**
      * Constructeur de la classe Monstre.
@@ -27,8 +26,8 @@ public class Monstre extends Entite implements Cloneable, Tickable {
      * */
     public Monstre(int x, int y, double pv, double degat, Intelligence intelligence,Labyrinthe l) {
         super(x, y, pv, degat,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()],l);
-        this.i=intelligence;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
+        this.ticInterval=15;
     }
 
     /**
@@ -36,8 +35,8 @@ public class Monstre extends Entite implements Cloneable, Tickable {
      */
     public Monstre(int x, int y, Intelligence intelligence,Labyrinthe l) {
         super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[intelligence.ordinal()],l);
-        this.i=intelligence;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(intelligence);
+        this.ticInterval=15;
     }
 
     /**
@@ -47,8 +46,8 @@ public class Monstre extends Entite implements Cloneable, Tickable {
      */
     public Monstre(int x, int y) {
         super(x, y, 3, VariablesGlobales.DEGAT_BASE,VariablesGlobales.SPRITE_MONSTRE[(int)(Math.random()*VariablesGlobales.SPRITE_MONSTRE.length)],null);
-        this.i=Intelligence.MOYENNE;
         this.deplacementStrategie = DeplacementStrategieFactory.creerStrategie(Intelligence.MOYENNE);
+        this.ticInterval=15;
     }
 
     /**

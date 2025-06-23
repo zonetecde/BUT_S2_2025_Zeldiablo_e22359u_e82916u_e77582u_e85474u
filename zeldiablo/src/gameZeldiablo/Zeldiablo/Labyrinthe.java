@@ -8,10 +8,7 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
@@ -47,7 +44,7 @@ public class Labyrinthe implements Serializable {
     private final ArrayList<Tickable> ticks = new ArrayList<>();
 
     // Timer pour le déplacement automatique des monstres
-    private transient Timer timerTicks = new Timer("ticks");
+    private transient Timer timerTicks;
 
     /**
      * Méthode appelée automatiquement lors de la désérialisation de l'objet.
@@ -264,11 +261,16 @@ public class Labyrinthe implements Serializable {
      * Initialise le timer pour le déplacement automatique des monstres
      */
     public void launchTickLoop() {
+        timerTicks = new Timer("Ticks");
         timerTicks.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (Tickable t : getTics()){
-                    t.tick();
+                try {
+                    for (Tickable t : getTics()) {
+                        t.tick();
+                    }
+                }catch (ConcurrentModificationException e){
+                    System.out.println(e.getMessage());
                 }
             }
         }, 0, VariablesGlobales.TICK_SPEED);
