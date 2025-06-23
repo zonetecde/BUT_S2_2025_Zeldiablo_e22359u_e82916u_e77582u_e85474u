@@ -39,8 +39,8 @@ public class Player extends Entite {
      *
      */
     public void ramasserItem() {
-        int x = this.getX();
-        int y = this.getY();
+        int x = (int)this.getX();
+        int y = (int)this.getY();
         Case caseCourante = getLabyrinthe().getCase(y, x);
         // Vérifie si la case contient un objet
         if (caseCourante.hasItem()) {

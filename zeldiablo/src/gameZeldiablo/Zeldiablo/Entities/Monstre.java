@@ -8,7 +8,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 /**
  * Classe des mechants très très mechants
  */
-public class Monstre extends Entite {
+public class Monstre extends Entite implements Cloneable{
     private DeplacementStrategie deplacementStrategie;
     private Intelligence i;
 
@@ -70,15 +70,9 @@ public class Monstre extends Entite {
         this.deplacementStrategie = deplacementStrategie;
     }
 
+    @Override
     public Monstre clone(){
-        Monstre m = new Monstre(getX(),getY(),i);
-        return m;
+        return (Monstre)super.clone();
     }
 
-    public Monstre clone(int x,int y){
-        Monstre m = this.clone();
-        m.setX(x);
-        m.setY(y);
-        return m;
-    }
 }

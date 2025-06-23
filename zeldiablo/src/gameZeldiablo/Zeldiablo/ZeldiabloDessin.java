@@ -116,11 +116,12 @@ public class ZeldiabloDessin implements DessinJeu {
             System.out.println("Erreur dessinerJeu");
         }
 
-        int pX = joueur.getX()-VariablesGlobales.DISTANCE_VUE/2;
-        int pY = joueur.getY()-VariablesGlobales.DISTANCE_VUE/2;
+        double[] pos = joueur.getDoublePos();
+        double pX = pos[1]- (double) VariablesGlobales.DISTANCE_VUE /2;
+        double pY = pos[0]- (double) VariablesGlobales.DISTANCE_VUE /2;
 
-        for (int y = pY-VariablesGlobales.DISTANCE_VUE; y < pY+VariablesGlobales.DISTANCE_VUE; y++) {
-            for (int x = pX-VariablesGlobales.DISTANCE_VUE; x < pX+VariablesGlobales.DISTANCE_VUE; x++) {
+        for (int y = (int) (pY-VariablesGlobales.DISTANCE_VUE); y < pY+VariablesGlobales.DISTANCE_VUE; y++) {
+            for (int x = (int) (pX-VariablesGlobales.DISTANCE_VUE); x < pX+VariablesGlobales.DISTANCE_VUE; x++) {
                 try {
                     // Couleur des murs - noir
                     gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
@@ -129,7 +130,7 @@ public class ZeldiabloDessin implements DessinJeu {
                     ArrayList<Entite> entites = joueur.getLabyrinthe().getEntites();
                     for (Entite m : entites) {
                         if (m.getX() == x && m.getY() == y && m.getEnVie()) {
-                            gc.drawImage(m.getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                            gc.drawImage(m.getSprite(), (pos[1]-pX) * VariablesGlobales.TAILLE_CASE, (pos[0]-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                             // Dessiner la barre de vie au-dessus du monstre
                             dessinerBarreVieMonstre(gc, m, (x-pX), (y-pY));
 
@@ -352,7 +353,7 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param x Position x du monstre sur le plateau
      * @param y Position y du monstre sur le plateau
      */
-    private void dessinerBarreVieMonstre(GraphicsContext gc, Entite monstre, int x, int y) {
+    private void dessinerBarreVieMonstre(GraphicsContext gc, Entite monstre, double x, double y) {
         double barreWidth = VariablesGlobales.TAILLE_CASE * 0.8;
         double barreHeight = 4;
         double barreX = x * VariablesGlobales.TAILLE_CASE + (VariablesGlobales.TAILLE_CASE - barreWidth) / 2;

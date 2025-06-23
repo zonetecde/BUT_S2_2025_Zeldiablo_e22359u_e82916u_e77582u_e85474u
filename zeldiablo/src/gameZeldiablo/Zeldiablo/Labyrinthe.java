@@ -216,7 +216,7 @@ public class Labyrinthe implements Serializable {
      */
     public void deplacerPerso(Direction action, Entite p) {
         // case courante
-        int[] courante = {p.getY(), p.getX()};
+        int[] courante = {(int)p.getY(), (int)p.getX()};
 
         // calcule case suivante
         int[] suivante = getSuivant(courante[0], courante[1], action); // vérification des limites du plateau et si c'est pas un mur et si il n'y a pas de monstre
@@ -225,8 +225,25 @@ public class Labyrinthe implements Serializable {
             p.setMsgToSay("");
 
             // on met à jour la position du personnage
-            p.setY(suivante[0]);
-            p.setX(suivante[1]);
+            //Thread d'animation de deplacement du personnage
+            new Thread(() -> {
+                double[] old = {p.getY(),p.getX()};
+                for (double i=0 ; i<11 ; i++){
+                    try {
+                        Thread.sleep(15);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    switch (action){
+                        case HAUT   -> p.setY(old[0]-(i/10));
+                        case BAS    -> p.setY(old[0]+(i/10));
+                        case GAUCHE -> p.setX(old[1]-(i/10));
+                        case DROITE -> p.setX(old[1]+(i/10));
+                    }
+                }
+            }).start();
+//            p.setX(suivante[1]);
+//            p.setY(suivante[0]);
             Case caseSuivante = getCase(suivante[0], suivante[1]);
             caseSuivante.onStepOn(p);
         }
@@ -298,7 +315,7 @@ public class Labyrinthe implements Serializable {
             }
 
             // déclanche le onstepon de la case où se trouve le monstre
-            Case caseMonstre = getCase(monstre.getY(), monstre.getX());
+            Case caseMonstre = getCase((int)monstre.getY(), (int)monstre.getX());
             caseMonstre.onStepOn(monstre);
 
             if (monstre.getHp() <= 0) {

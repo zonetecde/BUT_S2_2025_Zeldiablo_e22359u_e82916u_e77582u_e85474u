@@ -11,12 +11,12 @@ import java.io.Serializable;
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Entite implements Serializable, Sprited {
+public abstract class Entite implements Serializable, Sprited,Cloneable {
 
     /**
      * position du personnage et vie
      */
-    private int x, y;
+    private volatile double x, y;
     private double hp;
     private final double maxHp; // Les points de vie de l'entité
     private final double degat; // Les dégâts que fait l'entité
@@ -30,7 +30,7 @@ public abstract class Entite implements Serializable, Sprited {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Entite(int dx, int dy, double maxHp, double degat, String img) {
+    public Entite(double dx, double dy, double maxHp, double degat, String img) {
         this.x = dx;
         this.y = dy;
         this.hp = maxHp;
@@ -90,13 +90,6 @@ public abstract class Entite implements Serializable, Sprited {
         }
     }
 
-    /**
-     * @return position x du personnage
-     */
-    public int getX() {
-        // getter
-        return this.x;
-    }
 
     /**
      * Retourne si l'entité est en vie
@@ -110,8 +103,22 @@ public abstract class Entite implements Serializable, Sprited {
      */
     public int getY() {
         //getter
-        return this.y;
+        return (int)Math.ceil(this.y);
     }
+
+    /**
+     * @return position x du personnage
+     */
+    public int getX() {
+        // getter
+        return (int)Math.ceil(this.x);
+    }
+
+    public double[] getDoublePos(){
+        double[] tmp = {y,x};
+        return tmp;
+    }
+
 
     /**
      * Changement de position de l'entite
@@ -149,7 +156,7 @@ public abstract class Entite implements Serializable, Sprited {
      *
      * @param y position y du perso
      */
-    public void setY(int y){
+    public void setY(double y){
         this.y=y;
     }
 
@@ -157,7 +164,7 @@ public abstract class Entite implements Serializable, Sprited {
      *
      * @param x position x du perso
      */
-    public void setX(int x){
+    public void setX(double x){
         this.x=x;
     }
 
@@ -213,7 +220,11 @@ public abstract class Entite implements Serializable, Sprited {
 
     @Override
     public Entite clone(){
-        return new Monstre(getX(),getY());
+        try {
+            return (Entite)super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Entite clone(int x,int y){

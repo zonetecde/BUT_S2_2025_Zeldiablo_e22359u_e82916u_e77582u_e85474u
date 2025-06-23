@@ -183,7 +183,7 @@ public class ZeldiabloJeu implements Jeu {
             // Intéragit avec la case
             Labyrinthe currentLaby = getLaby();
             Player player = getJoueur();
-            Case playerCase = currentLaby.getCase(player.getY(), player.getX());
+            Case playerCase = currentLaby.getCase((int)player.getY(), (int)player.getX());
             playerCase.onAction(player, this);
         }
 
