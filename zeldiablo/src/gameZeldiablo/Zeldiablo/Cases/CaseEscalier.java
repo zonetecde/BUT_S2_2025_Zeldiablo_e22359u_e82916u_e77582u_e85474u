@@ -1,10 +1,9 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
-import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.MapList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
+import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
 
 /**
  * Case d'escalier pour changer de niveau
@@ -51,6 +50,5 @@ public class CaseEscalier extends Case{
         jeu.changeLevel(nextMap,x,y);
     }
 
-    public boolean getMonte(){return monte;}
     public boolean isLinked(){return (this.nextMap!=null);}
 }

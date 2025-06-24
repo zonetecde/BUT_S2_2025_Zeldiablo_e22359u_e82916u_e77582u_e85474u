@@ -17,7 +17,7 @@ public class VariablesGlobales {
         public static final String[][] SPRITE_MONSTRE = {SPRITE_MONSTRE_I0,SPRITE_MONSTRE_I1,SPRITE_MONSTRE_I2,SPRITE_MONSTRE_I3};
 
         public static final String[] SPRITE_EXPLOSION = {"Tiles/Explosion/Explosion_1.png","Tiles/Explosion/Explosion_2.png","Tiles/Explosion/Explosion_3.png","Tiles/Sol.png"};
-        public static final String[] SPRITE_JOUEUR =  {"player/PlayerFaceUp.png","player/PlayerFaceDown.png","player/PlayerFaceLeft.png","player/PlayerFaceRight.png","player/PlayerStabUp.png","player/PlayerStabDown.png","player/PlayerStabLeft.png","player/PlayerStabRight.png"};
+        public static final String[] SPRITE_JOUEUR =  {"joueur/PlayerFaceUp.png", "joueur/PlayerFaceDown.png", "joueur/PlayerFaceLeft.png", "joueur/PlayerFaceRight.png", "joueur/PlayerStabUp.png", "joueur/PlayerStabDown.png", "joueur/PlayerStabLeft.png", "joueur/PlayerStabRight.png"};
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 
         //Sprites de cases
@@ -43,11 +43,8 @@ public class VariablesGlobales {
         //Constantes
         public static final int DISTANCE_VUE = 15;//Mettre valeur impaire
         public static final int TAILLE_CASE = 40;
-        public static final double PV_BASE = 5;
         public static final double DEGAT_BASE = 1;
-        public static final double PROBA_MONSTRE = 0.08; // 8% de chance de générer un monstre dans une case vide
         public static final int TICK_SPEED = 100; // Délai en millisecondes entre les déplacements des monstres
-        public static final int NBRE_MONSTRES_MAX = 120; // Nombre maximum de monstres dans le labyrinthe
         public static final double HEAL_FOOD = 3;
 
         //VariablesMenu

@@ -1,7 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**

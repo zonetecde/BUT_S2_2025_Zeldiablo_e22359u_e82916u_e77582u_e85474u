@@ -1,10 +1,10 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
 import moteurJeu.Clavier;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class Encapsulation implements Serializable {
         this.concerne = use;
     }
 
-    public void getData(ServerRoom serverRoom,ZeldiabloJeu jeu){
+    public void getData(ServerRoom serverRoom, ZeldiabloJeu jeu){
         switch (concerne) {
             case 1 -> {
                 try {

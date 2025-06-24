@@ -21,10 +21,6 @@ public class CasePiege extends Case {
         this.degats = degats;
     }
 
-    public double getDegats() {
-        return degats;
-    }
-
     /**
      * Méthode appelée lorsqu'une entité marche sur la case piège.
      * Cette méthode inflige des dégâts à l'entité.

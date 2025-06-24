@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -234,10 +235,6 @@ public class ServerRoom {
 
     public List<Clavier> getClaviers() {
         return claviers;
-    }
-
-    public List<Player> getPlayers(){
-        return playersInRoom;
     }
 
     public void setMaps(Map<String,Labyrinthe> m){this.maps=m;}

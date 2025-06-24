@@ -7,8 +7,6 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
 public class CaseBombe extends Case implements Tickable {
     private int tics = 0;
     private int explosionStep;
-    private final int tickPlosion = 30;
-    private final int range = 3 ;
 
     private final Labyrinthe laby;
     int[] coord;
@@ -21,23 +19,25 @@ public class CaseBombe extends Case implements Tickable {
 
     @Override
     public void tick() {
-        if (tics<tickPlosion+20){
+        int tickPlosion = 30;
+        if (tics< tickPlosion +20){
             tics++;
         }
-        if (tics>=tickPlosion && tics<=tickPlosion+20){
+        if (tics>= tickPlosion && tics<= tickPlosion +20){
             explosion(false);
         }
-        if (tics==tickPlosion+20){
+        if (tics== tickPlosion +20){
             explosion(true);
             laby.getTics().remove(this);
         }
-        if (tics>=tickPlosion && tics%5==0){
+        if (tics>= tickPlosion && tics%5==0){
             explosionStep++;
         }
     }
 
     public void explosion(boolean fin){
-        for (int i = -range ; i<range ; i++) {
+        int range = 3;
+        for (int i = -range; i< range; i++) {
             try {
                 if (fin){
                     laby.getGameBoard()[coord[0]][coord[1] - i] = new CaseVide();

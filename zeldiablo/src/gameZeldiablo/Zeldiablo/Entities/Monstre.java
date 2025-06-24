@@ -54,7 +54,7 @@ public class Monstre extends Entite implements Cloneable, Tickable {
      * Methode pour deplacer le monstre selon sa strategie
      */
     public void deplacer(Direction action){
-        Entite tmp = getLabyrinthe().getJoueurs().get(0);
+        Entite tmp = getLabyrinthe().getJoueurs().getFirst();
         //Deplacement
         deplacementStrategie.deplacement((Player)tmp,this);
 

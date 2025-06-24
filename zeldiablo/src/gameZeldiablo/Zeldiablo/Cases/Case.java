@@ -4,7 +4,7 @@ import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.Sprited;
-import gameZeldiablo.Zeldiablo.ZeldiabloJeu;
+import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
 import javafx.scene.image.Image;
 
 import java.io.Serializable;

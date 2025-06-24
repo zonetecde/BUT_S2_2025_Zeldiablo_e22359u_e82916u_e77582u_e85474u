@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class Player extends Entite {
     private ArrayList<Item> inventory;
     boolean aGagne = false;
-    int sprite = 0;
 
     public boolean menuOuvert = false;
     public boolean curseurStart = true;

@@ -1,8 +1,9 @@
-package gameZeldiablo.Zeldiablo;
+package gameZeldiablo.Zeldiablo.Main;
 
+import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import moteurJeu.MoteurJeu;
 
-public class MainZeldiablo {
+public class ZeldiabloMain {
 
     /**
      * Point d'entrée du jeu Zeldiablo.

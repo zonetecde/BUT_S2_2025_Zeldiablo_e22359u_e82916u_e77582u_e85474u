@@ -43,18 +43,4 @@ public class Sprite {
         return imageCache.get(img);
     }
 
-    /**
-     * Nettoie le cache d'images (utile pour libérer la mémoire)
-     */
-    public static void clearImageCache() {
-        imageCache.clear();
-    }
-
-    /**
-     * Retourne la taille du cache d'images
-     * @return le nombre d'images en cache
-     */
-    public static int getCacheSize() {
-        return imageCache.size();
-    }
 }

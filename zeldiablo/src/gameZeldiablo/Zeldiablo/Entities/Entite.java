@@ -170,8 +170,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     }
 
     public double[] getDoublePos(){
-        double[] tmp = {y,x};
-        return tmp;
+        return new double[]{y,x};
     }
 
 
