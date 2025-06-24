@@ -1,7 +1,9 @@
 package gameZeldiablo.Zeldiablo.Main;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Inventaire;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -111,9 +113,9 @@ public class ZeldiabloDessin implements DessinJeu {
     }   
     
     private void itemActuellementSelectionneUI(Player joueur, GraphicsContext gc) {
-        ArrayList<Item> inv = joueur.getInventory();
+        Inventaire inv = joueur.getInventory();
         if (!inv.isEmpty()) {
-            Item item = inv.get(joueur.curseur);
+            ItemsList item = inv.getCurseur();
             int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
             gc.setFill(Color.BLACK);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));

@@ -1,24 +1,20 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
 
+import gameZeldiablo.Zeldiablo.*;
 import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Direction;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Items.TypeItem;
-import gameZeldiablo.Zeldiablo.Labyrinthe;
-import gameZeldiablo.Zeldiablo.Prompt;
-import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 import java.util.ArrayList;
 
 public class Player extends Entite {
-    private ArrayList<Item> inventory;
+    private Inventaire inventory;
     boolean aGagne = false;
 
     public boolean menuOuvert = false;
     public boolean curseurStart = true;
     public int curseurLog = 0;
-    public int curseur = 0;
     public boolean currentlyMoving = false;
     public Direction facing = Direction.HAUT;
 
@@ -31,7 +27,7 @@ public class Player extends Entite {
      */
     public Player(int dx, int dy, double maxHp, double degat) {
         super(dx, dy, maxHp, degat, VariablesGlobales.SPRITE_JOUEUR,null);
-        this.inventory = new ArrayList<>();
+        this.inventory = new Inventaire(this);
     }
 
     /**
@@ -48,17 +44,17 @@ public class Player extends Entite {
             Item item = caseCourante.getItem();
 
             getInventory().add(item);
-            String nomItem = item.getName();
+            ItemsList nomItem = item.getName();
 
             // Génère avec l'IA le texte que le joueur va dire
-            Prompt.askGptForMsgWhenPickingItem(nomItem + " " + item.getSpriteName(), this::setMsgToSay);
+            Prompt.askGptForMsgWhenPickingItem(nomItem.toString() + " " + item.getSpriteName(), this::setMsgToSay);
 
             caseCourante.removeItem();
         }
     }
 
     public void reset(){
-        this.setInventory(new ArrayList<>());
+        this.setInventory(new Inventaire(this));
         this.setHp(this.getMaxHp());
     }
 
@@ -72,14 +68,14 @@ public class Player extends Entite {
     public void infligerDegats(Entite cible) {
         if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
-            if(getInventory().isEmpty() || getInventory().get(curseur).getType() != TypeItem.ARME) {
+            if(getInventory().isEmpty() || Inventaire.get(getInventory().getCurseur()).getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
                 cible.prendreDegat(this.getDegat());
                 return;
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat(getInventory().get(curseur).getDegat());
+            cible.prendreDegat(Inventaire.get(getInventory().getCurseur()).getDegat());
         }
     }
 
@@ -139,13 +135,8 @@ public class Player extends Entite {
      *
      * @return true si l'item est trouvé, false sinon
      */
-    public boolean possedeItem(String nomItem) {
-        for (Item item : inventory) {
-            if (item.getName().equals(nomItem)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean possedeItem(ItemsList nomItem) {
+        return this.getInventory().possedeItem(nomItem);
     }
 
 
@@ -161,7 +152,7 @@ public class Player extends Entite {
      */
     public void setEnVie(boolean b) {
         if (!b) {
-            inventory.clear();
+            inventory=new Inventaire(this);
         }
 
         super.setEnVie(b);
@@ -190,7 +181,7 @@ public class Player extends Entite {
      *
      * @param inventory L'inventaire du joueur, une liste d'objets
      */
-    public void setInventory(ArrayList<Item> inventory) {
+    public void setInventory(Inventaire inventory) {
         this.inventory = inventory;
     }
 
@@ -199,7 +190,7 @@ public class Player extends Entite {
      *
      * @return L'inventaire du joueur, une liste d'items
      */
-    public ArrayList<Item> getInventory() {
+    public Inventaire getInventory() {
         return inventory;
     }
 }

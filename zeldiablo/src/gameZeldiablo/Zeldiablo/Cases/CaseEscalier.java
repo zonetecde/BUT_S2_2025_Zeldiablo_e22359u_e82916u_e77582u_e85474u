@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.MapList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
@@ -39,7 +40,7 @@ public class CaseEscalier extends Case{
     public void onAction(Entite entite, ZeldiabloJeu jeu) {
         // Si l'escalier est descendant et que le joueur a l'amulette, il gagne le jeu
         if (!monte && jeu.getLaby()== MapList.getMap("FirstMap")) {
-            boolean possedeAmulette = jeu.getJoueur().possedeItem("Amulette");
+            boolean possedeAmulette = jeu.getJoueur().possedeItem(ItemsList.AMULETTE);
             if (possedeAmulette) {
                 jeu.getJoueur().setaGagne(true);
             } else {

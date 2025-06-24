@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
@@ -7,6 +8,6 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  */
 public class Epee extends Arme {
     public Epee() {
-        super("Épée", VariablesGlobales.SPRITE_EPEE, 2.0); // 2 points de dégâts
+        super(ItemsList.BOMBE, VariablesGlobales.SPRITE_EPEE, 2.0); // 2 points de dégâts
     }
 }

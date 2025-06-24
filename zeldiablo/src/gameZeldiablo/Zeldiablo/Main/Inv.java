@@ -1,7 +1,9 @@
 package gameZeldiablo.Zeldiablo.Main;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Inventaire;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,7 +25,7 @@ class Inv {
      * @param c Le canvas sur lequel dessiner l'inventaire.
      */
     static void invUI(Player joueur, GraphicsContext gc, Canvas c){
-        ArrayList<Item> inv = joueur.getInventory();
+        Inventaire inv = joueur.getInventory();
 
         // Paramètres de base
         double menuX = c.getWidth() / 4;
@@ -51,7 +53,7 @@ class Inv {
             double caseY = menuY + caseHeight * y;
 
             // Couleur de fond de case
-            if (i == joueur.curseur) {
+            if (i == inv.getCurseurInt()) {
                 gc.setFill(Color.rgb(227, 208, 149,0.9)); // Case sélectionnée
             } else if (couleurcases) {
                 gc.setFill(Color.rgb(72, 58, 160,0.9));
@@ -64,9 +66,10 @@ class Inv {
             gc.fillRoundRect(caseX, caseY, caseWidth - 5, caseHeight - 5, 10, 10);
 
             // Texte de l'item centré
+            ItemsList item = inv.getListe().get(i);
             gc.setFill(Color.WHITE);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            String itemText = inv.get(i).toString();
+            String itemText = Inventaire.get(item).toString() + "x" + inv.getNumber(item);
             Text text = new Text(itemText);
             text.setFont(gc.getFont());
             double textWidth = text.getLayoutBounds().getWidth();
@@ -74,7 +77,7 @@ class Inv {
             double textY = caseY + (double) caseHeight / 2 + 5;
 
             gc.fillText(itemText, textX, textY);
-            gc.drawImage(inv.get(i).getSprite(),caseX+10,caseY,24,24);
+            gc.drawImage(Inventaire.get(item).getSprite(),caseX+10,caseY,24,24);
 
             x += 1;
             if (x >= VariablesGlobales.COL_NUM_MENU) {
@@ -85,32 +88,18 @@ class Inv {
     }
 
     static void inputInv(Clavier clavier,Player joueur){
+        Inventaire inv = joueur.getInventory();
+
         if (clavier.droite){
-            if (joueur.curseur<joueur.getInventory().size()-1) {
-                joueur.curseur += 1;
-            }
+            inv.movecurseur(+1);
         } else if (clavier.gauche){
-            if (joueur.curseur>0) {
-                joueur.curseur -= 1;
-            }
+            inv.movecurseur(-1);
         } else if (clavier.haut){
-            if (joueur.curseur> VariablesGlobales.COL_NUM_MENU-1) {
-                joueur.curseur -= VariablesGlobales.COL_NUM_MENU;
-            }
+            inv.movecurseur(-VariablesGlobales.COL_NUM_MENU);
         } else if (clavier.bas){
-            if (joueur.curseur<joueur.getInventory().size()-3) {
-                joueur.curseur += VariablesGlobales.COL_NUM_MENU;
-            }
+            inv.movecurseur(-VariablesGlobales.COL_NUM_MENU);
         } else if (clavier.space) {
-            try {
-                if (joueur.getInventory().get(joueur.curseur).use(joueur)) {
-                    joueur.getInventory().remove(joueur.curseur);
-                    if (joueur.curseur>0) {
-                        joueur.curseur -= 1;
-                    }
-                }
-            }
-            catch (Exception ignore){}
+            inv.use(inv.getCurseur());
         }
     }
 }

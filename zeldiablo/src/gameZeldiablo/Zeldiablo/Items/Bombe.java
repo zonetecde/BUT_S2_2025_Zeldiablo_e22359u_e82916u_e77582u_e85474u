@@ -3,13 +3,14 @@ package gameZeldiablo.Zeldiablo.Items;
 import gameZeldiablo.Zeldiablo.Cases.CaseBombe;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 public class Bombe extends Item{
 
     public Bombe(){
-        super("Bombe", VariablesGlobales.SPRITE_BOMBE,TypeItem.OBJET);
+        super(ItemsList.BOMBE, VariablesGlobales.SPRITE_BOMBE,TypeItem.OBJET);
     }
 
     @Override

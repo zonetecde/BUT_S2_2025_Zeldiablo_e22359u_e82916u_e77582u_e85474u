@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
@@ -7,7 +8,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  */
 public class Amulette extends Item{
     public Amulette() {
-        super("Amulette", VariablesGlobales.SPRITE_AMULETTE, TypeItem.OBJET);
+        super(ItemsList.AMULETTE, VariablesGlobales.SPRITE_AMULETTE, TypeItem.OBJET);
     }
 
 }

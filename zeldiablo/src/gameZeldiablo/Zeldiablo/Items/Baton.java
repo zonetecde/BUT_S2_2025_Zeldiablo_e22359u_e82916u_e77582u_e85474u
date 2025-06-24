@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
@@ -7,6 +8,6 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  */
 public class Baton extends Arme {
     public Baton() {
-        super("Bâton", VariablesGlobales.SPRITE_BATON, 0.5); // 0.5 points de dégâts
+        super(ItemsList.BATON, VariablesGlobales.SPRITE_BATON, 0.5); // 0.5 points de dégâts
     }
 }

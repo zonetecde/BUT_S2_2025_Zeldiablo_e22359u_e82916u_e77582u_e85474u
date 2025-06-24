@@ -1,5 +1,7 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.ItemsList;
+
 /**
  * Classe abstraite représentant une arme
  */
@@ -13,7 +15,7 @@ public abstract class Arme extends Item {
      * @param img Chemin de l'image de l'arme
      * @param degat Dégâts infligés par l'arme
      */
-    public Arme(String name, String img, double degat) {
+    public Arme(ItemsList name, String img, double degat) {
         super(name, img, TypeItem.ARME);
         this.degat = degat;
     }
@@ -28,6 +30,6 @@ public abstract class Arme extends Item {
     }
 
     public String toString() {
-        return this.getName() + " (" + this.getDegat() + " pdg)";
+        return this.getName().toString().toLowerCase() + " (" + this.getDegat() + ")";
     }
 }

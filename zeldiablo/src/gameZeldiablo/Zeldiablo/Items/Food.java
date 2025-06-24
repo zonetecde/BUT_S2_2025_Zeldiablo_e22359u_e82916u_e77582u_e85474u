@@ -1,6 +1,7 @@
 package gameZeldiablo.Zeldiablo.Items;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 /**
@@ -8,7 +9,7 @@ import gameZeldiablo.Zeldiablo.VariablesGlobales;
  */
 public class Food extends Item{
     public Food(){
-        super("Food", VariablesGlobales.SPRITE_FOOD[(int)Math.floor(Math.random()*VariablesGlobales.SPRITE_FOOD.length)],TypeItem.MISC);
+        super(ItemsList.FOOD, VariablesGlobales.SPRITE_FOOD[(int)Math.floor(Math.random()*VariablesGlobales.SPRITE_FOOD.length)],TypeItem.MISC);
     }
 
     /**

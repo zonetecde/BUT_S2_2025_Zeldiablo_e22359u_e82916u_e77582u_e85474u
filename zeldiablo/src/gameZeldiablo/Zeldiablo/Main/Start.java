@@ -31,7 +31,6 @@ class Start {
                     }
                 }
                 joueur.setEnVie(true);
-                joueur.curseur=0;
             }
             else{
                 System.exit(0);

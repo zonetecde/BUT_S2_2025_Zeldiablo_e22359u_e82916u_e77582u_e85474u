@@ -63,6 +63,8 @@ Réponds UNIQUEMENT avec la phrase, sans guillemets ni commentaires.
      */
     public static void askGptForMsgWhenPickingItem(String itemName, java.util.function.Consumer<String> callback) {
         String prompt = PROMPT_RAMASSER_OBJET.replace("@1", itemName);
-        makeHttpRequest(prompt, callback);
+        try {
+            makeHttpRequest(prompt, callback);
+        }catch(Exception ignore){}
     }
 }
