@@ -4,9 +4,8 @@ package gameZeldiablo.Zeldiablo.Entities;
 import gameZeldiablo.Zeldiablo.*;
 import gameZeldiablo.Zeldiablo.Cases.Case;
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Items.ItemsList;
 import gameZeldiablo.Zeldiablo.Items.TypeItem;
-
-import java.util.ArrayList;
 
 public class Player extends Entite {
     private Inventaire inventory;

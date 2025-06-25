@@ -157,7 +157,26 @@ public class ZeldiabloJeu implements Jeu {
         idComp = 0;
         joueur.add(new Player(0,0,5,5));
         getJoueur().setEnVie(false);
+        new Thread(() -> {
+            int LOWPOINT = 15;
+            int HIGHPOINT = 20;
+            int INTERVAL = 150;
 
+            try {
+                while (true) {
+                    for (int i = LOWPOINT; i < HIGHPOINT; i++) {
+                        Laby.itemFloat = i;
+                        Thread.sleep(INTERVAL);
+                    }
+                    for (int i = HIGHPOINT; i > LOWPOINT; i--) {
+                        Laby.itemFloat = i;
+                        Thread.sleep(INTERVAL);
+                    }
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        },"ItemAnimation").start();
     }
 
     /**

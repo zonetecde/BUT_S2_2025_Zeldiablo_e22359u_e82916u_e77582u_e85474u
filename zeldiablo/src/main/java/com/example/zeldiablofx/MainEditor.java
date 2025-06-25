@@ -435,6 +435,7 @@ public class MainEditor extends Application {
             type.add(new Epee());
             type.add(new Hache());
             type.add(new Bombe());
+            type.add(new Recette());
 
             //Del button
             delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {

@@ -1,7 +1,5 @@
 package gameZeldiablo.Zeldiablo.Items;
 
-import gameZeldiablo.Zeldiablo.ItemsList;
-
 /**
  * Classe abstraite représentant une arme
  */

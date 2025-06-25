@@ -1,7 +1,6 @@
 package gameZeldiablo.Zeldiablo.Items;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.Sprited;
 import javafx.scene.image.Image;
@@ -10,7 +9,6 @@ import java.io.Serializable;
 public abstract class Item implements Serializable, Sprited {
     private final ItemsList name;
     private final TypeItem type;
-
     private final String sprite; // L'image de l'item
 
     /**

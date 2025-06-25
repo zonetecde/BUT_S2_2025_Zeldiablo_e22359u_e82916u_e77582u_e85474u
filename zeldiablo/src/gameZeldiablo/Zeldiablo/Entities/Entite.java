@@ -23,6 +23,8 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     private String[] sprite; // L'image de l'entité
     private int spriteInt = 0;
     private Labyrinthe labyrinthe;
+    private Equipement equipement = new Equipement(); //Equipement de l'entité
+
 
     /**
      * constructeur

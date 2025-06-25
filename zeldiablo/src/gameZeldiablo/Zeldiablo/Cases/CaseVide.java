@@ -1,12 +1,14 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Items.Item;
+import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
-
+import javafx.scene.image.Image;
 
 
 public class CaseVide extends Case {
     private Item item;
+    private boolean gotItem = false;
 
     /**
      * Constructeur
@@ -22,6 +24,7 @@ public class CaseVide extends Case {
     @Override
     public void addItem(Item item) {
         this.item = item;
+        gotItem = true;
     }
 
     /**
@@ -41,12 +44,22 @@ public class CaseVide extends Case {
         this.item = null;
     }
 
+
     /**
      * Retourne l'objet contenu dans la case
      * @return L'objet de la case
      */
     public Item getItem() {
         return item;
+    }
+
+    @Override
+    public Image getSprite() {
+        if (!gotItem) {
+            return super.getSprite();
+        } else {
+            return Sprite.getImg(VariablesGlobales.SPRITE_CASE_PIEDESTAL);
+        }
     }
 }
 

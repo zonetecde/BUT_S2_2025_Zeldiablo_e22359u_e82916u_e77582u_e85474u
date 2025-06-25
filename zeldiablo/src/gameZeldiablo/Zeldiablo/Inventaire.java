@@ -4,7 +4,6 @@ import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Items.*;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +110,7 @@ public class Inventaire {
                 case EPEE -> CacheManage(i,Epee.class.getConstructor());
                 case FOOD -> CacheManage(i,Food.class.getConstructor());
                 case HACHE -> CacheManage(i,Hache.class.getConstructor());
+                case RECETTE -> CacheManage(i,Recette.class.getConstructor());
             };
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);

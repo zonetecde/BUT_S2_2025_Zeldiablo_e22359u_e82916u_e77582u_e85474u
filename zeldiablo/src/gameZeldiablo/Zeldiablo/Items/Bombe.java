@@ -3,7 +3,6 @@ package gameZeldiablo.Zeldiablo.Items;
 import gameZeldiablo.Zeldiablo.Cases.CaseBombe;
 import gameZeldiablo.Zeldiablo.Cases.CaseVide;
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.ItemsList;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 

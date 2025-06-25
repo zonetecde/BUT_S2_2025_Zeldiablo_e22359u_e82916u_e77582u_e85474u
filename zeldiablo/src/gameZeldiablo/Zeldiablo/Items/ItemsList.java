@@ -1,4 +1,4 @@
-package gameZeldiablo.Zeldiablo;
+package gameZeldiablo.Zeldiablo.Items;
 
 public enum ItemsList {
     AMULETTE,
@@ -6,5 +6,6 @@ public enum ItemsList {
     BOMBE,
     EPEE,
     FOOD,
-    HACHE
+    HACHE,
+    RECETTE
 }

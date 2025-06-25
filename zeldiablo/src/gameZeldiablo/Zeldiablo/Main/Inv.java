@@ -2,8 +2,7 @@ package gameZeldiablo.Zeldiablo.Main;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import gameZeldiablo.Zeldiablo.Inventaire;
-import gameZeldiablo.Zeldiablo.Items.Item;
-import gameZeldiablo.Zeldiablo.ItemsList;
+import gameZeldiablo.Zeldiablo.Items.ItemsList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,8 +11,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import moteurJeu.Clavier;
-
-import java.util.ArrayList;
 
 class Inv {
 

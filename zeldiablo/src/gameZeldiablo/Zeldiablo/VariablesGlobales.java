@@ -32,8 +32,10 @@ public class VariablesGlobales {
         public static final String SPRITE_PORTE_OUVERTE = "Tiles/DoorOpened.png";
         public static final String SPRITE_PANCARTE = "Tiles/Pancarte.png";
         public static final String SPRITE_CASE_BOMBE = "Tiles/Bomb.png";
+        public static final String SPRITE_CASE_PIEDESTAL = "Tiles/Pedestal.png";
 
         //Sprite Items
+        public static final String SPRITE_RECETTE = "Items/Note.png";
         public static final String SPRITE_AMULETTE = "Items/Amulette.png";
         public static final String SPRITE_EPEE = "Items/Epee.png";
         public static final String SPRITE_BATON = "Items/Baton.png";

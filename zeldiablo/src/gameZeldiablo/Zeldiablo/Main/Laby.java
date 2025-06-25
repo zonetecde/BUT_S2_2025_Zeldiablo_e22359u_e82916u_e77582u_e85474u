@@ -16,7 +16,11 @@ import moteurJeu.Clavier;
 
 import java.util.ArrayList;
 
+
 class Laby {
+
+    public static double itemFloat = 20;
+
     static void inputLaby(Clavier clavier, Player joueur, ZeldiabloJeu jeu){
         if (clavier.interactionKey) {
             // Ramasse l'objet si possible
@@ -79,7 +83,7 @@ class Laby {
 
                     // Affichage des items
                     try {
-                        gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getItem().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, (y-pY) * VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
+                        gc.drawImage(joueur.getLabyrinthe().getCase(y, x).getItem().getSprite(), (x-pX) * VariablesGlobales.TAILLE_CASE, ((y-pY) * VariablesGlobales.TAILLE_CASE)-itemFloat, VariablesGlobales.TAILLE_CASE, VariablesGlobales.TAILLE_CASE);
                     } catch (Exception none) {
                         // L'img n'a pas encore chargé
                     }

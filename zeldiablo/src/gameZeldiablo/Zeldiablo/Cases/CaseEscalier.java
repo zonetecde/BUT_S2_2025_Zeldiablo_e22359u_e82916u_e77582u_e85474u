@@ -1,7 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
 import gameZeldiablo.Zeldiablo.Entities.Entite;
-import gameZeldiablo.Zeldiablo.ItemsList;
+import gameZeldiablo.Zeldiablo.Items.ItemsList;
 import gameZeldiablo.Zeldiablo.MapList;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import gameZeldiablo.Zeldiablo.Main.ZeldiabloJeu;
