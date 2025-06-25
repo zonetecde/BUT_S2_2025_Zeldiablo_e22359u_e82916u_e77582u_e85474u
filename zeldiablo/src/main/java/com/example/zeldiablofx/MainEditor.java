@@ -71,9 +71,9 @@ public class MainEditor extends Application {
 
         Tab launchOther = new Tab("launcher",launcher(stage));
 
-        root.getTabs().addAll(this.tab(false,false)
-                ,this.tab(true,false)
-                ,this.tab(false,true)
+        root.getTabs().addAll(this.tab(0)
+                ,this.tab(1)
+                ,this.tab(4)
                 ,this.linkTab(),this.stairTab(),
                 launchOther,
                 saveTab());
@@ -216,6 +216,8 @@ public class MainEditor extends Application {
             }
     }
 
+    //TABS
+
     public Tab saveTab(){
         VBox root = new VBox(20);
         root.setAlignment(Pos.TOP_CENTER);
@@ -238,128 +240,20 @@ public class MainEditor extends Application {
 
     }
 
-    /**
-     * GridPane gerant l'affichage de la map
-     * @param tile affichage des tiles?
-     * @param ennemy affichage des ennemis?
-     * @return Grille du niveau
-     */
-    public GridPane grille(boolean tile, boolean ennemy, boolean link, boolean items,boolean stairs){
-        int colnum = l.getLongueur();
-        int linenum = l.getHauteur();
-        GridPane root = new GridPane();
-        root.setAlignment(Pos.CENTER);
 
-
-        for (int i=0;i<colnum;i++){
-            for (int j=0;j<linenum;j++){
-                //set de l'affichage
-                //Affichage des Tiles
-                if (tile) {
-                    Image img = l.getCase(j,i).getSprite();
-                    ImageView imageView = new ImageView(img);
-                    imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                    imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-
-                    //Set de l'action onClick des cases
-                    if (!ennemy && !items && !link) {
-                        imageView.setOnMouseClicked(new CaseHandler(l, j, i, imageView));
-                    }else if(!items && !link){
-                        imageView.setOnMouseClicked(new EntityHandler(l, i, j, imageView));
-                    }else if (!link){
-                        imageView.setOnMouseClicked(new ItemHandler(l.getCase(j,i),imageView));
-                    }
-                    root.add(imageView,i,j);
-                }
-
-                //Affichage des ennemis
-                if (ennemy){
-                    for (int k = 0; k<l.getEntites().size(); k++){
-                        Entite m = l.getEntites().get(k);
-                        if (m.getY()==j && m.getX()==i){
-                            Image img = m.getSprite();
-                            ImageView imageView = new ImageView(img);
-                            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                            root.add(imageView,i,j);
-                        }
-                    }
-                }
-                //Affichage des liens
-                if (link) {
-                    if (l.getCase(j, i).isActivable()) {
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, Color.RED);
-                        root.add(circle, i, j);
-                        circle.setOnMouseClicked(new ActivableHandler(l.getCase(j, i)));
-
-                        CasePorte casePorte = (CasePorte) (l.getCase(j, i));
-                        Label label = new Label(casePorte.getId() + "");
-                        GridPane.setHalignment(label, HPos.CENTER);
-                        root.add(label, i, j);
-                    }
-                    if (l.getCase(j, i).isActivate()) {
-                        //Couleur differente si deja lié ou pas
-                        Color c;
-                        if (l.getCase(j, i).isLinked()) {
-                            c = Color.YELLOW;
-                        } else {
-                            c = Color.BLUE;
-                        }
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, c);
-                        root.add(circle, i, j);
-                        //Texte
-                        try {
-                            CaseSwitch caseSwitch = (CaseSwitch) (l.getCase(j, i));
-                            Label label = new Label(caseSwitch.getLink().getId() + "");
-                            GridPane.setHalignment(label, HPos.CENTER);
-                            root.add(label, i, j);
-                        } catch (Exception ignore) {
-                        }
-                        circle.setOnMouseClicked(new SwitchHandler((CaseSwitch) l.getCase(j, i), circle));
-                    }
-                }
-
-                if (stairs){
-                    if(l.getCase(j,i) instanceof CaseEscalier){
-                        Color c;
-                        if(l.getCase(j,i).isLinked()){c = Color.DARKVIOLET;}
-                        else{c = Color.VIOLET;}
-                        Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2, c);
-                        root.add(circle,i,j);
-                        circle.setOnMouseClicked(new Stairs_Handler((CaseEscalier) l.getCase(j,i)));
-                    }
-                }
-
-                //Affichage des Items
-                if (items){
-                    Case cur = l.getCase(j,i);
-                    if(cur.hasItem()){
-                        ImageView imageView = new ImageView(cur.getItem().getSprite());
-                        imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-                        imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-                        root.add(imageView,i,j);
-                    }
-                }
-            }
-        }
-
-        return root;
-    }
 
     /**
      * Creation des tab de l'editeur
-     * @param monstre si le tab concerne les monstres
      * @return un Tab fonctionnel
      */
-    public Tab tab(boolean monstre,boolean item){
-        Tab root;
-        if (item){
-            root = new Tab("Items");
-        } else if (monstre) {
-            root = new Tab("Monstre");
-        }else{
-            root = new Tab("Tiles");
-        }
+    public Tab tab(int concerne){
+        Tab root = switch (concerne){
+            case 0 -> new Tab("Tiles");
+            case 1 -> new Tab("Entities");
+            case 4 -> new Tab("Items");
+            default -> new Tab("Default");
+        };
+
         root.setOnSelectionChanged(event -> {
             HBox main = new HBox(10);
             main.setAlignment(Pos.CENTER);
@@ -369,10 +263,10 @@ public class MainEditor extends Application {
             menuRight.getChildren().add(brushImage);
 
             //TabTiles
-            ScrollPane carte = new ScrollPane(grille(true,monstre,false,item,false));
+            ScrollPane carte = new ScrollPane(Grille.grille(l,concerne,this));
 
             //Menu selection case
-            ScrollPane menu = new ScrollPane(menu(monstre,item));
+            ScrollPane menu = new ScrollPane(Menu.menu(this,concerne));
 
 
 
@@ -390,7 +284,7 @@ public class MainEditor extends Application {
     public Tab linkTab(){
         Tab root = new Tab("Links");
         root.setOnSelectionChanged(event -> {
-            root.setContent(new ScrollPane(grille(true, false, true,false,false)));
+            root.setContent(new ScrollPane(Grille.grille(l,2,this)));
         });
 
         return root;
@@ -403,93 +297,13 @@ public class MainEditor extends Application {
     public Tab stairTab(){
         Tab root = new Tab("Stairs");
         root.setOnSelectionChanged(event -> {
-            root.setContent(new ScrollPane(grille(true, false, false,false,true)));
+            root.setContent(new ScrollPane(Grille.grille(l,3,this)));
         });
 
         return root;
     }
 
-    /**
-     * Menus de selection des brush
-     * @param monstre si la brush concerne monstre
-     * @return une liste de bouton brush
-     */
-    public VBox menu(boolean monstre,boolean item){
-        VBox menu = new VBox();
-        List<Sprited> type;
 
-        //Creation du bouton
-        Button delbutton = new Button();
-        //Creation d'une imageview adaptee
-        ImageView delImageView = new ImageView(Sprite.getImg(VariablesGlobales.SPRITE_CROIX));
-        delImageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-        delImageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-        delbutton.setGraphic(delImageView);
-
-
-        //Liste des brush
-        if (item){
-            type = new ArrayList<>();
-            type.add(new Amulette());
-            type.add(new Food());
-            type.add(new Epee());
-            type.add(new Hache());
-            type.add(new Bombe());
-            type.add(new Recette());
-
-            //Del button
-            delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    brushItem = null;
-                }
-            });
-            menu.getChildren().add(delbutton);
-
-
-        } else if (monstre) {
-            type = new ArrayList<>();
-            for (int i = 0; i < Intelligence.values().length; i++) {
-                type.add(new Monstre(0, 0, Intelligence.values()[i],null));
-            }
-
-            //Del Button
-            delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    brushEntite = null;
-                }
-            });
-            menu.getChildren().add(delbutton);
-
-        }else {
-            type = new ArrayList<>();
-            type.add(new CaseMur());
-            type.add(new CaseVide());
-            type.add(new CaseEscalier(false));
-            type.add(new CaseEscalier(true));
-            type.add(new CaseSwitch());
-            type.add(new CasePorte());
-            type.add(new CasePancarte("Default"));
-            type.add(new CasePiege(5));
-            type.add(new CaseSpawn());
-        }
-
-        for (Sprited s : type) {
-            //Creation du bouton
-            Button button = new Button();
-            //Creation d'une imageview adaptee
-            ImageView imageView = new ImageView(s.getSprite());
-            imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
-            imageView.setFitHeight(VariablesGlobales.TAILLE_CASE);
-            button.setGraphic(imageView);
-            //Ajout du bouton à la liste de boutons
-            menu.getChildren().add(button);
-            button.setOnMouseClicked(new MenuButtonHandler<>(s));
-        }
-
-        return menu;
-    }
 
     public Scene getStairOutput(String labyrinthe,CaseEscalier stairs,Stage stage) {
         Labyrinthe laby = MapList.getMap(labyrinthe);
@@ -529,7 +343,7 @@ public class MainEditor extends Application {
      * Handler influant sur la case cliquée
      * @param <MenuType> type d'objet manipulé
      */
-    class MenuButtonHandler<MenuType> implements EventHandler<MouseEvent> {
+    public class MenuButtonHandler<MenuType> implements EventHandler<MouseEvent> {
         MenuType aCase;
         public MenuButtonHandler(MenuType c){
             aCase = c;
