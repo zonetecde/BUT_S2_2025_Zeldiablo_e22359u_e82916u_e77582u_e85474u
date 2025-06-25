@@ -27,14 +27,16 @@ public class Inventaire {
         tmp.add(i);
         stock.put(i.getName(), tmp );
         liste.add(i.getName());
-        if (curseur >= liste.size()-1){
-            curseur=0;
-        }
     }
 
     public boolean possedeItem(ItemsList i){
         List<Item> item =stock.get(i);
         return (item != null && !item.isEmpty());
+    }
+
+    public boolean possedeItem(ItemsList i,int nb){
+        List<Item> item =stock.get(i);
+        return (item != null && item.size()>nb-1);
     }
 
     public void add(Item i){
@@ -45,18 +47,25 @@ public class Inventaire {
         }
     }
 
-    public void remove(ItemsList i){
+    public void remove(ItemsList i, int nb){
         List<Item> tmp = stock.get(i);
-        if (tmp!=null && !tmp.isEmpty()){
-            if (tmp.size()!=1) {
-                stock.get(i).removeLast();
+        if (tmp!=null && tmp.size()>=nb){
+            if (tmp.size()!=nb) {
+                for (int j=0;j<nb;j++) {
+                    stock.get(i).removeLast();
+                }
             }else{
                 stock.remove(i);
                 liste.remove(i);
                 System.out.println("feur");
             }
+            if (curseur >= liste.size()-1){
+                curseur=0;
+            }
         }
     }
+
+    public void remove(ItemsList i){remove(i,1);}
 
     public void use(ItemsList i){
         if (possedeItem(i)){

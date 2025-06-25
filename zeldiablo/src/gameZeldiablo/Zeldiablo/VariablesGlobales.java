@@ -5,6 +5,8 @@ package gameZeldiablo.Zeldiablo;
  */
 public class VariablesGlobales {
         public static final String DOSSIER_LABY = "Laby/LabyBin"; // labyJeu ou labyIntro
+        public static final String RECETTE_FOLDER = "Recettes";
+
 
         //Images
         public static final String SPRITE_CROIX = "Cross.png";
@@ -16,7 +18,7 @@ public class VariablesGlobales {
         public static final String[] SPRITE_MONSTRE_I3 = {"Monstre/SlimeBlue.png","Monstre/SlimeBlueSquished.png"};
         public static final String[][] SPRITE_MONSTRE = {SPRITE_MONSTRE_I0,SPRITE_MONSTRE_I1,SPRITE_MONSTRE_I2,SPRITE_MONSTRE_I3};
 
-        public static final String[] SPRITE_EXPLOSION = {"Tiles/Explosion/Explosion_1.png","Tiles/Explosion/Explosion_2.png","Tiles/Explosion/Explosion_3.png","Tiles/Sol.png"};
+        public static final String[] SPRITE_EXPLOSION = {"Tiles/Explosion/Explosion_1.png","Tiles/Explosion/Explosion_2.png","Tiles/Explosion/Explosion_3.png"};
         public static final String[] SPRITE_JOUEUR =  {"joueur/PlayerFaceUp.png", "joueur/PlayerFaceDown.png", "joueur/PlayerFaceLeft.png", "joueur/PlayerFaceRight.png", "joueur/PlayerStabUp.png", "joueur/PlayerStabDown.png", "joueur/PlayerStabLeft.png", "joueur/PlayerStabRight.png"};
         public static final String[] SPRITE_FOOD = {"Food/Baguette.png","Food/EyeBall.png","Food/Infested.png","Food/Meat.png","Food/Turkey.png","Food/Wotahmelon.png"};
 
