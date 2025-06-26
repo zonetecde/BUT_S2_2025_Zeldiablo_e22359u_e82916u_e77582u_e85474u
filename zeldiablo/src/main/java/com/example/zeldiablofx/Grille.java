@@ -1,9 +1,6 @@
 package main.java.com.example.zeldiablofx;
 
-import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseEscalier;
-import gameZeldiablo.Zeldiablo.Cases.CasePorte;
-import gameZeldiablo.Zeldiablo.Cases.CaseSwitch;
+import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
@@ -131,8 +128,12 @@ class Grille {
         //Set de l'action onClick des cases
         switch (concerne){
             case 0 -> imageView.setOnMouseClicked( m.new CaseHandler(l, j, i, imageView));
-            case 1-> imageView.setOnMouseClicked(m.new EntityHandler(l, i, j, imageView));
-            case 4 -> imageView.setOnMouseClicked(m. new ItemHandler(l.getCase(j, i), imageView));
+            case 1 -> imageView.setOnMouseClicked(m.new EntityHandler(l, i, j, imageView));
+            case 4 -> {
+                if (l.getCase(j, i) instanceof CaseVide) {
+                    imageView.setOnMouseClicked(m.new ItemHandler(l.getCase(j, i), imageView));
+                }
+            }
         }
         root.add(imageView, i, j);
     }

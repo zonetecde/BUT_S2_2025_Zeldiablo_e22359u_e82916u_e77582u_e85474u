@@ -5,6 +5,8 @@ import gameZeldiablo.Zeldiablo.Inventaire;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -12,49 +14,55 @@ import java.util.Scanner;
 
 public class Recette extends Item{
     ArrayList<Element> elements;
-    ItemsList result;
+    ArrayList<ItemsList> result;
 
     /**
      * Constructeur de la classe Item
      *
      */
-    public Recette(int i) {
-        super(ItemsList.RECETTE, VariablesGlobales.SPRITE_RECETTE, TypeItem.MISC);
-        read(i);
-    }
-
     public Recette(){
         super(ItemsList.RECETTE, VariablesGlobales.SPRITE_RECETTE, TypeItem.MISC);
-        read(-1);
     }
 
 
     //TODO Recettes
-    private void read(int i){
+    public static Recette read(int i){
         try {
             File[] files = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles());
             if (i == -1) {
                 i = (int) Math.floor(Math.random() * files.length);
             }
+            Recette out = new Recette();
 
-            elements = new ArrayList<>();
-            Scanner in = new Scanner(files[i]);
+            if (files[i].getName().startsWith("WR")) {
+                out.elements = new ArrayList<>();
+                out.result = new ArrayList<>();
+                Scanner in = new Scanner(files[i]);
 
-            boolean end = false;
-            String current;
-            while (in.hasNextLine()) {
-                current = in.nextLine();
-                if (!end) {
-                    if (current.equals("//CRAFT")) {
-                        end = true;
+                boolean end = false;
+                String current;
+                while (in.hasNextLine()) {
+                    current = in.nextLine();
+                    if (!end) {
+                        if (current.equals("//CRAFT")) {
+                            end = true;
+                        } else {
+                            String[] tmp = current.split(";");
+                            out.elements.add(new Element(Integer.parseInt(tmp[1]), ItemsList.valueOf(tmp[0])));
+                        }
                     } else {
                         String[] tmp = current.split(";");
-                        elements.add(new Element(Integer.parseInt(tmp[1]), ItemsList.valueOf(tmp[0])));
+                        for (int j=0; j<Integer.parseInt(tmp[1]) ; j++) {
+                            out.result.add(ItemsList.valueOf(tmp[0]));
+                        }
                     }
-                } else {
-                    result = ItemsList.valueOf(current);
                 }
+            }else{
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(files[i]));
+                out = (Recette)in.readObject();
             }
+
+            return out;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -66,7 +74,9 @@ public class Recette extends Item{
             for (Element e : elements) {
                 inv.remove(e.objet,e.nombre);
             }
-            inv.add(Inventaire.get(this.result));
+            for (ItemsList i : result) {
+                inv.add(Inventaire.get(i));
+            }
         }
         return false;
     }
@@ -81,16 +91,22 @@ public class Recette extends Item{
 
     @Override
     public String toString() {
-        StringBuilder eList = new StringBuilder("{");
-        for (Element e : elements){
-            eList.append(e.toString());
+//        StringBuilder eList = new StringBuilder("{");
+//        for (Element e : elements){
+//            eList.append(e.toString());
+//        }
+//        eList.append("}");
+//
+//        return "Recette{" +
+//                "\n   elements = " + eList +
+//                "\n   result = " + result +
+//                " \n}";
+        StringBuilder out = new StringBuilder();
+        for (ItemsList i : result){
+            out.append(i.toString()).append("\n");
         }
-        eList.append("}");
 
-        return "Recette{" +
-                "\n   elements = " + eList +
-                "\n   result = " + result +
-                " \n}";
+        return out.toString();
     }
 
     static class Element implements Serializable {

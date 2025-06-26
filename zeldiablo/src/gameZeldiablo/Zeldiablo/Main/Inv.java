@@ -21,9 +21,9 @@ class Inv {
      * @param gc Le contexte graphique pour dessiner sur le canvas.
      * @param c Le canvas sur lequel dessiner l'inventaire.
      */
-    static void invUI(Player joueur, GraphicsContext gc, Canvas c){
+    static void invUI(Player joueur, GraphicsContext gc){
         Inventaire inv = joueur.getInventory();
-
+        Canvas c = gc.getCanvas();
         // Paramètres de base
         double menuX = c.getWidth() / 4;
         double menuY = c.getHeight() / 4;

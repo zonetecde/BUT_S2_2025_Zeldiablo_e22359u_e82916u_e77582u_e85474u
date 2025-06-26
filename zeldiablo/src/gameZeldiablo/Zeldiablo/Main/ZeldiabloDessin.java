@@ -62,7 +62,7 @@ public class ZeldiabloDessin implements DessinJeu {
             itemActuellementSelectionneUI(player, gc);
 
             if (player.menuOuvert) {
-                Inv.invUI(player, gc, canvas);
+                Inv.invUI(player, gc);
             }
         }
     }

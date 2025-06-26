@@ -27,4 +27,6 @@ public class DeplacementHasard implements DeplacementStrategie, Serializable {
             monstre.animationDep(directionChoisie);
         }
     }
+
+    public String toString(){return "Hasard";}
 }

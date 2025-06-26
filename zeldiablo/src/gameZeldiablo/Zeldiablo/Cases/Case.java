@@ -177,8 +177,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
      * @return String représentant la case
      */
     public String toString() {
-        return "Case{" +
-                ", isWalkable=" + isWalkable +
-                '}';
+        String[] out = this.getClass().toString().split("\\.");
+        return out[out.length-1];
     }
 }

@@ -35,4 +35,6 @@ public class DeplacementFuyard implements DeplacementStrategie, Serializable {
             }
         }
     }
+
+    public String toString(){return "Fuyard";}
 }

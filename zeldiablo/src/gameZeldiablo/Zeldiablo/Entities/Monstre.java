@@ -92,4 +92,8 @@ public class Monstre extends Entite implements Cloneable, Tickable {
         return (Monstre)super.clone();
     }
 
+    @Override
+    public String toString() {
+        return "Monstre "+ deplacementStrategie ;
+    }
 }

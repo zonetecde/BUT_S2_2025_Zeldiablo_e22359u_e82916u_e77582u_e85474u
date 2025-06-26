@@ -53,6 +53,8 @@ public class CaseVide extends Case {
         return item;
     }
 
+    public void setgotItem(boolean b){this.gotItem=b;}
+
     @Override
     public Image getSprite() {
         if (!gotItem) {

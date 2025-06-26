@@ -18,4 +18,6 @@ public class DeplacementStatique implements DeplacementStrategie, Serializable {
     public void deplacement(Player joueur, Monstre monstre) {
         monstre.switchSprite();
     }
+
+    public String toString(){return "Statique";}
 }

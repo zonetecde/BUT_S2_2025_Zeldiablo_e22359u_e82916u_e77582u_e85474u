@@ -71,12 +71,13 @@ public class MainEditor extends Application {
 
         Tab launchOther = new Tab("launcher",launcher(stage));
 
-        root.getTabs().addAll(this.tab(0)
-                ,this.tab(1)
-                ,this.tab(4)
-                ,this.linkTab(),this.stairTab(),
+        root.getTabs().addAll(Tabs.tab(0,this)
+                ,Tabs.tab(1,this)
+                ,Tabs.tab(4,this)
+                ,Tabs.tab(2,this)
+                ,Tabs.tab(3,this),
                 launchOther,
-                saveTab());
+                Tabs.saveTab(this));
 
         stage.setScene(scene);
     }
@@ -183,7 +184,7 @@ public class MainEditor extends Application {
         y.setPromptText("Hauteur");
         ligney.getChildren().addAll(label2,y);
 
-        create.setOnMouseClicked(mouseEvent -> {
+        create.setOnMouseClicked(_ -> {
             try{
                 int xi = Integer.parseInt(x.getText());
                 int yi = Integer.parseInt(y.getText());
@@ -216,92 +217,6 @@ public class MainEditor extends Application {
             }
     }
 
-    //TABS
-
-    public Tab saveTab(){
-        VBox root = new VBox(20);
-        root.setAlignment(Pos.TOP_CENTER);
-        Tab tab = new Tab("Save",root);
-
-        Button button = new Button("Save");
-        TextField textField = new TextField(this.fileName);
-        textField.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(textField,button);
-
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                fileName= textField.getText();
-                save();
-            }
-        });
-
-        return tab;
-
-    }
-
-
-
-    /**
-     * Creation des tab de l'editeur
-     * @return un Tab fonctionnel
-     */
-    public Tab tab(int concerne){
-        Tab root = switch (concerne){
-            case 0 -> new Tab("Tiles");
-            case 1 -> new Tab("Entities");
-            case 4 -> new Tab("Items");
-            default -> new Tab("Default");
-        };
-
-        root.setOnSelectionChanged(event -> {
-            HBox main = new HBox(10);
-            main.setAlignment(Pos.CENTER);
-            //Menu Droite
-            VBox menuRight = new VBox(30);
-            menuRight.setAlignment(Pos.BOTTOM_RIGHT);
-            menuRight.getChildren().add(brushImage);
-
-            //TabTiles
-            ScrollPane carte = new ScrollPane(Grille.grille(l,concerne,this));
-
-            //Menu selection case
-            ScrollPane menu = new ScrollPane(Menu.menu(this,concerne));
-
-
-
-            main.getChildren().addAll(menu,carte,menuRight);
-            root.setContent(main);
-        });
-
-        return root;
-    }
-
-    /**
-     * Creation du tab des link
-     * @return tab
-     */
-    public Tab linkTab(){
-        Tab root = new Tab("Links");
-        root.setOnSelectionChanged(event -> {
-            root.setContent(new ScrollPane(Grille.grille(l,2,this)));
-        });
-
-        return root;
-    }
-
-    /**
-     * Creation du tab des stairs
-     * @return tab
-     */
-    public Tab stairTab(){
-        Tab root = new Tab("Stairs");
-        root.setOnSelectionChanged(event -> {
-            root.setContent(new ScrollPane(Grille.grille(l,3,this)));
-        });
-
-        return root;
-    }
 
 
 
@@ -423,11 +338,11 @@ public class MainEditor extends Application {
     }
 
     class ItemHandler implements EventHandler<MouseEvent>{
-        Case c;
+        CaseVide c;
         ImageView button;
 
         public ItemHandler(Case c,ImageView button){
-            this.c=c;
+            this.c=(CaseVide) c;
             this.button=button;
         }
 
@@ -438,6 +353,7 @@ public class MainEditor extends Application {
                 button.setImage(brushItem.getSprite());
             }else{
                 c.addItem(null);
+                c.setgotItem(false);
                 button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
             }
         }

@@ -18,8 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Menu {
 
@@ -140,7 +142,14 @@ public class Menu {
         type.add(new Sprited[] {new Food()});
         type.add(new Sprited[] {new Epee(),new Hache(),new Baton()});
         type.add(new Sprited[] {new Bombe()});
-        type.add(new Sprited[] {new Recette()});
+
+        //Recettes
+        int nbRecettes = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles()).length;
+        Sprited[] recettes = new Sprited[nbRecettes];
+        for (int i = 0; i<nbRecettes  ; i++){
+            recettes[i] = Recette.read(i);
+        }
+        type.add(recettes);
 
         //Del button
         delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {

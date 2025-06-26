@@ -55,4 +55,6 @@ public class DeplacementIntelligent implements DeplacementStrategie, Serializabl
         int y = Integer.parseInt(parts[1].split(",")[0]);
         return new int[]{y, x};
     }
+
+    public String toString(){return "Intelligent";}
 }

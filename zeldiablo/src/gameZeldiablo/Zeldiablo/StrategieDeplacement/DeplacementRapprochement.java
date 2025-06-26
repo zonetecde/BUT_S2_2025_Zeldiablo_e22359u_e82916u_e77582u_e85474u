@@ -47,4 +47,6 @@ public class DeplacementRapprochement implements DeplacementStrategie, Serializa
         }
         // Si impossible, le monstre ne bouge pas
     }
+
+    public String toString(){return "Rapprochement";}
 }

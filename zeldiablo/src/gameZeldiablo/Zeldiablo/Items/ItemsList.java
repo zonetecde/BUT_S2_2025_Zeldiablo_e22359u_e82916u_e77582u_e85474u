@@ -13,7 +13,7 @@ public enum ItemsList {
     HACHE,
     RECETTE;
 
-    private static Map<ItemsList,Item> cacheItem = new HashMap<>();
+    private static final Map<ItemsList,Item> cacheItem = new HashMap<>();
 
     public static Item factory(ItemsList i){
         try {
