@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo;
 
+import com.fasterxml.jackson.annotation.*;
 import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
@@ -13,6 +14,11 @@ import java.util.*;
 /**
  * classe labyrinthe. represente un labyrinthe avec
  */
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.UUIDGenerator.class,
+        property = "@id"
+)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Labyrinthe implements Serializable {
     /**
      * Constantes char
@@ -35,32 +41,37 @@ public class Labyrinthe implements Serializable {
     public static final char STAIR_SORTIE = 'S';
     public static final char STAIRS_DEPART = 'D';
 
+    @JsonProperty("gameBoard")
     private final Case[][] gameBoard; // Contient tout les rectangles du plateau de jeu
 
     //Entites
-    private final ArrayList<Entite> entites = new ArrayList<>();
+    @JsonProperty("entites")
+    private final List<Entite> entites;
 
     //Ticks
-    private final ArrayList<Tickable> ticks = new ArrayList<>();
+    private final ArrayList<Tickable> ticks;
 
     // Timer pour le déplacement automatique des monstres
     private transient Timer timerTicks;
 
-    /**
-     * Méthode appelée automatiquement lors de la désérialisation de l'objet.
-     * Permet de réinitialiser les champs transient et autres initialisations nécessaires.
-     */
-    @Serial
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Désérialisation par défaut des champs non-transient
-        ois.defaultReadObject();
 
-        // Réinitialisation du timer
-       timerTicks = new Timer("ticks");
+    public Labyrinthe(
+            @JsonProperty("gameBoard") Case[][] gameBoard,
+            @JsonProperty("entites") ArrayList<Entite> entites,
+            @JsonProperty("ticks") ArrayList<Tickable> ticks){
+        this.gameBoard = gameBoard;
+        this.entites = entites;
+        this.ticks = new ArrayList<>();  // Create new list
+        if (entites != null) {
+            this.ticks.addAll(entites);  // Add entities that are Tickable
+        }
+        timerTicks = new Timer("ticks");
     }
 
     public Labyrinthe(int x,int y){
         this.gameBoard = new Case[x][y];
+        this.entites = new ArrayList<>();
+        this.ticks = new ArrayList<>();
         for (int i=0;i<x;i++){
             for (int j=0;j<y;j++){
                 this.gameBoard[i][j]= new CaseVide();
@@ -75,6 +86,8 @@ public class Labyrinthe implements Serializable {
      * @throws IOException probleme a la lecture / ouverture
      */
     public Labyrinthe(String nom) throws IOException {
+        this.entites = new ArrayList<>();
+        this.ticks = new ArrayList<>();
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
         BufferedReader bfRead = new BufferedReader(fichier);
@@ -130,23 +143,23 @@ public class Labyrinthe implements Serializable {
                         break;
                     case ITEM:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        gameBoard[numeroLigne][colonne].addItem(new Food());
+                        gameBoard[numeroLigne][colonne].setItem(new Food());
                         break;
                     case AMULETTE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        gameBoard[numeroLigne][colonne].addItem(new Amulette());
+                        gameBoard[numeroLigne][colonne].setItem(new Amulette());
                         break;
                     case ITEM_EPEE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        gameBoard[numeroLigne][colonne].addItem(new Epee());
+                        gameBoard[numeroLigne][colonne].setItem(new Epee());
                         break;
                     case ITEM_BATON:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        gameBoard[numeroLigne][colonne].addItem(new Baton());
+                        gameBoard[numeroLigne][colonne].setItem(new Baton());
                         break;
                     case ITEM_HACHE:
                         gameBoard[numeroLigne][colonne] = new CaseVide();
-                        gameBoard[numeroLigne][colonne].addItem(new Hache());
+                        gameBoard[numeroLigne][colonne].setItem(new Hache());
                         break;
                     case CASE_OUVERTURE:
                         gameBoard[numeroLigne][colonne] = new CaseSwitch();
@@ -266,7 +279,7 @@ public class Labyrinthe implements Serializable {
             @Override
             public void run() {
                 try {
-                    for (Tickable t : getTics()) {
+                    for (Tickable t : getTicks()) {
                         t.tick();
                     }
                 }catch (ConcurrentModificationException e){
@@ -276,10 +289,9 @@ public class Labyrinthe implements Serializable {
         }, 0, VariablesGlobales.TICK_SPEED);
     }
 
-
     //Getters
 
-    public List<Tickable> getTics(){return ticks;}
+    public List<Tickable> getTicks(){return ticks;}
 
     /**
      * return taille selon Y
@@ -316,15 +328,15 @@ public class Labyrinthe implements Serializable {
      *
      * @return Liste de monstre
      */
-    public ArrayList<Entite> getEntites() {
+    public List<Entite> getEntites() {
         return entites;
     }
 
 
     public Case[][] getGameBoard(){return gameBoard;}
 
-    public ArrayList<Entite> getJoueurs(){
-        ArrayList<Entite> joueurs = new ArrayList<>();
+    public List<Entite> nameJoueurs(){
+        List<Entite> joueurs = new ArrayList<>();
         for (Entite e : entites){
             if (e instanceof Player){
                 joueurs.add(e);
@@ -333,8 +345,8 @@ public class Labyrinthe implements Serializable {
         return joueurs;
     }
 
-    public ArrayList<Entite> getMonstres(){
-        ArrayList<Entite> joueurs = new ArrayList<>();
+    public List<Entite> nameMonstres(){
+        List<Entite> joueurs = new ArrayList<>();
         for (Entite e : entites){
             if (e instanceof Monstre){
                 joueurs.add(e);

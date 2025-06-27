@@ -19,7 +19,6 @@ class Inv {
      * Affiche l'interface utilisateur de l'inventaire du joueur.
      * @param joueur actuel
      * @param gc Le contexte graphique pour dessiner sur le canvas.
-     * @param c Le canvas sur lequel dessiner l'inventaire.
      */
     static void invUI(Player joueur, GraphicsContext gc){
         Inventaire inv = joueur.getInventory();
@@ -66,7 +65,7 @@ class Inv {
             ItemsList item = inv.getListe().get(i);
             gc.setFill(Color.WHITE);
             gc.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            String itemText = Inventaire.get(item).toString() + "x" + inv.getNumber(item);
+            String itemText = item.toString() + "x" + inv.getNumber(item);
             Text text = new Text(itemText);
             text.setFont(gc.getFont());
             double textWidth = text.getLayoutBounds().getWidth();
@@ -74,7 +73,7 @@ class Inv {
             double textY = caseY + (double) caseHeight / 2 + 5;
 
             gc.fillText(itemText, textX, textY);
-            gc.drawImage(Inventaire.get(item).getSprite(),caseX+10,caseY,24,24);
+            gc.drawImage(inv.get(item).getFirst().getSprite(),caseX+10,caseY,24,24);
 
             x += 1;
             if (x >= VariablesGlobales.COL_NUM_MENU) {

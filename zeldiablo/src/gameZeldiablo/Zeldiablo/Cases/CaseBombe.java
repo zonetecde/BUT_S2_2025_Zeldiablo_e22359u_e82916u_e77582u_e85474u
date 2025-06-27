@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.Tickable;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
@@ -11,7 +12,9 @@ public class CaseBombe extends Case implements Tickable {
     private final Labyrinthe laby;
     int[] coord;
 
-    public CaseBombe(Labyrinthe l,int[] coord){
+    public CaseBombe(
+            @JsonProperty("laby") Labyrinthe l,
+            @JsonProperty("coord") int[] coord){
         super(false, VariablesGlobales.SPRITE_CASE_BOMBE);
         this.laby=l;
         this.coord = coord;
@@ -28,7 +31,7 @@ public class CaseBombe extends Case implements Tickable {
         }
         if (tics== tickPlosion +20){
             explosion(true);
-            laby.getTics().remove(this);
+            laby.getTicks().remove(this);
         }
         if (tics>= tickPlosion && tics%5==0){
             explosionStep++;

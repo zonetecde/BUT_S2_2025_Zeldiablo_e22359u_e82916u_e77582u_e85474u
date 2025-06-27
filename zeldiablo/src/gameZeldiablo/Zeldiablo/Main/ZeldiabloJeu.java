@@ -1,15 +1,12 @@
 package gameZeldiablo.Zeldiablo.Main;
 
 import gameZeldiablo.Zeldiablo.*;
-import gameZeldiablo.Zeldiablo.Cases.Case;
-import gameZeldiablo.Zeldiablo.Cases.CaseSpawn;
 import gameZeldiablo.Zeldiablo.Entities.Player;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +27,7 @@ public class ZeldiabloJeu implements Jeu {
     // Liste contenant tout les niveaux du jeu (dans le dossier labySimple)
     private List<Player> joueur = new ArrayList<>();
     private int curJoueur = 0;
+    Thread animationItem;
 
     // Clavier correspondant à la derniere config
     private Clavier oldKb;
@@ -113,16 +111,19 @@ public class ZeldiabloJeu implements Jeu {
      * @param next Si true, passe au niveau suivant, sinon retourne au niveau précédent.
      */
     public void changeLevel(String next, int x, int y) {
-        if (getLaby().getJoueurs().size()==1) {
-            getLaby().stopTickLoop();
+        if (next!=null) {
+            if (getLaby().nameJoueurs().size() == 1) {
+                getLaby().stopTickLoop();
+            }
+
+            getJoueur().setLabyrinthe(MapList.getMap(next));
+            getJoueur().setY(y);
+            getJoueur().setX(x);
+
+            getLaby().launchTickLoop();
+        }else{
+            System.out.println("No destination");
         }
-
-        getJoueur().setLabyrinthe(MapList.getMap(next));
-        getJoueur().setY(y);
-        getJoueur().setX(x);
-
-        getLaby().launchTickLoop();
-
     }
 
     /**
@@ -151,13 +152,14 @@ public class ZeldiabloJeu implements Jeu {
     @Override
     public void init() {
         MapList.initialisation();
+        if (animationItem != null){animationItem.interrupt();}
         lance = false;
         multiplayer = false;
         curJoueur = 0;
         idComp = 0;
         joueur.add(new Player(0,0,5,5));
         getJoueur().setEnVie(false);
-        new Thread(() -> {
+        animationItem = new Thread(() -> {
             int LOWPOINT = 15;
             int HIGHPOINT = 20;
             int INTERVAL = 150;
@@ -173,10 +175,8 @@ public class ZeldiabloJeu implements Jeu {
                         Thread.sleep(INTERVAL);
                     }
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        },"ItemAnimation").start();
+            } catch (InterruptedException ignore) {}
+        },"ItemAnimation");
     }
 
     /**

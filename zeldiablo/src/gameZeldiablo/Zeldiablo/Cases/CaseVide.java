@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
@@ -8,13 +9,14 @@ import javafx.scene.image.Image;
 
 public class CaseVide extends Case {
     private Item item;
-    private boolean gotItem = false;
+    private boolean gotItem;
 
     /**
      * Constructeur
      */
     public CaseVide(){
         super(true, VariablesGlobales.SPRITE_CASE_VIDE);
+        gotItem = false;
     }
 
     /**
@@ -22,9 +24,13 @@ public class CaseVide extends Case {
      * @param item L'item à ajouter
      */
     @Override
-    public void addItem(Item item) {
+    public void setItem(Item item) {
         this.item = item;
-        gotItem = true;
+        if (item!=null) {
+            gotItem = true;
+        }else{
+            gotItem = false;
+        }
     }
 
     /**
@@ -53,7 +59,7 @@ public class CaseVide extends Case {
         return item;
     }
 
-    public void setgotItem(boolean b){this.gotItem=b;}
+    public void setGotItem(boolean b){this.gotItem=b;}
 
     @Override
     public Image getSprite() {

@@ -1,6 +1,9 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import gameZeldiablo.Zeldiablo.Items.Armors.ChestPlate;
+
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +14,17 @@ public enum ItemsList {
     EPEE,
     FOOD,
     HACHE,
-    RECETTE;
+    RECETTE,
+    CHESTPLATE;
+
+    public TypeItem getType(){
+        return switch (this){
+            case AMULETTE,FOOD,BOMBE -> TypeItem.MISC;
+            case HACHE,BATON,EPEE    -> TypeItem.ARME;
+            case RECETTE -> TypeItem.RECETTE;
+            case CHESTPLATE -> TypeItem.ARMOR;
+        };
+    }
 
     private static final Map<ItemsList,Item> cacheItem = new HashMap<>();
 
@@ -25,6 +38,7 @@ public enum ItemsList {
                 case FOOD -> CacheManage(i,Food.class.getConstructor());
                 case HACHE -> CacheManage(i,Hache.class.getConstructor());
                 case RECETTE -> CacheManage(i,Recette.class.getConstructor());
+                case CHESTPLATE -> CacheManage(i, ChestPlate.class.getConstructor());
             };
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);

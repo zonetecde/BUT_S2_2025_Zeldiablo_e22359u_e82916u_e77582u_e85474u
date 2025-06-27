@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Entities;
 
+import com.fasterxml.jackson.annotation.*;
 import gameZeldiablo.Zeldiablo.*;
 
 import javafx.scene.image.Image;
@@ -9,6 +10,19 @@ import java.io.Serializable;
 /**
  * gere un personnage situe en x,y
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Monstre.class, name = "Monstre"),
+        @JsonSubTypes.Type(value = Player.class, name = "Player")
+})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.UUIDGenerator.class,
+        property = "@id"
+)
 public abstract class Entite implements Serializable, Sprited,Cloneable, Tickable {
 
     /**
@@ -23,7 +37,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     private String[] sprite; // L'image de l'entité
     private int spriteInt = 0;
     private Labyrinthe labyrinthe;
-    private Equipement equipement = new Equipement(); //Equipement de l'entité
+    private final Equipement equipement = new Equipement(); //Equipement de l'entité
 
 
     /**
@@ -47,6 +61,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * Retourne le sprite de l'entité
      * @return Sprite de l'entité
      */
+    @JsonIgnore
     public Image getSprite() {
         return Sprite.getImg(sprite[spriteInt]);
     }
@@ -57,9 +72,17 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * @param d nombre de dégats
      */
     public void prendreDegat(double d){
+        d -= this.equipement.DefenseGet();
+
+        //Ne fais rien si degats negatifs
+        if (d<0){
+            return;
+        }
+        //Si assez de pv, baisse les pv
         if (this.hp>d) {
             this.hp -= d;
         }
+        //si pas assez,tue le joueur
         else{
             this.enVie=false;
             this.hp=0;
@@ -87,7 +110,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      */
     public void infligerDegats(Entite cible) {
         if (cible != null && cible.enVie) {
-            cible.prendreDegat(this.degat);
+            cible.prendreDegat(this.degat+this.equipement.AttaqueGet());
         }
     }
 
@@ -137,12 +160,12 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     public void setLabyrinthe(Labyrinthe l){
         if (this.labyrinthe!=null){
             this.labyrinthe.getEntites().remove(this);
-            this.labyrinthe.getTics().remove(this);
+            this.labyrinthe.getTicks().remove(this);
         }
         if (l!=null) {
             this.labyrinthe = l;
             l.getEntites().add(this);
-            l.getTics().add(this);
+            l.getTicks().add(this);
         }else{
             this.labyrinthe=null;
         }
@@ -154,6 +177,8 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     public boolean getEnVie(){
         return this.enVie;
     }
+
+    public Equipement getEquipement(){return equipement;}
 
     /**
      * @return position y du personnage
@@ -171,6 +196,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
         return (int)Math.ceil(this.x);
     }
 
+    @JsonIgnore
     public double[] getDoublePos(){
         return new double[]{y,x};
     }
@@ -181,6 +207,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * @param y pos y
      * @param x pos x
      */
+    @JsonIgnore
     public void setPosition(int y, int x){
         this.y = y;
         this.x = x;
@@ -235,7 +262,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * Set si l'entité est en vie ou non
      * @param b true si l'entité est en vie, false sinon
      */
-    public void setEnVie(boolean b) {
+    public void setEnVie(@JsonProperty("enVie") boolean b) {
         this.enVie = b;
     }
 
@@ -260,14 +287,16 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
      * messages
      * @return message de l'entite
      */
+    @JsonIgnore
     public String getMsgToSay() {
         return msgToSay;
     }
 
     /**
-     * set message
+     * set a message
      * @param msgToSay nouveau message
      */
+    @JsonIgnore
     public void setMsgToSay(String msgToSay) {
         this.msgToSay = msgToSay;
     }

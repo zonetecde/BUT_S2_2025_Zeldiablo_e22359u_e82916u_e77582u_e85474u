@@ -1,5 +1,7 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.Item;
 import gameZeldiablo.Zeldiablo.Sprite;
@@ -12,6 +14,27 @@ import java.io.Serializable;
 /**
  * Classe abstraite représentant les cases de jeu
  */
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CaseVide.class, name = "CaseVide"),
+        @JsonSubTypes.Type(value = CaseMur.class, name = "CaseMur"),
+        @JsonSubTypes.Type(value = CasePorte.class, name = "CasePorte"),
+        @JsonSubTypes.Type(value = CaseSwitch.class, name = "CaseSwitch"),
+        @JsonSubTypes.Type(value = CasePiege.class, name = "CasePiege"),
+        @JsonSubTypes.Type(value = CasePancarte.class, name = "CasePancarte"),
+        @JsonSubTypes.Type(value = CaseEscalier.class, name = "CaseEscalier"),
+        @JsonSubTypes.Type(value = CaseSpawn.class, name = "CaseSpawn")
+        // Ajoute ici tous les types spécifiques nécessaires
+})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.UUIDGenerator.class,
+        property = "@id"
+)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Case implements Serializable,Cloneable, Sprited {
 
     /**
@@ -23,6 +46,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
 
     private boolean activate = false;
 
+    @JsonProperty("sprite")
     private String sprite; // L'image de la case
 
     private int id=0;// id eventuel
@@ -32,7 +56,8 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
      * @param isWalkable peut on marcher dessus
      * @param img l'image reliée
      */
-    public Case(boolean isWalkable, String img) {
+    public Case(@JsonProperty("isWalkable") boolean isWalkable,
+                @JsonProperty("sprite") String img) {
         this.isWalkable = isWalkable;
         this.sprite = img;
     }
@@ -67,7 +92,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
      * Méthode pour ajouter un item à la case
      * @param item L'item à ajouter
      */
-    public void addItem(Item item) {
+    public void setItem(Item item) {
         // Action par défaut
     }
 
@@ -93,6 +118,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
      * Retourne le sprite de la case
      * @return Sprite de la case
      */
+    @JsonIgnore
     public Image getSprite() {return Sprite.getImg(sprite);}
 
     /**
@@ -115,6 +141,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
         return id;
     }
 
+    @JsonIgnore
     public boolean isLinked(){
         return false;
     }
@@ -154,7 +181,11 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
      * Remplace le sprite
      * @param s nouvelle image
      */
+    @JsonProperty("sprite")
     public void setSprite(String s){sprite=s;}
+
+    @JsonProperty("sprite")
+    public String getSpriteName(){return sprite;}
 
     /**
      * Méthode pour retirer un item de la case

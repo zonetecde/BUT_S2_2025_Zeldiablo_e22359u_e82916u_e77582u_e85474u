@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Inventaire {
     private final Map<ItemsList,List<Item>> stock = new HashMap<>();
-    private List<ItemsList> liste = new ArrayList<>();
+    private final List<ItemsList> liste = new ArrayList<>();
     private int curseur = 0;
     private final Player joueur;
 
@@ -19,7 +19,9 @@ public class Inventaire {
         this.joueur=joueur;
     }
 
-    public int size(){if (liste!=null) return liste.size(); else return 0;}
+    public int size(){
+        return liste.size();
+    }
 
     public void createItem(Item i){
         List<Item> tmp = new ArrayList<>();
@@ -56,7 +58,6 @@ public class Inventaire {
             }else{
                 stock.remove(i);
                 liste.remove(i);
-                System.out.println("feur");
             }
             if (curseur >= liste.size()-1){
                 curseur=0;
@@ -68,26 +69,22 @@ public class Inventaire {
 
     public void use(ItemsList i){
         if (possedeItem(i)){
-            if (get(i).use(joueur)){
+            if (stock.get(i).getFirst().use(joueur)){
                 remove(i);
             }
         }
     }
 
+    public List<Item> get(ItemsList i){
+        if (possedeItem(i)){
+            return stock.get(i);
+        }
+        else return null;
+    }
+
     public boolean isEmpty(){
         return stock.isEmpty();
     }
-
-    //Armes
-    public double getMaxDegats(){
-        double max= get(liste.getFirst()).getDegat();
-        for (ItemsList i : liste){
-            double tmp = get(i).getDegat();
-            if (tmp>max){max=tmp;}
-        }
-        return max;
-    }
-
 
     //Curseur
     public void movecurseur(int nombre){
@@ -105,9 +102,6 @@ public class Inventaire {
     }
 
     public List<ItemsList> getListe(){return liste;}
-
-    //Factory
-    public static Item get(ItemsList i){return ItemsList.factory(i);}
 
 
 

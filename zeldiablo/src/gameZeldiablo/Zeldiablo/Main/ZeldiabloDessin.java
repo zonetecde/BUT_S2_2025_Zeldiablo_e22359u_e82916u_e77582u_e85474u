@@ -1,8 +1,7 @@
 package gameZeldiablo.Zeldiablo.Main;
 
 import gameZeldiablo.Zeldiablo.Entities.Player;
-import gameZeldiablo.Zeldiablo.Inventaire;
-import gameZeldiablo.Zeldiablo.Items.ItemsList;
+import gameZeldiablo.Zeldiablo.Equipement;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -59,7 +58,7 @@ public class ZeldiabloDessin implements DessinJeu {
             instructionUI(gc);
 
             // Affiche l'item actuellement sélectionné dans l'inventaire
-            itemActuellementSelectionneUI(player, gc);
+            statsUI(player, gc);
 
             if (player.menuOuvert) {
                 Inv.invUI(player, gc);
@@ -109,18 +108,15 @@ public class ZeldiabloDessin implements DessinJeu {
         gc.fillText(displayLog, baseXPlayer + 5, 205 + 125);
     }   
     
-    private void itemActuellementSelectionneUI(Player joueur, GraphicsContext gc) {
-        Inventaire inv = joueur.getInventory();
-        if (!inv.isEmpty()) {
-            ItemsList item = inv.getCurseur();
-            int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
-            gc.setFill(Color.BLACK);
-            gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-            String itemText = "Selected";
-            String itemText2 = item.toString();
-            gc.fillText(itemText, baseXPlayer + 5, 125);
-            gc.fillText(itemText2, baseXPlayer + 5, 140);
-        }
+    private void statsUI(Player joueur, GraphicsContext gc) {
+        Equipement equipement = joueur.getEquipement();
+        int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
+        gc.setFill(Color.BLACK);
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        String itemText = "Attaque : " + equipement.AttaqueGet();
+        String itemText2 = "Defense : "+ equipement.DefenseGet();
+        gc.fillText(itemText, baseXPlayer + 5, 125);
+        gc.fillText(itemText2, baseXPlayer + 5, 140);
     }
 
     private void afficherEcranVictoire(GraphicsContext gc, Canvas canvas) {

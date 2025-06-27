@@ -44,6 +44,9 @@ public class VariablesGlobales {
         public static final String SPRITE_HACHE = "Items/hache.png";
         public static final String SPRITE_BOMBE = "Items/Bomb.png";
 
+        //Sprite Armures
+        public static final String SPRITE_CHAINMAIL = "Items/Armors/ChestPlates/0_ChainMail.png";
+
         //Constantes
         public static final int DISTANCE_VUE = 15;//Mettre valeur impaire
         public static final int TAILLE_CASE = 40;

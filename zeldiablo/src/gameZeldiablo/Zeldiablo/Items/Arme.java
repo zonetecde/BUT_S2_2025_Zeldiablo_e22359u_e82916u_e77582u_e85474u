@@ -1,5 +1,9 @@
 package gameZeldiablo.Zeldiablo.Items;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import gameZeldiablo.Zeldiablo.Entities.Player;
+import gameZeldiablo.Zeldiablo.Equipement;
+
 /**
  * Classe abstraite représentant une arme
  */
@@ -17,12 +21,24 @@ public abstract class Arme extends Item {
         super(name, img, TypeItem.ARME);
         this.degat = degat;
     }
-    
+
+    public boolean use(Player p){
+        Equipement equipement = p.getEquipement();
+        Arme oldWeapon;
+        if ((oldWeapon = equipement.getWeapon())!=null){
+            p.getInventory().add(oldWeapon);
+        }
+
+        equipement.setWeapon(this);
+        return true;
+    }
+
     /**
      * Getter pour les dégâts de l'arme
      * @return Les dégâts de l'arme
      */
     @Override
+    @JsonProperty("degat")
     public double getDegat() {
         return this.degat;
     }

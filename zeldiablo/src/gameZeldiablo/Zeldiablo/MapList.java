@@ -1,5 +1,12 @@
 package gameZeldiablo.Zeldiablo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -14,8 +21,27 @@ public class MapList {
         Labyrinthe carte = mapList.get(name);
         try {
             if (carte == null) {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Laby/LabyBin/"+name));
-                carte = (Labyrinthe) ois.readObject();
+                ObjectMapper mapper = new ObjectMapper();
+//                //AI
+//
+//                // Configure type info
+//                mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+//
+//
+//                // Configure deserialization features
+//                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                mapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
+//                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+//
+//                // Configure visibility
+//                mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+//                mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.ANY);
+//                mapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.ANY);
+//
+//
+//                //AI
+
+                carte = mapper.readValue(new File("Laby/LabyBin/"+name), Labyrinthe.class);
                 mapList.put(name, carte);
             }
         }catch (Exception e){

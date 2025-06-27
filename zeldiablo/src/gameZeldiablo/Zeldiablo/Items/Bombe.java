@@ -20,7 +20,7 @@ public class Bombe extends Item{
         if (e.getLabyrinthe().getCase(e.getY(),e.getX()) instanceof CaseVide){
             CaseBombe bombe = new CaseBombe(laby,coord);
             laby.getGameBoard()[e.getY()][e.getX()] = bombe;
-            laby.getTics().add(bombe);
+            laby.getTicks().add(bombe);
             return true;
         }
         return false;

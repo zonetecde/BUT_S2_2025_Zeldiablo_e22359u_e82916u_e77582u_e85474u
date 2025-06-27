@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
@@ -11,7 +12,7 @@ public class CasePancarte extends Case {
      *
      * @param message message à afficher lorsque l'entité marche sur la case
      */
-    public CasePancarte(String message) {
+    public CasePancarte(@JsonProperty("message") String message) {
         super(true, VariablesGlobales.SPRITE_PANCARTE);
         this.message = message;
     }

@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
 
@@ -16,7 +17,7 @@ public class CasePiege extends Case {
      * @param degats Dégâts infligés par le piège
      */
 
-    public CasePiege(double degats) {
+    public CasePiege(@JsonProperty("degats") double degats) {
         super(true, VariablesGlobales.SPRITE_PIEGE);
         this.degats = degats;
     }

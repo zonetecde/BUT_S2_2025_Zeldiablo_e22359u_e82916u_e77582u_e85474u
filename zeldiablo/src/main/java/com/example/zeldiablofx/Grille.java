@@ -4,14 +4,18 @@ import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Labyrinthe;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
 
 class Grille {
     static MainEditor m;
@@ -126,15 +130,22 @@ class Grille {
         imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
 
         //Set de l'action onClick des cases
-        switch (concerne){
-            case 0 -> imageView.setOnMouseClicked( m.new CaseHandler(l, j, i, imageView));
-            case 1 -> imageView.setOnMouseClicked(m.new EntityHandler(l, i, j, imageView));
+        EventHandler<MouseEvent> tmp = switch (concerne){
+            case 0 -> m.new CaseHandler(l, j, i, imageView);
+            case 1 -> m.new EntityHandler(l, i, j, imageView);
             case 4 -> {
                 if (l.getCase(j, i) instanceof CaseVide) {
-                    imageView.setOnMouseClicked(m.new ItemHandler(l.getCase(j, i), imageView));
+                    yield m.new ItemHandler(l.getCase(j, i), imageView);
                 }
+                else{yield null;}
             }
+            default -> null;
+        };
+
+        if (tmp !=null) {
+            imageView.setOnMousePressed(tmp);
         }
+
         root.add(imageView, i, j);
     }
 }

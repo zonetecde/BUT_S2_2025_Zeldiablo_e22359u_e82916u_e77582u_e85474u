@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import moteurJeu.Clavier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 class Laby {
@@ -96,7 +97,7 @@ class Laby {
     }
 
     private static void affichageEntites(Player joueur, GraphicsContext gc, int x, int y, double pX, double pY) {
-        ArrayList<Entite> entites = joueur.getLabyrinthe().getEntites();
+        List<Entite> entites = joueur.getLabyrinthe().getEntites();
         for (Entite m : entites) {
             if (m.getX() == x && m.getY() == y && m.getEnVie()) {
                 double[] pos2 = m.getDoublePos();

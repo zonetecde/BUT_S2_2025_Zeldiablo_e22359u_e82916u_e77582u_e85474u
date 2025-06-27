@@ -1,5 +1,6 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.Items.ItemsList;
 import gameZeldiablo.Zeldiablo.MapList;
@@ -18,7 +19,7 @@ public class CaseEscalier extends Case{
      * Constructeur escalier
      * @param monte escalier montant ou descendant
      */
-    public CaseEscalier( boolean monte) {
+    public CaseEscalier(@JsonProperty("monte") boolean monte) {
         super(true, VariablesGlobales.SPRITE_ESCALIER_HAUT);
         this.monte = monte;
         if (!monte) {
@@ -26,7 +27,10 @@ public class CaseEscalier extends Case{
         }
     }
 
-    public void setNext(String nextMap,int x,int y){
+    public void setNext(
+            @JsonProperty("nextMap") String nextMap,
+            @JsonProperty("x") int x,
+            @JsonProperty("y") int y){
         this.nextMap=nextMap;
         this.x=x;
         this.y=y;
@@ -49,6 +53,20 @@ public class CaseEscalier extends Case{
         }
 
         jeu.changeLevel(nextMap,x,y);
+    }
+
+    public String getNextMap() {
+        return nextMap;
+    }
+
+    public boolean getMonte(){return monte;}
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public boolean isLinked(){return (this.nextMap!=null);}

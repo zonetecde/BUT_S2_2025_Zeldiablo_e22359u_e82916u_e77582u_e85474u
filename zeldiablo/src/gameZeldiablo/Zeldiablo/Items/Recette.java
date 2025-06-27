@@ -25,7 +25,6 @@ public class Recette extends Item{
     }
 
 
-    //TODO Recettes
     public static Recette read(int i){
         try {
             File[] files = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles());
@@ -75,7 +74,7 @@ public class Recette extends Item{
                 inv.remove(e.objet,e.nombre);
             }
             for (ItemsList i : result) {
-                inv.add(Inventaire.get(i));
+                inv.add(ItemsList.factory(i));
             }
         }
         return false;

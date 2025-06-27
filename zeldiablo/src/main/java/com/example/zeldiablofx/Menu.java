@@ -4,6 +4,7 @@ import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.*;
+import gameZeldiablo.Zeldiablo.Items.Armors.ChestPlate;
 import gameZeldiablo.Zeldiablo.Sprite;
 import gameZeldiablo.Zeldiablo.Sprited;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
@@ -142,6 +143,7 @@ public class Menu {
         type.add(new Sprited[] {new Food()});
         type.add(new Sprited[] {new Epee(),new Hache(),new Baton()});
         type.add(new Sprited[] {new Bombe()});
+        type.add(new Sprited[]{new ChestPlate()});
 
         //Recettes
         int nbRecettes = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles()).length;

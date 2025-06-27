@@ -30,6 +30,8 @@ class Start {
                         }
                     }
                 }
+                jeu.animationItem.start();
+
                 joueur.setEnVie(true);
             }
             else{

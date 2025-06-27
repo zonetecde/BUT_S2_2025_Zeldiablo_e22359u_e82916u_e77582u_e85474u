@@ -67,14 +67,14 @@ public class Player extends Entite {
     public void infligerDegats(Entite cible) {
         if (cible != null && cible.getEnVie()) {
             // regarde l'item actuellement équipé
-            if(getInventory().isEmpty() || Inventaire.get(getInventory().getCurseur()).getType() != TypeItem.ARME) {
+            if(getInventory().isEmpty() || getInventory().getCurseur().getType() != TypeItem.ARME) {
                 // Si l'inventaire est vide, on inflige les dégâts de base
                 cible.prendreDegat(this.getDegat());
                 return;
             }
 
             // Le premier paramètre des armes est les dégâts
-            cible.prendreDegat(Inventaire.get(getInventory().getCurseur()).getDegat());
+            cible.prendreDegat(getInventory().get(getInventory().getCurseur()).getFirst().getDegat());
         }
     }
 
@@ -86,7 +86,7 @@ public class Player extends Entite {
     public void attaque() {
         // Pour chaque monstre
         int[] next = Labyrinthe.getSuivant(this.getY(),this.getX(),facing);
-        for (Entite monstre : getLabyrinthe().getMonstres()) {
+        for (Entite monstre : getLabyrinthe().nameMonstres()) {
             // Si le monstre est à côté du joueur
             if (next[0]==monstre.getY() && next[1]== monstre.getX()){
                 this.infligerDegats(monstre);

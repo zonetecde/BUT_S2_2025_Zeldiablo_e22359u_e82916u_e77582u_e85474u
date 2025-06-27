@@ -1,7 +1,11 @@
 package gameZeldiablo.Zeldiablo.Cases;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
 import gameZeldiablo.Zeldiablo.VariablesGlobales;
+
 
 public class CaseSwitch extends Case {
     private Case link;
@@ -12,7 +16,7 @@ public class CaseSwitch extends Case {
      *
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
-    public CaseSwitch( Case action) {
+    public CaseSwitch(@JsonProperty("link") Case action) {
         super(true, VariablesGlobales.SPRITE_P_P);
         this.link = action;
         setActivate(true);
@@ -36,7 +40,7 @@ public class CaseSwitch extends Case {
      * Lie la plaque avec un autre objet
      * @param ccase objet activable
      */
-    public void createLink(Case ccase){this.link=ccase;}
+    public void setLink(Case ccase){this.link=ccase;}
 
     @Override
     public boolean isLinked() {

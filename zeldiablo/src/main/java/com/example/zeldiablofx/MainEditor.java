@@ -1,19 +1,21 @@
 package main.java.com.example.zeldiablofx;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import gameZeldiablo.Zeldiablo.*;
 import gameZeldiablo.Zeldiablo.Cases.*;
 import gameZeldiablo.Zeldiablo.Entities.Entite;
-import gameZeldiablo.Zeldiablo.Entities.Intelligence;
 import gameZeldiablo.Zeldiablo.Entities.Monstre;
 import gameZeldiablo.Zeldiablo.Items.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -23,8 +25,6 @@ import javafx.stage.StageStyle;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainEditor extends Application {
@@ -119,15 +119,12 @@ public class MainEditor extends Application {
         launch1.setOnMouseClicked(mouseEvent -> {
             fileName = input.getText();
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Laby/LabyBin/"+fileName));
-                l = (Labyrinthe) ois.readObject();
+                ObjectMapper mapper = new ObjectMapper();
+                l =  mapper.readValue(new File("Laby/LabyBin/"+fileName), Labyrinthe.class);
                 editor(stage);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
                 input.setText("Chemin invalide");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
-                input.setText("Fichier Corrompu");
             }
         });
 
@@ -208,8 +205,9 @@ public class MainEditor extends Application {
             try {
                 File file = new File("Laby/LabyBin/" + fileName);
                 file.createNewFile();
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-                oos.writeObject(l);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(file,l);
                 System.out.println("Everything's okay");
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -298,9 +296,11 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            l.getGameBoard()[x][y]= brushTile.clone();
-            button.setImage(brushTile.getSprite());
-
+            if(mouseEvent.getEventType() == MouseEvent.MOUSE_ENTERED){System.out.println("Hover");};
+            if ((mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED || mouseEvent.getEventType() == MouseEvent.MOUSE_ENTERED) && mouseEvent.isPrimaryButtonDown()) {
+                laby.getGameBoard()[x][y] = brushTile.clone();
+                button.setImage(brushTile.getSprite());
+            }
         }
     }
 
@@ -320,16 +320,18 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (brushEntite!=null) {
-                Entite m = brushEntite.clone(x,y);
-                m.setLabyrinthe(l);
-                button.setImage(brushEntite.getSprite());
-            }else{
-                button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
-                for (Entite e : l.getEntites()) {
-                    if (e.getX() == x && e.getY() == y) {
-                        l.getEntites().remove(e);
-                        l.getTics().remove(e);
+            if (mouseEvent.isPrimaryButtonDown()) {
+                if (brushEntite != null) {
+                    Entite m = brushEntite.clone(x, y);
+                    m.setLabyrinthe(l);
+                    button.setImage(brushEntite.getSprite());
+                } else {
+                    button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
+                    for (Entite e : l.getEntites()) {
+                        if (e.getX() == x && e.getY() == y) {
+                            l.getEntites().remove(e);
+                            l.getTicks().remove(e);
+                        }
                     }
                 }
             }
@@ -348,13 +350,15 @@ public class MainEditor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (brushItem != null) {
-                c.addItem(brushItem);
-                button.setImage(brushItem.getSprite());
-            }else{
-                c.addItem(null);
-                c.setgotItem(false);
-                button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
+            if (mouseEvent.isPrimaryButtonDown()) {
+                if (brushItem != null) {
+                    c.setItem(brushItem);
+                    button.setImage(brushItem.getSprite());
+                } else {
+                    c.setItem(null);
+                    c.setGotItem(false);
+                    button.setImage(Sprite.getImg(VariablesGlobales.SPRITE_CASE_VIDE));
+                }
             }
         }
     }
@@ -390,7 +394,7 @@ public class MainEditor extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             if (brushLink!=null) {
-                brushLink.createLink(activable);
+                brushLink.setLink(activable);
                 curSel.setFill(Color.YELLOW);
                 curSel = null;
                 brushLink = null;
