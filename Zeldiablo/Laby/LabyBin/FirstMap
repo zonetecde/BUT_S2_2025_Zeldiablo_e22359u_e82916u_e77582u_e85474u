@@ -1,0 +1,62 @@
+{
+  "@id" : "8143eac3-62e4-4d3e-9db6-85a53c583a0d",
+  "gameBoard" : [ [ {
+    "@type" : "CaseVide",
+    "@id" : "34f27f49-f3e8-463d-ab90-5b54a9a91d26",
+    "isWalkable" : true,
+    "activate" : false,
+    "id" : 0,
+    "item" : null,
+    "activable" : false,
+    "sprite" : "Tiles/Sol.png"
+  }, {
+    "@type" : "CaseVide",
+    "@id" : "fa15d669-fb76-4e10-94bf-8ca34d5195b4",
+    "isWalkable" : true,
+    "activate" : false,
+    "id" : 0,
+    "item" : null,
+    "activable" : false,
+    "sprite" : "Tiles/Sol.png"
+  } ], [ {
+    "@type" : "CaseVide",
+    "@id" : "79e7a6ae-d988-407d-99f6-fec50a35940c",
+    "isWalkable" : true,
+    "activate" : false,
+    "id" : 0,
+    "item" : null,
+    "activable" : false,
+    "sprite" : "Tiles/Sol.png"
+  }, {
+    "@type" : "CaseVide",
+    "@id" : "0f55510b-d496-4713-9cc0-5ca4303e12c5",
+    "isWalkable" : true,
+    "activate" : false,
+    "id" : 0,
+    "item" : null,
+    "activable" : false,
+    "sprite" : "Tiles/Sol.png"
+  } ] ],
+  "entites" : [ {
+    "@type" : "Monstre",
+    "@id" : "17c30d61-a9fe-4643-91a6-ad1714dc90f8",
+    "x" : 1,
+    "y" : 1,
+    "hp" : 3.0,
+    "degat" : 1.0,
+    "intelligence" : "NULLE",
+    "labyrinthe" : "8143eac3-62e4-4d3e-9db6-85a53c583a0d",
+    "maxHp" : 3.0,
+    "enVie" : true,
+    "spriteInt" : 0,
+    "equipement" : {
+      "weapon" : null,
+      "armors" : [ null, null, null, null ]
+    },
+    "curTick" : 0,
+    "ticInterval" : 15
+  } ],
+  "ticks" : [ "17c30d61-a9fe-4643-91a6-ad1714dc90f8" ],
+  "longueur" : 2,
+  "hauteur" : 2
+}
