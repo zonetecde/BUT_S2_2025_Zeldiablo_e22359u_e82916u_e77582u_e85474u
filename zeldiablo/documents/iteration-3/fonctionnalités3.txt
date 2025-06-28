@@ -1,8 +1,0 @@
-- Monstres avec intelligence variable
-Réalisé par Rayane et Elyas
-
-- Mort du personnage 
-Réalisé par Tom
-
-- Labyrinthe multi-étages
-Réalisé par Julien

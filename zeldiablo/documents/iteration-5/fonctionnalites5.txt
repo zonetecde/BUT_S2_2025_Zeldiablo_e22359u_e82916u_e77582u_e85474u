@@ -1,9 +1,0 @@
-Ajout du diagramme global
-Correction d'un bug lié au curseur de l'inventaire
-
-Ajout d'une factory pour gérer les déplacements des monstres en fonction de leur intelligence.
-Suppression des enums inutiles dans Case.
-Ajout d'un attribut Sprite plutôt que de faire hériter les classes de Sprite.
-Ajout d'une HashMap pour gérer les images et éviter de les créer plusieurs fois.
-
-Mise à jour de tous les diagrammes afin qu'ils reflètent ce que nous avons modifié.
