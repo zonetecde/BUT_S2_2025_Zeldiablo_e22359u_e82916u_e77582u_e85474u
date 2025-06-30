@@ -9,11 +9,7 @@ import java.io.Serializable;
 /**
  * gere un personnage situe en x,y
  */
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "@type"
-)
+
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Monstre.class, name = "Monstre"),
         @JsonSubTypes.Type(value = Player.class, name = "Player")
@@ -21,6 +17,11 @@ import java.io.Serializable;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.UUIDGenerator.class,
         property = "@id"
+)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@type"
 )
 public abstract class Entite implements Serializable, Sprited,Cloneable, Tickable {
 
@@ -33,6 +34,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     private final double degat; // Les dégâts que fait l'entité
     private boolean enVie = true;
     private String msgToSay;
+    @JsonIgnore
     private String[] sprite; // L'image de l'entité
     private int spriteInt = 0;
     private Labyrinthe labyrinthe;
