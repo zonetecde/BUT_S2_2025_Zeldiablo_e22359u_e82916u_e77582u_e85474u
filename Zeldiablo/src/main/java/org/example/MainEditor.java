@@ -117,10 +117,15 @@ public class MainEditor extends Application {
         launch1.setOnMouseClicked(mouseEvent -> {
             fileName = input.getText();
             try {
+
+                /*JSon
                 ObjectMapper mapper = new ObjectMapper();
                 l =  mapper.readValue(new File("Laby/LabyBin/"+fileName), Labyrinthe.class);
+                 */
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("Laby/LabyBin/"+fileName)));
+                l = (Labyrinthe) ois.readObject();
                 editor(stage);
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException  e) {
                 System.out.println(e.getMessage());
                 input.setText("Chemin invalide");
             }
@@ -203,9 +208,16 @@ public class MainEditor extends Application {
             try {
                 File file = new File("Laby/LabyBin/" + fileName);
                 file.createNewFile();
+
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                oos.writeObject(l);
+
+                /* JSon
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(file,l);
+                */
+
                 System.out.println("Everything's okay");
             } catch (IOException e) {
                 System.out.println(e.getMessage());

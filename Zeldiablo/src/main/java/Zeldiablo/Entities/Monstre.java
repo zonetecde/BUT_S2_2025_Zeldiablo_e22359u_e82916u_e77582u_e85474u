@@ -10,10 +10,12 @@ import Zeldiablo.VariablesGlobales;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Classe des mechants très très mechants
  */
+@JsonTypeName("Monstre")
 public class Monstre extends Entite implements Cloneable, Tickable {
     // Add these annotations to handle the fields during deserialization
     @JsonIgnore

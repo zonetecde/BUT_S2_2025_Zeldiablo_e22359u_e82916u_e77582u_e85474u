@@ -6,7 +6,9 @@ import Zeldiablo.*;
 import Zeldiablo.Items.Item;
 import Zeldiablo.Items.ItemsList;
 import Zeldiablo.Items.TypeItem;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("Player")
 public class Player extends Entite {
     private Inventaire inventory;
     boolean aGagne = false;

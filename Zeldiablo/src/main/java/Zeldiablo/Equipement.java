@@ -4,8 +4,10 @@ import Zeldiablo.Items.Arme;
 import Zeldiablo.Items.Armors.Armor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Equipement {
+public class Equipement implements Serializable {
     Armor head;
     Armor torso;
     Armor leggings;
