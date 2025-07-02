@@ -5,7 +5,7 @@ import Zeldiablo.VariablesGlobales;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CasePancarte extends Case {
-    private final String message;
+    private String message;
 
     /**
      * Constructeur de CasePancarte
@@ -24,4 +24,8 @@ public class CasePancarte extends Case {
     public void onStepOn(Entite entite) {
         entite.setMsgToSay("Je lis : " + message);
     }
+
+    public void setMessage(String s){message = s;}
+
+    public String getMessage(){return message;}
 }

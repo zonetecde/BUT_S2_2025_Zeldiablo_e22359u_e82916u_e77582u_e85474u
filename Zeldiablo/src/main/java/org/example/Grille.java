@@ -7,13 +7,20 @@ import Zeldiablo.VariablesGlobales;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
+import java.util.Scanner;
 
 
 class Grille {
@@ -77,7 +84,8 @@ class Grille {
     }
 
     private static void links(int j, int i, GridPane root) {
-        if (l.getCase(j, i).isActivable()) {
+        Case c = l.getCase(j,i);
+        if (c.isActivable()) {
             Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, Color.RED);
             root.add(circle, i, j);
             circle.setOnMouseClicked(m.new ActivableHandler(l.getCase(j, i)));
@@ -87,15 +95,15 @@ class Grille {
             GridPane.setHalignment(label, HPos.CENTER);
             root.add(label, i, j);
         }
-        if (l.getCase(j, i).isActivate()) {
+        if (c.isActivate()) {
             //Couleur differente si deja lié ou pas
-            Color c;
+            Color col;
             if (l.getCase(j, i).isLinked()) {
-                c = Color.YELLOW;
+                col = Color.YELLOW;
             } else {
-                c = Color.BLUE;
+                col = Color.BLUE;
             }
-            Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, c);
+            Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE / 2, col);
             root.add(circle, i, j);
             //Texte
             try {
@@ -106,6 +114,26 @@ class Grille {
             } catch (Exception ignore) {
             }
             circle.setOnMouseClicked(m.new SwitchHandler((CaseSwitch) l.getCase(j, i), circle));
+        }
+        if (l.getCase(j,i) instanceof CasePancarte){
+            Circle circle = new Circle((double) VariablesGlobales.TAILLE_CASE /2,Color.BLUE);
+            root.add(circle,i,j);
+            circle.setOnMouseClicked(mouseEvent -> {
+                //Contenu
+                TextField textField = new TextField(((CasePancarte) c).getMessage());
+                Button button = new Button("Ok");
+                VBox vBox = new VBox(10,textField,button);
+                //Contenant
+                Scene scene = new Scene(vBox);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+
+                button.setOnMouseClicked(mouseEvent1 -> {
+                    ((CasePancarte) c).setMessage(textField.getText());
+                    stage.close();
+                });
+            });
         }
     }
 
