@@ -30,7 +30,7 @@ public class Menu {
      * Menus de selection des brush
      * @return une liste de bouton brush
      */
-    public static VBox menu(MainEditor m , int concerne){
+    public static VBox menu(Editor m , int concerne){
         VBox menu = new VBox();
         List<Sprited[]> type;
 
@@ -90,7 +90,7 @@ public class Menu {
     }
 
 
-    private static Button createButton(MainEditor m, Sprited s) {
+    private static Button createButton(Editor m, Sprited s) {
         //Creation d'une imageview adaptee
         ImageView imageView = new ImageView(s.getSprite());
         imageView.setFitWidth(VariablesGlobales.TAILLE_CASE);
@@ -118,7 +118,7 @@ public class Menu {
         return type;
     }
 
-    private static List<Sprited[]> entities(MainEditor m, Button delbutton, VBox menu) {
+    private static List<Sprited[]> entities(Editor m, Button delbutton, VBox menu) {
         List<Sprited[]> type;
         type = new ArrayList<>();
         for (int i = 0; i < Intelligence.values().length; i++) {
@@ -136,7 +136,7 @@ public class Menu {
         return type;
     }
 
-    private static List<Sprited[]> items(MainEditor m, Button delbutton, VBox menu) {
+    private static List<Sprited[]> items(Editor m, Button delbutton, VBox menu) {
         List<Sprited[]> type;
         type = new ArrayList<>();
         type.add(new Sprited[] {new Amulette()});

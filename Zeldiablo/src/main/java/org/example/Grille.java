@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -18,13 +17,13 @@ import javafx.scene.shape.Circle;
 
 
 class Grille {
-    static MainEditor m;
+    static Editor m;
     static Labyrinthe l;
     /**
      * GridPane gerant l'affichage de la map
      * @return Grille du niveau
      */
-    static GridPane grille(Labyrinthe laby, int concerne,MainEditor mE){
+    static GridPane grille(Labyrinthe laby, int concerne, Editor mE){
         m=mE;
         l=laby;
         int colnum = l.getLongueur();

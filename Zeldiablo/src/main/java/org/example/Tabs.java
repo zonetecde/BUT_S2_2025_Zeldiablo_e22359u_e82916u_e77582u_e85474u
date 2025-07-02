@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 class Tabs {
     //TABS
 
-    static Tab saveTab(MainEditor m){
+    static Tab saveTab(Editor m){
         VBox root = new VBox(20);
         root.setAlignment(Pos.TOP_CENTER);
         Tab tab = new Tab("Save",root);
@@ -38,7 +38,7 @@ class Tabs {
      * Creation des tab de l'editeur
      * @return un Tab fonctionnel
      */
-    static Tab tab(int concerne,MainEditor m){
+    static Tab tab(int concerne, Editor m){
         Tab root = switch (concerne){
             case 0 -> new Tab("Tiles");
             case 1 -> new Tab("Entities");

@@ -1,7 +1,5 @@
 package org.example;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import Zeldiablo.*;
 import Zeldiablo.Cases.*;
 import Zeldiablo.Entities.Entite;
@@ -25,7 +23,7 @@ import javafx.stage.StageStyle;
 import java.io.*;
 import java.util.Objects;
 
-public class MainEditor extends Application {
+public class Editor extends Application {
 
     Labyrinthe l;
     String fileName;
@@ -37,6 +35,11 @@ public class MainEditor extends Application {
 
     ImageView brushImage = new ImageView(brushTile.getSprite());
     Circle curSel;
+
+    //OKAY??
+    public static void launch(boolean huh){
+        launch();
+    }
 
     /**
      * Lancement de l'app
