@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class Recette extends Item{
     ArrayList<Element> elements;
-    ArrayList<ItemsList> result;
+    ArrayList<Element> result;
 
     /**
      * Constructeur de la classe Item
@@ -51,9 +51,7 @@ public class Recette extends Item{
                         }
                     } else {
                         String[] tmp = current.split(";");
-                        for (int j=0; j<Integer.parseInt(tmp[1]) ; j++) {
-                            out.result.add(ItemsList.valueOf(tmp[0]));
-                        }
+                        out.result.add(new Element(Integer.parseInt(tmp[1]), ItemsList.valueOf(tmp[0])));
                     }
                 }
             }else{
@@ -67,17 +65,18 @@ public class Recette extends Item{
         }
     }
 
-    public boolean menuUse(Player p){
+    public void menuUse(Player p){
         Inventaire inv = p.getInventory();
         if (canUse(inv)){
             for (Element e : elements) {
                 inv.remove(e.objet,e.nombre);
             }
-            for (ItemsList i : result) {
-                inv.add(ItemsList.factory(i));
+            for (Element i : result) {
+                for (int j=0; j<i.nombre ; j++) {
+                    inv.add(ItemsList.factory(i.objet));
+                }
             }
         }
-        return false;
     }
 
     public boolean use(Player p){
@@ -96,22 +95,23 @@ public class Recette extends Item{
 
     @Override
     public String toString() {
-//        StringBuilder eList = new StringBuilder("{");
-//        for (Element e : elements){
-//            eList.append(e.toString());
-//        }
-//        eList.append("}");
-//
-//        return "Recette{" +
-//                "\n   elements = " + eList +
-//                "\n   result = " + result +
-//                " \n}";
-        StringBuilder out = new StringBuilder();
-        for (ItemsList i : result){
-            out.append(i.toString()).append("\n");
+        StringBuilder eList = new StringBuilder();
+        for (Element e : elements){
+            eList.append(e.toString());
         }
 
-        return out.toString();
+        StringBuilder results = new StringBuilder();
+        for (Element e : result){
+            results.append(e.toString());
+        }
+
+        return eList + " =>" + results;
+//        StringBuilder out = new StringBuilder();
+//        for (ItemsList i : result){
+//            out.append(i.toString()).append("\n");
+//        }
+//
+//        return out.toString();
     }
 
     static class Element implements Serializable {
