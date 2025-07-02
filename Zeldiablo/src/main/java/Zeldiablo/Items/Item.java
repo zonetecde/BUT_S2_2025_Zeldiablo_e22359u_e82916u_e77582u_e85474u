@@ -29,7 +29,7 @@ import java.io.Serializable;
         // Ajoute ici les autres types d'items spécifiques si tu en as
 })
 
-public abstract class Item implements Serializable, Sprited {
+public abstract class Item implements Serializable, Sprited{
     private final ItemsList name;
     private final TypeItem type;
     private final String sprite; // L'image de l'item

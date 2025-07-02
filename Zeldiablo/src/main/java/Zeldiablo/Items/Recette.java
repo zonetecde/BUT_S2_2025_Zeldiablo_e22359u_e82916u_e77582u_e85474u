@@ -67,7 +67,7 @@ public class Recette extends Item{
         }
     }
 
-    public boolean use(Player p){
+    public boolean menuUse(Player p){
         Inventaire inv = p.getInventory();
         if (canUse(inv)){
             for (Element e : elements) {
@@ -78,6 +78,12 @@ public class Recette extends Item{
             }
         }
         return false;
+    }
+
+    public boolean use(Player p){
+        Inventaire inv = p.getInventory();
+        inv.getCraft().add(this);
+        return true;
     }
 
     public boolean canUse(Inventaire inv){

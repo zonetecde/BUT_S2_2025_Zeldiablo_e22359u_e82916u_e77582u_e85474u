@@ -3,6 +3,7 @@ package Zeldiablo;
 import Zeldiablo.Entities.Player;
 import Zeldiablo.Items.Item;
 import Zeldiablo.Items.ItemsList;
+import Zeldiablo.Items.Recette;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,10 @@ import java.util.Map;
 public class Inventaire {
     private final Map<ItemsList,List<Item>> stock = new HashMap<>();
     private final List<ItemsList> liste = new ArrayList<>();
-    private int curseur = 0;
+    private final List<Recette> craft = new ArrayList<>();
+    private boolean currentCurseur = true;
+    private int curseurCraft = 0;
+    private int curseurInv = 0;
     private final Player joueur;
 
     public Inventaire(Player joueur){
@@ -53,14 +57,14 @@ public class Inventaire {
         if (tmp!=null && tmp.size()>=nb){
             if (tmp.size()!=nb) {
                 for (int j=0;j<nb;j++) {
-                    stock.get(i).removeLast();
+                    stock.get(i).removeFirst();
                 }
             }else{
                 stock.remove(i);
                 liste.remove(i);
             }
-            if (curseur >= liste.size()-1){
-                curseur=0;
+            if (curseurInv >= liste.size()-1){
+                curseurInv =0;
             }
         }
     }
@@ -87,15 +91,41 @@ public class Inventaire {
     }
 
     //Curseur
-    public void movecurseur(int nombre){
-        if (curseur + nombre< liste.size() && curseur + nombre >= 0){
-                curseur+=nombre;
+    public void moveCurseur(int nombre){
+        if (currentCurseur) {
+            if (curseurInv + nombre < liste.size() && curseurInv + nombre >= 0) {
+                curseurInv += nombre;
+            }else{
+                currentCurseur= false;
+            }
+        }else {
+            if (curseurCraft + nombre < craft.size() && curseurCraft + nombre >= 0) {
+                curseurCraft += nombre;
+            }else{
+                currentCurseur= true;
+            }
         }
     }
 
-    public ItemsList getCurseur(){return liste.get(curseur);}
+    public boolean getCurrentCurseur(){return currentCurseur;}
 
-    public int getCurseurInt(){return curseur;}
+    public ItemsList getCurseur(){
+        if (currentCurseur) {
+            return liste.get(curseurInv);}
+        else{
+            return craft.get(curseurCraft).getName();}
+    }
+
+    public int getCurseurInt(){
+        if (currentCurseur) {
+            return curseurInv;}
+        else{
+            return curseurCraft;}
+    }
+
+    public Recette getCurseurCraft(){return craft.get(curseurCraft);}
+
+    public List<Recette> getCraft(){return craft;}
 
     public int getNumber(ItemsList i){
         return stock.get(i).size();
