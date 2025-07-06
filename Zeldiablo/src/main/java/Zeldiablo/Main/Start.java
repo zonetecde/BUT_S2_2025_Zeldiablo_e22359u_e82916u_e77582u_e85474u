@@ -3,11 +3,16 @@ package Zeldiablo.Main;
 import Zeldiablo.Cases.CaseSpawn;
 import Zeldiablo.Entities.Player;
 import Zeldiablo.MapList;
+import Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import moteurJeu.Clavier;
+
+import java.io.File;
 
 class Start {
     static void inputsStart(Clavier clavier, Player joueur, ZeldiabloJeu jeu){
@@ -35,6 +40,8 @@ class Start {
                 }
 
                 joueur.setEnVie(true);
+                MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(VariablesGlobales.MUSIQUE).toURI().toString()));
+                mediaPlayer.play();
             }
             else{
                 System.exit(0);

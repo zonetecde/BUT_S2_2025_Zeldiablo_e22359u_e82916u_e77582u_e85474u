@@ -1,6 +1,7 @@
 package Zeldiablo.Main;
 
 import Zeldiablo.VariablesGlobales;
+import javafx.scene.media.MediaPlayer;
 import moteurJeu.MoteurJeu;
 
 public class ZeldiabloMain {

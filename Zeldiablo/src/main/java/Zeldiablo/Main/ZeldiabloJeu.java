@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+
 public class ZeldiabloJeu implements Jeu {
     public ServerRoom room;
     public int idComp;
@@ -154,6 +155,7 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
+
         MapList.initialisation();
         if (animationItem != null){animationItem.interrupt();}
         lance = false;
