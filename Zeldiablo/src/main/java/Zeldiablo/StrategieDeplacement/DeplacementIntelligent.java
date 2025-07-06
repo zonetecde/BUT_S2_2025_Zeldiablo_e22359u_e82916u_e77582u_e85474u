@@ -1,21 +1,78 @@
 package Zeldiablo.StrategieDeplacement;
 
+import Zeldiablo.Direction;
+import Zeldiablo.Entities.Entite;
 import Zeldiablo.Entities.Monstre;
 import Zeldiablo.Entities.Player;
+import Zeldiablo.Labyrinthe;
 import Zeldiablo.StrategieDeplacement.BellmandFord.Algorithme;
 import Zeldiablo.StrategieDeplacement.BellmandFord.BellmanFord;
 import Zeldiablo.StrategieDeplacement.BellmandFord.GrapheListe;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class DeplacementIntelligent implements DeplacementStrategie, Serializable {
+    public static final int MAXDEPTH = 3;
+
+    @Override
+    public void deplacement(Player joueur,Monstre monstre){
+        double[] compare = new double[4];
+        for (int i = 0 ; i<4 ; i++) {
+
+            int[] nextCase = Labyrinthe.getSuivant(monstre.getY(),monstre.getX(),Direction.values()[i]);
+            compare[i] = algoRecursif(monstre.getLabyrinthe(), joueur, 0, nextCase[1] , nextCase[0] );
+        }
+
+        int minint = minInt(compare);
+
+        if (compare[minint] == Double.MAX_VALUE){return;}
+        monstre.animationDep(Direction.values()[minint]);
+        System.out.println(" ");
+    }
+
+    public int minInt(double[] liste){
+        int iMin = 0;
+
+        for (int i=1 ; i<liste.length ; i++){
+            if (liste[iMin] > liste[i]){
+                iMin = i;
+            }
+        }
+
+        return iMin;
+    }
+
+    private double algoRecursif(Labyrinthe laby, Entite joueur, int depth, int x, int y){
+        if (x == joueur.getX() && y == joueur.getY()){
+            System.out.println("found!");
+            return 0;
+        }
+
+        if (depth >= MAXDEPTH || !laby.canEntityMoveTo(x,y) ){
+            return Double.MAX_VALUE;
+        }
+
+
+        double[] compare = new double[4];
+        for (int i = 0 ; i<4 ; i++) {
+            int[] nextCase = Labyrinthe.getSuivant(y,x,Direction.values()[i]);
+            compare[i] = algoRecursif(laby, joueur, depth + 1, nextCase[1], nextCase[0]);
+        }
+
+        double fValue = Arrays.stream(compare).min().getAsDouble();
+
+        if (fValue == Double.MAX_VALUE){return fValue;}
+        return fValue + 1;
+
+    }
 
     /**
      * Déplace l'entité selon la stratégie de déplacement intelligente.
      * Le monstre se déplace vers le joueur en minimisant la distance.
      *
-     * @param monstre    Le monstre qui utilise cette stratégie de déplacement.
      */
+    /*
     @Override
     public void deplacement(Player joueur , Monstre monstre) {
         // Récupération de la position du joueur
@@ -36,8 +93,8 @@ public class DeplacementIntelligent implements DeplacementStrategie, Serializabl
         var chemin = resultat.calculerChemin(caseJoueur);
 
         // Si le chemin n'est pas vide, déplacer le monstre vers la prochaine case
-        if (chemin.size() > 1) {
-            String prochaineCase = chemin.get(1);
+        if (!chemin.isEmpty()) {
+            String prochaineCase = chemin.get(0);
 
             int[] coordonnees = getCaseCoordinates(prochaineCase);
             int prochaineY = coordonnees[0];
@@ -57,6 +114,7 @@ public class DeplacementIntelligent implements DeplacementStrategie, Serializabl
         int y = Integer.parseInt(parts[1].split(",")[0]);
         return new int[]{y, x};
     }
+    */
 
     public String toString(){return "Intelligent";}
 }
