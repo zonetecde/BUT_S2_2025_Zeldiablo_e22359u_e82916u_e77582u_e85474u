@@ -4,9 +4,12 @@ import Zeldiablo.Entities.Entite;
 import Zeldiablo.VariablesGlobales;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CaseSwitch extends Case {
-    private Case link;
+    private List<Case> link;
 
 
     /**
@@ -16,7 +19,10 @@ public class CaseSwitch extends Case {
      */
     public CaseSwitch(@JsonProperty("link") Case action) {
         super(true, VariablesGlobales.SPRITE_P_P);
-        this.link = action;
+        this.link = new ArrayList<>();
+        if (action != null) {
+            this.link.add(action);
+        }
         setActivate(true);
     }
 
@@ -29,8 +35,10 @@ public class CaseSwitch extends Case {
      */
     @Override
     public void onStepOn(Entite entite) {
-        if (link != null) {
-            link.activate();
+        if (!link.isEmpty()) {
+            for (Case c : link) {
+                c.activate();
+            }
         }
     }
 
@@ -38,13 +46,15 @@ public class CaseSwitch extends Case {
      * Lie la plaque avec un autre objet
      * @param ccase objet activable
      */
-    public void setLink(Case ccase){this.link=ccase;}
+    public void setLink(List<Case> ccase){this.link=ccase;}
+
+    public void addLink(Case ccase){this.link.add(ccase);}
 
     @Override
     public boolean isLinked() {
         return (this.link!=null);
     }
 
-    public Case getLink(){return this.link;}
+    public List<Case> getLink(){return this.link;}
 
 }

@@ -59,7 +59,13 @@ public class Player extends Entite {
         this.setHp(this.getMaxHp());
     }
 
-
+    @Override
+    public void prendreDegat(double d){
+        if (getHp()-d<=0 && getLabyrinthe().nameJoueurs().size()==1){
+            getLabyrinthe().stopTickLoop();
+        }
+        super.prendreDegat(d);
+    }
     
     /**
      * Inflige des dégâts à une cible en fonction de l'item équipé

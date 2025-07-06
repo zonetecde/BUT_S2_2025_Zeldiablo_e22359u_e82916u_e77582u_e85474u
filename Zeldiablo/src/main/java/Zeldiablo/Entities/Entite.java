@@ -119,23 +119,26 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     public void tick() {/*inutile ici*/}
 
     public void animationDep(Direction action){
-        new Thread(() -> {
-            double[] old = {this.getY(), this.getX()};
-            for (double i = 0; i < 11; i++) {
-                try {
-                    Thread.sleep(10);
-                    switchSprite();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        int[] suivant = Labyrinthe.getSuivant(getY(),getX(),action);
+        if (this.getLabyrinthe().canEntityMoveTo(suivant[0],suivant[1])) {
+            new Thread(() -> {
+                double[] old = {this.getY(), this.getX()};
+                for (double i = 0; i < 11; i++) {
+                    try {
+                        Thread.sleep(10);
+                        switchSprite();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    switch (action) {
+                        case HAUT -> this.setY(old[0] - (i / 10));
+                        case BAS -> this.setY(old[0] + (i / 10));
+                        case GAUCHE -> this.setX(old[1] - (i / 10));
+                        case DROITE -> this.setX(old[1] + (i / 10));
+                    }
                 }
-                switch (action) {
-                    case HAUT   -> this.setY(old[0] - (i / 10));
-                    case BAS    -> this.setY(old[0] + (i / 10));
-                    case GAUCHE -> this.setX(old[1] - (i / 10));
-                    case DROITE -> this.setX(old[1] + (i / 10));
-                }
-            }
-        }).start();
+            }).start();
+        }
     }
 
     public void switchSprite(){

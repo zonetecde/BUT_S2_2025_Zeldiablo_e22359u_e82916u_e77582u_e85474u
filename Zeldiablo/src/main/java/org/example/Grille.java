@@ -108,7 +108,13 @@ class Grille {
             //Texte
             try {
                 CaseSwitch caseSwitch = (CaseSwitch) (l.getCase(j, i));
-                Label label = new Label(caseSwitch.getLink().getId() + "");
+                StringBuilder links = new StringBuilder();
+
+                for (Case cases : caseSwitch.getLink()){
+                    links.append(" ").append(cases.getId());
+                }
+
+                Label label = new Label(links.toString());
                 GridPane.setHalignment(label, HPos.CENTER);
                 root.add(label, i, j);
             } catch (Exception ignore) {

@@ -6,7 +6,6 @@ import Zeldiablo.VariablesGlobales;
 public class CasePorte extends Case {
     public static int idset = 0;
     private boolean ouverte = false; // Indique si la porte est ouverte ou fermée
-    private int id;
     /**
      * Constructeur de CasePorte
      *
@@ -33,7 +32,7 @@ public class CasePorte extends Case {
 
     @Override
     public void updateId(){
-        this.id=idset;
+        this.setId(idset);
         idset++;
     }
 }

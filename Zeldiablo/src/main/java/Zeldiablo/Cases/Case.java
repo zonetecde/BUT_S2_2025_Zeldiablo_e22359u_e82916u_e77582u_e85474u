@@ -48,7 +48,7 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
     @JsonProperty("sprite")
     private String sprite; // L'image de la case
 
-    private final int id=0;// id eventuel
+    private int id=0;// id eventuel
 
     /**
      * Constructeur basique de case
@@ -185,6 +185,8 @@ public abstract class Case implements Serializable,Cloneable, Sprited {
 
     @JsonProperty("sprite")
     public String getSpriteName(){return sprite;}
+
+    public void setId(int id){this.id=id;}
 
     /**
      * Méthode pour retirer un item de la case

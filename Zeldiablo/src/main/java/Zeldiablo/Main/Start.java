@@ -30,7 +30,9 @@ class Start {
                         }
                     }
                 }
-                jeu.animationItem.start();
+                if (!jeu.animationItem.isAlive()) {
+                    jeu.animationItem.start();
+                }
 
                 joueur.setEnVie(true);
             }

@@ -21,6 +21,7 @@ import javafx.stage.StageStyle;
 
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Editor extends Application {
@@ -387,11 +388,15 @@ public class Editor extends Application {
 
         @Override
         public void handle(MouseEvent mouseEvent) {
-            if (curSel!=null){
-                curSel.setFill(Color.BLUE);
+            if (mouseEvent.isSecondaryButtonDown()){
+                brushLink.setLink(new ArrayList<>());
             }
+
+            if (curSel != null) {
+                    curSel.setFill(Color.BLUE);
+                }
             brushLink = caseS;
-            curSel=show;
+            curSel = show;
             curSel.setFill(Color.GREEN);
 
         }
@@ -407,7 +412,7 @@ public class Editor extends Application {
         @Override
         public void handle(MouseEvent mouseEvent) {
             if (brushLink!=null) {
-                brushLink.setLink(activable);
+                brushLink.addLink(activable);
                 curSel.setFill(Color.YELLOW);
                 curSel = null;
                 brushLink = null;
