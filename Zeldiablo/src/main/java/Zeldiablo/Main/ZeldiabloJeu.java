@@ -5,6 +5,7 @@ import Zeldiablo.Entities.Player;
 import Zeldiablo.Labyrinthe;
 import Zeldiablo.MapList;
 import Zeldiablo.ServerRoom;
+import javafx.scene.media.MediaPlayer;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
@@ -32,6 +33,7 @@ public class ZeldiabloJeu implements Jeu {
     private List<Player> joueur = new ArrayList<>();
     private int curJoueur = 0;
     Thread animationItem;
+    MediaPlayer mediaPlayer;
 
     // Clavier correspondant à la derniere config
     private Clavier oldKb;
@@ -149,6 +151,8 @@ public class ZeldiabloJeu implements Jeu {
     public void setJoueurs(List<Player> players){this.joueur=players;}
 
     public List<Player> getJoueurs(){return joueur;}
+
+    public void setMediaPlayer(MediaPlayer m){this.mediaPlayer = m;}
 
     /**
      * Action lancée avant le jeu

@@ -41,7 +41,9 @@ class Start {
 
                 joueur.setEnVie(true);
                 MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(VariablesGlobales.MUSIQUE).toURI().toString()));
+                mediaPlayer.setCycleCount(Integer.MAX_VALUE);
                 mediaPlayer.play();
+                jeu.setMediaPlayer(mediaPlayer);
             }
             else{
                 System.exit(0);

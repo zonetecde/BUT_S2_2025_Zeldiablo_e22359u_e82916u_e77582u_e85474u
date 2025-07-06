@@ -108,13 +108,12 @@ public class Menu {
         type = new ArrayList<>();
         type.add(new Sprited[]{new CaseMur()});
         type.add(new Sprited[]{new CaseVide()});
-        type.add(new Sprited[]{new CaseEscalier(false)});
-        type.add(new Sprited[]{new CaseEscalier(true)});
+        type.add(new Sprited[]{new CaseEscalier(false),new CaseEscalier(true)});
         type.add(new Sprited[]{new CaseSwitch()});
         type.add(new Sprited[]{new CasePorte()});
         type.add(new Sprited[]{new CasePancarte("Default")});
         type.add(new Sprited[]{new CasePiege(5)});
-        type.add(new Sprited[]{new CaseSpawn()});
+        type.add(new Sprited[]{new CaseSpawn() , new CaseFin()});
         return type;
     }
 
