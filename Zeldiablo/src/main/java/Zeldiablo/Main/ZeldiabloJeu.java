@@ -1,14 +1,14 @@
 package Zeldiablo.Main;
 
-import Zeldiablo.Encapsulation;
+import Zeldiablo.*;
 import Zeldiablo.Entities.Player;
-import Zeldiablo.Labyrinthe;
-import Zeldiablo.MapList;
-import Zeldiablo.ServerRoom;
+import javafx.application.Platform;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -152,6 +152,8 @@ public class ZeldiabloJeu implements Jeu {
 
     public List<Player> getJoueurs(){return joueur;}
 
+    public MediaPlayer getMediaPlayer(){return mediaPlayer;}
+
     public void setMediaPlayer(MediaPlayer m){this.mediaPlayer = m;}
 
     /**
@@ -159,6 +161,10 @@ public class ZeldiabloJeu implements Jeu {
      */
     @Override
     public void init() {
+        Platform.startup(() ->{
+            mediaPlayer = new MediaPlayer(new Media(new File(VariablesGlobales.MUSIQUE).toURI().toString()));
+            mediaPlayer.setCycleCount(Integer.MAX_VALUE);
+        });
 
         MapList.initialisation();
         if (animationItem != null){animationItem.interrupt();}

@@ -120,7 +120,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
 
     public void animationDep(Direction action){
         int[] suivant = Labyrinthe.getSuivant(getY(),getX(),action);
-        if (this.getLabyrinthe().canEntityMoveTo(suivant[0],suivant[1])) {
+        //if (this.getLabyrinthe().canEntityMoveTo(suivant[0],suivant[1])) {
             new Thread(() -> {
                 double[] old = {this.getY(), this.getX()};
                 for (double i = 0; i < 11; i++) {
@@ -138,7 +138,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
                     }
                 }
             }).start();
-        }
+        //}
     }
 
     public void switchSprite(){

@@ -39,11 +39,12 @@ class Start {
                     jeu.animationItem.start();
                 }
 
+
+                joueur.setaGagne(false);
                 joueur.setEnVie(true);
-                MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(VariablesGlobales.MUSIQUE).toURI().toString()));
-                mediaPlayer.setCycleCount(Integer.MAX_VALUE);
-                mediaPlayer.play();
-                jeu.setMediaPlayer(mediaPlayer);
+
+                //MediaPLayer
+                jeu.getMediaPlayer().play();
             }
             else{
                 System.exit(0);
