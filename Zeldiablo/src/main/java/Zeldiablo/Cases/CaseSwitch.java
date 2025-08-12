@@ -1,8 +1,10 @@
 package Zeldiablo.Cases;
 
 import Zeldiablo.Entities.Entite;
+import Zeldiablo.Main.ZeldiabloJeu;
 import Zeldiablo.VariablesGlobales;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.jdi.event.ThreadStartEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class CaseSwitch extends Case {
     private List<Case> link;
+    private boolean isOn = false;
 
 
     /**
@@ -18,7 +21,7 @@ public class CaseSwitch extends Case {
      * @param action action à exécuter lorsque l'entité marche sur la case
      */
     public CaseSwitch(@JsonProperty("link") Case action) {
-        super(true, VariablesGlobales.SPRITE_P_P);
+        super(true, VariablesGlobales.SPRITE_SWITCH_OFF);
         this.link = new ArrayList<>();
         if (action != null) {
             this.link.add(action);
@@ -34,12 +37,15 @@ public class CaseSwitch extends Case {
      * Méthode exécutée quand une entité marche sur la case.
      */
     @Override
-    public void onStepOn(Entite entite) {
+    public void onAction(Entite entite, ZeldiabloJeu jeu) {
         if (!link.isEmpty()) {
             for (Case c : link) {
                 c.activate();
+                isOn = !isOn;
             }
         }
+        if (isOn){this.setSprite(VariablesGlobales.SPRITE_SWITCH_ON);}else{this.setSprite(VariablesGlobales.SPRITE_SWITCH_OFF);}
+
     }
 
     /**
