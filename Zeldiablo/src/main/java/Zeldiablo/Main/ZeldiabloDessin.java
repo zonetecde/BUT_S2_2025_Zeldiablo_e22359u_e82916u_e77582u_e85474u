@@ -31,9 +31,9 @@ public class ZeldiabloDessin implements DessinJeu {
         if (!this.jeu.lance){
             Join.logUI(player,gc,canvas);
         } else if (player.estMort()){
-            Start.startUI(player,gc,canvas);
+            Start.startUI(player,gc);
         } else if (player.aGagne()){
-            Start.startUI(player,gc,canvas);
+            Start.startUI(player,gc);
             afficherEcranVictoire(gc,canvas);
             javafx.animation.Timeline timeline = new javafx.animation.Timeline(
                 new javafx.animation.KeyFrame(

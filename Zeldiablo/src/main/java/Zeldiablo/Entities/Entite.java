@@ -4,6 +4,9 @@ import Zeldiablo.*;
 import com.fasterxml.jackson.annotation.*;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -34,12 +37,32 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     private final double degat; // Les dégâts que fait l'entité
     private boolean enVie = true;
     private String msgToSay;
+    private Integer damageTaken;
     @JsonIgnore
     private String[] sprite; // L'image de l'entité
     private int spriteInt = 0;
     private Labyrinthe labyrinthe;
     private final Equipement equipement = new Equipement(); //Equipement de l'entité
 
+
+    //Deserialisation avec les fields tansients
+    //    @Serial
+    //    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    //        in.defaultReadObject();
+    //        setDamage();
+    //    }
+
+    public void showDamage(double degat){
+        new Thread(() -> {
+            damageTaken = (int)degat;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            damageTaken = null;
+        }).start();
+    }
 
     /**
      * constructeur
@@ -67,6 +90,7 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
         return Sprite.getImg(sprite[spriteInt]);
     }
 
+    public void interact(Entite e){}
 
     /**
      * Methode prenant en compte des dégats et les appliquant au personnage
@@ -82,8 +106,9 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
         //Si assez de pv, baisse les pv
         if (this.hp>d) {
             this.hp -= d;
+            showDamage(d);
         }
-        //si pas assez,tue le joueur
+        //si pas assez,tue l'entité
         else{
             this.enVie=false;
             this.hp=0;
@@ -224,6 +249,11 @@ public abstract class Entite implements Serializable, Sprited,Cloneable, Tickabl
     public boolean estMort(){
         return !this.enVie;
     }
+
+    /**
+     * Retourne les degats pris actuellement
+     */
+    public Integer getDamageTaken(){return damageTaken;}
 
     /**
      * @return les pv du perso

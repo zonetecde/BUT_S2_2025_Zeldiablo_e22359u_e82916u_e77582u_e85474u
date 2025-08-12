@@ -52,7 +52,8 @@ class Start {
         }
     }
 
-    static void startUI(Player joueur, GraphicsContext gc, Canvas c){
+    static void startUI(Player joueur, GraphicsContext gc){
+        Canvas c = gc.getCanvas();
         gc.clearRect(0,0,c.getWidth(),c.getHeight());
         //Fond
         gc.setFill(Color.rgb(72, 58, 160));

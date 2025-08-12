@@ -38,7 +38,7 @@ class Inv {
 
     }
 
-    private static void Menu(GraphicsContext gc, double menuX, double menuY, double menuWidth, double menuHeight, Inventaire inv, int caseWidth, int caseHeight, boolean items) {
+    static void Menu(GraphicsContext gc, double menuX, double menuY, double menuWidth, double menuHeight, Inventaire inv, int caseWidth, int caseHeight, boolean items) {
         // Dessin du fond du menu
         gc.setFill(Color.rgb(14, 33, 72,0.85)); // Fond sombre semi-transparent
         gc.fillRoundRect(menuX - 10, menuY - 10, menuWidth + 20, menuHeight + 20, 20, 20); // Ajoute un fond arrondi

@@ -104,6 +104,13 @@ class Laby {
                 // Dessiner la barre de vie au-dessus du monstre
                 dessinerBarreVieMonstre(gc, m, (pos2[1]- pX), (pos2[0]- pY));
 
+                if (m.getDamageTaken() != null){
+                    double textX = (x - pX) * VariablesGlobales.TAILLE_CASE + (double) (VariablesGlobales.TAILLE_CASE) / 2;
+                    double textY = (y - pY) * VariablesGlobales.TAILLE_CASE - 10;
+                    gc.setFill(Color.RED);
+                    gc.fillText(m.getDamageTaken().toString(),textX,textY);
+                }
+
                 // Dessine ce qu'il a à dire au-dessus de lui
                 if (m.getMsgToSay() != null && !m.getMsgToSay().isEmpty()) {
                     String msg = m.getMsgToSay();

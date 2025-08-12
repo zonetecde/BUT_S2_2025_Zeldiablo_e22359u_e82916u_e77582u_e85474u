@@ -17,6 +17,7 @@ public class Player extends Entite {
     public boolean curseurStart = true;
     public int curseurLog = 0;
     public boolean currentlyMoving = false;
+    public boolean isTrading = false;
     public Direction facing = Direction.HAUT;
 
     /**
@@ -84,6 +85,10 @@ public class Player extends Entite {
             // Le premier paramètre des armes est les dégâts
             cible.prendreDegat(getInventory().get(getInventory().getCurseur()).getFirst().getDegat());
         }
+    }
+
+    public void trade(NPC e){
+        isTrading = true;
     }
 
     /**
