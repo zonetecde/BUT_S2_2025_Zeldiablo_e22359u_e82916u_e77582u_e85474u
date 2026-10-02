@@ -16,7 +16,6 @@ public class Bombe extends Item{
     public boolean use(Player e){
         Labyrinthe laby = e.getLabyrinthe();
         int[] coord =  {e.getY(),e.getX()};
-        System.out.println((e.getLabyrinthe().getCase(e.getY(),e.getX())));
         if (e.getLabyrinthe().getCase(e.getY(),e.getX()) instanceof CaseVide){
             CaseBombe bombe = new CaseBombe(laby,coord);
             laby.getGameBoard()[e.getY()][e.getX()] = bombe;

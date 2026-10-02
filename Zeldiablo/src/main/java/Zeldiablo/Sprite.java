@@ -3,6 +3,9 @@ package Zeldiablo;
 
 import javafx.scene.image.Image;
 
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 
 /**
@@ -16,18 +19,30 @@ public class Sprite {
     /**
      * Creation de l'image
      * @param img nom
+     * @throws URISyntaxException 
      */
     public static void setImg(String img){
-        // Vérifier si l'image est déjà dans le dict
-        if (!imageCache.containsKey(img)) {
-            try {
-                Image image = new Image(img);
-                // Ajouter l'image au dict si elle a bien été créée
-                imageCache.put(img, image);
-            } catch (Exception e) {
-                // JavaFX n'a toujours pas été initialisé
+
+
+        try {
+            Path imagePath = Path.of("resource", "assets", img).toAbsolutePath().normalize();
+            if (!Files.isRegularFile(imagePath)) {
+                throw new IllegalArgumentException("Image file not found: " + imagePath);
             }
+
+            String url = imagePath.toUri().toString();
+            Image image = new Image(url);
+            // Ajouter l'image au dict si elle a bien été créée
+            imageCache.put(img, image);
         }
+        catch(IllegalArgumentException e){
+            System.out.println("Asset non trouvé : " + img);
+        } 
+        catch (Exception e) {
+            // JavaFX n'a toujours pas été initialisé
+            System.out.println(e.toString());
+        }
+        
     }
 
     /**
@@ -35,10 +50,10 @@ public class Sprite {
      * @return image actuelle
      */
     public static Image getImg(String img){
-            // Vérifier si l'image est déjà en cache
-            if (!imageCache.containsKey(img)) {
-                setImg(img);
-            }
+        // Vérifier si l'image est déjà en cache
+        if (!imageCache.containsKey(img)) {
+            setImg(img);
+        }
 
         return imageCache.get(img);
     }

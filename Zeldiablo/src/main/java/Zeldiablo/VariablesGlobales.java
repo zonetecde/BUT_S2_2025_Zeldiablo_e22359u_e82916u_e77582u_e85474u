@@ -4,8 +4,8 @@ package Zeldiablo;
  * Constantes du jeu Zeldiablo
  */
 public class VariablesGlobales {
-        public static final String MUSIQUE = "assets/Sound/BGMusic.mp3";
-        public static final String DOSSIER_LABY = "Laby/LabyBin"; // labyJeu ou labyIntro
+        public static final String MUSIQUE = "resource/assets/Sound/BGMusic.mp3";
+        public static final String DOSSIER_LABY = "./resource/Laby/LabyBin"; // labyJeu ou labyIntro
         public static final String RECETTE_FOLDER = "Recettes";
 
 

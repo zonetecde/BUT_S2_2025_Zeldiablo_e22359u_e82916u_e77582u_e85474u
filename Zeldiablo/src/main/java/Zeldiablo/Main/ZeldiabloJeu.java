@@ -166,6 +166,7 @@ public class ZeldiabloJeu implements Jeu {
             mediaPlayer.setCycleCount(Integer.MAX_VALUE);
         });
 
+
         MapList.initialisation();
         if (animationItem != null){animationItem.interrupt();}
         lance = false;

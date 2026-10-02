@@ -145,12 +145,13 @@ public class Menu {
         type.add(new Sprited[]{new ChestPlate()});
 
         //Recettes
-        int nbRecettes = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles()).length;
-        Sprited[] recettes = new Sprited[nbRecettes];
-        for (int i = 0; i<nbRecettes  ; i++){
-            recettes[i] = Recette.read(i);
-        }
-        type.add(recettes);
+        // int nbRecettes = Objects.requireNonNull(new File(VariablesGlobales.RECETTE_FOLDER).listFiles()).length;
+        // Sprited[] recettes = new Sprited[nbRecettes];
+        // for (int i = 0; i<nbRecettes  ; i++){
+        //     recettes[i] = Recette.read(i);
+        // }
+        // type.add(recettes);
+        // TODO Recettes
 
         //Del button
         delbutton.setOnMouseClicked(new EventHandler<MouseEvent>() {

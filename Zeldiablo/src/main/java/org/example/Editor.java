@@ -126,7 +126,7 @@ public class Editor extends Application {
                 ObjectMapper mapper = new ObjectMapper();
                 l =  mapper.readValue(new File("Laby/LabyBin/"+fileName), Labyrinthe.class);
                  */
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("Laby/LabyBin/"+fileName)));
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./resource/Laby/LabyBin/"+fileName)));
                 l = (Labyrinthe) ois.readObject();
                 editor(stage);
             } catch (IOException | ClassNotFoundException  e) {
@@ -210,7 +210,7 @@ public class Editor extends Application {
      */
     public void save(){
             try {
-                File file = new File("Laby/LabyBin/" + fileName);
+                File file = new File("./resource/Laby/LabyBin/" + fileName);
                 file.createNewFile();
 
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));

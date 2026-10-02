@@ -2,6 +2,7 @@ package Zeldiablo.Main;
 
 import Zeldiablo.Entities.Player;
 import Zeldiablo.Equipement;
+import Zeldiablo.Sprite;
 import Zeldiablo.VariablesGlobales;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +14,6 @@ import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
 
 public class ZeldiabloDessin implements DessinJeu {
-    private Image imageJoueur;
     private ZeldiabloJeu jeu;
 
 
@@ -73,9 +73,8 @@ public class ZeldiabloDessin implements DessinJeu {
      * @param gc Le contexte graphique pour dessiner sur le canvas.
      */
     private void heroUI(Player joueur, GraphicsContext gc) {
-        if(imageJoueur == null){
-            imageJoueur = new Image("joueur/PlayerFaceDown.png");
-        }
+
+        Image imageJoueur = Sprite.getImg("joueur/PlayerFaceDown.png");
 
         int baseXPlayer = VariablesGlobales.DISTANCE_VUE * VariablesGlobales.TAILLE_CASE;
         gc.setFill(Color.rgb(72, 58, 160));

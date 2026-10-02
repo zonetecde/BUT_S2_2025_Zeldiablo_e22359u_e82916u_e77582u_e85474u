@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class MapList {
     private static Map<String,Labyrinthe> mapList = new HashMap<>();
+    private final static String source = "./resource/Laby/LabyBin/";
 
     public static Labyrinthe getMap(String name){
         Labyrinthe carte = mapList.get(name);
@@ -30,7 +32,7 @@ public class MapList {
                 carte = mapper.readValue(new File("Laby/LabyBin/"+name), Labyrinthe.class);
 
                  */
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("Laby/LabyBin/"+name)));
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(source+name)));
                 carte = (Labyrinthe) ois.readObject();
 
                 mapList.put(name, carte);
@@ -46,7 +48,7 @@ public class MapList {
 
     public static void initialisation(){
         try {
-            File folder = new File("Laby/LabyBin");
+            new File(source);
         }
         catch (Exception e){
             System.out.println("Donnees corrompues");

@@ -213,7 +213,6 @@ public class ServerRoom {
             sendData(Encapsulation.ASK_DATA,-1);
             while (!dataReceived){
                 Thread.sleep(50);
-                System.out.println("waiting in vain");
             }
 
             //Ajoute un joueur à la room
